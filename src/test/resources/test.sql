@@ -1,0 +1,1 @@
+ALTER TABLE Users ADD name VARCHAR(20) NULL;
