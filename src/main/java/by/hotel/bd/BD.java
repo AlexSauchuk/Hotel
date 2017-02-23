@@ -19,6 +19,7 @@ public class BD {
 
     static{
         try{
+
             connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
         } catch (SQLException e) {
             System.err.println("Problem with connection");
