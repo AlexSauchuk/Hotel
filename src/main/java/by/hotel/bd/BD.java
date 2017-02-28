@@ -22,11 +22,12 @@ public class BD {
 
             connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
         } catch (SQLException e) {
-            System.err.println("Igor pidor connection");
+            System.err.println("Igor ne pidor connection");
         }
     }
 
     public Connection getConnection() {
         return connection;
     }
+
 }
