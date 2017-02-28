@@ -22,7 +22,7 @@ public class BD {
 
             connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
         } catch (SQLException e) {
-            System.err.println("Problem with connection");
+            System.err.println("Igor pidor connection");
         }
     }
 
