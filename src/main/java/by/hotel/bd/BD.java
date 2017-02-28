@@ -5,9 +5,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * Created by SK on 21.02.2017.
- */
+
 public class BD {
 
     private static Connection connection;
@@ -22,7 +20,7 @@ public class BD {
 
             connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
         } catch (SQLException e) {
-            System.err.println("Igor ne pidora connection");
+            System.err.println("Igor ne pidor0sa connection");
         }
     }
 
