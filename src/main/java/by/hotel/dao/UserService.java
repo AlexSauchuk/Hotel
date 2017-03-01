@@ -2,36 +2,20 @@ package by.hotel.dao;
 
 
 import by.hotel.bean.User;
+import by.hotel.dao.exception.DAOException;
 
-/**
- * @author SK
- * @version 1.0
- * @created 16-���-2017 18:46:18
- */
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public interface UserService {
 
-	/**
-	 * 
-	 * @param _user
-	 */
-	public User AddUser(User _user);
+	User addUser(User user);
 
-	/**
-	 * 
-	 * @param _user
-	 */
-	public boolean DeleteUser(User _user);
+	boolean deleteUser(User user);
 
-	/**
-	 * 
-	 * @param _user
-	 */
-	public boolean EditUser(User _user);
+	boolean editUser(User user);
 
-	/**
-	 * 
-	 * @param _user
-	 */
-	public User GetUser(User _user);
+	User getUser(User user);
 
+	ArrayList<User> getAllUsers() throws DAOException;
 }

@@ -1,13 +1,11 @@
 package by.hotel.bd;
 
-import resource.Constants;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-public class BD {
+public class DB {
 
     private static Connection connection;
 
@@ -17,15 +15,24 @@ public class BD {
 
     static{
         try{
-
             connection = DriverManager.getConnection(url,username,password);
         } catch (SQLException e) {
-            System.err.println("Igor ne pidor0sa connection");
+            System.err.println("Database driver not found");
         }
     }
 
     public Connection getConnection() {
         return connection;
+    }
+
+    public void closeConnection() throws SQLException {
+        try {
+            if(connection!=null){
+                connection.close();
+            }
+        }catch (SQLException e){
+            throw e;
+        }
     }
 
 }

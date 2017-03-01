@@ -2,21 +2,13 @@
 <dataSource name="MySQL - Hotel@localhost">
   <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
     <root id="1"/>
-    <schema id="2" parent="1" name="hotel">
-      <Visible>1</Visible>
+    <schema id="2" parent="1" name="db_hotel">
+      <Current>1</Current>
     </schema>
-    <table id="3" parent="2" name="users"/>
-    <column id="4" parent="3" name="id">
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-    </column>
-    <column id="5" parent="3" name="name">
-      <DataType>varchar(20)|0</DataType>
-    </column>
-    <key id="6" parent="3" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
+    <schema id="3" parent="1" name="db_cinema"/>
+    <schema id="4" parent="1" name="information_schema"/>
+    <schema id="5" parent="1" name="mysql"/>
+    <schema id="6" parent="1" name="performance_schema"/>
+    <schema id="7" parent="1" name="sys"/>
   </database-model>
 </dataSource>
