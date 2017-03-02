@@ -1,4 +1,4 @@
-package by.hotel.resource;
+package resource;
 
 /***
  * Created by 1 on 28.02.2017.
