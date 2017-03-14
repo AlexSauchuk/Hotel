@@ -1,0 +1,163 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: linear-gradient(-45deg, #dfbd9a, #aa7281, #102158);
+  font-family: sans-serif;
+  height: 100%;
+  width: 100%;
+}
+
+header {
+  text-align: center;
+  margin:80px 0 0 0;
+}
+header a {
+  color: inherit;
+  font-weight: bold;
+}
+
+h2, .h2 {
+  color: #fff;
+  display: inline-block;
+  font-size: 20px;
+  margin-top: 50px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+form {
+  margin: 45px auto;
+  position: relative;
+  transform-style: preserve-3d;
+  width: 538px;
+}
+
+.back-visible .front-sign-in {
+  transform: rotateX(180deg);
+}
+.back-visible .back-sign-up {
+  transform: rotateX(0deg);
+}
+
+.front-sign-in, .back-sign-up {
+  background-color: rgba(245, 246, 247, 0.9);
+  backface-visibility: hidden;
+  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.65), inset 0 1px white, inset 0 0 1px white;
+  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.65), inset 0 1px white, inset 0 0 1px white;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.65), inset 0 1px white, inset 0 0 1px white;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  height: 75px;
+  left: 0;
+  padding-top: 9px;
+  position: absolute;
+  top: 0;
+  width: inherit;
+  -webkit-transition: -webkit-transform 0.6s;
+  -moz-transition: -moz-transform 0.6s;
+  -o-transition: -o-transform 0.6s;
+  transition: transform 0.6s;
+}
+
+.back-sign-up {
+  transform: rotateX(180deg);
+}
+
+input[type="text"], input[type="password"] {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #f5f6f7;
+  -webkit-box-shadow: 0 1px white, inset 0 2px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 1px white, inset 0 2px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px white, inset 0 2px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid #b1b3b8;
+  font-size: 18px;
+  height: 57px;
+  margin-left: 12px;
+  padding-left: 12px;
+  width: 248px;
+}
+input[type="text"]:focus, input[type="password"]:focus {
+  outline: none;
+}
+
+input[type="submit"] {
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  -ms-border-radius: 0 4px 4px 0;
+  -o-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+  background-color: #f60;
+  border: 0;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  height: 52px;
+  padding: 0 12px;
+  position: absolute;
+  text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.54);
+  z-index: -1;
+}
+
+.signin-submit {
+  right: -80px;
+}
+
+.signup-submit {
+  right: -145px;
+}
+
+.signup-submit:hover, .signin-submit:hover {text-shadow: 0 0 1px #fff;}
+
+/* Стили бара vladmaxi, можно удалить */
+.vladmaxi-top{
+	line-height: 24px;
+	font-size: 11px;
+	background: #eee;
+	text-transform: uppercase;
+	z-index: 9999;
+	position: fixed;
+	top:0;
+	left:0;
+	width:100%;
+	font-family: calibri;
+	font-size: 13px;
+	box-shadow: 1px 0px 2px rgba(0,0,0,0.2);
+	-webkit-animation: slideOut 0.5s ease-in-out 0.3s backwards;
+}
+@-webkit-keyframes slideOut{
+	0%{top:-30px; opacity: 0;}
+	100%{top:0px; opacity: 1;}
+}
+
+.vladmaxi-top a{
+	padding: 0px 10px;
+	letter-spacing: 1px;
+	color: #333;
+	text-shadow: 0px 1px 1px #fff;
+	display: block;
+	float: left;
+	text-decoration:none;
+}
+.vladmaxi-top a:hover{
+	background: #fff;
+}
+.vladmaxi-top span.right{
+	float: right;
+}
+.vladmaxi-top span.right a{
+	float: left;
+	display: block;
+}

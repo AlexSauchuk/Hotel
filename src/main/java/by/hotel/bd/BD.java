@@ -1,6 +1,6 @@
 package by.hotel.bd;
 
-import resource.Constants;
+import resources.Constants;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ public class BD {
     private static Connection connection;
 
     private  static String url = Constants.URL;
-    private  static String username = Constants.USERNAME;
+    private  static String username = Constants.LOGIN;
     private  static String password = Constants.PASSWORD;
 
     static{

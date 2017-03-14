@@ -4,14 +4,5 @@
          xsi:schemaLocation="hhtp://java.sun.com/xms/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
-    <servlet>
-        <servlet-name>mainServlet</servlet-name>
-        <servlet-class>by.hotel.servlet.MainServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>mainServlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
 
 </web-app>

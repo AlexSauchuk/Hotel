@@ -1,8 +1,16 @@
-package by.hotel.dao.impl;
+package by.hotel.service.impl;
 
 
 import by.hotel.bean.User;
-import by.hotel.dao.UserService;
+import by.hotel.service.UserService;
+import database.DBWorker;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.*;
 
 /**
  * @author SK
@@ -49,6 +57,15 @@ public class UserServiceImpl implements UserService {
 	 */
 	public User GetUser(User _user){
 		return null;
+	}
+
+	public boolean register(User user) {
+
+		return  false;
+	}
+
+	public boolean autorization(User user) {
+		return false;
 	}
 
 }
