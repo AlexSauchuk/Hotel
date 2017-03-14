@@ -1,52 +1,41 @@
 package by.hotel.bean;
 
-import java.util.ArrayList;
-
 /**
  * Created by SK on 16.02.2017.
  */
 public class User {
+    private int id;
+    private String username;
+    private String password;
 
-    private String passportNumber,name,surname,sex,mobilePhone,password;
-
-    public String getPassportNumber() {
-        return passportNumber;
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public void setPassportNumber(String passportNumber) {
-        this.passportNumber = passportNumber;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User() {
     }
 
     public String getName() {
-        return name;
+        return username;
+
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public String toString() {
+        return "id: " + id + " username: " + username + " password: " + password;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getMobilePhone() {
-        return mobilePhone;
-    }
-
-    public void setMobilePhone(String mobilePhone) {
-        this.mobilePhone = mobilePhone;
+    public void setName(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

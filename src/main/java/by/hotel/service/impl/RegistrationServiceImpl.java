@@ -1,8 +1,8 @@
-package by.hotel.dao.impl;
+package by.hotel.service.impl;
 
 
 import by.hotel.bean.RegistrationInfo;
-import by.hotel.dao.RegistrationService;
+import by.hotel.service.RegistrationService;
 
 /**
  * @author SK

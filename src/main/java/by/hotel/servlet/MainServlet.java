@@ -1,7 +1,5 @@
 package by.hotel.servlet;
 
-import by.hotel.controller.Controller;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +16,8 @@ import java.io.PrintWriter;
 public class MainServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException, ServletException {
-        Controller controller=new Controller();
-
-        req.setAttribute("attributeName","Hello");
-        getServletContext().getRequestDispatcher("/index.jsp").forward(req,resp);
-
+    //    req.setAttribute("attributeName","igor_krasavchik");
+        getServletContext().getRequestDispatcher("/registration.jsp").forward(req,resp);
         //String test = req.getAttribute("name").toString();
 //        req.getRequestDispatcher("/webapp/index.jsp").forward(req,resp);
 
