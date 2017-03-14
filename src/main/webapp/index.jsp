@@ -9,6 +9,7 @@
 <html>
     <head>
         <title>Главная</title>
+        <link rel="stylesheet"type="text/css"href="styleindex.css"media="all">
     </head>
     <body>
         <h1>${attributeName}</h1>
