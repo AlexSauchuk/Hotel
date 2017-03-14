@@ -2,7 +2,7 @@ package by.hotel.dao;
 
 
 import by.hotel.bean.User;
-import database.DBWorker;
+import by.hotel.database.DBWorker;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,8 +33,8 @@ public class UserDaoImpl implements UserDao {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        final String INSERT = "INSERT  INTO users (name,password) VALUES (?,?)";
-        final String CHECK = "SELECT * FROM users WHERE name = ?";
+        final String INSERT = "INSERT  INTO user (name,password) VALUES (?,?)";
+        final String CHECK = "SELECT * FROM user WHERE login = ?";
 
         ResultSet resultSet;
         DBWorker worker = new DBWorker();
@@ -87,7 +87,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     public boolean autorization(User user) {
-        final String SELECT = "SELECT id,password FROM users where name = ?";
+        final String dbRequest = "SELECT id,password FROM user WHERE login = ?";
 
         String name = user.getName();
         String password = user.getPassword();
@@ -97,7 +97,7 @@ public class UserDaoImpl implements UserDao {
         ResultSet resultSet;
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = worker.getConnection().prepareStatement(SELECT);
+            preparedStatement = worker.getConnection().prepareStatement(dbRequest);
             preparedStatement.setString(1,name);
             Set<Future<PreparedStatement>> set = new HashSet();
             Callable<PreparedStatement> callableSelect= new ExecuteQuery(preparedStatement);
@@ -121,6 +121,7 @@ public class UserDaoImpl implements UserDao {
         finally {
             try {
                 preparedStatement.close();
+                worker.closeConnection();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

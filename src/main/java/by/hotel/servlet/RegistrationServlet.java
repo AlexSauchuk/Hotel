@@ -1,6 +1,9 @@
 package by.hotel.servlet;
 
+import by.hotel.bean.User;
 import by.hotel.controller.Controller;
+import by.hotel.dao.UserDao;
+import by.hotel.dao.UserDaoImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(urlPatterns = {"/registration"})
+@WebServlet(urlPatterns = {"/servletRegistration"})
 public class RegistrationServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
@@ -23,8 +26,9 @@ public class RegistrationServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setStatus(HttpServletResponse.SC_OK);
         Controller controller = new Controller();
-        boolean resp;
-        resp = controller.doAction("REGISTRATION" + "&" + request.getParameter("name") + "&" + request.getParameter("password"));
+        UserDao userDao=new UserDaoImpl();
+        boolean resp=userDao.autorization(new User(request.getParameter("login"),request.getParameter("password")));
+//        resp = controller.doAction("REGISTRATION" + "&" + request.getParameter("name") + "&" + request.getParameter("password"));
 
         if (!resp){
             request.getRequestDispatcher("registration.jsp").include(request, response);
@@ -34,30 +38,10 @@ public class RegistrationServlet extends HttpServlet {
             out.print("You have successfully signed up!");
         }
         out.close();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //        Map<String, Object> pageVariables = new HashMap<>();
 //        pageVariables.put("email", name == null ? "" : name);
 //        pageVariables.put("password", password == null ? "" : password);
 
         //     response.getWriter().println(PageGenerator.getPage("authresponse.txt", pageVariables));
-    }
-
-    private void process(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
     }
 }

@@ -16,10 +16,6 @@ import java.io.PrintWriter;
 public class MainServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException, ServletException {
-    //    req.setAttribute("attributeName","igor_krasavchik");
-        getServletContext().getRequestDispatcher("/registration.jsp").forward(req,resp);
-        //String test = req.getAttribute("name").toString();
-//        req.getRequestDispatcher("/webapp/index.jsp").forward(req,resp);
-
+        getServletContext().getRequestDispatcher("/registration.jsp").include(req,resp);
     }
 }

@@ -15,11 +15,7 @@ public class EmployeeServiceImpl implements EmployeesService {
 
 	}
 
-	public void finalize() throws Throwable {
-
-	}
-
-	public Employee CreateEmployee(){
+	public Employee createEmployee(){
 		return null;
 	}
 
@@ -27,7 +23,7 @@ public class EmployeeServiceImpl implements EmployeesService {
 	 * 
 	 * @param id
 	 */
-	public boolean DeleteEmployee(int id){
+	public boolean deleteEmployee(int id){
 		return false;
 	}
 
@@ -35,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeesService {
 	 * 
 	 * @param id
 	 */
-	public Employee FindByPK(int id){
+	public Employee findByPK(int id){
 		return null;
 	}
 
@@ -44,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeesService {
 	 * @param id
 	 * @param _employee
 	 */
-	public boolean UpdateEmployee(int id, Employee _employee){
+	public boolean updateEmployee(int id, Employee _employee){
 		return true;
 	}
 

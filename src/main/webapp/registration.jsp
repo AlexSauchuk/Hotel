@@ -14,10 +14,10 @@
     <a class="h2" href="#" id="form-switch">Регистрация!</a>
 </header>
 
-<form action = "RegistrationServlet" method = "POST">
+<form action = "servletRegistration" method = "POST">
     <div class="front-sign-in">
-        <input type="text" placeholder="Логин">
-        <input type="password" placeholder="Пароль">
+        <input type="text" name="login" placeholder="Логин">
+        <input type="password" name="password" placeholder="Пароль">
         <input class="signin-submit" type="submit" value="ВОЙТИ">
     </div>
     <div class="back-sign-up">
