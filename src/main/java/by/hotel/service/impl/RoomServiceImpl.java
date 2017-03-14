@@ -1,9 +1,9 @@
-package by.hotel.dao.impl;
+package by.hotel.service.impl;
 
 
 import by.hotel.bean.ReservationInfo;
 import by.hotel.bean.Room;
-import by.hotel.dao.RoomService;
+import by.hotel.service.RoomService;
 
 import java.util.ArrayList;
 

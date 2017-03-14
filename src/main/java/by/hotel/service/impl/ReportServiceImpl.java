@@ -1,9 +1,9 @@
-package by.hotel.dao.impl;
+package by.hotel.service.impl;
 
 
 import by.hotel.bean.Report;
 import by.hotel.bean.User;
-import by.hotel.dao.ReportService;
+import by.hotel.service.ReportService;
 
 import java.util.ArrayList;
 

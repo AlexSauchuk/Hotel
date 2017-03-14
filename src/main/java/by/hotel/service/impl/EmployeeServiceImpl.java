@@ -1,8 +1,8 @@
-package by.hotel.dao.impl;
+package by.hotel.service.impl;
 
 
 import by.hotel.bean.Employee;
-import by.hotel.dao.EmployeesService;
+import by.hotel.service.EmployeesService;
 
 /**
  * @author SK

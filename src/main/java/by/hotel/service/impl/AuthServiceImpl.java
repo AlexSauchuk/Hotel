@@ -1,7 +1,7 @@
-package by.hotel.dao.impl;
+package by.hotel.service.impl;
 
 
-import by.hotel.dao.AuthService;
+import by.hotel.service.AuthService;
 
 /**
  * @author SK

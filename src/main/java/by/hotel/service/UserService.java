@@ -1,4 +1,4 @@
-package by.hotel.dao;
+package by.hotel.service;
 
 
 import by.hotel.bean.User;
@@ -33,5 +33,9 @@ public interface UserService {
 	 * @param _user
 	 */
 	public User GetUser(User _user);
+
+	public boolean register(User user);
+
+	public boolean autorization(User user);
 
 }
