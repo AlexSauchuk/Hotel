@@ -1,34 +1,16 @@
 package by.hotel.dao.impl;
 
-
-import by.hotel.dao.AuthService;
+import by.hotel.service.AuthService;
 
 /**
- * @author SK
- * @version 1.0
- * @created 16-���-2017 18:46:17
+ * Created by user1 on 14.03.2017.
  */
 public class AuthServiceImpl implements AuthService {
+    public boolean Login(String login, String password) {
+        return false;
+    }
 
-	public AuthServiceImpl(){
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-
-	/**
-	 * 
-	 * @param login
-	 * @param password
-	 */
-	public boolean Login(String login, String password){
-		return false;
-	}
-
-	public boolean Logout(){
-		return false;
-	}
-
+    public boolean Logout() {
+        return false;
+    }
 }

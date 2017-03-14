@@ -1,51 +1,25 @@
 package by.hotel.dao.impl;
 
-
 import by.hotel.bean.Employee;
-import by.hotel.dao.EmployeesService;
+import by.hotel.service.EmployeesService;
 
 /**
- * @author SK
- * @version 1.0
- * @created 16-���-2017 18:46:17
+ * Created by user1 on 14.03.2017.
  */
 public class EmployeeServiceImpl implements EmployeesService {
+    public Employee createEmployee() {
+        return null;
+    }
 
-	public EmployeeServiceImpl(){
+    public boolean deleteEmployee(int id) {
+        return false;
+    }
 
-	}
+    public Employee findByPK(int id) {
+        return null;
+    }
 
-	public void finalize() throws Throwable {
-
-	}
-
-	public Employee CreateEmployee(){
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param id
-	 */
-	public boolean DeleteEmployee(int id){
-		return false;
-	}
-
-	/**
-	 * 
-	 * @param id
-	 */
-	public Employee FindByPK(int id){
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param id
-	 * @param _employee
-	 */
-	public boolean UpdateEmployee(int id, Employee _employee){
-		return true;
-	}
-
+    public boolean updateEmployee(int id, Employee _employee) {
+        return false;
+    }
 }

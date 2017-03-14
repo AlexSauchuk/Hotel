@@ -1,4 +1,4 @@
-package by.hotel.dao;
+package by.hotel.service;
 
 
 import by.hotel.bean.Employee;
@@ -10,25 +10,25 @@ import by.hotel.bean.Employee;
  */
 public interface EmployeesService {
 
-	public Employee CreateEmployee();
+	public Employee createEmployee();
 
 	/**
 	 * 
 	 * @param id
 	 */
-	public boolean DeleteEmployee(int id);
+	public boolean deleteEmployee(int id);
 
 	/**
 	 * 
 	 * @param id
 	 */
-	public Employee FindByPK(int id);
+	public Employee findByPK(int id);
 
 	/**
 	 * 
 	 * @param id
 	 * @param _employee
 	 */
-	public boolean UpdateEmployee(int id, Employee _employee);
+	public boolean updateEmployee(int id, Employee _employee);
 
 }

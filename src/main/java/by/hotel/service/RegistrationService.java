@@ -1,4 +1,4 @@
-package by.hotel.dao;
+package by.hotel.service;
 
 
 import by.hotel.bean.RegistrationInfo;
