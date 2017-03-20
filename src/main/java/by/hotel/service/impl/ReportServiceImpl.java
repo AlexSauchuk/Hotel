@@ -3,54 +3,25 @@ package by.hotel.service.impl;
 
 import by.hotel.bean.Report;
 import by.hotel.bean.User;
-import by.hotel.service.ReportService;
+import by.hotel.service.IReportService;
 
 import java.util.ArrayList;
 
-/**
- * @author SK
- * @version 1.0
- * @created 16-���-2017 18:46:18
- */
-public class ReportServiceImpl implements ReportService {
+public class ReportServiceImpl implements IReportService {
 
-	public ReportServiceImpl(){
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-
-	/**
-	 * 
-	 * @param _user
-	 * @param _report
-	 */
-	public boolean CreateReport(User _user, Report _report){
+	public boolean createReport(User user, Report report){
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @param _user
-	 */
-	public boolean DeleteReport(int id, User _user){
+	public boolean deleteReport(int id, User user){
 		return false;
 	}
 
-	public ArrayList<Report> GetReports(){
+	public ArrayList<Report> getReports(){
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @param _user
-	 */
-	public boolean PrintReport(int id, User _user){
+	public boolean printReport(int id, User user){
 		return false;
 	}
-
 }

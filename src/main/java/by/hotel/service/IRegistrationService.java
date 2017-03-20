@@ -8,12 +8,12 @@ import by.hotel.bean.RegistrationInfo;
  * @version 1.0
  * @created 16-���-2017 18:46:17
  */
-public interface RegistrationService {
+public interface IRegistrationService {
 
 	/**
 	 * 
-	 * @param _registrInfo
+	 * @param registrInfo
 	 */
-	public boolean Registration(RegistrationInfo _registrInfo);
+	public boolean registration(RegistrationInfo registrInfo);
 
 }

@@ -1,37 +1,48 @@
-package by.hotel.database;
+package by.hotel.dao;
 
-import com.mysql.jdbc.Driver;
+import by.hotel.dao.exception.DAOException;
+import org.apache.taglibs.standard.lang.jstl.JSTLVariableResolver;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * Created by SK on 21.02.2017.
+ * Created by SK on 16.02.2017.
  */
-public class DBWorker {
+public abstract class AbstractDao {
 
-    private static Connection connection;
+    private Connection connection;
 
-    static{
+    static {
+        try{
+            Class.forName(Driver.class.getName());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public final Connection getConnection() throws DAOException{
         InputStream inputStream =null;
         Properties properties=new Properties();
         try{
-            Class.forName(Driver.class.getName());
+            Class.forName(com.mysql.jdbc.Driver.class.getName());
             inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("/config.properties");
             properties.load(inputStream);
             connection = DriverManager.getConnection(properties.getProperty("database.URL"),properties.getProperty("database.LOGIN"),properties.getProperty("database.PASSWORD"));
         } catch (SQLException e) {
-            System.err.println("Problem with connection");
-            e.printStackTrace();
+            throw new DAOException(e);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new DAOException(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new DAOException(e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if(inputStream !=null) {
@@ -41,19 +52,16 @@ public class DBWorker {
                 e.printStackTrace();
             }
         }
-    }
-
-    public Connection getConnection() {
         return connection;
     }
 
-    public void closeConnection(){
+    public void closeConnection() throws DAOException{
         try {
             if(connection!=null){
                 connection.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           throw new DAOException(e);
         }
     }
 }

@@ -8,6 +8,5 @@ import java.util.ArrayList;
 /**
  * Created by user1 on 16.03.2017.
  */
-public interface IUserDao {
-    ArrayList<User> getUsers() throws DAOException;
+public interface IRoomDao {
 }

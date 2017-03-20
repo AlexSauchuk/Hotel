@@ -8,7 +8,7 @@ import by.hotel.bean.Employee;
  * @version 1.0
  * @created 16-���-2017 18:46:17
  */
-public interface EmployeesService {
+public interface IEmployeesService {
 
 	public Employee createEmployee();
 

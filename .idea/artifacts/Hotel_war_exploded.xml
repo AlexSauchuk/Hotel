@@ -1,19 +1,16 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="Hotel:war exploded">
-    <output-path>$PROJECT_DIR$/target/by.hotel.servlet-1.0-SNAPSHOT</output-path>
-    <root id="root">
+  <artifact type="war" name="Hotel:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Hotel_war_exploded</output-path>
+    <root id="archive" name="Hotel_war exploded.war">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="Hotel" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:6.0.5" />
+          <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
         </element>
-      </element>
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/by.hotel.servlet-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="Hotel/web/Web" />
     </root>

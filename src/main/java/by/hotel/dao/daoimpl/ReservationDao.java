@@ -2,9 +2,8 @@ package by.hotel.dao.daoimpl;
 
 
 import by.hotel.bean.User;
-import by.hotel.dao.IGuestDao;
-import by.hotel.database.DBWorker;
-
+import by.hotel.dao.AbstractDao;
+import by.hotel.dao.IReservationDao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,10 +11,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.*;
 
-public class GuestDao implements IGuestDao {
+public class ReservationDao extends AbstractDao implements IReservationDao {
 
 
-    public static class ExecuteQuery implements Callable {
+/*    public static class ExecuteQuery implements Callable {
         PreparedStatement preparedStatement;
         public ExecuteQuery(PreparedStatement preparedStatement) {
             this.preparedStatement = preparedStatement;
@@ -28,11 +27,11 @@ public class GuestDao implements IGuestDao {
             }
             return preparedStatement;
         }
-    }
+    }*/
 
     public boolean register(User user) {
 
-        ExecutorService executorService = Executors.newCachedThreadPool();
+/*        ExecutorService executorService = Executors.newCachedThreadPool();
 
         final String INSERT = "INSERT  INTO user (name,password) VALUES (?,?)";
         final String CHECK = "SELECT * FROM user WHERE login = ?";
@@ -82,12 +81,12 @@ public class GuestDao implements IGuestDao {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         return  false;
     }
 
     public boolean authorization(User user) {
-        final String dbRequest = "SELECT id,password FROM user WHERE login = ?";
+/*        final String dbRequest = "SELECT id,password FROM user WHERE login = ?";
 
         String name = user.getName();
         String password = user.getPassword();
@@ -127,7 +126,7 @@ public class GuestDao implements IGuestDao {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         return false;
     }
 }

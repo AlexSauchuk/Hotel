@@ -11,27 +11,27 @@ import java.util.ArrayList;
  * @version 1.0
  * @created 16-���-2017 18:46:18
  */
-public interface RoomService {
+public interface IRoomService {
 
 	/**
 	 * 
 	 * @param id
 	 */
-	public boolean CancelReservationRoom(int id);
+	boolean cancelReservationRoom(int id);
 
 	/**
 	 * 
 	 * @param id
 	 */
-	public Room FindRoomByPK(int id);
+	Room findRoomByPK(int id);
 
-	public ArrayList<Room> GetRooms();
+	ArrayList<Room> getRooms();
 
 	/**
 	 * 
 	 * @param id
-	 * @param _reservationInfo
+	 * @param reservationInfo
 	 */
-	public boolean ReservationRoom(int id, ReservationInfo _reservationInfo);
+	boolean reservationRoom(int id, ReservationInfo reservationInfo);
 
 }

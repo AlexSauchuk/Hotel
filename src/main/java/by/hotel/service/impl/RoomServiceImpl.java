@@ -3,51 +3,25 @@ package by.hotel.service.impl;
 
 import by.hotel.bean.ReservationInfo;
 import by.hotel.bean.Room;
-import by.hotel.service.RoomService;
+import by.hotel.service.IRoomService;
 
 import java.util.ArrayList;
 
-/**
- * @author SK
- * @version 1.0
- * @created 16-���-2017 18:46:18
- */
-public class RoomServiceImpl implements RoomService {
+public class RoomServiceImpl implements IRoomService {
 
-	public RoomServiceImpl(){
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-
-	/**
-	 * 
-	 * @param id
-	 */
-	public boolean CancelReservationRoom(int id){
+	public boolean cancelReservationRoom(int id){
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param id
-	 */
-	public Room FindRoomByPK(int id){
+	public Room findRoomByPK(int id){
 		return null;
 	}
 
-	public ArrayList<Room> GetRooms(){
+	public ArrayList<Room> getRooms(){
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @param _reservationInfo
-	 */
-	public boolean ReservationRoom(int id, ReservationInfo _reservationInfo){
+	public boolean reservationRoom(int id, ReservationInfo _reservationInfo){
 		return false;
 	}
 

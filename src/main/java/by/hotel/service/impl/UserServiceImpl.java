@@ -2,62 +2,44 @@ package by.hotel.service.impl;
 
 
 import by.hotel.bean.User;
-import by.hotel.service.UserService;
+import by.hotel.dao.daoimpl.UserDao;
+import by.hotel.dao.exception.DAOException;
+import by.hotel.service.IUserService;
+import by.hotel.service.exception.ServiceException;
 
-/**
- * @author SK
- * @version 1.0
- * @created 16-���-2017 18:46:18
- */
-public class UserServiceImpl implements UserService {
+import java.util.ArrayList;
 
-	public UserServiceImpl(){
+public class UserServiceImpl implements IUserService {
 
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-
-	/**
-	 * 
-	 * @param user
-	 */
+	public UserDao userDao = new UserDao();
 	public User addUser(User user){
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param user
-	 */
 	public boolean deleteUser(User user){
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param user
-	 */
 	public boolean editUser(User user){
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param _user
-	 */
 	public User getUser(User _user){
 		return null;
 	}
 
+	public ArrayList<User> getUsers() throws ServiceException{
+		try {
+			return userDao.getUsers();
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
+	}
 	public boolean register(User user) {
-
 		return  false;
 	}
 
 	public boolean autorization(User user) {
 		return false;
 	}
-
 }
