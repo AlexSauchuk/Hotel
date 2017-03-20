@@ -14,25 +14,25 @@ public interface UserService {
 	 * 
 	 * @param _user
 	 */
-	public User AddUser(User _user);
+	public User addUser(User _user);
 
 	/**
 	 * 
 	 * @param _user
 	 */
-	public boolean DeleteUser(User _user);
+	public boolean deleteUser(User _user);
 
 	/**
 	 * 
 	 * @param _user
 	 */
-	public boolean EditUser(User _user);
+	public boolean editUser(User _user);
 
 	/**
 	 * 
 	 * @param _user
 	 */
-	public User GetUser(User _user);
+	public User getUser(User _user);
 
 	public boolean register(User user);
 

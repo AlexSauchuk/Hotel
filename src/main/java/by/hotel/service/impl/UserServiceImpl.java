@@ -3,14 +3,6 @@ package by.hotel.service.impl;
 
 import by.hotel.bean.User;
 import by.hotel.service.UserService;
-import database.DBWorker;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.*;
 
 /**
  * @author SK
@@ -29,17 +21,25 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * 
-	 * @param _user
+	 * @param user
 	 */
-	public User AddUser(User _user){
+	public User addUser(User user){
 		return null;
 	}
 
 	/**
 	 * 
-	 * @param _user
+	 * @param user
 	 */
-	public boolean DeleteUser(User _user){
+	public boolean deleteUser(User user){
+		return false;
+	}
+
+	/**
+	 * 
+	 * @param user
+	 */
+	public boolean editUser(User user){
 		return false;
 	}
 
@@ -47,15 +47,7 @@ public class UserServiceImpl implements UserService {
 	 * 
 	 * @param _user
 	 */
-	public boolean EditUser(User _user){
-		return false;
-	}
-
-	/**
-	 * 
-	 * @param _user
-	 */
-	public User GetUser(User _user){
+	public User getUser(User _user){
 		return null;
 	}
 

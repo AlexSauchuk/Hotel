@@ -1,22 +1,17 @@
 package by.hotel.dao;
 
-import by.hotel.dao.impl.AuthServiceImpl;
-import by.hotel.dao.impl.EmployeeServiceImpl;
-import by.hotel.service.AuthService;
-import by.hotel.service.EmployeesService;
+import java.sql.Driver;
 
 /**
  * Created by SK on 16.02.2017.
  */
-public class DAOFactory {
+public abstract class DaoFactory {
 
-    public AuthService getAuthService(){
-        return new AuthServiceImpl();
+    static {
+        try{
+            Class.forName(Driver.class.getName());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
-
-    public EmployeesService getEmployeesService(){
-        return new EmployeeServiceImpl();
-    }
-
-
 }

@@ -1,7 +1,8 @@
-package by.hotel.dao;
+package by.hotel.dao.daoimpl;
 
 
 import by.hotel.bean.User;
+import by.hotel.dao.IGuestDao;
 import by.hotel.database.DBWorker;
 
 import java.sql.PreparedStatement;
@@ -11,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.*;
 
-public class UserDaoImpl implements UserDao {
+public class GuestDao implements IGuestDao {
 
 
     public static class ExecuteQuery implements Callable {
@@ -70,7 +71,6 @@ public class UserDaoImpl implements UserDao {
                     e.printStackTrace();
                 }
             }
-
             preparedStatement.close();
             return  true;
         } catch (SQLException e) {
@@ -86,7 +86,7 @@ public class UserDaoImpl implements UserDao {
         return  false;
     }
 
-    public boolean autorization(User user) {
+    public boolean authorization(User user) {
         final String dbRequest = "SELECT id,password FROM user WHERE login = ?";
 
         String name = user.getName();
@@ -120,8 +120,10 @@ public class UserDaoImpl implements UserDao {
         }
         finally {
             try {
-                preparedStatement.close();
-                worker.closeConnection();
+                if(preparedStatement!=null){
+                    preparedStatement.close();
+                }
+//                worker.closeConnection();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

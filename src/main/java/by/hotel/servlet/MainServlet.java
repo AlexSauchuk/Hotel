@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 public class MainServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException, ServletException {
+
         getServletContext().getRequestDispatcher("/registration.jsp").include(req,resp);
     }
 }

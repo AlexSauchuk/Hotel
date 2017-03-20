@@ -1,8 +1,8 @@
 package by.hotel.database;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import com.mysql.jdbc.Driver;
+
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,23 +16,26 @@ public class DBWorker {
     private static Connection connection;
 
     static{
-        FileInputStream fileInputStream=null;
+        InputStream inputStream =null;
+        Properties properties=new Properties();
         try{
-            fileInputStream=new FileInputStream("src/main/java/resources/databaseConstants.properties");
-            Properties properties=new Properties();
-            properties.load(fileInputStream);
-            connection = DriverManager.getConnection(properties.getProperty("URL"),properties.getProperty("LOGIN"),properties.getProperty("PASSWORD"));
+            Class.forName(Driver.class.getName());
+            inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("/config.properties");
+            properties.load(inputStream);
+            connection = DriverManager.getConnection(properties.getProperty("database.URL"),properties.getProperty("database.LOGIN"),properties.getProperty("database.PASSWORD"));
         } catch (SQLException e) {
             System.err.println("Problem with connection");
+            e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
             try {
-                if(fileInputStream!=null) {
-                    fileInputStream.close();
+                if(inputStream !=null) {
+                    inputStream.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -46,7 +49,9 @@ public class DBWorker {
 
     public void closeConnection(){
         try {
-            connection.close();
+            if(connection!=null){
+                connection.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
