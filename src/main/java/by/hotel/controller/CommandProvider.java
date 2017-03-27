@@ -14,7 +14,7 @@ final class CommandProvider {
     final private Map<String, Command> commands = new HashMap();
 
     CommandProvider() {
-        commands.put("LOGINATION_USER", new Logination());
+//        commands.put("LOGINATION_USER", new Logination());
         commands.put("LOGINATION_ADMIN", new Logination());
         commands.put("REGISTRATION", new Registration());
     }
