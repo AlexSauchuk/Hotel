@@ -1,27 +1,46 @@
 package by.hotel.service.impl;
 
-
 import by.hotel.bean.Report;
-import by.hotel.bean.User;
-import by.hotel.service.IReportService;
+import by.hotel.bean.Room;
+import by.hotel.dao.daoimpl.RoomDaoImpl;
+import by.hotel.dao.exception.DAOException;
+import by.hotel.service.CrudService;
+import by.hotel.service.exception.ServiceException;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ReportServiceImpl implements IReportService {
+public class ReportServiceImpl {
+/*	private DaoImpl reportDao = new RoomDaoImpl();
 
-	public boolean createReport(User user, Report report){
-		return false;
+	public List<Room> getAllEntities() throws ServiceException {
+		try {
+			return reportDao.getRooms();
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	public boolean deleteReport(int id, User user){
-		return false;
+	public void addEntity(Room entity) throws ServiceException {
+		try {
+			reportDao.addRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	public ArrayList<Report> getReports(){
-		return null;
+	public void removeEntity(Room entity) throws ServiceException {
+		try {
+			reportDao.removeRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	public boolean printReport(int id, User user){
-		return false;
-	}
+	public void updateEntity(Room entity) throws ServiceException {
+		try {
+			reportDao.updateRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
+	}*/
 }

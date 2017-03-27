@@ -6,7 +6,7 @@ package by.hotel.service;
  * @version 1.0
  * @created 16-���-2017 18:46:17
  */
-public interface IAuthService {
+public interface AuthService {
 
 	/**
 	 * 

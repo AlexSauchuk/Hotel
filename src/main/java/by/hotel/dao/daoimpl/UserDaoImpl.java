@@ -2,23 +2,24 @@ package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.User;
 import by.hotel.dao.AbstractDao;
-import by.hotel.dao.IUserDao;
+import by.hotel.dao.UserDao;
 import by.hotel.dao.exception.DAOException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by user1 on 16.03.2017.
  */
-public class UserDao extends AbstractDao implements IUserDao {
+public class UserDaoImpl extends AbstractDao implements UserDao {
 
-    public ArrayList<User> getUsers() throws DAOException {
+    public List<User> getUsers() throws DAOException {
         final String GET_ALL_USERS = "SELECT passport_number,name,surname,sex,mobile_phone,login,password FROM db_hotel.user";
-        Connection connection=null;
+        Connection connection;
         PreparedStatement statement=null;
         ResultSet resultSet=null;
-        ArrayList<User> users=new ArrayList<User>();
+        List<User> users=new ArrayList<User>();
         try {
             connection=getConnection();
             statement=connection.prepareStatement(GET_ALL_USERS);
@@ -34,7 +35,6 @@ public class UserDao extends AbstractDao implements IUserDao {
                 user.setLogin(resultSet.getString("login"));
                 users.add(user);
             }
-            return users;
         }catch (SQLException e){
             throw new DAOException(e);
         }finally {
@@ -50,5 +50,18 @@ public class UserDao extends AbstractDao implements IUserDao {
                 e.printStackTrace();
             }
         }
+        return users;
+    }
+
+    public void addUser(User user) throws DAOException {
+
+    }
+
+    public void removeUser(User user) throws DAOException {
+
+    }
+
+    public void updateUser(User user) throws DAOException {
+
     }
 }

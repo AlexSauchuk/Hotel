@@ -1,25 +1,26 @@
 package by.hotel.service.impl;
 
-
 import by.hotel.bean.Employee;
-import by.hotel.service.IEmployeesService;
+import by.hotel.service.CrudService;
+import by.hotel.service.exception.ServiceException;
 
-public class EmployeeServiceImpl implements IEmployeesService {
+import java.util.List;
 
-	public Employee createEmployee(){
+public class EmployeeServiceImpl implements CrudService<Employee> {
+
+	public List<Employee> getAllEntities() throws ServiceException {
 		return null;
 	}
 
-	public boolean deleteEmployee(int id){
-		return false;
+	public void addEntity(Employee entity) {
+
 	}
 
-	public Employee findByPK(int id){
-		return null;
+	public void removeEntity(Employee entity) {
+
 	}
 
-	public boolean updateEmployee(int id, Employee employee){
-		return true;
-	}
+	public void updateEntity(Employee entity) {
 
+	}
 }

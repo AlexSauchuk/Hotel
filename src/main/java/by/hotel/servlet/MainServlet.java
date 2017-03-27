@@ -1,5 +1,6 @@
 package by.hotel.servlet;
 
+import by.hotel.command.exception.CommandException;
 import by.hotel.service.exception.ServiceException;
 import by.hotel.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Logger;
@@ -17,23 +18,13 @@ import java.io.IOException;
 @WebServlet (urlPatterns = {"/servlet"})
 public class MainServlet extends HttpServlet {
 
-/*
-    static {
-        try {
-            Class.forName(Logger.class.getName());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-*/
 //    Logger log=Logger
     protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException, ServletException {
 
         try {
-            req.setAttribute("users",new UserServiceImpl().getUsers());
+            req.setAttribute("users",new UserServiceImpl().getAllEntities());
             req.getRequestDispatcher("/index.jsp").forward(req,resp);
         } catch (ServiceException e) {
-            e.printStackTrace();
         }
     }
 }

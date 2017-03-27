@@ -6,11 +6,11 @@ package by.hotel.bean;
 public class User {
     private int id;
     private String name;
+    private String surname;
     private String mobilePhone;
     private String login;
     private String passportNumber;
     private String password;
-    private String surname;
     private String sex;
 
     public int getId() {
@@ -20,7 +20,6 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
-
 
     public String getPassportNumber() {
         return passportNumber;
@@ -80,6 +79,15 @@ public class User {
 
     @Override
     public String toString() {
-        return "id: " + id + " login: " + login + " password: " + password;
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", login='" + login + '\'' +
+                ", passportNumber='" + passportNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", surname='" + surname + '\'' +
+                ", sex='" + sex + '\'' +
+                '}';
     }
 }

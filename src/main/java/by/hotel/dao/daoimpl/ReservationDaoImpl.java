@@ -1,17 +1,15 @@
 package by.hotel.dao.daoimpl;
 
 
+import by.hotel.bean.ReservationInfo;
 import by.hotel.bean.User;
 import by.hotel.dao.AbstractDao;
-import by.hotel.dao.IReservationDao;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.*;
+import by.hotel.dao.ReservationDao;
+import by.hotel.dao.exception.DAOException;
 
-public class ReservationDao extends AbstractDao implements IReservationDao {
+import java.util.List;
+
+public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
 
 
 /*    public static class ExecuteQuery implements Callable {
@@ -128,5 +126,21 @@ public class ReservationDao extends AbstractDao implements IReservationDao {
             }
         }*/
         return false;
+    }
+
+    public List<ReservationInfo> getAllReservationInfo() throws DAOException {
+        return null;
+    }
+
+    public void addReservationInfo(ReservationInfo room) throws DAOException {
+
+    }
+
+    public void removeReservationInfo(ReservationInfo room) throws DAOException {
+
+    }
+
+    public void updateReservationInfo(ReservationInfo room) throws DAOException {
+
     }
 }

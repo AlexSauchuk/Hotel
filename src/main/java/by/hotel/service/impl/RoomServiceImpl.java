@@ -1,28 +1,45 @@
 package by.hotel.service.impl;
 
-
-import by.hotel.bean.ReservationInfo;
 import by.hotel.bean.Room;
-import by.hotel.service.IRoomService;
+import by.hotel.dao.daoimpl.RoomDaoImpl;
+import by.hotel.dao.exception.DAOException;
+import by.hotel.service.CrudService;
+import by.hotel.service.exception.ServiceException;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class RoomServiceImpl implements IRoomService {
+public class RoomServiceImpl implements CrudService<Room> {
+	private RoomDaoImpl roomDao = new RoomDaoImpl();
 
-	public boolean cancelReservationRoom(int id){
-		return false;
+	public List<Room> getAllEntities() throws ServiceException {
+		try {
+			return roomDao.getRooms();
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	public Room findRoomByPK(int id){
-		return null;
+	public void addEntity(Room entity) throws ServiceException {
+		try {
+			roomDao.addRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	public ArrayList<Room> getRooms(){
-		return null;
+	public void removeEntity(Room entity) throws ServiceException {
+		try {
+			roomDao.removeRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	public boolean reservationRoom(int id, ReservationInfo _reservationInfo){
-		return false;
+	public void updateEntity(Room entity) throws ServiceException {
+		try {
+			roomDao.updateRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
-
 }

@@ -2,9 +2,9 @@ package by.hotel.service.impl;
 
 
 import by.hotel.bean.RegistrationInfo;
-import by.hotel.service.IRegistrationService;
+import by.hotel.service.RegistrationService;
 
-public class RegistrationServiceImpl implements IRegistrationService {
+public class RegistrationServiceImpl implements RegistrationService {
 
 	public boolean registration(RegistrationInfo registrInfo){
 		return false;

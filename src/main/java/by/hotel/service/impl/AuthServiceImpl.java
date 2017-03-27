@@ -1,14 +1,14 @@
 package by.hotel.service.impl;
 
 
-import by.hotel.service.IAuthService;
+import by.hotel.service.AuthService;
 
 /**
  * @author SK
  * @version 1.0
  * @created 16-���-2017 18:46:17
  */
-public class AuthServiceImpl implements IAuthService {
+public class AuthServiceImpl implements AuthService {
 
 	/**
 	 * 
