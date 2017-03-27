@@ -3,7 +3,7 @@ package by.hotel.service.impl;
 
 import by.hotel.bean.User;
 import by.hotel.service.UserService;
-import database.DBWorker;
+import by.hotel.database.DBWorker;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

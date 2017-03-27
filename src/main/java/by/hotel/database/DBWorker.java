@@ -3,6 +3,7 @@ package by.hotel.database;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,25 +15,25 @@ import java.util.Properties;
 public class DBWorker {
 
     private static Connection connection;
+    private final static String URL = "jdbc:mysql://localhost:3306/Hotel?useUnicode=true&useSSL=true&useJDBCCompliantTimezoneShift=true\" +\n" +
+            "                    \"&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private final static String USERNAME = "root";
+    private final static String PASSWORD = "root";
 
     static{
-        FileInputStream fileInputStream=null;
+        InputStream inputStream =null;
+
         try{
-            fileInputStream=new FileInputStream("src/main/java/resources/databaseConstants.properties");
-            Properties properties=new Properties();
-            properties.load(fileInputStream);
-            connection = DriverManager.getConnection(properties.getProperty("URL"),properties.getProperty("LOGIN"),properties.getProperty("PASSWORD"));
+
+            connection = DriverManager.getConnection(URL,
+                    USERNAME,PASSWORD);
         } catch (SQLException e) {
             System.err.println("Problem with connection");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         finally {
             try {
-                if(fileInputStream!=null) {
-                    fileInputStream.close();
+                if(inputStream!=null) {
+                    inputStream.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

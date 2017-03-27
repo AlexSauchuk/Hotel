@@ -1,7 +1,8 @@
-package by.hotel.dao;
+package by.hotel.dao.impl;
 
 
 import by.hotel.bean.User;
+import by.hotel.dao.UserDao;
 import by.hotel.database.DBWorker;
 
 import java.sql.PreparedStatement;
@@ -51,7 +52,7 @@ public class UserDaoImpl implements UserDao {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
-                e.printStackTrace();
+                e.printStackTrace();//!
             }
             resultSet = preparedStatement.getResultSet();
             if (resultSet.next()){

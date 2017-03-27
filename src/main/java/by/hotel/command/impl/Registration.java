@@ -4,7 +4,7 @@ import by.hotel.bean.User;
 import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
 import by.hotel.dao.UserDao;
-import by.hotel.dao.UserDaoImpl;
+import by.hotel.dao.impl.UserDaoImpl;
 
 /**
  * Created by 1 on 28.02.2017.

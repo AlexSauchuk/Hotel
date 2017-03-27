@@ -3,7 +3,7 @@ package by.hotel.servlet;
 import by.hotel.bean.User;
 import by.hotel.controller.Controller;
 import by.hotel.dao.UserDao;
-import by.hotel.dao.UserDaoImpl;
+import by.hotel.dao.impl.UserDaoImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
