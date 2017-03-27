@@ -7,7 +7,7 @@
 </head>
 <body>
 <br/>
-<a href="index.jsp" >Back to Main page</a>
+<a href="test.jsp" >Back to Main page</a>
 <br/>
 <header>
     <h2>Нет аккаунта?</h2>

@@ -14,12 +14,12 @@
    </script>
 <![endif]-->
 </head>
-<body id="page1" onload="new ElementMaxHeight();">
+<body id="page5" onload="new ElementMaxHeight();">
 <div id="main">
 <!-- header -->
-	<div id="header">
+	<div id="header" class="small">
 		<div class="row-1">
-			<div class="wrapper">
+	 		<div class="wrapper">
 				<div class="logo">
 					<h1><a href="index.html">Бобруйск</a></h1>
 					<em>Отель</em>
@@ -30,17 +30,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="row-2">
+		<div class="row-2 alt">
 	 		<div class="indent">
-<!-- header-box begin -->
-				<div class="header-box">
+				<div class="header-box-small">
 					<div class="inner">
 						<ul class="nav">
-					 		<li><a href="index.jsp" class="current">Главная</a></li>
+					 		<li><a href="index.jsp">Главная</a></li>
 							<li><a href="services.jsp">Услуги</a></li>
 							<li><a href="gallery.jsp">Галерея</a></li>
 							<li><a href="testimonials.jsp">Отзывы</a></li>
-							<li><a href="booking.jsp">Бронирование</a></li>
+							<li><a href="booking.jsp" class="current">Бронирование</a></li>
 							<li><a href="signin.jsp">Вход</a></li>
 						</ul>
 					</div>
@@ -48,9 +47,11 @@
 			</div>
 		</div>
 	</div>
+<!-- content -->
 	<div id="content">
 		<div class="wrapper">
 			<div class="aside maxheight">
+<!-- box begin -->
 				<div class="box maxheight">
 					<div class="inner">
 						<h3>Reservation:</h3>
@@ -64,35 +65,21 @@
 						</form>
 					</div>
 				</div>
+<!-- box end -->
 			</div>
 			<div class="content">
 				<div class="indent">
-					<h2>Отель Бобруйск преветствует вас!</h2>
-					<img class="img-indent png" alt="" src="images/1page-img1.png" />
-					<p class="alt-top">Приезжайте один или привезите свою семью с собой, оставайтесь здесь на ночь или на несколько недель, оставайтесь здесь во время деловой поездки или на какой-либо конференции - в любом случае наша гостиница - наилучший вариант. Не стесняйтесь обращаться к нам в любое время, если у вас есть какие-либо вопросы.</p>
-					<div class="clear"></div>
-					<div class="line-hor"></div>
-					<div class="wrapper line-ver">
-						<div class="col-1">
-				 			<h3>Специльные предложения</h3>
-							<ul>
-								<li>Бесплатный широкоэкранный телевизор</li>
-								<li>Скидка 50% на обслуживание в ресторане</li>
-								<li>Скидка 30% на 3+ дневные заказы</li>
-								<li>БЕСПЛАТНЫЕ напитки в номерах</li>
-								<li>Эксклюзивные сувениры</li>
-							</ul>
-							<div class="button"><span><span><a href="#">Забронировать сейчас!</a></span></span></div>
-						</div>
-						<div class="col-2">
-				 			<h3>Место нахождения</h3>
-							<p>Мы находимся в центре Бобруйска, в самом центре митинга.</p>
-							<dl class="contacts-list">
-								<dt>Улица Митингуюшая,д.1488</dt>
-								<dd>+375(29)179-07-46</dd>
-							</dl>
-						</div>
+					<h2>Место нахождения</h2>
+					<img class="img-indent png" alt="" src="images/5page-img1.png" />
+					<div class="extra-wrap">
+						<p class="alt-top">Мы находимся в центре Бобруйска, в самом центре митинга.</p>
+						<p>Пожалуйста, приезжайте к нам по следующему адресу:</p>
+						<dl class="contacts-list">
+							<dt>Улица Митингуюшая,д.1488</dt>
+							<dd>+375(29)179-07-46</dd>
+						</dl>
 					</div>
+					<div class="clear"></div>
 				</div>
 			</div>
 		</div>
