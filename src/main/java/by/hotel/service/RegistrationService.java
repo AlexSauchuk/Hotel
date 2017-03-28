@@ -12,8 +12,8 @@ public interface RegistrationService {
 
 	/**
 	 * 
-	 * @param _registrInfo
+	 * @param registrInfo
 	 */
-	public boolean Registration(RegistrationInfo _registrInfo);
+	public boolean registration(RegistrationInfo registrInfo);
 
 }

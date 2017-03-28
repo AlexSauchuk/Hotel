@@ -1,10 +1,5 @@
 package by.hotel.servlet;
 
-import by.hotel.bean.User;
-import by.hotel.controller.Controller;
-import by.hotel.dao.UserDao;
-import by.hotel.dao.impl.UserDaoImpl;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,22 +16,20 @@ public class RegistrationServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     }
 
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         response.setStatus(HttpServletResponse.SC_OK);
-        Controller controller = new Controller();
-        UserDao userDao=new UserDaoImpl();
-        boolean resp=userDao.autorization(new User(request.getParameter("login"),request.getParameter("password")));
+//        Controller controller = new Controller();
+//        boolean resp= ReservationDaoImpl.authorization(new User(request.getParameter("login"),request.getParameter("password")));
 //        resp = controller.doAction("REGISTRATION" + "&" + request.getParameter("name") + "&" + request.getParameter("password"));
 
-        if (!resp){
+/*        if (!resp){
             request.getRequestDispatcher("registration.jsp").include(request, response);
             out.print("Sorry, this username is not available!");
         }else {
             request.getRequestDispatcher("index.jsp").include(request, response);
             out.print("You have successfully signed up!");
-        }
+        }*/
         out.close();
 //        Map<String, Object> pageVariables = new HashMap<>();
 //        pageVariables.put("email", name == null ? "" : name);

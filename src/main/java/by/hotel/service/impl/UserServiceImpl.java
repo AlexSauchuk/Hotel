@@ -1,71 +1,45 @@
 package by.hotel.service.impl;
 
-
 import by.hotel.bean.User;
-import by.hotel.service.UserService;
-import by.hotel.database.DBWorker;
+import by.hotel.dao.daoimpl.UserDaoImpl;
+import by.hotel.dao.exception.DAOException;
+import by.hotel.service.CrudService;
+import by.hotel.service.exception.ServiceException;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.*;
+import java.util.List;
 
-/**
- * @author SK
- * @version 1.0
- * @created 16-���-2017 18:46:18
- */
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements CrudService<User> {
+	private UserDaoImpl userDao = new UserDaoImpl();
 
-	public UserServiceImpl(){
-
+	public List<User> getAllEntities() throws ServiceException {
+		try {
+			return userDao.getUsers();
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	public void finalize() throws Throwable {
-
+	public void addEntity(User entity) throws ServiceException {
+		try {
+			userDao.addUser(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	/**
-	 * 
-	 * @param _user
-	 */
-	public User AddUser(User _user){
-		return null;
+	public void removeEntity(User entity) throws ServiceException {
+		try {
+			userDao.removeUser(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	/**
-	 * 
-	 * @param _user
-	 */
-	public boolean DeleteUser(User _user){
-		return false;
+	public void updateEntity(User entity) throws ServiceException {
+		try {
+			userDao.updateUser(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
-
-	/**
-	 * 
-	 * @param _user
-	 */
-	public boolean EditUser(User _user){
-		return false;
-	}
-
-	/**
-	 * 
-	 * @param _user
-	 */
-	public User GetUser(User _user){
-		return null;
-	}
-
-	public boolean register(User user) {
-
-		return  false;
-	}
-
-	public boolean autorization(User user) {
-		return false;
-	}
-
 }

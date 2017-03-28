@@ -2,8 +2,6 @@
   <library name="Maven: mysql:mysql-connector-java:6.0.5">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/6.0.5/mysql-connector-java-6.0.5.jar!/" />
-      <root url="jar://$USER_HOME$/Downloads/Desktop/log4j-api-2.8.jar!/" />
-      <root url="jar://$USER_HOME$/Downloads/Desktop/log4j-core-2.8.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/6.0.5/mysql-connector-java-6.0.5-javadoc.jar!/" />

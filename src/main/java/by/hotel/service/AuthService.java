@@ -13,8 +13,8 @@ public interface AuthService {
 	 * @param login
 	 * @param password
 	 */
-	public boolean Login(String login, String password);
+	boolean login(String login, String password);
 
-	public boolean Logout();
+	boolean logout();
 
 }

@@ -1,56 +1,46 @@
 package by.hotel.service.impl;
 
-
 import by.hotel.bean.Report;
-import by.hotel.bean.User;
-import by.hotel.service.ReportService;
+import by.hotel.bean.Room;
+import by.hotel.dao.daoimpl.RoomDaoImpl;
+import by.hotel.dao.exception.DAOException;
+import by.hotel.service.CrudService;
+import by.hotel.service.exception.ServiceException;
 
-import java.util.ArrayList;
+import java.util.List;
 
-/**
- * @author SK
- * @version 1.0
- * @created 16-���-2017 18:46:18
- */
-public class ReportServiceImpl implements ReportService {
+public class ReportServiceImpl {
+/*	private DaoImpl reportDao = new RoomDaoImpl();
 
-	public ReportServiceImpl(){
-
+	public List<Room> getAllEntities() throws ServiceException {
+		try {
+			return reportDao.getRooms();
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	public void finalize() throws Throwable {
-
+	public void addEntity(Room entity) throws ServiceException {
+		try {
+			reportDao.addRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	/**
-	 * 
-	 * @param _user
-	 * @param _report
-	 */
-	public boolean CreateReport(User _user, Report _report){
-		return false;
+	public void removeEntity(Room entity) throws ServiceException {
+		try {
+			reportDao.removeRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @param _user
-	 */
-	public boolean DeleteReport(int id, User _user){
-		return false;
-	}
-
-	public ArrayList<Report> GetReports(){
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param id
-	 * @param _user
-	 */
-	public boolean PrintReport(int id, User _user){
-		return false;
-	}
-
+	public void updateEntity(Room entity) throws ServiceException {
+		try {
+			reportDao.updateRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
+	}*/
 }

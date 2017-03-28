@@ -1,21 +1,18 @@
-package by.hotel.dao.impl;
+package by.hotel.dao.daoimpl;
 
 
+import by.hotel.bean.ReservationInfo;
 import by.hotel.bean.User;
-import by.hotel.dao.UserDao;
-import by.hotel.database.DBWorker;
+import by.hotel.dao.AbstractDao;
+import by.hotel.dao.ReservationDao;
+import by.hotel.dao.exception.DAOException;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.*;
+import java.util.List;
 
-public class UserDaoImpl implements UserDao {
+public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
 
 
-    public static class ExecuteQuery implements Callable {
+/*    public static class ExecuteQuery implements Callable {
         PreparedStatement preparedStatement;
         public ExecuteQuery(PreparedStatement preparedStatement) {
             this.preparedStatement = preparedStatement;
@@ -28,11 +25,11 @@ public class UserDaoImpl implements UserDao {
             }
             return preparedStatement;
         }
-    }
+    }*/
 
     public boolean register(User user) {
 
-        ExecutorService executorService = Executors.newCachedThreadPool();
+/*        ExecutorService executorService = Executors.newCachedThreadPool();
 
         final String INSERT = "INSERT  INTO user (name,password) VALUES (?,?)";
         final String CHECK = "SELECT * FROM user WHERE login = ?";
@@ -52,7 +49,7 @@ public class UserDaoImpl implements UserDao {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
-                e.printStackTrace();//!
+                e.printStackTrace();
             }
             resultSet = preparedStatement.getResultSet();
             if (resultSet.next()){
@@ -71,7 +68,6 @@ public class UserDaoImpl implements UserDao {
                     e.printStackTrace();
                 }
             }
-
             preparedStatement.close();
             return  true;
         } catch (SQLException e) {
@@ -83,12 +79,12 @@ public class UserDaoImpl implements UserDao {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         return  false;
     }
 
-    public boolean autorization(User user) {
-        final String dbRequest = "SELECT id,password FROM user WHERE login = ?";
+    public boolean authorization(User user) {
+/*        final String dbRequest = "SELECT id,password FROM user WHERE login = ?";
 
         String name = user.getName();
         String password = user.getPassword();
@@ -121,12 +117,30 @@ public class UserDaoImpl implements UserDao {
         }
         finally {
             try {
-                preparedStatement.close();
-                worker.closeConnection();
+                if(preparedStatement!=null){
+                    preparedStatement.close();
+                }
+//                worker.closeConnection();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         return false;
+    }
+
+    public List<ReservationInfo> getAllReservationInfo() throws DAOException {
+        return null;
+    }
+
+    public void addReservationInfo(ReservationInfo room) throws DAOException {
+
+    }
+
+    public void removeReservationInfo(ReservationInfo room) throws DAOException {
+
+    }
+
+    public void updateReservationInfo(ReservationInfo room) throws DAOException {
+
     }
 }

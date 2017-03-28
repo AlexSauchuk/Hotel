@@ -1,54 +1,45 @@
 package by.hotel.service.impl;
 
-
-import by.hotel.bean.ReservationInfo;
 import by.hotel.bean.Room;
-import by.hotel.service.RoomService;
+import by.hotel.dao.daoimpl.RoomDaoImpl;
+import by.hotel.dao.exception.DAOException;
+import by.hotel.service.CrudService;
+import by.hotel.service.exception.ServiceException;
 
-import java.util.ArrayList;
+import java.util.List;
 
-/**
- * @author SK
- * @version 1.0
- * @created 16-���-2017 18:46:18
- */
-public class RoomServiceImpl implements RoomService {
+public class RoomServiceImpl implements CrudService<Room> {
+	private RoomDaoImpl roomDao = new RoomDaoImpl();
 
-	public RoomServiceImpl(){
-
+	public List<Room> getAllEntities() throws ServiceException {
+		try {
+			return roomDao.getRooms();
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	public void finalize() throws Throwable {
-
+	public void addEntity(Room entity) throws ServiceException {
+		try {
+			roomDao.addRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	/**
-	 * 
-	 * @param id
-	 */
-	public boolean CancelReservationRoom(int id){
-		return false;
+	public void removeEntity(Room entity) throws ServiceException {
+		try {
+			roomDao.removeRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
-	/**
-	 * 
-	 * @param id
-	 */
-	public Room FindRoomByPK(int id){
-		return null;
+	public void updateEntity(Room entity) throws ServiceException {
+		try {
+			roomDao.updateRoom(entity);
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
 	}
-
-	public ArrayList<Room> GetRooms(){
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param id
-	 * @param _reservationInfo
-	 */
-	public boolean ReservationRoom(int id, ReservationInfo _reservationInfo){
-		return false;
-	}
-
 }

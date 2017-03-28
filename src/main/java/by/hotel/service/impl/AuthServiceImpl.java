@@ -10,24 +10,16 @@ import by.hotel.service.AuthService;
  */
 public class AuthServiceImpl implements AuthService {
 
-	public AuthServiceImpl(){
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-
 	/**
 	 * 
 	 * @param login
 	 * @param password
 	 */
-	public boolean Login(String login, String password){
+	public boolean login(String login, String password){
 		return false;
 	}
 
-	public boolean Logout(){
+	public boolean logout(){
 		return false;
 	}
 
