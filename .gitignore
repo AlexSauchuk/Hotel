@@ -72,7 +72,11 @@ modules.xml
 *.ipr
 
 # Sonarlint plugin
+<<<<<<< HEAD
 .idea/sonarlint
 
 .idea/
 target/
+=======
+.idea/sonarlint
+>>>>>>> 7a10bbf86e232785ae7012f86561075f62debe5d
