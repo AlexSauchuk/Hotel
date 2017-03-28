@@ -5,13 +5,12 @@ import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
 import by.hotel.service.CrudService;
 import by.hotel.service.ServiceMapper;
-import by.hotel.service.exception.ServiceException;
 
 /**
  * Created by 1 on 28.02.2017.
  */
 public class AddEntity implements Command {
-    public boolean execute(String request) throws CommandException {
+    public Object execute(String request) throws CommandException {
         try {
             String[] requestParams = request.split("&");
             CrudService service =  ServiceMapper.getService(requestParams[0]);
@@ -19,6 +18,6 @@ public class AddEntity implements Command {
         }catch (Exception e){
             throw new CommandException(e);
         }
-        return false;
+        return null;
     }
 }

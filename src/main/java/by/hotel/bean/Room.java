@@ -65,4 +65,10 @@ public class Room {
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
     }
+
+    @Override
+    public String toString() {
+        return "id=" + id + ", floor=" + floor + ", roomsCount=" + roomsCount + ", bedsCount=" + bedsCount +
+                ", phone=" + phone + ", costPerDay=" + costPerDay + ", additionalInfo=" + additionalInfo;
+    }
 }
