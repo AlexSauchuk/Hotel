@@ -86,13 +86,13 @@
 	</div>
 <!-- footer -->
 	<div id="footer">
-  		<ul class="nav">
-			<li><a href="index.html">Главная</a></li>
-			<li><a href="services.html">Услуги</a></li>
-			<li><a href="gallery.html">Галерея</a></li>
-			<li><a href="testimonials.html">Отзывы</a></li>
-			<li><a href="booking.html">Бронирование</a></li>
-			<li><a href="signin.html">Вход</a></li>
+		<ul class="nav">
+			<li><a href="index.jsp">Главная</a></li>
+			<li><a href="services.jsp">Услуги</a></li>
+			<li><a href="gallery.jsp">Галерея</a></li>
+			<li><a href="testimonials.jsp">Отзывы</a></li>
+			<li><a href="booking.jsp">Бронирование</a></li>
+			<li><a href="signin.jsp">Вход</a></li>
 		</ul>
 		<div class="wrapper">
 			<div class="fleft">Copyright (c) 2017 Бобруйск Отель</div>
