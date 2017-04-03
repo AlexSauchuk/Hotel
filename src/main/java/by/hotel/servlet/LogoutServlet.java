@@ -19,7 +19,7 @@ public class LogoutServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
 
 
-        request.getRequestDispatcher("index.jsp").include(request, response);
+        request.getRequestDispatcher("test.jsp").include(request, response);
 
         HttpSession session=request.getSession();
         session.invalidate();
