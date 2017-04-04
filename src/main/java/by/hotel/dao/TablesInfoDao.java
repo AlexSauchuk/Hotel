@@ -1,7 +1,9 @@
 package by.hotel.dao;
 
-/**
- * Created by user1 on 04.04.2017.
- */
+import by.hotel.dao.exception.DAOException;
+
+import java.util.List;
+
 public interface TablesInfoDao {
+    List<String> getNamesTables() throws DAOException;
 }

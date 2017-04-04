@@ -1,6 +1,7 @@
 package by.hotel.service.impl;
 
 import by.hotel.bean.User;
+import by.hotel.dao.UserDao;
 import by.hotel.dao.daoimpl.UserDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.CrudService;
@@ -9,8 +10,7 @@ import by.hotel.service.exception.ServiceException;
 import java.util.List;
 
 public class UserServiceImpl implements CrudService<User> {
-	private UserDaoImpl userDao = new UserDaoImpl();
-
+	private UserDao userDao = new UserDaoImpl();
 	public List<User> getAllEntities() throws ServiceException {
 		try {
 			return userDao.getUsers();

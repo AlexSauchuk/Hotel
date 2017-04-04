@@ -1,16 +1,9 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.Room;
-<<<<<<< HEAD
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoomDao;
-import by.hotel.dao.exception.DAOException;
-
-=======
-import by.hotel.bean.User;
-import by.hotel.dao.AbstractDao;
-import by.hotel.dao.Constants;
-import by.hotel.dao.RoomDao;
+import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 
 import java.sql.Connection;
@@ -18,15 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
->>>>>>> 7a10bbf86e232785ae7012f86561075f62debe5d
 import java.util.List;
 
 public class RoomDaoImpl extends AbstractDao implements RoomDao {
 
     public List<Room> getRooms() throws DAOException {
-<<<<<<< HEAD
-        return null;
-=======
         Connection connection;
         PreparedStatement statement=null;
         ResultSet resultSet=null;
@@ -62,7 +51,6 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
             }
         }
         return rooms;
->>>>>>> 7a10bbf86e232785ae7012f86561075f62debe5d
     }
 
     public void addRoom(Room room) throws DAOException {

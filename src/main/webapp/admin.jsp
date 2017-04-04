@@ -18,7 +18,7 @@
         <%@include file="/js/adminJS.js"%>
     </script>
     <style>
-       <%@include file="/bootstrap/bootstrap.min.css"%>
+        <%@include file="/bootstrap/bootstrap.min.css"%>
     </style>
 </head>
 <body>
@@ -27,14 +27,14 @@
         <div class="col-lg-3" style="width:15%;">
             <table class="table table-hover table-bordered">
                 <tbody>
-                    <c:forEach var="arg" items="${args}">
-                        <tr><td><input type="text" style="width: 100%" disabled="disabled" value="${arg}" class="head"/></td></tr>
+                    <c:forEach var="item" items="${items}">
+                        <tr><td><input type="text" style="width: 100%" disabled="disabled" value="${item}" class="head"/></td></tr>
                     </c:forEach>
                 </tbody>
             </table>
         </div>
         <div class="col-lg-12" style="float: right;width: 85%;">
-            <table class="table table-bordered table-hover" id="tableHotel">
+            <table class="table table-bordered table-hover" id="tableHotel" style="border-right: none; border-bottom: none">
             </table>
         </div>
     </div>

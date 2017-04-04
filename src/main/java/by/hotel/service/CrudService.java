@@ -4,9 +4,6 @@ import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 
-/**
- * Created by user1 on 27.03.2017.
- */
 public interface CrudService<T> {
     List<T> getAllEntities() throws ServiceException;
     void addEntity(T entity) throws ServiceException;
