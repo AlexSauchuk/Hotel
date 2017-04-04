@@ -2,6 +2,7 @@ package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.User;
 import by.hotel.dao.AbstractDao;
+import by.hotel.dao.Constants;
 import by.hotel.dao.UserDao;
 import by.hotel.dao.exception.DAOException;
 
@@ -9,23 +10,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by user1 on 16.03.2017.
- */
 public class UserDaoImpl extends AbstractDao implements UserDao {
 
     public List<User> getUsers() throws DAOException {
-        final String GET_ALL_USERS = "SELECT passport_number,name,surname,sex,mobile_phone,login,password FROM db_hotel.user";
         Connection connection;
         PreparedStatement statement=null;
         ResultSet resultSet=null;
         List<User> users=new ArrayList<User>();
         try {
             connection=getConnection();
-            statement=connection.prepareStatement(GET_ALL_USERS);
+            statement=connection.prepareStatement(Constants.GET_ALL_USERS);
             resultSet=statement.executeQuery();
             while(resultSet.next()){
                 User user=new User();
+                user.setId(resultSet.getInt("id"));
                 user.setPassportNumber(resultSet.getString("passport_number"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
