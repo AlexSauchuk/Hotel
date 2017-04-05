@@ -6,11 +6,14 @@ import by.hotel.dao.AbstractDao;
 import by.hotel.dao.AdminDao;
 import by.hotel.dao.exception.DAOException;
 
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
+import static javafx.scene.input.KeyCode.T;
 
 /**
  * Created by SK on 27.03.2017.
@@ -63,8 +66,11 @@ public class AdminDaoImpl extends AbstractDao implements AdminDao {
             resultSet=statement.executeQuery();
             int countColumns = resultSet.getMetaData().getColumnCount();
 
-            for(int i = 1;i<=countColumns;i++)
-                dataQuery.put(resultSet.getMetaData().getColumnLabel(i),new ArrayList<String>());
+            for(int i = 1;i<=countColumns;i++) {
+                Class c = Class.forName(resultSet.getMetaData().getColumnClassName(i));
+
+                dataQuery.put(resultSet.getMetaData().getColumnLabel(i), new ArrayList<String>());
+            }
 
             while(resultSet.next()){
                 for(int i=1;i<=countColumns;i++) {
@@ -74,7 +80,9 @@ public class AdminDaoImpl extends AbstractDao implements AdminDao {
 
         }catch (SQLException e){
             throw new DAOException(e);
-        }finally {
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
             try{
                 if(resultSet!=null){
                     resultSet.close();
