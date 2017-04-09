@@ -5,6 +5,7 @@ import by.hotel.service.CrudService;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
 public class EmployeeServiceImpl implements CrudService<Employee> {
 

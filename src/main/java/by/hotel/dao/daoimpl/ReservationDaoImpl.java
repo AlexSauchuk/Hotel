@@ -5,8 +5,14 @@ import by.hotel.bean.ReservationInfo;
 import by.hotel.bean.User;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationDao;
+import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
@@ -129,7 +135,42 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
     }
 
     public List<ReservationInfo> getAllReservationInfo() throws DAOException {
-        return null;
+        Connection connection;
+        PreparedStatement statement=null;
+        ResultSet resultSet=null;
+        List<ReservationInfo> reservationInfoList=new ArrayList<ReservationInfo>();
+        try {
+            connection = getConnection();
+            statement=connection.prepareStatement(Constants.GET_ALL_RESERVATION_INFO);
+            resultSet=statement.executeQuery();
+            while(resultSet.next()){
+                ReservationInfo reservationInfo=new ReservationInfo();
+                reservationInfo.setId(resultSet.getInt("id"));
+                reservationInfo.setIdUser(resultSet.getInt("id_user"));
+                reservationInfo.setUserName(resultSet.getString("name"));
+                reservationInfo.setUserSurname(resultSet.getString("surname"));
+                reservationInfo.setRoomNumber(resultSet.getInt("room_number"));
+                reservationInfo.setDateIn(resultSet.getDate("date-in"));
+                reservationInfo.setDateOut(resultSet.getDate("date-out"));
+                reservationInfo.setDaysCount(resultSet.getInt("days_count"));
+                reservationInfoList.add(reservationInfo);
+            }
+        }catch (SQLException e){
+            throw new DAOException(e);
+        }finally {
+            try{
+                if(resultSet!=null){
+                    resultSet.close();
+                }
+                if(statement!=null){
+                    statement.close();
+                }
+                closeConnection();
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return reservationInfoList;
     }
 
     public void addReservationInfo(ReservationInfo room) throws DAOException {

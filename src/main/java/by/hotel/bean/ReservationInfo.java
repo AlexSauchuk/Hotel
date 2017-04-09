@@ -2,11 +2,9 @@ package by.hotel.bean;
 
 import java.sql.Date;
 
-/**
- * Created by SK on 16.02.2017.
- */
 public class ReservationInfo {
     private int id, idUser;
+    private String userName,userSurname;
     private int roomNumber;
     private Date dateIn, dateOut;
     private int daysCount;
@@ -17,14 +15,6 @@ public class ReservationInfo {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
     }
 
     public int getRoomNumber() {
@@ -57,5 +47,29 @@ public class ReservationInfo {
 
     public void setDaysCount(int daysCount) {
         this.daysCount = daysCount;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserSurname() {
+        return userSurname;
+    }
+
+    public void setUserSurname(String userSurname) {
+        this.userSurname = userSurname;
     }
 }

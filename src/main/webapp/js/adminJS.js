@@ -1,102 +1,41 @@
 /**
  * Created by SK on 28.03.2017.
  */
-
-var NameTable = "";
-var CountColumn = 0;
-
-function deleteHtml(obj) {
+function UpdateData() {
+    console.log("1");
 }
-    
-function  DeleteData(obj) {
-    console.log(obj.rowIndex);
-    var table = document.getElementById('tableHotel');
-    table.deleteRow(obj.rowIndex);
-
-    // $.ajax({
-    //     type: 'DELETE',
-    //     url: 'admin?table=' + NameTable+'&command=DELETE&id='+ (obj.className).substring(2),
-    //     success: function() {
-    //         deleteHtml(obj);
-    //     },
-    //     dataType : "json",
-    //     timeout : 30000,
-    //     async: true
-    // });
-}
-
-function UpdateData(obj) {
-    var params = new Array();
-    var nameColumns = new Array();
-    $("th",$("#id"+NameTable+"")).each(function() {
-        nameColumns.push(this.innerHTML);
-    });
-    $("td",obj).each(function(){
-        params.push(this.innerHTML);
-    });
-
-    nameColumns.pop();
-    nameColumns.pop();
-
-    params.pop();
-    params.pop();
-    var jsonData = JSON.stringify(params);
-    var jsonColumns = JSON.stringify(nameColumns);
-
-    $.ajax({
-        type: 'POST',
-        url: 'admin?table=' + NameTable+'&command=MODIFY',
-        data: {"json":jsonData,"columns":jsonColumns},
-        success: function(data) {
-          //  setHtml(data);
-        },
-        dataType : "json",
-        timeout : 30000,
-        async: true
-    });
-}
-
 $(document).ready(function() {
-
+    
     function setHtml(data){
-        var countRows = data.length;
-
+        var countRows = data[Object.keys(data)[0]].length;
+        console.log(data);
         var headerString = '';
         var bodyString = '';
         var j = 0;
-        var countColumn = 0;
-        for(var key in data[0]) {
+        for(var key in data) {
             headerString+='<th>'+key+'</th>';
-            countColumn++;
         }
         headerString+='<th>UPDATE</th><th>DELETE</th>';
+
         while(j!=countRows){
-            var strRow = '<tr class="id'+data[j].id+'">row</tr>';
+            var strRow = '<tr>row</tr>';
             var patternRow = /row/;
             var additionalString = '';
-            var flagId = true;
-            for(var key in data[j]) {
-                if(flagId) {
-                    additionalString += '<td>'+data[j][key]+'</td>';
-                    flagId = false;
-                }
-                else
-                    additionalString +='<td>'+data[j][key]+'</td>';
+            for(var key in data) {
+                additionalString +='<td><input type="text" style="width: 100%" value='+data[key][j]+'></td>';
             }
-            additionalString+='<td><input type="button" style="width: 100%" value="UPDATE" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
-                '<td><input type="button" style="width: 100%" value="DELETE" onclick="DeleteData((this.parentNode).parentNode)"></td>';
+            additionalString+='<td><input type="button" style="width: 100%" value="UPDATE" onclick="UpdateData()"></td>' +
+                '<td><input type="button" style="width: 100%" value="DELETE"></td>';
             bodyString += strRow.replace(patternRow,additionalString);
             j++;
         }
 
-        CountColumn = countColumn;
-        var headers= '<thead id="id'+NameTable+'"><tr>header</tr></thead>';
-        var body = '<tbody>bodyTable</tbody>';
+        var headers= '<thead><tr>header</tr></thead>';
+        var body = '<tbody>body</tbody>';
         var patternHead = /header/;
-        var patternBody = /bodyTable/;
+        var patternBody = /body/;
         headers = headers.replace(patternHead,headerString);
         body = body.replace(patternBody,bodyString);
-
         $('#tableHotel').html(headers + body);
     }
 
@@ -106,7 +45,7 @@ $(document).ready(function() {
         if(!target.closest('td')) return;
 
         var nameTable = target.closest('td').childNodes[0].value;
-        NameTable = nameTable;
+
         $.ajax({
             type: 'GET',
             url: 'admin?table='+nameTable,

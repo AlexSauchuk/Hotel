@@ -3,12 +3,7 @@ package by.hotel.dao.daoimpl;
 import by.hotel.bean.Room;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoomDao;
-import by.hotel.dao.exception.DAOException;
-
-import by.hotel.bean.User;
-import by.hotel.dao.AbstractDao;
-import by.hotel.dao.Constants;
-import by.hotel.dao.RoomDao;
+import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 
 import java.sql.Connection;

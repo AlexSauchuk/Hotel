@@ -66,7 +66,6 @@ public class Room {
         this.additionalInfo = additionalInfo;
     }
 
-
     @Override
     public String toString() {
         return "id=" + id + ", floor=" + floor + ", roomsCount=" + roomsCount + ", bedsCount=" + bedsCount +

@@ -1,6 +1,7 @@
 package by.hotel.service.impl;
 
 import by.hotel.bean.Room;
+import by.hotel.dao.RoomDao;
 import by.hotel.dao.daoimpl.RoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.CrudService;
@@ -9,7 +10,7 @@ import by.hotel.service.exception.ServiceException;
 import java.util.List;
 
 public class RoomServiceImpl implements CrudService<Room> {
-	private RoomDaoImpl roomDao = new RoomDaoImpl();
+	private RoomDao roomDao = new RoomDaoImpl();
 
 	public List<Room> getAllEntities() throws ServiceException {
 		try {
