@@ -79,8 +79,21 @@ public class User {
 
     @Override
     public String toString() {
+<<<<<<< HEAD
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", login='" + login + '\'' +
+                ", passportNumber='" + passportNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", surname='" + surname + '\'' +
+                ", sex='" + sex + '\'' +
+                '}';
+=======
         return "id=" + id + ", name=" + name + ", mobilePhone=" + mobilePhone + ", login=" + login +
                 ", passportNumber=" + passportNumber + ", password=" + password + ", surname=" + surname +
                 ", sex=" + sex;
+>>>>>>> 7a10bbf86e232785ae7012f86561075f62debe5d
     }
 }

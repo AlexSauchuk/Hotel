@@ -32,9 +32,16 @@ public abstract class AbstractDao {
         Properties properties=new Properties();
         try{
             Class.forName(com.mysql.jdbc.Driver.class.getName());
+<<<<<<< HEAD
+            inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("/databaseConstants.properties");
+            properties.load(inputStream);
+            connection = DriverManager.getConnection(properties.getProperty("application.database.URL"),
+                    properties.getProperty("application.database.LOGIN"),properties.getProperty("application.database.PASSWORD"));
+=======
             inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("/config.properties");
             properties.load(inputStream);
             connection = DriverManager.getConnection(properties.getProperty("database.URL"),properties.getProperty("database.LOGIN"),properties.getProperty("database.PASSWORD"));
+>>>>>>> 7a10bbf86e232785ae7012f86561075f62debe5d
         } catch (SQLException e) {
             throw new DAOException(e);
         } catch (FileNotFoundException e) {
