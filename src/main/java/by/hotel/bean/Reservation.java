@@ -2,7 +2,7 @@ package by.hotel.bean;
 
 import java.sql.Date;
 
-public class ReservationInfo {
+public class Reservation {
     private int id, idUser;
     private String userName,userSurname;
     private int roomNumber;

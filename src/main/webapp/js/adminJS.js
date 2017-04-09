@@ -58,7 +58,7 @@ $(document).ready(function() {
                 else
                     additionalString +='<td>'+data[j][key]+'</td>';
             }
-            additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" onclick="UpdateData( (this.parentNode).parentNode)"></td>' +
+            additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" href="/servlet?page= onclick="UpdateData( (this.parentNode).parentNode)"></td>' +
                 '<td style="border: none"><input type="button" style="width: 100%" value="DELETE"></td>';
             bodyString += strRow.replace(patternRow,additionalString);
             j++;

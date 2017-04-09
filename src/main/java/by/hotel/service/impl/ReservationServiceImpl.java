@@ -1,6 +1,6 @@
 package by.hotel.service.impl;
 
-import by.hotel.bean.ReservationInfo;
+import by.hotel.bean.Reservation;
 import by.hotel.dao.daoimpl.ReservationDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.CrudService;
@@ -8,10 +8,10 @@ import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 
-public class ReservationServiceImpl implements CrudService<ReservationInfo>{
+public class ReservationServiceImpl implements CrudService<Reservation>{
     private ReservationDaoImpl reservationDao = new ReservationDaoImpl();
 
-    public List<ReservationInfo> getAllEntities() throws ServiceException {
+    public List<Reservation> getAllEntities() throws ServiceException {
         try {
 			return reservationDao.getAllReservationInfo();
         }catch (DAOException e){
@@ -19,7 +19,7 @@ public class ReservationServiceImpl implements CrudService<ReservationInfo>{
         }
     }
 
-    public void addEntity(ReservationInfo entity) throws ServiceException {
+    public void addEntity(Reservation entity) throws ServiceException {
         try {
             reservationDao.updateReservationInfo(entity);
         }catch (DAOException e){
@@ -27,7 +27,7 @@ public class ReservationServiceImpl implements CrudService<ReservationInfo>{
         }
     }
 
-    public void removeEntity(ReservationInfo entity) throws ServiceException {
+    public void removeEntity(Reservation entity) throws ServiceException {
         try {
             reservationDao.removeReservationInfo(entity);
         }catch (DAOException e){
@@ -35,7 +35,7 @@ public class ReservationServiceImpl implements CrudService<ReservationInfo>{
         }
     }
 
-    public void updateEntity(ReservationInfo entity) throws ServiceException {
+    public void updateEntity(Reservation entity) throws ServiceException {
         try {
             reservationDao.updateReservationInfo(entity);
         }catch (DAOException e){

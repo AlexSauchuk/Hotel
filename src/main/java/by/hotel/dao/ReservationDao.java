@@ -1,13 +1,13 @@
 package by.hotel.dao;
 
-import by.hotel.bean.ReservationInfo;
+import by.hotel.bean.Reservation;
 import by.hotel.dao.exception.DAOException;
 
 import java.util.List;
 
 public interface ReservationDao {
-    List<ReservationInfo> getAllReservationInfo() throws DAOException;
-    void addReservationInfo(ReservationInfo reservationInfo) throws DAOException;
-    void removeReservationInfo(ReservationInfo reservationInfo) throws DAOException;
-    void updateReservationInfo(ReservationInfo reservationInfo) throws DAOException;
+    List<Reservation> getAllReservationInfo() throws DAOException;
+    void addReservationInfo(Reservation reservationInfo) throws DAOException;
+    void removeReservationInfo(Reservation reservationInfo) throws DAOException;
+    void updateReservationInfo(Reservation reservationInfo) throws DAOException;
 }

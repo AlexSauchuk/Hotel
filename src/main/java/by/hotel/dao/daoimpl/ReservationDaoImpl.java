@@ -1,7 +1,7 @@
 package by.hotel.dao.daoimpl;
 
 
-import by.hotel.bean.ReservationInfo;
+import by.hotel.bean.Reservation;
 import by.hotel.bean.User;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationDao;
@@ -134,17 +134,17 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         return false;
     }
 
-    public List<ReservationInfo> getAllReservationInfo() throws DAOException {
+    public List<Reservation> getAllReservationInfo() throws DAOException {
         Connection connection;
         PreparedStatement statement=null;
         ResultSet resultSet=null;
-        List<ReservationInfo> reservationInfoList=new ArrayList<ReservationInfo>();
+        List<Reservation> reservationInfoList=new ArrayList<Reservation>();
         try {
             connection = getConnection();
             statement=connection.prepareStatement(Constants.GET_ALL_RESERVATION_INFO);
             resultSet=statement.executeQuery();
             while(resultSet.next()){
-                ReservationInfo reservationInfo=new ReservationInfo();
+                Reservation reservationInfo=new Reservation();
                 reservationInfo.setId(resultSet.getInt("id"));
                 reservationInfo.setIdUser(resultSet.getInt("id_user"));
                 reservationInfo.setUserName(resultSet.getString("name"));
@@ -173,15 +173,15 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         return reservationInfoList;
     }
 
-    public void addReservationInfo(ReservationInfo room) throws DAOException {
+    public void addReservationInfo(Reservation room) throws DAOException {
 
     }
 
-    public void removeReservationInfo(ReservationInfo room) throws DAOException {
+    public void removeReservationInfo(Reservation room) throws DAOException {
 
     }
 
-    public void updateReservationInfo(ReservationInfo room) throws DAOException {
+    public void updateReservationInfo(Reservation room) throws DAOException {
 
     }
 }
