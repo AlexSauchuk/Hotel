@@ -21,7 +21,7 @@ public class LoginServlet  extends HttpServlet {
         resp = controller.doAction("LOGINATION" + "&" + request.getParameter("name") + "&" + request.getParameter("password"));
 
         if (resp){
-            request.getRequestDispatcher("index.jsp").include(request, response);
+            request.getRequestDispatcher("test.jsp").include(request, response);
             out.print("Welcome, " + request.getParameter("name"));
             HttpSession session = request.getSession();
             session.setAttribute("name", request.getParameter("name"));
