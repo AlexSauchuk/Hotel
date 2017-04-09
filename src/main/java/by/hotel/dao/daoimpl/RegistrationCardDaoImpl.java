@@ -20,8 +20,8 @@ import static by.hotel.dao.constants.Constants.*;
 /**
  * Created by 1 on 06.04.2017.
  */
-public class RegistrationCardImpl extends AbstractDao implements RegistrationCardDao {
-    private static final Logger logger = LogManager.getLogger(RegistrationCardImpl.class.getName());
+public class RegistrationCardDaoImpl extends AbstractDao implements RegistrationCardDao {
+    private static final Logger logger = LogManager.getLogger(RegistrationCardDaoImpl.class.getName());
 
     public List<RegistrationCard> getRegistrationCards() throws DAOException {
         Connection connection;

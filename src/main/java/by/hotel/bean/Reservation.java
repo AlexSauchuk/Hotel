@@ -5,11 +5,21 @@ import java.sql.Date;
 /**
  * Created by SK on 16.02.2017.
  */
-public class ReservationInfo {
-    private int id, idUser;
+public class Reservation {
+    private int id;
     private int roomNumber;
-    private Date dateIn, dateOut;
+    private Date dateIn;
+    private Date dateOut;
     private int daysCount;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getId() {
         return id;
@@ -17,14 +27,6 @@ public class ReservationInfo {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
     }
 
     public int getRoomNumber() {

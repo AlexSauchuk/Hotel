@@ -20,8 +20,8 @@ import static by.hotel.dao.constants.Constants.*;
 /**
  * Created by 1 on 06.04.2017.
  */
-public class ReservationRoomImpl extends AbstractDao implements ReservationRoomDao {
-    private static final Logger logger = LogManager.getLogger(ReservationRoomImpl.class.getName());
+public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRoomDao {
+    private static final Logger logger = LogManager.getLogger(ReservationRoomDaoImpl.class.getName());
 
     public List<ReservationRoom> getReservationRooms() throws DAOException {
         Connection connection;

@@ -1,9 +1,6 @@
 package by.hotel.dao.daoimpl;
 
-import by.hotel.bean.Discount;
-import by.hotel.bean.DiscountType;
 import by.hotel.bean.ParkingSpace;
-import by.hotel.bean.Payment;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ParkingSpaceDao;
 import by.hotel.dao.constants.Constants;
@@ -23,8 +20,8 @@ import static by.hotel.dao.constants.Constants.*;
 /**
  * Created by 1 on 06.04.2017.
  */
-public class ParkingSpaceImpl extends AbstractDao implements ParkingSpaceDao {
-    private static final Logger logger = LogManager.getLogger(ParkingSpaceImpl.class.getName());
+public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao {
+    private static final Logger logger = LogManager.getLogger(ParkingSpaceDaoImpl.class.getName());
 
     public List<ParkingSpace> getParkingSpaces() throws DAOException {
         Connection connection;

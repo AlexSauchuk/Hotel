@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by 1 on 07.04.2017.
  */
-public class ReservationParkingSpaceImpl implements CrudService<ReservationParkingSpace> {
+public class ReservationParkingSpaceServiceImpl implements CrudService<ReservationParkingSpace> {
     ReservationParkingSpaceDaoImpl reservationParkingSpaceDao = new ReservationParkingSpaceDaoImpl();
 
     public List<ReservationParkingSpace> getAllEntities() throws ServiceException {

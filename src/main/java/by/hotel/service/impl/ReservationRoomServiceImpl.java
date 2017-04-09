@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by 1 on 07.04.2017.
  */
-public class ReservationRoomImpl implements CrudService<ReservationRoom> {
+public class ReservationRoomServiceImpl implements CrudService<ReservationRoom> {
     ReservationRoomDaoImpl reservationRoomDao = new ReservationRoomDaoImpl();
 
     public List<ReservationRoom> getAllEntities() throws ServiceException {

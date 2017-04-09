@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by 1 on 07.04.2017.
  */
-public class RoomTypeService implements CrudService<RoomType> {
+public class RoomTypeServiceImpl implements CrudService<RoomType> {
     private RoomTypeDaoImpl roomTypeDao = new RoomTypeDaoImpl();
 
     public List<RoomType> getAllEntities() throws ServiceException {

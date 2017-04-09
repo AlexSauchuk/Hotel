@@ -1,146 +1,125 @@
 package by.hotel.dao.daoimpl;
 
 
-import by.hotel.bean.ReservationInfo;
+import by.hotel.bean.Reservation;
+import by.hotel.bean.Room;
+import by.hotel.bean.RoomType;
 import by.hotel.bean.User;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationDao;
+import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import static by.hotel.dao.constants.Constants.*;
+
 public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
+    private static final Logger logger = LogManager.getLogger(ReservationDaoImpl.class.getName());
 
-
-/*    public static class ExecuteQuery implements Callable {
-        PreparedStatement preparedStatement;
-        public ExecuteQuery(PreparedStatement preparedStatement) {
-            this.preparedStatement = preparedStatement;
-        }
-        public PreparedStatement call() {
-            try {
-                preparedStatement.execute();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return preparedStatement;
-        }
-    }*/
-
-    public boolean register(User user) {
-
-/*        ExecutorService executorService = Executors.newCachedThreadPool();
-
-        final String INSERT = "INSERT  INTO user (name,password) VALUES (?,?)";
-        final String CHECK = "SELECT * FROM user WHERE login = ?";
-
-        ResultSet resultSet;
-        DBWorker worker = new DBWorker();
-        PreparedStatement preparedStatement = null;
+    public List<Reservation> getAllReservations() throws DAOException {
+        Connection connection;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Reservation> reservations = new ArrayList<Reservation>();
         try {
-            preparedStatement = worker.getConnection().prepareStatement(CHECK);
-            preparedStatement.setString(1,user.getName());
-            Set<Future<PreparedStatement>> set = new HashSet();
-            Callable<PreparedStatement> callableCheck = new ExecuteQuery(preparedStatement);
-            Future<PreparedStatement> future = executorService.submit(callableCheck);
-            set.add(future);
-            try {
-                preparedStatement = future.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-            resultSet = preparedStatement.getResultSet();
-            if (resultSet.next()){
-                return false;
-            }else {
-                preparedStatement = worker.getConnection().prepareStatement(INSERT);
-                preparedStatement.setString(1,user.getName());
-                preparedStatement.setString(2,user.getPassword());
-                Callable<PreparedStatement> callableInsert = new ExecuteQuery(preparedStatement);
-                future = executorService.submit(callableInsert);
-                try {
-                    preparedStatement = future.get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }
-            preparedStatement.close();
-            return  true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }*/
-        return  false;
-    }
+            connection = getConnection();
+            statement = connection.prepareStatement(Constants.GET_ALL_RESERVATIONS);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Reservation reservation = new Reservation();
+                User user = new User();
+                user.setName(resultSet.getString("name"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setMobilePhone(resultSet.getString("mobilePhone"));
+                user.setPassportNumber(resultSet.getString("passportNumber"));
+                user.setSex(resultSet.getString("sex"));
+                reservation.setUser(user);
+                reservation.setRoomNumber(resultSet.getInt("room_number"));
+                reservation.setDateIn(resultSet.getDate("date-in"));
+                reservation.setDateOut(resultSet.getDate("date-out"));
+                reservation.setDaysCount(resultSet.getInt("days_count"));
 
-    public boolean authorization(User user) {
-/*        final String dbRequest = "SELECT id,password FROM user WHERE login = ?";
-
-        String name = user.getName();
-        String password = user.getPassword();
-
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        DBWorker worker = new DBWorker();
-        ResultSet resultSet;
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = worker.getConnection().prepareStatement(dbRequest);
-            preparedStatement.setString(1,name);
-            Set<Future<PreparedStatement>> set = new HashSet();
-            Callable<PreparedStatement> callableSelect= new ExecuteQuery(preparedStatement);
-            Future<PreparedStatement> future = executorService.submit(callableSelect);
-            set.add(future);
-            try {
-                preparedStatement = future.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-            resultSet = preparedStatement.getResultSet();
-            resultSet.next();
-            if (resultSet.getString("password").equals(password)){
-                return true;
+                reservations.add(reservation);
             }
         } catch (SQLException e) {
-            System.out.println("Драйвер не загружен!");
-        }
-        finally {
+            throw new DAOException(e);
+        } finally {
             try {
-                if(preparedStatement!=null){
-                    preparedStatement.close();
+                if (resultSet != null) {
+                    resultSet.close();
                 }
-//                worker.closeConnection();
+                finalize(statement);
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error(e);
             }
-        }*/
-        return false;
+        }
+        return reservations;
     }
 
-    public List<ReservationInfo> getAllReservationInfo() throws DAOException {
+    public void addReservation(Reservation reservation) throws DAOException {
+        Connection connection;
+        PreparedStatement statement = null;
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(ADD_RESERVATION);
+            statement = fillStatement(statement, reservation);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            finalize(statement);
+        }
+    }
+
+    public void removeReservation(Reservation reservation) throws DAOException {
+        Connection connection;
+        PreparedStatement statement = null;
+        try {
+            connection = getConnection();
+            statement.setInt(1, reservation.getId());
+            statement = connection.prepareStatement(REMOVE_RESERVATION);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            finalize(statement);
+        }
+    }
+
+    public void updateReservation(Reservation reservation) throws DAOException {
+        Connection connection;
+        PreparedStatement statement = null;
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(UPDATE_RESERVATION);
+            statement = fillStatement(statement, reservation);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            finalize(statement);
+        }
+    }
+
+    public Reservation getReservation(Integer id) throws DAOException {
         return null;
     }
 
-    public void addReservationInfo(ReservationInfo room) throws DAOException {
+    private PreparedStatement fillStatement(PreparedStatement statement, Reservation reservation) throws SQLException {
+        statement.setInt(1, reservation.getUser().getId());
+        statement.setInt(2, reservation.getRoomNumber());
+        statement.setDate(3, reservation.getDateIn());
+        statement.setDate(4, reservation.getDateOut());
+        statement.setInt(5, reservation.getDaysCount());
 
-    }
-
-    public void removeReservationInfo(ReservationInfo room) throws DAOException {
-
-    }
-
-    public void updateReservationInfo(ReservationInfo room) throws DAOException {
-
+        return statement;
     }
 }

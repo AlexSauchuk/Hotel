@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by 1 on 07.04.2017.
  */
-public class ParkingSpaceImpl implements CrudService<ParkingSpace> {
+public class ParkingSpaceServiceImpl implements CrudService<ParkingSpace> {
     private ParkingSpaceDaoImpl parkingSpaceDao = new ParkingSpaceDaoImpl();
 
     public List<ParkingSpace> getAllEntities() throws ServiceException {

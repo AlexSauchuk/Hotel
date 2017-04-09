@@ -12,4 +12,5 @@ public interface CrudService<T> {
     void addEntity(T entity) throws ServiceException;
     void removeEntity(T entity) throws ServiceException;
     void updateEntity(T entity) throws ServiceException;
+   // <T> getEntity(Integer id) throws ServiceException;
 }

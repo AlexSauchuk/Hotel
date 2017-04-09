@@ -1,21 +1,18 @@
 package by.hotel.service.impl;
 
-import by.hotel.dao.CrudDao;
-import by.hotel.dao.daoimpl.CrudDaoImpl;
+import by.hotel.dao.TablesInfoDao;
+import by.hotel.dao.daoimpl.TablesInfoDaoImpl;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.service.DatabaseService;
+import by.hotel.service.TablesInfoService;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 
-/**
- * Created by user1 on 29.03.2017.
- */
-public class DatabaseServiceImpl implements DatabaseService {
-    CrudDao crudDao = new CrudDaoImpl();
+public class TablesInfoServiceImpl implements TablesInfoService {
+    TablesInfoDao tablesInfoDao = new TablesInfoDaoImpl();
     public List<String> getAllTablesNames() throws ServiceException {
         try {
-            return crudDao.getNamesTables();
+            return tablesInfoDao.getNamesTables();
         }catch (DAOException e){
             throw new ServiceException(e);
         }
