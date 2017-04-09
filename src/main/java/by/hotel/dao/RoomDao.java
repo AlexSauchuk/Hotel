@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface RoomDao {
     List<Room> getRooms() throws DAOException;
+
     void addRoom(Room room) throws DAOException;
+
     void removeRoom(Room room) throws DAOException;
+
     void updateRoom(Room room) throws DAOException;
 }

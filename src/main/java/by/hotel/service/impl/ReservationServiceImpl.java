@@ -8,12 +8,15 @@ import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 
+/**
+ * Created by user1 on 27.03.2017.
+ */
 public class ReservationServiceImpl implements CrudService<Reservation>{
-    private ReservationDaoImpl reservationDao = new ReservationDaoImpl();
+    ReservationDaoImpl reservationDao = new ReservationDaoImpl();
 
     public List<Reservation> getAllEntities() throws ServiceException {
         try {
-			return reservationDao.getAllReservationInfo();
+            return reservationDao.getAllReservations();
         }catch (DAOException e){
             throw new ServiceException(e);
         }
@@ -21,7 +24,7 @@ public class ReservationServiceImpl implements CrudService<Reservation>{
 
     public void addEntity(Reservation entity) throws ServiceException {
         try {
-            reservationDao.updateReservationInfo(entity);
+            reservationDao.addReservation(entity);
         }catch (DAOException e){
             throw new ServiceException(e);
         }
@@ -29,7 +32,7 @@ public class ReservationServiceImpl implements CrudService<Reservation>{
 
     public void removeEntity(Reservation entity) throws ServiceException {
         try {
-            reservationDao.removeReservationInfo(entity);
+            reservationDao.removeReservation(entity);
         }catch (DAOException e){
             throw new ServiceException(e);
         }
@@ -37,7 +40,7 @@ public class ReservationServiceImpl implements CrudService<Reservation>{
 
     public void updateEntity(Reservation entity) throws ServiceException {
         try {
-            reservationDao.updateReservationInfo(entity);
+            reservationDao.updateReservation(entity);
         }catch (DAOException e){
             throw new ServiceException(e);
         }

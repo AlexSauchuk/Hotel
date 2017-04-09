@@ -6,8 +6,11 @@ import by.hotel.dao.exception.DAOException;
 import java.util.List;
 
 public interface ReservationDao {
-    List<Reservation> getAllReservationInfo() throws DAOException;
-    void addReservationInfo(Reservation reservationInfo) throws DAOException;
-    void removeReservationInfo(Reservation reservationInfo) throws DAOException;
-    void updateReservationInfo(Reservation reservationInfo) throws DAOException;
+    List<Reservation> getAllReservations() throws DAOException;
+
+    void addReservation(Reservation room) throws DAOException;
+
+    void removeReservation(Reservation room) throws DAOException;
+
+    void updateReservation(Reservation room) throws DAOException;
 }
