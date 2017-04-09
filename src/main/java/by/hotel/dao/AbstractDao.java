@@ -1,6 +1,8 @@
 package by.hotel.dao;
 
 import by.hotel.dao.exception.DAOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,6 +11,8 @@ import java.sql.*;
 import java.util.Properties;
 
 public abstract class AbstractDao {
+    private static final Logger logger = LogManager.getLogger(AbstractDao.class.getName());
+
     private Connection connection;
 
     static {
@@ -41,7 +45,7 @@ public abstract class AbstractDao {
                     inputStream.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e);
             }
         }
         return connection;
@@ -54,6 +58,17 @@ public abstract class AbstractDao {
             }
         } catch (SQLException e) {
            throw new DAOException(e);
+        }
+    }
+
+    protected void finalize(PreparedStatement statement) throws DAOException {
+        try {
+            if (statement != null) {
+                statement.close();
+            }
+            closeConnection();
+        } catch (SQLException e) {
+            logger.error(e);
         }
     }
 }
