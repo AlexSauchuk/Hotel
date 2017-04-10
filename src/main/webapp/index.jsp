@@ -6,13 +6,14 @@
         <link rel="stylesheet" type="text/css" href="styleindex.css" media="all">
     </head>
     <body>
-        <c:forEach items="${users}" var="user">
+    <a href="/servlet?page=admin.jsp&action=ADMIN_START">Администратор</a>
+        <!-- "<c:forEach items="${users}" var="user">
             <tr>
                 <td>${user.id}</td>
                 <td>${user.login}</td>
                 <td>${user.password}</td>
             </tr>
             <br>
-        </c:forEach>
+        </c:forEach>" -->
     </body>
 </html>
