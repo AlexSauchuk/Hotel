@@ -1,18 +1,13 @@
 package by.hotel.service.impl;
 
 import by.hotel.bean.Payment;
-import by.hotel.bean.Room;
 import by.hotel.dao.daoimpl.PaymentDaoImpl;
-import by.hotel.dao.daoimpl.RoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.CrudService;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 
-/**
- * Created by 1 on 07.04.2017.
- */
 public class PaymentServiceImpl implements CrudService<Payment> {
     private PaymentDaoImpl paymentDao = new PaymentDaoImpl();
 

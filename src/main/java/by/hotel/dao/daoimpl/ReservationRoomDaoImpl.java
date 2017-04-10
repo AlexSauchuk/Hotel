@@ -17,9 +17,6 @@ import java.util.List;
 
 import static by.hotel.dao.constants.Constants.*;
 
-/**
- * Created by 1 on 06.04.2017.
- */
 public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRoomDao {
     private static final Logger logger = LogManager.getLogger(ReservationRoomDaoImpl.class.getName());
 

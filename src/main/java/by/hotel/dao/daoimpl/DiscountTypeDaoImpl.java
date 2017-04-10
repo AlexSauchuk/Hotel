@@ -17,9 +17,6 @@ import java.util.List;
 
 import static by.hotel.dao.constants.Constants.*;
 
-/**
- * Created by 1 on 04.04.2017.
- */
 public class DiscountTypeDaoImpl extends AbstractDao implements DiscountTypeDao {
     static final Logger logger = LogManager.getLogger(DiscountTypeDaoImpl.class.getName());
 

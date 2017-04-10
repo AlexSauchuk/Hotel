@@ -1,8 +1,6 @@
 package by.hotel.service.impl;
 
-import by.hotel.bean.Payment;
 import by.hotel.bean.RegistrationCard;
-import by.hotel.dao.daoimpl.PaymentDaoImpl;
 import by.hotel.dao.daoimpl.RegistrationCardDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.CrudService;
@@ -10,9 +8,6 @@ import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 
-/**
- * Created by 1 on 07.04.2017.
- */
 public class RegistrationCardServiceImpl implements CrudService<RegistrationCard> {
     private RegistrationCardDaoImpl registrationCardDao = new RegistrationCardDaoImpl();
 

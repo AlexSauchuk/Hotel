@@ -48,4 +48,9 @@ public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req,HttpServletResponse resp) {
         doRequest(req, resp);
     }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doRequest(req,resp);
+    }
 }

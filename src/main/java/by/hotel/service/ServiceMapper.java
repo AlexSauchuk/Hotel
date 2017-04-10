@@ -5,9 +5,6 @@ import by.hotel.service.impl.*;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by user1 on 27.03.2017.
- */
 public class ServiceMapper {
     final private static Map<String, CrudService> services = new HashMap();
 
@@ -28,7 +25,7 @@ public class ServiceMapper {
     }
 
     public static CrudService getService(String serviceName) {
-        return services.get(serviceName);
+        return services.get(serviceName.toUpperCase());
     }
 
 }

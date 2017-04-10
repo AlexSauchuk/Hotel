@@ -28,7 +28,7 @@ public class RegistrationCardDaoImpl extends AbstractDao implements Registration
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<RegistrationCard> registrationCards = new ArrayList<RegistrationCard>();
-        try {//GOVNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+        try {
             connection = getConnection();
             statement = connection.prepareStatement(Constants.GET_ALL_REGISTRATION_CARDS);
             resultSet = statement.executeQuery();
