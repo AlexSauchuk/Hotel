@@ -90,9 +90,14 @@ public class Constants {
     public static final String GET_RESERVATION_PARKING_SPACE = "SELECT `id`, `id_user`, `name`, `surname`, `room_number`, `date-in`, `date-out`, `days_count` " +
             "FROM (`db_hotel`.`reservation` LEFT OUTER JOIN `db_hotel`.`user` ON `reservation`.`id_user` = `user`.`id`)";
 
+    // ПОПРАВІТЬ ЗАПРОС!
+    public static final String GET_ALL_RESERVATION_ROOMS = "SELECT `id`,`date-in`, `date-out`, `days_count`,`user.id`, `user.passport_number`, `user.name`, `user.surname`, `user.sex`, `user.mobile_phone`, `user.login`, `user.password`, `room.id`, `room.floor`, `room.phone`, `room_type.id`, `room_type.rooms_count`, `room_type.beds_count`, `room_type.cost_per_day`, `room_type.additional_info`" +
+            "FROM (`db_hotel`.`reservation` LEFT OUTER JOIN `db_hotel`.`user` ON `reservation`.`id_user` = `user`.`id` " +
+            "                               LEFT OUTER JOIN `db_hotel`.`room` ON `reservation`.`id_room` = `room`.`id`" +
+            "                               LEFT OUTER JOIN `db_hotel`.`room_type` ON `room`.`id_room_type` = `room_type`.`id`)";
 
-    public static final String GET_ALL_RESERVATION_ROOMS = "SELECT `id`, `id_user`, `name`, `surname`, `room_number`, `date-in`, `date-out`, `days_count` " +
-            "FROM (`db_hotel`.`reservation` LEFT OUTER JOIN `db_hotel`.`user` ON `reservation`.`id_user` = `user`.`id`)";
+
+
     public static final String ADD_RESERVATION_ROOM = "INSERT INTO `db_hotel`.`discount` (`rooms_count`, `beds_count`, `cost_per_day`, `additional_info`) VALUES ('?', '?', '?', '?')";
     public static final String REMOVE_RESERVATION_ROOM = "DELETE FROM `db_hotel`.`discount` WHERE `id`='?'";
     public static final String UPDATE_RESERVATION_ROOM = "UPDATE `db_hotel`.`room_type` SET `rooms_count`='?', `beds_count`='?', `cost_per_day`='?', `additional_info`='?' WHERE `id`='?'";
