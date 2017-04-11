@@ -7,11 +7,19 @@ import java.sql.Date;
  */
 public class Reservation {
     private int id;
-    private int roomNumber;
     private Date dateIn;
     private Date dateOut;
     private int daysCount;
     private User user;
+    private Room room;
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
     public User getUser() {
         return user;
@@ -27,14 +35,6 @@ public class Reservation {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
     }
 
     public Date getDateIn() {
