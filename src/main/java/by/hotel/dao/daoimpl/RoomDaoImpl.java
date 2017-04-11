@@ -1,5 +1,6 @@
 package by.hotel.dao.daoimpl;
 
+import by.hotel.bean.DiscountType;
 import by.hotel.bean.Room;
 import by.hotel.bean.RoomType;
 import by.hotel.bean.User;
@@ -33,18 +34,7 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
             statement = connection.prepareStatement(Constants.GET_ALL_ROOMS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Room room = new Room();
-                // ТО, что снизу, не уверен!!!!!!!!!!!!!!!!!!!!
-                RoomType roomType = new RoomType(resultSet.getInt("room_type.id"),
-                                                 resultSet.getInt("rooms_count"),
-                                                 resultSet.getInt("beds_count"),
-                                                 resultSet.getInt("cost_per_day"),
-                                                 resultSet.getString("additional_info"));
-                room.setId(resultSet.getInt("id"));
-                room.setRoomType(roomType);
-                room.setFloor(resultSet.getInt("floor"));
-                room.setPhone(resultSet.getString("phone"));
-                rooms.add(room);
+                rooms.add(fillRoom(resultSet));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -111,5 +101,21 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         statement.setInt(2, room.getFloor());
         statement.setString(3, room.getPhone());
         return statement;
+    }
+
+    private Room fillRoom(ResultSet resultSet) throws SQLException {
+        Room room = new Room();
+        // ТО, что снизу, не уверен!!!!!!!!!!!!!!!!!!!!
+        RoomType roomType = new RoomType(resultSet.getInt("room_type.id"),
+                resultSet.getInt("rooms_count"),
+                resultSet.getInt("beds_count"),
+                resultSet.getInt("cost_per_day"),
+                resultSet.getString("additional_info"));
+        room.setId(resultSet.getInt("id"));
+        room.setRoomType(roomType);
+        room.setFloor(resultSet.getInt("floor"));
+        room.setPhone(resultSet.getString("phone"));
+
+        return room;
     }
 }
