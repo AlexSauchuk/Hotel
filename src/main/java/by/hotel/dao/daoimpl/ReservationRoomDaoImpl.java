@@ -8,10 +8,7 @@ import by.hotel.dao.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +17,7 @@ import static by.hotel.dao.constants.Constants.*;
 public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRoomDao {
     private static final Logger logger = LogManager.getLogger(ReservationRoomDaoImpl.class.getName());
 
-    public List<ReservationRoom> getReservationRooms() throws DAOException {
+    public List<ReservationRoom> getReservationRooms() throws DAOException {/*
         Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -43,7 +40,42 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
             } catch (SQLException e) {
                 logger.error(e);
             }
-        }
+        }*/
+        List<ReservationRoom> reservationRooms = new ArrayList<ReservationRoom>();
+
+
+        ReservationRoom reservationRoom = new ReservationRoom();
+        Reservation reservation = new Reservation();
+        User user = new User();
+        user.setName("Igor");
+        user.setSurname("Kozlov");
+        user.setMobilePhone("123456");
+        user.setPassportNumber("2356789");
+        user.setSex("M");
+        reservation.setUser(user);
+        reservation.setDateIn(new Date(2016-04-12));
+        reservation.setDateOut(new Date(2016-04-13));
+        reservation.setDaysCount(1);
+
+        reservationRoom.setReservation(reservation);
+
+        Room room = new Room();
+        // ТО, что снизу, не уверен!!!!!!!!!!!!!!!!!!!!
+        RoomType roomType = new RoomType(1,
+                2,
+                2,
+                100,
+                "GOVNO ROOM");
+        room.setId(5);
+        room.setRoomType(roomType);
+        room.setFloor(2);
+        room.setPhone("123456");
+
+        reservationRoom.setRoom(room);
+
+
+
+
         return reservationRooms;
     }
 
