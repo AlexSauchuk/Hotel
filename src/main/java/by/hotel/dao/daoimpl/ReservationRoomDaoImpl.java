@@ -1,12 +1,8 @@
 package by.hotel.dao.daoimpl;
 
-
-import by.hotel.bean.Reservation;
-import by.hotel.bean.Room;
-import by.hotel.bean.RoomType;
-import by.hotel.bean.User;
+import by.hotel.bean.*;
 import by.hotel.dao.AbstractDao;
-import by.hotel.dao.ReservationDao;
+import by.hotel.dao.ReservationRoomDao;
 import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -21,19 +17,20 @@ import java.util.List;
 
 import static by.hotel.dao.constants.Constants.*;
 
-public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
-    private static final Logger logger = LogManager.getLogger(ReservationDaoImpl.class.getName());
+public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRoomDao {
+    private static final Logger logger = LogManager.getLogger(ReservationRoomDaoImpl.class.getName());
 
-    public List<Reservation> getAllReservations() throws DAOException {
+    public List<ReservationRoom> getReservationRooms() throws DAOException {
         Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Reservation> reservations = new ArrayList<Reservation>();
+        List<ReservationRoom> reservationRooms = new ArrayList<ReservationRoom>();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_RESERVATIONS);
+            statement = connection.prepareStatement(Constants.GET_ALL_RESERVATION_ROOMS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
+                ReservationRoom reservationRoom = new ReservationRoom();
                 Reservation reservation = new Reservation();
                 User user = new User();
                 user.setName(resultSet.getString("name"));
@@ -47,7 +44,22 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
                 reservation.setDateOut(resultSet.getDate("date-out"));
                 reservation.setDaysCount(resultSet.getInt("days_count"));
 
-                reservations.add(reservation);
+                reservationRoom.setReservation(reservation);
+
+                Room room = new Room();
+                // ТО, что снизу, не уверен!!!!!!!!!!!!!!!!!!!!
+                RoomType roomType = new RoomType(resultSet.getInt("room_type.id"),
+                        resultSet.getInt("rooms_count"),
+                        resultSet.getInt("beds_count"),
+                        resultSet.getInt("cost_per_day"),
+                        resultSet.getString("additional_info"));
+                room.setId(resultSet.getInt("id"));
+                room.setRoomType(roomType);
+                room.setFloor(resultSet.getInt("floor"));
+                room.setPhone(resultSet.getString("phone"));
+
+                reservationRoom.setRoom(room);
+                reservationRooms.add(reservationRoom);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -61,16 +73,16 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
                 logger.error(e);
             }
         }
-        return reservations;
+        return reservationRooms;
     }
 
-    public void addReservation(Reservation reservation) throws DAOException {
+    public void addReservationRoom(ReservationRoom reservationRoom) throws DAOException {
         Connection connection;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(ADD_RESERVATION);
-            statement = fillStatement(statement, reservation);
+            statement = connection.prepareStatement(ADD_RESERVATION_ROOM);
+            statement = fillStatement(statement, reservationRoom);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -79,13 +91,14 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         }
     }
 
-    public void removeReservation(Reservation reservation) throws DAOException {
+    public void removeReservationRoom(ReservationRoom reservationRoom) throws DAOException {
         Connection connection;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement.setInt(1, reservation.getId());
-            statement = connection.prepareStatement(REMOVE_RESERVATION);
+            statement.setInt(1, reservationRoom.getReservation().getId());
+            statement.setInt(2, reservationRoom.getRoom().getId());
+            statement = connection.prepareStatement(REMOVE_RESERVATION_ROOM);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -94,13 +107,13 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         }
     }
 
-    public void updateReservation(Reservation reservation) throws DAOException {
+    public void updateReservationRoom(ReservationRoom reservationRoom) throws DAOException {
         Connection connection;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(UPDATE_RESERVATION);
-            statement = fillStatement(statement, reservation);
+            statement = connection.prepareStatement(UPDATE_RESERVATION_ROOM);
+            statement = fillStatement(statement, reservationRoom);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -109,16 +122,9 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         }
     }
 
-    public Reservation getReservation(Integer id) throws DAOException {
-        return null;
-    }
-
-    private PreparedStatement fillStatement(PreparedStatement statement, Reservation reservation) throws SQLException {
-        statement.setInt(1, reservation.getUser().getId());
-        statement.setInt(2, reservation.getRoomNumber());
-        statement.setDate(3, reservation.getDateIn());
-        statement.setDate(4, reservation.getDateOut());
-        statement.setInt(5, reservation.getDaysCount());
+    private PreparedStatement fillStatement(PreparedStatement statement, ReservationRoom reservationRoom) throws SQLException {
+        statement.setInt(1, reservationRoom.getRoom().getId());
+        statement.setInt(2, reservationRoom.getReservation().getId());
 
         return statement;
     }

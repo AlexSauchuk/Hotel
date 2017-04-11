@@ -1,12 +1,12 @@
 package by.hotel.dao.daoimpl;
 
-
+import by.hotel.bean.ParkingSpace;
 import by.hotel.bean.Reservation;
-import by.hotel.bean.Room;
-import by.hotel.bean.RoomType;
+import by.hotel.bean.ReservationParkingSpace;
 import by.hotel.bean.User;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationDao;
+import by.hotel.dao.ReservationParkingSpaceDao;
 import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -21,19 +21,23 @@ import java.util.List;
 
 import static by.hotel.dao.constants.Constants.*;
 
-public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
+/**
+ * Created by 1 on 06.04.2017.
+ */
+public class ReservationParkingSpaceDaoImpl extends AbstractDao implements ReservationParkingSpaceDao {
     private static final Logger logger = LogManager.getLogger(ReservationDaoImpl.class.getName());
 
-    public List<Reservation> getAllReservations() throws DAOException {
+    public List<ReservationParkingSpace> getReservationParkingSpaces() throws DAOException {
         Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Reservation> reservations = new ArrayList<Reservation>();
+        List<ReservationParkingSpace> reservationParkingSpaces = new ArrayList<ReservationParkingSpace>();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_RESERVATIONS);
+            statement = connection.prepareStatement(Constants.GET_ALL_RESERVATION_PARKING_SPACES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
+                ReservationParkingSpace reservationParkingSpace = new ReservationParkingSpace();
                 Reservation reservation = new Reservation();
                 User user = new User();
                 user.setName(resultSet.getString("name"));
@@ -47,7 +51,16 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
                 reservation.setDateOut(resultSet.getDate("date-out"));
                 reservation.setDaysCount(resultSet.getInt("days_count"));
 
-                reservations.add(reservation);
+                reservationParkingSpace.setReservation(reservation);
+
+                ParkingSpace parkingSpace = new ParkingSpace();
+                parkingSpace.setId(resultSet.getInt("id"));
+                parkingSpace.setId(resultSet.getInt("level"));
+                parkingSpace.setReserved(resultSet.getBoolean("is_reserved"));
+
+                reservationParkingSpace.setParkingSpace(parkingSpace);
+
+                reservationParkingSpaces.add(reservationParkingSpace);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -61,16 +74,16 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
                 logger.error(e);
             }
         }
-        return reservations;
+        return reservationParkingSpaces;
     }
 
-    public void addReservation(Reservation reservation) throws DAOException {
+    public void addReservationParkingSpace(ReservationParkingSpace reservationParkingSpace) throws DAOException {
         Connection connection;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(ADD_RESERVATION);
-            statement = fillStatement(statement, reservation);
+            statement = connection.prepareStatement(ADD_RESERVATION_PARKING_SPACE);
+            statement = fillStatement(statement, reservationParkingSpace);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -79,13 +92,14 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         }
     }
 
-    public void removeReservation(Reservation reservation) throws DAOException {
+    public void removeReservationParkingSpace(ReservationParkingSpace reservationParkingSpace) throws DAOException {
         Connection connection;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement.setInt(1, reservation.getId());
-            statement = connection.prepareStatement(REMOVE_RESERVATION);
+            statement.setInt(1, reservationParkingSpace.getReservation().getId());
+            statement.setInt(2, reservationParkingSpace.getParkingSpace().getId());
+            statement = connection.prepareStatement(REMOVE_RESERVATION_PARKING_SPACE);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -94,13 +108,13 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         }
     }
 
-    public void updateReservation(Reservation reservation) throws DAOException {
+    public void updateReservationParkingSpace(ReservationParkingSpace reservationParkingSpace) throws DAOException {
         Connection connection;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(UPDATE_RESERVATION);
-            statement = fillStatement(statement, reservation);
+            statement = connection.prepareStatement(UPDATE_RESERVATION_PARKING_SPACE);
+            statement = fillStatement(statement, reservationParkingSpace);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -108,18 +122,11 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
             finalize(statement);
         }
     }
-
-    public Reservation getReservation(Integer id) throws DAOException {
-        return null;
-    }
-
-    private PreparedStatement fillStatement(PreparedStatement statement, Reservation reservation) throws SQLException {
-        statement.setInt(1, reservation.getUser().getId());
-        statement.setInt(2, reservation.getRoomNumber());
-        statement.setDate(3, reservation.getDateIn());
-        statement.setDate(4, reservation.getDateOut());
-        statement.setInt(5, reservation.getDaysCount());
+    private PreparedStatement fillStatement(PreparedStatement statement, ReservationParkingSpace reservationParkingSpace) throws SQLException {
+        statement.setInt(1, reservationParkingSpace.getParkingSpace().getId());
+        statement.setInt(2, reservationParkingSpace.getReservation().getId());
 
         return statement;
     }
+
 }

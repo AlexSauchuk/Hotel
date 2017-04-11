@@ -32,10 +32,7 @@ public class TablesInfoDaoImpl extends AbstractDao implements TablesInfoDao{
                 if(resultSet!=null){
                     resultSet.close();
                 }
-                if(statement!=null){
-                    statement.close();
-                }
-                closeConnection();
+                finalize(statement);
             }catch (SQLException e) {
                 e.printStackTrace();
             }
