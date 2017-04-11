@@ -33,36 +33,7 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
             statement = connection.prepareStatement(Constants.GET_ALL_RESERVATION_ROOMS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                ReservationRoom reservationRoom = new ReservationRoom();
-                Reservation reservation = new Reservation();
-                User user = new User();
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                user.setMobilePhone(resultSet.getString("mobilePhone"));
-                user.setPassportNumber(resultSet.getString("passportNumber"));
-                user.setSex(resultSet.getString("sex"));
-                reservation.setUser(user);
-                reservation.setRoomNumber(resultSet.getInt("room_number"));
-                reservation.setDateIn(resultSet.getDate("date-in"));
-                reservation.setDateOut(resultSet.getDate("date-out"));
-                reservation.setDaysCount(resultSet.getInt("days_count"));
-
-                reservationRoom.setReservation(reservation);
-
-                Room room = new Room();
-                // ТО, что снизу, не уверен!!!!!!!!!!!!!!!!!!!!
-                RoomType roomType = new RoomType(resultSet.getInt("room_type.id"),
-                        resultSet.getInt("rooms_count"),
-                        resultSet.getInt("beds_count"),
-                        resultSet.getInt("cost_per_day"),
-                        resultSet.getString("additional_info"));
-                room.setId(resultSet.getInt("id"));
-                room.setRoomType(roomType);
-                room.setFloor(resultSet.getInt("floor"));
-                room.setPhone(resultSet.getString("phone"));
-
-                reservationRoom.setRoom(room);
-                reservationRooms.add(reservationRoom);
+                reservationRooms.add(fillReservationRoom(resultSet));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -130,5 +101,38 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         statement.setInt(2, reservationRoom.getReservation().getId());
 
         return statement;
+    }
+
+    private ReservationRoom fillReservationRoom(ResultSet resultSet) throws SQLException {
+        ReservationRoom reservationRoom = new ReservationRoom();
+        Reservation reservation = new Reservation();
+        User user = new User();
+        user.setName(resultSet.getString("name"));
+        user.setSurname(resultSet.getString("surname"));
+        user.setMobilePhone(resultSet.getString("mobilePhone"));
+        user.setPassportNumber(resultSet.getString("passportNumber"));
+        user.setSex(resultSet.getString("sex"));
+        reservation.setUser(user);
+        reservation.setDateIn(resultSet.getDate("date-in"));
+        reservation.setDateOut(resultSet.getDate("date-out"));
+        reservation.setDaysCount(resultSet.getInt("days_count"));
+
+        reservationRoom.setReservation(reservation);
+
+        Room room = new Room();
+        // ТО, что снизу, не уверен!!!!!!!!!!!!!!!!!!!!
+        RoomType roomType = new RoomType(resultSet.getInt("room_type.id"),
+                resultSet.getInt("rooms_count"),
+                resultSet.getInt("beds_count"),
+                resultSet.getInt("cost_per_day"),
+                resultSet.getString("additional_info"));
+        room.setId(resultSet.getInt("id"));
+        room.setRoomType(roomType);
+        room.setFloor(resultSet.getInt("floor"));
+        room.setPhone(resultSet.getString("phone"));
+
+        reservationRoom.setRoom(room);
+
+        return reservationRoom;
     }
 }
