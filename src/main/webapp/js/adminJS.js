@@ -35,6 +35,7 @@ function UpdateData(obj) {
 $(document).ready(function() {
 
     function setHtml(data){
+        console.log(data)
         var countRows = data.length;
 
         var headerString = '';

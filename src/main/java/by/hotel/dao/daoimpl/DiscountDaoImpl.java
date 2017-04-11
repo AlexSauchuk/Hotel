@@ -19,14 +19,9 @@ import java.util.List;
 
 import static by.hotel.dao.constants.Constants.*;
 
-/**
- * Created by 1 on 04.04.2017.
- */
 public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
-    static final Logger logger = LogManager.getLogger(DiscountDaoImpl.class.getName());
-
     public List<Discount> getDiscounts() throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Discount> discounts = new ArrayList<Discount>();
@@ -40,20 +35,13 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                finalize(statement);
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            closeConnection(connection, statement, resultSet);
         }
         return discounts;
     }
 
     public void addDiscount(Discount discount) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -63,27 +51,27 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void removeDiscount(Discount discount) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement.setInt(1, discount.getId());
             statement = connection.prepareStatement(REMOVE_DISCOUNT);
+            statement.setInt(1, discount.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void updateDiscount(Discount discount) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -93,7 +81,7 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 

@@ -14,7 +14,6 @@ import java.util.Properties;
 public abstract class AbstractDao {
     private static final Logger logger;
     private static HikariDataSource dataSource;
-    private Connection connection;
 
     static {
         try{
@@ -47,6 +46,7 @@ public abstract class AbstractDao {
     }
 
     public final Connection getConnection() throws DAOException{
+        Connection connection;
         try{
             connection = dataSource.getConnection();
         } catch (SQLException e) {
@@ -55,22 +55,25 @@ public abstract class AbstractDao {
         return connection;
     }
 
-    public void closeConnection() throws DAOException{
+    public void closeConnection(Connection connection, Statement statement, ResultSet resultSet) throws DAOException {
         try {
-            if(connection != null){
-                connection.close();
+            if (resultSet != null) {
+                resultSet.close();
             }
         } catch (SQLException e) {
-           throw new DAOException(e);
+            logger.error(e);
         }
-    }
-
-    protected void finalize(PreparedStatement statement) throws DAOException {
         try {
             if (statement != null) {
                 statement.close();
             }
-            closeConnection();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+        try {
+            if(connection != null){
+                connection.close();
+            }
         } catch (SQLException e) {
             logger.error(e);
         }

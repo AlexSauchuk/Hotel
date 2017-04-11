@@ -1,16 +1,10 @@
 package by.hotel.dao.daoimpl;
 
-import by.hotel.bean.Discount;
-import by.hotel.bean.DiscountType;
-import by.hotel.bean.Payment;
 import by.hotel.bean.User;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.UserDao;
 import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.servlet.MainServlet;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,10 +16,8 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
-    private static final Logger logger = LogManager.getLogger(UserDaoImpl.class.getName());
-
     public List<User> getUsers() throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<User> users = new ArrayList<User>();
@@ -39,20 +31,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                finalize(statement);
-            } catch (SQLException e) {
-                logger.error(e);
-            }
-            return users;
+            closeConnection(connection, statement, resultSet);
         }
+        return users;
     }
 
     public void addUser(User user) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -62,12 +47,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void removeUser(User user) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -77,12 +62,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void updateUser(User user) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -92,12 +77,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public User getUser(Integer id) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         User user;
@@ -109,14 +94,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                finalize(statement);
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            closeConnection(connection, statement, resultSet);
         }
         return user;
     }

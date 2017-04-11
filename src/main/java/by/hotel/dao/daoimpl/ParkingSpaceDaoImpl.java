@@ -17,14 +17,9 @@ import java.util.List;
 
 import static by.hotel.dao.constants.Constants.*;
 
-/**
- * Created by 1 on 06.04.2017.
- */
 public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao {
-    private static final Logger logger = LogManager.getLogger(ParkingSpaceDaoImpl.class.getName());
-
     public List<ParkingSpace> getParkingSpaces() throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<ParkingSpace> parkingSpaces = new ArrayList<ParkingSpace>();
@@ -38,20 +33,13 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                finalize(statement);
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            closeConnection(connection, statement, resultSet);
         }
         return parkingSpaces;
     }
 
     public void addParkingSpace(ParkingSpace parkingSpace) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -61,27 +49,27 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void removeParkingSpace(ParkingSpace parkingSpace) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement.setInt(1, parkingSpace.getId());
             statement = connection.prepareStatement(REMOVE_PARKING_SPACE);
+            statement.setInt(1, parkingSpace.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void updateParkingSpace(ParkingSpace parkingSpace) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -91,7 +79,7 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 

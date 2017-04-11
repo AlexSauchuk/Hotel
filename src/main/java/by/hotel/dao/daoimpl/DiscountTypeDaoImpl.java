@@ -18,10 +18,8 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class DiscountTypeDaoImpl extends AbstractDao implements DiscountTypeDao {
-    static final Logger logger = LogManager.getLogger(DiscountTypeDaoImpl.class.getName());
-
     public List<DiscountType> getDiscountTypes() throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<DiscountType> discountTypes = new ArrayList<DiscountType>();
@@ -35,20 +33,13 @@ public class DiscountTypeDaoImpl extends AbstractDao implements DiscountTypeDao 
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                finalize(statement);
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            closeConnection(connection, statement, resultSet);
         }
         return discountTypes;
     }
 
     public void addDiscountType(DiscountType discountType) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -58,27 +49,27 @@ public class DiscountTypeDaoImpl extends AbstractDao implements DiscountTypeDao 
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void removeDiscountType(DiscountType discountType) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement.setInt(1, discountType.getId());
             statement = connection.prepareStatement(REMOVE_DISCOUNT_TYPE);
+            statement.setInt(1, discountType.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void updateDiscountType(DiscountType discountType) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -88,7 +79,7 @@ public class DiscountTypeDaoImpl extends AbstractDao implements DiscountTypeDao 
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
@@ -107,7 +98,6 @@ public class DiscountTypeDaoImpl extends AbstractDao implements DiscountTypeDao 
         discountType.setId(resultSet.getInt("id"));
         discountType.setName(resultSet.getString("name"));
         discountType.setAmount(resultSet.getFloat("amount"));
-
         return discountType;
     }
 }

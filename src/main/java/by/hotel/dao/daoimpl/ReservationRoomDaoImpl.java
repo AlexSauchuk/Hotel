@@ -18,10 +18,8 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRoomDao {
-    private static final Logger logger = LogManager.getLogger(ReservationRoomDaoImpl.class.getName());
-
     public List<ReservationRoom> getReservationRooms() throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<ReservationRoom> reservationRooms = new ArrayList<ReservationRoom>();
@@ -33,27 +31,26 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
                 ReservationRoom reservationRoom = new ReservationRoom();
                 Reservation reservation = new Reservation();
                 User user = new User();
+                user.setId(resultSet.getInt("id_user"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
-                user.setMobilePhone(resultSet.getString("mobilePhone"));
-                user.setPassportNumber(resultSet.getString("passportNumber"));
+                user.setMobilePhone(resultSet.getString("mobile_phone"));
+                user.setPassportNumber(resultSet.getString("passport_number"));
                 user.setSex(resultSet.getString("sex"));
                 reservation.setUser(user);
-                reservation.setRoomNumber(resultSet.getInt("room_number"));
+                reservation.setId(resultSet.getInt("id_reservation"));
                 reservation.setDateIn(resultSet.getDate("date-in"));
                 reservation.setDateOut(resultSet.getDate("date-out"));
-                reservation.setDaysCount(resultSet.getInt("days_count"));
 
                 reservationRoom.setReservation(reservation);
 
                 Room room = new Room();
-                // ТО, что снизу, не уверен!!!!!!!!!!!!!!!!!!!!
-                RoomType roomType = new RoomType(resultSet.getInt("room_type.id"),
+                RoomType roomType = new RoomType(resultSet.getInt("id_room_type"),
                         resultSet.getInt("rooms_count"),
                         resultSet.getInt("beds_count"),
                         resultSet.getInt("cost_per_day"),
                         resultSet.getString("additional_info"));
-                room.setId(resultSet.getInt("id"));
+                room.setId(resultSet.getInt("id_room"));
                 room.setRoomType(roomType);
                 room.setFloor(resultSet.getInt("floor"));
                 room.setPhone(resultSet.getString("phone"));
@@ -64,20 +61,13 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                finalize(statement);
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            closeConnection(connection, statement, resultSet);
         }
         return reservationRooms;
     }
 
     public void addReservationRoom(ReservationRoom reservationRoom) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -87,12 +77,12 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void removeReservationRoom(ReservationRoom reservationRoom) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -103,12 +93,12 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void updateReservationRoom(ReservationRoom reservationRoom) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -118,7 +108,7 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 

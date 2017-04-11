@@ -6,9 +6,6 @@ import by.hotel.command.exception.CommandException;
 import by.hotel.service.CrudService;
 import by.hotel.service.ServiceMapper;
 
-/**
- * Created by 1 on 28.02.2017.
- */
 public class AddEntity implements Command {
     public Object execute(String request) throws CommandException {
         try {
