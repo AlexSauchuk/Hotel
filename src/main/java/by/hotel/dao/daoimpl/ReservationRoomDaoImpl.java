@@ -73,7 +73,7 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
 
         reservationRoom.setRoom(room);
 
-
+        reservationRooms.add(reservationRoom);
 
 
         return reservationRooms;
