@@ -61,7 +61,7 @@ public abstract class AbstractDao {
                 connection.close();
             }
         } catch (SQLException e) {
-           throw new DAOException(e);
+            throw new DAOException(e);
         }
     }
 

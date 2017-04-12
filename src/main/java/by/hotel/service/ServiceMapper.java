@@ -16,7 +16,8 @@ public class ServiceMapper {
         services.put("REGISTRATION_CARD", new RegistrationCardServiceImpl());
         services.put("RESERVATION", new ReservationServiceImpl());
         services.put("RESERVATION_PARKING_SPACE", new ReservationParkingSpaceServiceImpl());
-        services.put("RESERVATION_ROOM", new ReservationRoomServiceImpl());
+
+        services.put("RESERVATION_M2M_ROOM", new ReservationRoomServiceImpl());
         services.put("ROOM", new RoomServiceImpl());
         services.put("ROOM_TYPE", new RoomTypeServiceImpl());
         services.put("USER", new UserServiceImpl());

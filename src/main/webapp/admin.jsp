@@ -16,6 +16,7 @@
     <script>
         <%@include file ="/js/jquery-3.2.0.min.js"%>
         <%@include file="/js/adminJS.js"%>
+        <%@include file="/js/bootstrap.min.js"%>
     </script>
     <style>
         <%@include file="/bootstrap/bootstrap.min.css"%>
@@ -38,16 +39,9 @@
             </table>
         </div>
     </div>
-    <div class="row" style="position:relative; padding-left: 15%">
-        <div class="col-lg-12" style="width: 100%;float: right">
-            <table class="table table-bordered table-hover" id="updateTable" >
-                <thead>
-                    <th>sadsada</th>
-                    <th>sadsada</th>
-                </thead>
-            </table>
-        </div>
-    </div>
+</div>
+<div id="modalWindow">
+
 </div>
 </body>
 </html>
