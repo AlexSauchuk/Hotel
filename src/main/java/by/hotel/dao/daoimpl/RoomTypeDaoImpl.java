@@ -23,10 +23,8 @@ import static by.hotel.dao.constants.Constants.*;
  * Created by 1 on 04.04.2017.
  */
 public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
-    private static final Logger logger = LogManager.getLogger(RoomTypeDaoImpl.class.getName());
-
     public List<RoomType> getRoomTypes() throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<RoomType> roomTypes = new ArrayList<RoomType>();
@@ -46,20 +44,13 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                finalize(statement);
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            closeConnection(connection, statement, resultSet);
         }
         return roomTypes;
     }
 
     public void addRoomType(RoomType roomType) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -69,12 +60,12 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void removeRoomType(RoomType roomType) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -84,12 +75,12 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void updateRoomType(RoomType roomType) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -99,7 +90,7 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
@@ -111,5 +102,4 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         statement.setString(5, roomType.getAdditionalInfo());
         return statement;
     }
-
 }

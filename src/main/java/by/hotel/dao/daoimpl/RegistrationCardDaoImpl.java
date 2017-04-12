@@ -3,10 +3,7 @@ package by.hotel.dao.daoimpl;
 import by.hotel.bean.*;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RegistrationCardDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,20 +14,15 @@ import java.util.List;
 
 import static by.hotel.dao.constants.Constants.*;
 
-/**
- * Created by 1 on 06.04.2017.
- */
 public class RegistrationCardDaoImpl extends AbstractDao implements RegistrationCardDao {
-    private static final Logger logger = LogManager.getLogger(RegistrationCardDaoImpl.class.getName());
-
     public List<RegistrationCard> getRegistrationCards() throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<RegistrationCard> registrationCards = new ArrayList<RegistrationCard>();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_REGISTRATION_CARDS);
+            statement = connection.prepareStatement(GET_ALL_REGISTRATION_CARDS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 registrationCards.add(fillRegistrationCard(resultSet));
@@ -38,20 +30,13 @@ public class RegistrationCardDaoImpl extends AbstractDao implements Registration
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                finalize(statement);
-            } catch (SQLException e) {
-                logger.error(e);
-            }
-            return registrationCards;
+            closeConnection(connection, statement, resultSet);
         }
+        return registrationCards;
     }
 
     public void addRegistrationCard(RegistrationCard registrationCard) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -61,27 +46,27 @@ public class RegistrationCardDaoImpl extends AbstractDao implements Registration
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void removeRegistrationCard(RegistrationCard registrationCard) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement.setInt(1, registrationCard.getId());
             statement = connection.prepareStatement(REMOVE_REGISTRATION_CARD);
+            statement.setInt(1, registrationCard.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void updateRegistrationCard(RegistrationCard registrationCard) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -91,7 +76,7 @@ public class RegistrationCardDaoImpl extends AbstractDao implements Registration
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 

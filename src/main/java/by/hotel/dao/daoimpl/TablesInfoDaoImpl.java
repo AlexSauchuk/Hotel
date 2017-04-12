@@ -14,7 +14,7 @@ import java.util.List;
 
 public class TablesInfoDaoImpl extends AbstractDao implements TablesInfoDao{
     public List<String> getNamesTables() throws DAOException {
-        Connection connection;
+        Connection connection=null;
         PreparedStatement statement=null;
         ResultSet resultSet=null;
         List<String> namesTables=new ArrayList<String>();
@@ -28,14 +28,7 @@ public class TablesInfoDaoImpl extends AbstractDao implements TablesInfoDao{
         }catch (SQLException e){
             throw new DAOException(e);
         }finally {
-            try{
-                if(resultSet!=null){
-                    resultSet.close();
-                }
-                finalize(statement);
-            }catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(connection, statement, resultSet);
         }
         return namesTables;
     }

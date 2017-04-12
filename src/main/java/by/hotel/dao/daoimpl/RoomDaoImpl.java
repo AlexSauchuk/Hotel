@@ -1,6 +1,5 @@
 package by.hotel.dao.daoimpl;
 
-import by.hotel.bean.DiscountType;
 import by.hotel.bean.Room;
 import by.hotel.bean.RoomType;
 import by.hotel.bean.User;
@@ -22,10 +21,8 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class RoomDaoImpl extends AbstractDao implements RoomDao {
-    private static final Logger logger = LogManager.getLogger(RoomDaoImpl.class.getName());
-
     public List<Room> getRooms() throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Room> rooms = new ArrayList<Room>();
@@ -34,25 +31,28 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
             statement = connection.prepareStatement(Constants.GET_ALL_ROOMS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                rooms.add(fillRoom(resultSet));
+                Room room = new Room();
+                RoomType roomType = new RoomType(resultSet.getInt("room_type.id"),
+                                                 resultSet.getInt("rooms_count"),
+                                                 resultSet.getInt("beds_count"),
+                                                 resultSet.getInt("cost_per_day"),
+                                                 resultSet.getString("additional_info"));
+                room.setId(resultSet.getInt("id"));
+                room.setRoomType(roomType);
+                room.setFloor(resultSet.getInt("floor"));
+                room.setPhone(resultSet.getString("phone"));
+                rooms.add(room);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                finalize(statement);
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            closeConnection(connection, statement, resultSet);
         }
         return rooms;
     }
 
     public void addRoom(Room room) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -62,12 +62,12 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void removeRoom(Room room) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -77,12 +77,12 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void updateRoom(Room room) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -92,7 +92,7 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
@@ -101,21 +101,5 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         statement.setInt(2, room.getFloor());
         statement.setString(3, room.getPhone());
         return statement;
-    }
-
-    private Room fillRoom(ResultSet resultSet) throws SQLException {
-        Room room = new Room();
-        // ТО, что снизу, не уверен!!!!!!!!!!!!!!!!!!!!
-        RoomType roomType = new RoomType(resultSet.getInt("room_type.id"),
-                resultSet.getInt("rooms_count"),
-                resultSet.getInt("beds_count"),
-                resultSet.getInt("cost_per_day"),
-                resultSet.getString("additional_info"));
-        room.setId(resultSet.getInt("id"));
-        room.setRoomType(roomType);
-        room.setFloor(resultSet.getInt("floor"));
-        room.setPhone(resultSet.getString("phone"));
-
-        return room;
     }
 }

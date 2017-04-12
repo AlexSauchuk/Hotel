@@ -19,14 +19,9 @@ import java.util.List;
 
 import static by.hotel.dao.constants.Constants.*;
 
-/**
- * Created by 1 on 06.04.2017.
- */
 public class PaymentDaoImpl extends AbstractDao implements PaymentDao {
-    private static final Logger logger = LogManager.getLogger(PaymentDaoImpl.class.getName());
-
     public List<Payment> getPayments() throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Payment> payments = new ArrayList<Payment>();
@@ -40,20 +35,13 @@ public class PaymentDaoImpl extends AbstractDao implements PaymentDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                finalize(statement);
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            closeConnection(connection, statement, resultSet);
         }
         return payments;
     }
 
     public void addPayment(Payment payment) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -63,27 +51,27 @@ public class PaymentDaoImpl extends AbstractDao implements PaymentDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void removePayment(Payment payment) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement.setInt(1, payment.getId());
             statement = connection.prepareStatement(REMOVE_PAYMENT);
+            statement.setInt(1, payment.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
     public void updatePayment(Payment payment) throws DAOException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
@@ -93,7 +81,7 @@ public class PaymentDaoImpl extends AbstractDao implements PaymentDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            finalize(statement);
+            closeConnection(connection, statement, null);
         }
     }
 
@@ -118,7 +106,7 @@ public class PaymentDaoImpl extends AbstractDao implements PaymentDao {
         Discount discount = new Discount();
 
         DiscountType discountType = new DiscountType();
-        discountType.setId(resultSet.getInt("discount.id"));
+        discountType.setId(resultSet.getInt("id_discount"));
         discountType.setName(resultSet.getString("name"));
         discountType.setAmount(resultSet.getFloat("amount"));
 

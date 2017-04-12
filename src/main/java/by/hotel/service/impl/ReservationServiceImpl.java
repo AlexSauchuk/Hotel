@@ -8,9 +8,6 @@ import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 
-/**
- * Created by user1 on 27.03.2017.
- */
 public class ReservationServiceImpl implements CrudService<Reservation>{
     ReservationDaoImpl reservationDao = new ReservationDaoImpl();
 
