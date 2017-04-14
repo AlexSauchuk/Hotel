@@ -5,10 +5,13 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="import" href="/templates/user.html">
+    <link rel="import" href="/templates/room.html">
     <title>Admin</title>
     <script>
         <%@include file ="/js/jquery-3.2.0.min.js"%>
         <%@include file="/js/adminJS.js"%>
+        <%@include file="/js/bootstrap.min.js"%>
     </script>
     <style>
         <%@include file="/bootstrap/bootstrap.min.css"%>
@@ -31,6 +34,12 @@
             </table>
         </div>
     </div>
+</div>
+<div id="myModal" class="modal fade">
+
+</div>
+<div id="modalWindow">
+
 </div>
 </body>
 </html>

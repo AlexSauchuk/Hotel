@@ -7,6 +7,15 @@ public class Reservation {
     private Date dateIn;
     private Date dateOut;
     private User user;
+    private Room room;
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
     public User getUser() {
         return user;
