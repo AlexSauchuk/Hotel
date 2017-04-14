@@ -3,11 +3,11 @@ package by.hotel.dao.constants;
 public class Constants {
     public static final String GET_ALL_NAMES_TABLES = "SHOW TABLES FROM `db_hotel`";
 
-    public static final String GET_ALL_USERS = "SELECT `id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password` FROM `db_hotel`.`user`";
-    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `password`) VALUES ('?', '?', '?', '?', '?', '?')";
+    public static final String GET_ALL_USERS = "SELECT `id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `role`, `password` FROM `db_hotel`.`user`";
+    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `password`, `role`) VALUES ('?', '?', '?', '?', '?', '?', '?')";
     public static final String REMOVE_USER = "DELETE FROM `db_hotel`.`user` WHERE `id`='?'";
-    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`='?', `name`='?', `surname`='?', `sex`='?', `mobile_phone`='?', `password`='?' WHERE `id`='?'";
-    public static final String GET_USER = "SELECT `id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password` FROM `db_hotel`.`user` WHERE `id`='?'";
+    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`='?', `name`='?', `surname`='?', `sex`='?', `mobile_phone`='?', `password`='?', `role`='?' WHERE `id`='?'";
+    public static final String GET_USER = "SELECT `id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `role`, `password` FROM `db_hotel`.`user` WHERE `id`='?'";
 
     public static final String GET_ALL_ROOMS = "SELECT `room`.`id`,`room_type`.`id`, `rooms_count`, `beds_count`, `cost_per_day`, `additional_info`, `floor`, `phone` " +
             "FROM (`db_hotel`.`room` LEFT OUTER JOIN `db_hotel`.`room_type` ON `room`.`id_room_type` = `room_type`.`id`)";
@@ -98,4 +98,7 @@ public class Constants {
     public static final String UPDATE_REGISTRATION_CARD = "UPDATE `db_hotel`.`room_type` SET `rooms_count`='?', `beds_count`='?', `cost_per_day`='?', `additional_info`='?' WHERE `id`='?'";
     public static final String GET_REGISTRATION_CARD = "SELECT `id`, `id_user`, `name`, `surname`, `room_number`, `date-in`, `date-out`, `days_count` " +
             "FROM (`db_hotel`.`reservation` LEFT OUTER JOIN `db_hotel`.`user` ON `reservation`.`id_user` = `user`.`id`)";
+
+    public static final String AUTR_USER = "SELECT `id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `role` FROM `db_hotel`.`user` WHERE `login`='?' AND `password`='?'";
+
 }

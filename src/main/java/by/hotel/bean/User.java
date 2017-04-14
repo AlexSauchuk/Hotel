@@ -5,6 +5,16 @@ package by.hotel.bean;
  */
 public class User {
     private int id;
+    private int role;
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
     private String name;
     private String surname;
     private String mobilePhone;
@@ -79,7 +89,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "id=" + id + ", name=" + name + ", mobilePhone=" + mobilePhone + ", login=" + login +
+        return "id=" + id + ", name=" + name + ", mobilePhone=" + mobilePhone + ", authorisation=" + login +
                 ", passportNumber=" + passportNumber + ", password=" + password + ", surname=" + surname +
                 ", sex=" + sex;
     }

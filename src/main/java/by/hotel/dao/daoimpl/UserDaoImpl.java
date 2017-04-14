@@ -107,6 +107,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         statement.setString(5, user.getMobilePhone());
         statement.setString(6, user.getPassword());
         statement.setString(7, user.getLogin());
+        statement.setInt(8, user.getRole());
         return statement;
     }
 
@@ -119,7 +120,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         user.setSex(resultSet.getString("sex"));
         user.setMobilePhone(resultSet.getString("mobile_phone"));
         user.setPassword(resultSet.getString("password"));
-        user.setLogin(resultSet.getString("login"));
+        user.setRole(resultSet.getInt("role"));
         return user;
     }
 }

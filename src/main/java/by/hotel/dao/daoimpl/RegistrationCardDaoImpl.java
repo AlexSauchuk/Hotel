@@ -138,7 +138,7 @@ public class RegistrationCardDaoImpl extends AbstractDao implements Registration
         user.setSex(resultSet.getString("sex"));
         user.setMobilePhone(resultSet.getString("mobile_phone"));
         user.setPassword(resultSet.getString("password"));
-        user.setLogin(resultSet.getString("login"));
+        user.setLogin(resultSet.getString("authorisation"));
 
         registrationCard.setUser(user);
 
