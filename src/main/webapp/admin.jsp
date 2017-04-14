@@ -12,6 +12,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="import" href="/templates/user.html">
+    <link rel="import" href="/templates/room.html">
     <title>Admin</title>
     <script>
         <%@include file ="/js/jquery-3.2.0.min.js"%>
@@ -39,6 +41,9 @@
             </table>
         </div>
     </div>
+</div>
+<div id="myModal" class="modal fade">
+
 </div>
 <div id="modalWindow">
 

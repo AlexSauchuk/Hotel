@@ -74,12 +74,52 @@
         else
             objects.push(temporaryData[Object.keys(temporaryData)[col]]);
 
-        console.log(objects);
+        //console.log(objects);
         RecursionModals(objects[deep+1]);
     }
 
-    function UpdateData() {
+    function SendUpdatesValues() {
         console.log("1");
+    }
+
+    function UpdateData(obj) {
+        document.getElementById("mainForm").action =
+            '/servlet?tableName='+NameTable +'&action=UPDATE_ENTITY';
+        var editBody = document.getElementsByClassName('form-horizontal');
+        var arrayValues = new Array();
+        $(obj).each(function(){
+            $("td",this).each(function(){
+                arrayValues.push(this)
+            });
+        });
+
+        arrayValues.pop();
+        arrayValues.pop();
+
+        var i = 0;
+        $(editBody).each(function(){
+            $("div",this).each(function(){
+                if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
+                    console.log(arrayValues[i].innerHTML);
+                    var sex = this.firstElementChild.getAttribute('value');
+
+                    if (this.className == 'radio col-sm-8')
+                        if(arrayValues[i].innerHTML == sex) {
+                            this.childNodes[3].firstElementChild.checked = false;
+                            this.firstElementChild.firstElementChild.checked = true;
+                        }
+                        else{
+                            this.firstElementChild.firstElementChild.checked = false;
+                            this.childNodes[3].firstElementChild.checked = true;
+                        }
+                    else
+                        this.firstElementChild.setAttribute('value', arrayValues[i].innerHTML);
+
+                    i++;
+                }
+            });
+        });
+
     }
 
     var NameTable = "";
@@ -125,12 +165,11 @@
                 }else
                     additionalString +='<td>'+Data[j][key]+'</td>';
             }
-            additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
+            additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModal" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
                 '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="DeleteRow(this)"></td>';
             bodyString += strRow.replace(patternRow,additionalString);
             j++;
         }
-
 
         var headers= '<thead><tr>header</tr></thead>';
         var body = '<tbody>body</tbody>';
@@ -141,6 +180,22 @@
         $('#tableHotel').html(headers + body);
         
     }
+
+function LoadTemplate() {
+    var request = new XMLHttpRequest();
+    request.open('GET', '/templates/'+NameTable+'.html');
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            if (request.status == 200) {
+                $('#myModal').html(request.responseText);
+            } else {
+                alert('Сетевая ошибка, код: ' + request.status);
+            }
+        }
+    };
+    request.send(null);
+}
+
 $(document).ready(function() {
 
     
@@ -156,6 +211,7 @@ $(document).ready(function() {
             url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
             success: function(data) {
                 console.log(data);
+                LoadTemplate();
                 objects = new Array();
                 Data = data;
                 setHtml();
