@@ -15,6 +15,10 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class RegistrationCardDaoImpl extends AbstractDao implements RegistrationCardDao {
+    public List<Integer> getId() throws DAOException {
+        return null;
+    }
+
     public List<RegistrationCard> getRegistrationCards() throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;

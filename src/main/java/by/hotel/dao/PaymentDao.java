@@ -9,6 +9,7 @@ import java.util.List;
  * Created by 1 on 06.04.2017.
  */
 public interface PaymentDao {
+    List<Integer> getId() throws DAOException;
     List<Payment> getPayments() throws DAOException;
 
     void addPayment(Payment payment) throws DAOException;

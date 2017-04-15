@@ -11,6 +11,14 @@ import java.util.List;
 public class RegistrationCardServiceImpl implements CrudService<RegistrationCard> {
     private RegistrationCardDaoImpl registrationCardDao = new RegistrationCardDaoImpl();
 
+    public List<Integer> getAllId() throws ServiceException {
+        try {
+            return registrationCardDao.getId();
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }
+    }
+
     public List<RegistrationCard> getAllEntities() throws ServiceException {
         try {
             return registrationCardDao.getRegistrationCards();

@@ -12,6 +12,14 @@ import java.util.List;
 public class RoomServiceImpl implements CrudService<Room> {
 	private RoomDao roomDao = new RoomDaoImpl();
 
+	public List<Integer> getAllId() throws ServiceException {
+		try {
+			return roomDao.getId();
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
+	}
+
 	public List<Room> getAllEntities() throws ServiceException {
 		try {
 			return roomDao.getRooms();

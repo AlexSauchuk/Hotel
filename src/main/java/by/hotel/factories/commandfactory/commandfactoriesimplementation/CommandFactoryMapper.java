@@ -16,6 +16,7 @@ public final class CommandFactoryMapper {
         commands.put("REMOVE", new RemoveEntityCommandFactory());
         commands.put("UPDATE", new UpdateEntityCommandFactory());
         commands.put("ADMIN_START",new GetTablesNamesCommandFactory());
+        commands.put("GET_ALL_ID",new GetAllIdCommandFactory());
     }
 
     public static CommandFactory getCommandFactory(String commandName) {

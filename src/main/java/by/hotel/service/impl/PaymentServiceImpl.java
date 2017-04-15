@@ -11,6 +11,14 @@ import java.util.List;
 public class PaymentServiceImpl implements CrudService<Payment> {
     private PaymentDaoImpl paymentDao = new PaymentDaoImpl();
 
+    public List<Integer> getAllId() throws ServiceException {
+        try {
+            return paymentDao.getId();
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }
+    }
+
     public List<Payment> getAllEntities() throws ServiceException {
         try {
             return paymentDao.getPayments();

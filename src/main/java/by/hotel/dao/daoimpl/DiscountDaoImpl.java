@@ -20,6 +20,10 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
+    public List<Integer> getId() throws DAOException {
+        return null;
+    }
+
     public List<Discount> getDiscounts() throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;

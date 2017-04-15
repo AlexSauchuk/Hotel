@@ -24,6 +24,7 @@ public class MainServlet extends HttpServlet {
         private static final Logger logger = LogManager.getLogger(MainServlet.class.getName());
 
         private void doRequest(HttpServletRequest req, HttpServletResponse resp){
+            resp.setCharacterEncoding("UTF-8");
             try {
                 String page = req.getParameter("page");
                 CommandFactory commandFactory = CommandFactoryMapper.getCommandFactory(req.getParameter("action"));
@@ -33,7 +34,7 @@ public class MainServlet extends HttpServlet {
                     req.getRequestDispatcher(page).forward(req,resp);
                 }else {
                     resp.setContentType("application/json");
-                    resp.setCharacterEncoding("UTF-8");
+
                     Gson jsonConverter = new Gson();
                     resp.getWriter().write(jsonConverter.toJson(result));
                 }

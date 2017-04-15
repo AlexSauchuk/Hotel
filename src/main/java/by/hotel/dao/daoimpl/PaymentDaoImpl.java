@@ -20,6 +20,10 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class PaymentDaoImpl extends AbstractDao implements PaymentDao {
+    public List<Integer> getId() throws DAOException {
+        return null;
+    }
+
     public List<Payment> getPayments() throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;

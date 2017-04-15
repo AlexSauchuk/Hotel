@@ -9,6 +9,7 @@ import java.util.List;
  * Created by 1 on 04.04.2017.
  */
 public interface DiscountDao {
+    List<Integer> getId() throws DAOException;
     List<Discount> getDiscounts() throws DAOException;
 
     void addDiscount(Discount discount) throws DAOException;

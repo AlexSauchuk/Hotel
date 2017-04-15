@@ -11,6 +11,14 @@ import java.util.List;
 public class ReservationServiceImpl implements CrudService<Reservation>{
     ReservationDaoImpl reservationDao = new ReservationDaoImpl();
 
+    public List<Integer> getAllId() throws ServiceException {
+        try {
+            return reservationDao.getId();
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }
+    }
+
     public List<Reservation> getAllEntities() throws ServiceException {
         try {
             return reservationDao.getAllReservations();

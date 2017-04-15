@@ -11,6 +11,16 @@ import java.util.List;
 
 public class UserServiceImpl implements CrudService<User> {
 	private UserDao userDao = new UserDaoImpl();
+
+
+	public List<Integer> getAllId() throws ServiceException {
+		try {
+			return userDao.getId();
+		}catch (DAOException e){
+			throw new ServiceException(e);
+		}
+	}
+
 	public List<User> getAllEntities() throws ServiceException {
 		try {
 			return userDao.getUsers();

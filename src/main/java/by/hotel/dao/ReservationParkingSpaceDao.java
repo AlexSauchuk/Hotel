@@ -9,6 +9,7 @@ import java.util.List;
  * Created by 1 on 06.04.2017.
  */
 public interface ReservationParkingSpaceDao {
+    List<Integer> getId() throws DAOException;
     List<ReservationParkingSpace> getReservationParkingSpaces() throws DAOException;
 
     void addReservationParkingSpace(ReservationParkingSpace reservationParkingSpace) throws DAOException;

@@ -16,6 +16,14 @@ import java.util.List;
 public class RoomTypeServiceImpl implements CrudService<RoomType> {
     private RoomTypeDaoImpl roomTypeDao = new RoomTypeDaoImpl();
 
+    public List<Integer> getAllId() throws ServiceException {
+        try {
+            return roomTypeDao.getId();
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }
+    }
+
     public List<RoomType> getAllEntities() throws ServiceException {
         try {
             return roomTypeDao.getRoomTypes();

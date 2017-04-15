@@ -13,6 +13,14 @@ import java.util.List;
 public class DiscountServiceImpl implements CrudService<Discount> {
     private DiscountDaoImpl discountDao = new DiscountDaoImpl();
 
+    public List<Integer> getAllId() throws ServiceException {
+        try {
+            return discountDao.getId();
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }
+    }
+
     public List<Discount> getAllEntities() throws ServiceException {
         try {
             return discountDao.getDiscounts();

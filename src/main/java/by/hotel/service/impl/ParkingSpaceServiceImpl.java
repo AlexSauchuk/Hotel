@@ -16,6 +16,14 @@ import java.util.List;
 public class ParkingSpaceServiceImpl implements CrudService<ParkingSpace> {
     private ParkingSpaceDaoImpl parkingSpaceDao = new ParkingSpaceDaoImpl();
 
+    public List<Integer> getAllId() throws ServiceException {
+        try {
+            return parkingSpaceDao.getId();
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }
+    }
+
     public List<ParkingSpace> getAllEntities() throws ServiceException {
         try {
             return parkingSpaceDao.getParkingSpaces();

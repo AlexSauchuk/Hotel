@@ -78,14 +78,11 @@
         RecursionModals(objects[deep+1]);
     }
 
-    function SendUpdatesValues() {
-        console.log("1");
-    }
-
     function UpdateData(obj) {
         document.getElementById("mainForm").action =
             '/servlet?tableName='+NameTable +'&action=UPDATE_ENTITY';
         var editBody = document.getElementsByClassName('form-horizontal');
+
         var arrayValues = new Array();
         $(obj).each(function(){
             $("td",this).each(function(){
@@ -100,7 +97,6 @@
         $(editBody).each(function(){
             $("div",this).each(function(){
                 if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
-                    console.log(arrayValues[i].innerHTML);
                     var sex = this.firstElementChild.getAttribute('value');
 
                     if (this.className == 'radio col-sm-8')
@@ -120,10 +116,20 @@
             });
         });
 
+
+        if(Object.keys(arrayObj).length>0){
+            var inputs = obj.getElementsByTagName('input');
+            var i = 0;
+            for(var arrayType in arrayObj){
+                $('select[name=id'+arrayType+']').val(inputs[i].value);
+                i++;
+            }
+        }
     }
 
     var NameTable = "";
     var Data;
+    var futureQueryForID = {};
     var temporaryData;
     var zIndex = 1050;
     var modalStrings = new Array();
@@ -131,6 +137,12 @@
     var deep = 0;
     var parentModal = '';
     var childModal = '#modalWindow0';
+    var arrayObj = {};
+
+    var mapStringsTables = {
+        "roomType":"room_type",
+        "user":"user"
+    };
 
     function DeleteRow(obj) {
         document.getElementById('tableHotel').deleteRow(obj.closest("tr").rowIndex);
@@ -139,6 +151,32 @@
             url: '/servlet?tableName='+NameTable +'&action=REMOVE',
             data:{'id':obj.closest("tr").firstChild.textContent}
         });
+    }
+
+    function GenerateChilds(arrayObj) {
+        for(var arrayType in arrayObj) {
+            var selectList = document.getElementById('id'+arrayType);
+
+            if(selectList.childElementCount==0)
+            for(var value in arrayObj[arrayType]) {
+                var option = document.createElement("option");
+                option.value = arrayObj[arrayType][value];
+                option.text = arrayObj[arrayType][value];
+                selectList.appendChild(option);
+            }
+        }
+    }
+
+    function GenerateSelectChilds() {
+        for(var value in futureQueryForID) {
+            $.ajax({
+                type: 'GET',
+                url: '/servlet?tableName=' + mapStringsTables[value] + '&action=GET_ALL_ID',
+                success: function (data) {
+                    arrayObj[value] = data;
+                    GenerateChilds(arrayObj);
+                }});
+        }
     }
 
     function setHtml(){
@@ -161,7 +199,9 @@
 
                 if($.isPlainObject(Data[j][key]))
                 {
-                    additionalString +='<td><input type="button" style="width: 100%" value="'+Data[j][key]+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
+                    futureQueryForID[key] = key;
+                    additionalString +='<td><input type="button" style="width: 100%" value="'+(Data[j][key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
+                    GenerateSelectChilds();
                 }else
                     additionalString +='<td>'+Data[j][key]+'</td>';
             }
@@ -183,7 +223,10 @@
 
 function LoadTemplate() {
     var request = new XMLHttpRequest();
-    request.open('GET', '/templates/'+NameTable+'.html');
+    var table = NameTable;
+    if(NameTable=="room")
+        table="rooms";
+    request.open('GET', '/templates/'+table+'.html');
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             if (request.status == 200) {
@@ -211,7 +254,9 @@ $(document).ready(function() {
             url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
             success: function(data) {
                 console.log(data);
+                futureQueryForID = {};
                 LoadTemplate();
+                arrayObj = {};
                 objects = new Array();
                 Data = data;
                 setHtml();
