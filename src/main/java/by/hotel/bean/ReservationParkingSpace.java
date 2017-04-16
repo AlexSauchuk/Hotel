@@ -1,8 +1,17 @@
 package by.hotel.bean;
 
+import by.hotel.builder.ReservationParkingSpaceBuilder;
+
 public class ReservationParkingSpace {
     private Reservation reservation;
     private ParkingSpace parkingSpace;
+
+    public ReservationParkingSpace(){super();}
+
+    public ReservationParkingSpace(ReservationParkingSpaceBuilder reservationParkingSpaceBuilder){
+        this.reservation = reservationParkingSpaceBuilder.getReservation();
+        this.parkingSpace = reservationParkingSpaceBuilder.getParkingSpace();
+    }
 
     public Reservation getReservation() {
         return reservation;

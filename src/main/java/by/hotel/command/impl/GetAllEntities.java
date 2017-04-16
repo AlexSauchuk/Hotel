@@ -7,13 +7,13 @@ import by.hotel.service.ServiceMapper;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
 public class GetAllEntities implements Command {
-    public Object execute(String request) throws CommandException {
+    public Object execute(Map<String, String[]> requestParameters) throws CommandException {
         List<?> resultList;
         try {
-            String[] requestParams = request.split("&");
-            CrudService service =  ServiceMapper.getService(requestParams[0]);
+            CrudService service =  ServiceMapper.getService(requestParameters.get("tableName")[0]);
             resultList = service.getAllEntities();
         }catch (ServiceException e){
             throw new CommandException(e);

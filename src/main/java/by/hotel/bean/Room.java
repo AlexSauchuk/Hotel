@@ -1,13 +1,21 @@
 package by.hotel.bean;
 
-/**
- * Created by SK on 16.02.2017.
- */
+import by.hotel.builder.RoomBuilder;
+
 public class Room {
     private int id;
     private int floor;
     private String phone;
     private RoomType roomType;
+
+    public Room(){super();}
+
+    public Room(RoomBuilder roomBuilder){
+        this.id = roomBuilder.getId();
+        this.floor = roomBuilder.getFloor();
+        this.phone = roomBuilder.getPhone();
+        this.roomType = roomBuilder.getRoomType();
+    }
 
     public RoomType getRoomType() {
         return roomType;
@@ -40,6 +48,4 @@ public class Room {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-
 }

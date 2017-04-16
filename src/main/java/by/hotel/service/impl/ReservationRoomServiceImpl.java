@@ -1,16 +1,17 @@
 package by.hotel.service.impl;
 
 import by.hotel.bean.ReservationRoom;
+import by.hotel.builder.ReservationBuilder;
+import by.hotel.builder.ReservationRoomBuilder;
+import by.hotel.builder.RoomBuilder;
 import by.hotel.dao.daoimpl.ReservationRoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.CrudService;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by 1 on 07.04.2017.
- */
 public class ReservationRoomServiceImpl implements CrudService<ReservationRoom> {
     ReservationRoomDaoImpl reservationRoomDao = new ReservationRoomDaoImpl();
 
@@ -30,9 +31,9 @@ public class ReservationRoomServiceImpl implements CrudService<ReservationRoom> 
         }
     }
 
-    public void removeEntity(ReservationRoom entity) throws ServiceException {
+    public void removeEntity(ReservationRoom reservationRoom) throws ServiceException {
         try {
-            reservationRoomDao.removeReservationRoom(entity);
+            reservationRoomDao.removeReservationRoom(reservationRoom);
         }catch (DAOException e){
             throw new ServiceException(e);
         }
@@ -44,5 +45,12 @@ public class ReservationRoomServiceImpl implements CrudService<ReservationRoom> 
         }catch (DAOException e){
             throw new ServiceException(e);
         }
+    }
+
+    public ReservationRoom buildEntity(Map<String, String> params) throws ServiceException {
+        return new ReservationRoomBuilder()
+                .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation"))).build())
+                .room(new RoomBuilder().id(Integer.parseInt(params.get("id_room"))).build())
+                .build();
     }
 }

@@ -74,7 +74,6 @@
         else
             objects.push(temporaryData[Object.keys(temporaryData)[col]]);
 
-        //console.log(objects);
         RecursionModals(objects[deep+1]);
     }
 
@@ -84,7 +83,7 @@
 
     function UpdateData(obj) {
         document.getElementById("mainForm").action =
-            '/servlet?tableName='+NameTable +'&action=UPDATE_ENTITY';
+            '/servlet?tableName='+NameTable +'&action=UPDATE';
         var editBody = document.getElementsByClassName('form-horizontal');
         var arrayValues = new Array();
         $(obj).each(function(){
@@ -133,12 +132,28 @@
     var childModal = '#modalWindow0';
 
     function DeleteRow(obj) {
-        document.getElementById('tableHotel').deleteRow(obj.closest("tr").rowIndex);
         $.ajax({
-            type: 'DELETE',
-            url: '/servlet?tableName='+NameTable +'&action=REMOVE',
-            data:{'id':obj.closest("tr").firstChild.textContent}
+            type: 'POST',
+            url: '/servlet?tableName=' + NameTable + '&action=REMOVE',
+            data:{'entityParams': formParams(obj.closest('tr').rowIndex)},
+            success:function(){
+                document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
+            }
         });
+    }
+
+    function formParams(rowIndex) {
+        var resultParams='';
+        var columnNames = $("#tableHotel").find("tr").first().children();
+        for(var i=0; i< columnNames.length; i++){
+            var currentObj = Data[rowIndex-1][columnNames[i].textContent];
+            if($.isPlainObject(currentObj)){
+                resultParams = resultParams.concat("id_",columnNames[i].textContent,":",currentObj["id"],",");
+            }else{
+                resultParams = resultParams.concat(columnNames[i].textContent,":",currentObj,",");
+            }
+        }
+        return resultParams.slice(0,resultParams.length-1);
     }
 
     function setHtml(){
@@ -198,7 +213,7 @@ function LoadTemplate() {
 
 $(document).ready(function() {
 
-    
+
     $('.col-lg-3').on('click', function(event) {
         var target = event.target;
 
@@ -210,7 +225,6 @@ $(document).ready(function() {
             type: 'GET',
             url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
             success: function(data) {
-                console.log(data);
                 LoadTemplate();
                 objects = new Array();
                 Data = data;

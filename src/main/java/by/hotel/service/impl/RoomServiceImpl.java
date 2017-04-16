@@ -1,6 +1,8 @@
 package by.hotel.service.impl;
 
 import by.hotel.bean.Room;
+import by.hotel.builder.RoomBuilder;
+import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.RoomDao;
 import by.hotel.dao.daoimpl.RoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
@@ -8,6 +10,7 @@ import by.hotel.service.CrudService;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
 public class RoomServiceImpl implements CrudService<Room> {
 	private RoomDao roomDao = new RoomDaoImpl();
@@ -28,9 +31,9 @@ public class RoomServiceImpl implements CrudService<Room> {
 		}
 	}
 
-	public void removeEntity(Room entity) throws ServiceException {
+	public void removeEntity(Room room) throws ServiceException {
 		try {
-			roomDao.removeRoom(entity);
+			roomDao.removeRoom(room);
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}
@@ -42,5 +45,14 @@ public class RoomServiceImpl implements CrudService<Room> {
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}
+	}
+
+	public Room buildEntity(Map<String, String> params) throws ServiceException {
+		return new RoomBuilder().id(Integer.parseInt(params.get("id")))
+				.roomType(new RoomTypeBuilder().id(Integer.parseInt(params.get("id_roomType")))
+						.build())
+				.floor(Integer.parseInt(params.get("floor")))
+				.phone(params.get("phone"))
+				.build();
 	}
 }

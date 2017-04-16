@@ -2,9 +2,8 @@ package by.hotel.command;
 
 import by.hotel.command.exception.CommandException;
 
-/**
- * Created by 1 on 28.02.2017.
- */
+import java.util.Map;
+
 public interface Command {
-    Object execute(String request) throws CommandException;
+    Object execute(Map<String, String[]> requestParameters) throws CommandException;
 }

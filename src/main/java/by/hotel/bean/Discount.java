@@ -1,11 +1,17 @@
 package by.hotel.bean;
 
-/**
- * Created by 1 on 04.04.2017.
- */
+import by.hotel.builder.DiscountBuilder;
+
 public class Discount {
     private int id;
-    private DiscountType discountType;
+    private String name;
+
+    public Discount(){super();}
+
+    public Discount(DiscountBuilder discountBuilder){
+        this.id = discountBuilder.getId();
+        this.name = discountBuilder.getName();
+    }
 
     public int getId() {
         return id;
@@ -15,11 +21,11 @@ public class Discount {
         this.id = id;
     }
 
-    public DiscountType getDiscountType() {
-        return discountType;
+    public String getName() {
+        return name;
     }
 
-    public void setDiscountType(DiscountType discountType) {
-        this.discountType = discountType;
+    public void setName(String name) {
+        this.name = name;
     }
 }

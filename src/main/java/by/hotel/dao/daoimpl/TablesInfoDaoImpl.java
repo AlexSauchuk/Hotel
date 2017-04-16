@@ -2,7 +2,6 @@ package by.hotel.dao.daoimpl;
 
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.TablesInfoDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 
 import java.sql.Connection;
@@ -12,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.hotel.dao.constants.Constants.GET_ALL_NAMES_TABLES;
+
 public class TablesInfoDaoImpl extends AbstractDao implements TablesInfoDao{
     public List<String> getNamesTables() throws DAOException {
         Connection connection=null;
@@ -20,7 +21,7 @@ public class TablesInfoDaoImpl extends AbstractDao implements TablesInfoDao{
         List<String> namesTables=new ArrayList<String>();
         try {
             connection = getConnection();
-            statement=connection.prepareStatement(Constants.GET_ALL_NAMES_TABLES);
+            statement=connection.prepareStatement(GET_ALL_NAMES_TABLES);
             resultSet=statement.executeQuery();
             while(resultSet.next()){
                 namesTables.add(resultSet.getString("Tables_in_db_hotel"));

@@ -8,9 +8,9 @@ import java.util.List;
 public interface ReservationDao {
     List<Reservation> getAllReservations() throws DAOException;
 
-    void addReservation(Reservation room) throws DAOException;
+    void addReservation(Reservation reservation) throws DAOException;
 
-    void removeReservation(Reservation room) throws DAOException;
+    void removeReservation(Reservation reservation) throws DAOException;
 
-    void updateReservation(Reservation room) throws DAOException;
+    void updateReservation(Reservation reservation) throws DAOException;
 }

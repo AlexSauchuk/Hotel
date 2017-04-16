@@ -1,11 +1,17 @@
 package by.hotel.bean;
 
-/**
- * Created by 1 on 06.04.2017.
- */
+import by.hotel.builder.ReservationRoomBuilder;
+
 public class ReservationRoom {
     private Room room;
     private Reservation reservation;
+
+    public ReservationRoom(){super();}
+
+    public ReservationRoom(ReservationRoomBuilder reservationRoomBuilder){
+        this.room = reservationRoomBuilder.getRoom();
+        this.reservation = reservationRoomBuilder.getReservation();
+    }
 
     public Room getRoom() {
         return room;
