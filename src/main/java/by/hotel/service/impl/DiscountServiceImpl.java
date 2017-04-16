@@ -45,9 +45,9 @@ public class DiscountServiceImpl implements CrudService<Discount> {
         }
     }
 
-    public Discount buildEntity(Map<String, String> params) throws ServiceException {
-        return new DiscountBuilder().id(Integer.parseInt(params.get("id")))
-                .name(params.get("name"))
+    public Discount buildEntity(Map<String, String[]> params) throws ServiceException {
+        return new DiscountBuilder().id(Integer.parseInt(params.get("id")[0]))
+                .name(params.get("name")[0])
                 .build();
     }
 }

@@ -47,12 +47,12 @@ public class RoomServiceImpl implements CrudService<Room> {
 		}
 	}
 
-	public Room buildEntity(Map<String, String> params) throws ServiceException {
-		return new RoomBuilder().id(Integer.parseInt(params.get("id")))
-				.roomType(new RoomTypeBuilder().id(Integer.parseInt(params.get("id_roomType")))
+    public Room buildEntity(Map<String, String[]> params) throws ServiceException {
+		return new RoomBuilder().id(Integer.parseInt(params.get("id")[0]))
+				.roomType(new RoomTypeBuilder().id(Integer.parseInt(params.get("id_roomType")[0]))
 						.build())
-				.floor(Integer.parseInt(params.get("floor")))
-				.phone(params.get("phone"))
+				.floor(Integer.parseInt(params.get("floor")[0]))
+				.phone(params.get("phone")[0])
 				.build();
 	}
 }

@@ -47,10 +47,10 @@ public class ReservationRoomServiceImpl implements CrudService<ReservationRoom> 
         }
     }
 
-    public ReservationRoom buildEntity(Map<String, String> params) throws ServiceException {
+    public ReservationRoom buildEntity(Map<String, String[]> params) throws ServiceException {
         return new ReservationRoomBuilder()
-                .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation"))).build())
-                .room(new RoomBuilder().id(Integer.parseInt(params.get("id_room"))).build())
+                .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation")[0])).build())
+                .room(new RoomBuilder().id(Integer.parseInt(params.get("id_room")[0])).build())
                 .build();
     }
 }

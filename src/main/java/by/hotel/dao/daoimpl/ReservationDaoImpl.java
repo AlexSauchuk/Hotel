@@ -1,6 +1,7 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.Reservation;
+import by.hotel.builder.DiscountBuilder;
 import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
@@ -24,6 +25,7 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         ResultSet resultSet = null;
         List<Reservation> reservations = new ArrayList<Reservation>();
         UserBuilder userBuilder = new UserBuilder();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
         ReservationBuilder reservationBuilder = new ReservationBuilder();
         try {
             connection = getConnection();
@@ -39,6 +41,10 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
                                             .surname(resultSet.getString("surname"))
                                             .sex(resultSet.getString("sex"))
                                             .mobilePhone(resultSet.getString("mobile_phone"))
+                                            .build())
+                                    .costAdditionalServices(resultSet.getInt("cost_additional_services"))
+                                    .discount(discountBuilder.id(resultSet.getInt("discount_id"))
+                                            .name(resultSet.getString("discount_name"))
                                             .build())
                                     .build());
             }

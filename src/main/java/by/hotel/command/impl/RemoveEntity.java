@@ -13,7 +13,7 @@ public class RemoveEntity implements Command {
     public Object execute(Map<String, String[]> requestParameters) throws CommandException {
         try {
             CrudService service =  ServiceMapper.getService(requestParameters.get("tableName")[0]);
-            Map<String, String> entityParams = ParametersParser.parseParameters(requestParameters.get("entityParams")[0]);
+            Map<String, String[]> entityParams = ParametersParser.parseParameters(requestParameters.get("entityParams")[0]);
             service.removeEntity(service.buildEntity(entityParams));
         }catch (ServiceException e){
             throw new CommandException(e);

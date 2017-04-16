@@ -13,8 +13,7 @@ public class UpdateEntity implements Command {
     public Object execute(Map<String, String[]> requestParameters) throws CommandException {
         try {
             CrudService service =  ServiceMapper.getService(requestParameters.get("tableName")[0]);
-            Map<String, String> entityParams = ParametersParser.parseParameters(requestParameters.get("entityParams")[0]);
-            service.updateEntity(service.buildEntity(entityParams));
+            service.updateEntity(service.buildEntity(requestParameters));
         }catch (ServiceException e){
             throw new CommandException(e);
         }

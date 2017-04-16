@@ -24,6 +24,7 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         RoomBuilder roomBuilder = new RoomBuilder();
         UserBuilder userBuilder = new UserBuilder();
         RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
         ReservationBuilder reservationBuilder = new ReservationBuilder();
         ReservationRoomBuilder reservationRoomBuilder = new ReservationRoomBuilder();
         try {
@@ -40,6 +41,10 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
                                         .surname(resultSet.getString("surname"))
                                         .sex(resultSet.getString("sex"))
                                         .mobilePhone(resultSet.getString("mobile_phone"))
+                                        .build())
+                                .costAdditionalServices(resultSet.getInt("cost_additional_services"))
+                                .discount(discountBuilder.id(resultSet.getInt("discount_id"))
+                                        .name(resultSet.getString("discount_name"))
                                         .build())
                                 .build();
                 Room room = roomBuilder.id(resultSet.getInt("id_room"))

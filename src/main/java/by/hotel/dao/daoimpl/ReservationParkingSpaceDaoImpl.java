@@ -1,10 +1,7 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.ReservationParkingSpace;
-import by.hotel.builder.ParkingSpaceBuilder;
-import by.hotel.builder.ReservationBuilder;
-import by.hotel.builder.ReservationParkingSpaceBuilder;
-import by.hotel.builder.UserBuilder;
+import by.hotel.builder.*;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationParkingSpaceDao;
 import by.hotel.dao.constants.Constants;
@@ -26,6 +23,7 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
         ResultSet resultSet = null;
         List<ReservationParkingSpace> reservationParkingSpaces = new ArrayList<ReservationParkingSpace>();
         UserBuilder userBuilder = new UserBuilder();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
         ReservationBuilder reservationBuilder = new ReservationBuilder();
         ParkingSpaceBuilder parkingSpaceBuilder = new ParkingSpaceBuilder();
         ReservationParkingSpaceBuilder reservationParkingSpaceBuilder = new ReservationParkingSpaceBuilder();
@@ -44,6 +42,10 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
                                                 .surname(resultSet.getString("surname"))
                                                 .sex(resultSet.getString("sex"))
                                                 .mobilePhone(resultSet.getString("mobile_phone"))
+                                                .build())
+                                        .costAdditionalServices(resultSet.getInt("cost_additional_services"))
+                                        .discount(discountBuilder.id(resultSet.getInt("discount_id"))
+                                                .name(resultSet.getString("discount_name"))
                                                 .build())
                                         .build())
                                     .parkingSpace(parkingSpaceBuilder.id(resultSet.getInt("id_parking_space"))

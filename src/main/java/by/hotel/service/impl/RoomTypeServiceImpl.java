@@ -45,12 +45,12 @@ public class RoomTypeServiceImpl implements CrudService<RoomType> {
         }
     }
 
-    public RoomType buildEntity(Map<String, String> params) throws ServiceException {
-        return new RoomTypeBuilder().id(Integer.parseInt(params.get("id")))
-                .roomsCount(Integer.parseInt(params.get("rooms_count")))
-                .bedsCount(Integer.parseInt(params.get("beds_count")))
-                .costPerDay(Integer.parseInt(params.get("cost_per_day")))
-                .additionalInfo(params.get("additional_info"))
+    public RoomType buildEntity(Map<String, String[]> params) throws ServiceException {
+        return new RoomTypeBuilder().id(Integer.parseInt(params.get("id")[0]))
+                .roomsCount(Integer.parseInt(params.get("rooms_count")[0]))
+                .bedsCount(Integer.parseInt(params.get("beds_count")[0]))
+                .costPerDay(Integer.parseInt(params.get("cost_per_day")[0]))
+                .additionalInfo(params.get("additional_info")[0])
                 .build();
     }
 }

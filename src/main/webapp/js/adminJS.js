@@ -148,9 +148,9 @@
         for(var i=0; i< columnNames.length; i++){
             var currentObj = Data[rowIndex-1][columnNames[i].textContent];
             if($.isPlainObject(currentObj)){
-                resultParams = resultParams.concat("id_",columnNames[i].textContent,":",currentObj["id"],",");
+                resultParams = resultParams.concat("id_",columnNames[i].textContent,":",currentObj["id"],"&");
             }else{
-                resultParams = resultParams.concat(columnNames[i].textContent,":",currentObj,",");
+                resultParams = resultParams.concat(columnNames[i].textContent,":",currentObj,"&");
             }
         }
         return resultParams.slice(0,resultParams.length-1);

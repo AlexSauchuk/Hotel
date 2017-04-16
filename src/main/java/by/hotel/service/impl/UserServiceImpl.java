@@ -46,16 +46,16 @@ public class UserServiceImpl implements CrudService<User> {
 		}
 	}
 
-	public User buildEntity(Map<String,String> params) throws ServiceException {
-		return new UserBuilder().id(Integer.parseInt(params.get("id")))
-				.name(params.get("name"))
-				.surname(params.get("surname"))
-				.passportNumber(params.get("passport_number"))
-				.login(params.get("login"))
-				.password(params.get("password"))
-				.passportNumber(params.get("passport_number"))
-				.sex(params.get("sex"))
-				.idRole(params.get("idRole").equals("null") ? 0 : Integer.parseInt(params.get("idRole")))
+	public User buildEntity(Map<String,String[]> params) throws ServiceException {
+		return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
+				.name(params.get("name")[0])
+				.surname(params.get("surname")[0])
+				.passportNumber(params.get("passport_number")[0])
+				.login(params.get("login")[0])
+				.password(params.get("password")[0])
+				.passportNumber(params.get("passport_number")[0])
+				.sex(params.get("sex")[0])
+				.idRole(params.get("idRole")[0].equals("null") ? 0 : Integer.parseInt(params.get("idRole")[0]))
 				.build();
 	}
 }

@@ -45,10 +45,10 @@ public class ParkingSpaceServiceImpl implements CrudService<ParkingSpace> {
         }
     }
 
-    public ParkingSpace buildEntity(Map<String, String> params) throws ServiceException {
-        return new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id")))
-                .level(Integer.parseInt(params.get("level")))
-                .isReserved(Boolean.parseBoolean(params.get("isReserved")))
+    public ParkingSpace buildEntity(Map<String, String[]> params) throws ServiceException {
+        return new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id")[0]))
+                .level(Integer.parseInt(params.get("level")[0]))
+                .isReserved(Boolean.parseBoolean(params.get("isReserved")[0]))
                 .build();
     }
 }
