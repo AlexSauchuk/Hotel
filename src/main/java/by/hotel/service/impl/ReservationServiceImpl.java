@@ -6,7 +6,7 @@ import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.daoimpl.ReservationDaoImpl;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.service.CrudService;
+import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
 import java.sql.Date;
@@ -15,12 +15,12 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
-public class ReservationServiceImpl implements CrudService<Reservation>{
+public class ReservationServiceImpl implements CrudServiceExtended<Reservation> {
     ReservationDaoImpl reservationDao = new ReservationDaoImpl();
 
-    public List<Integer> getAllId() throws ServiceException {
+    public List<String> getAllHeaders() throws ServiceException {
         try {
-            return reservationDao.getId();
+            return reservationDao.getReservationHeaders();
         }catch (DAOException e){
             throw new ServiceException(e);
         }

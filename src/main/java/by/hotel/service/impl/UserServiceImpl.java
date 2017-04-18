@@ -5,20 +5,18 @@ import by.hotel.builder.UserBuilder;
 import by.hotel.dao.UserDao;
 import by.hotel.dao.daoimpl.UserDaoImpl;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.service.CrudService;
+import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserServiceImpl implements CrudService<User> {
+public class UserServiceImpl implements CrudServiceExtended<User> {
 	private UserDao userDao = new UserDaoImpl();
 
-
-	public List<Integer> getAllId() throws ServiceException {
+	public List<String> getAllHeaders() throws ServiceException {
 		try {
-			return userDao.getId();
+			return userDao.getUserHeaders();
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}

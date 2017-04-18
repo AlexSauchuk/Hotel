@@ -4,18 +4,18 @@ import by.hotel.bean.Discount;
 import by.hotel.builder.DiscountBuilder;
 import by.hotel.dao.daoimpl.DiscountDaoImpl;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.service.CrudService;
+import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 import java.util.Map;
 
-public class DiscountServiceImpl implements CrudService<Discount> {
+public class DiscountServiceImpl implements CrudServiceExtended<Discount> {
     private DiscountDaoImpl discountDao = new DiscountDaoImpl();
 
-    public List<Integer> getAllId() throws ServiceException {
+    public List<String> getAllHeaders() throws ServiceException {
         try {
-            return discountDao.getId();
+            return discountDao.getDiscountHeaders();
         }catch (DAOException e){
             throw new ServiceException(e);
         }

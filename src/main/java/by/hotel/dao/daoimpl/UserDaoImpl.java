@@ -17,24 +17,29 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
-    public List<Integer> getId() throws DAOException {
+    public List<String> getUserHeaders() throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Integer> arrayId = new ArrayList<Integer>();
+        List<String> headers = new ArrayList<String>();
+        StringBuilder stringBuilder = new StringBuilder();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_ID_USER);
+            statement = connection.prepareStatement(GET_ALL_USERS_HEADERS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                arrayId.add(resultSet.getInt("id"));
+                stringBuilder.append(resultSet.getInt("id")+" ");
+                stringBuilder.append(resultSet.getString("surname")+" ");
+                stringBuilder.append(resultSet.getString("name"));
+                headers.add(stringBuilder.toString());
+                stringBuilder.setLength(0);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
             closeConnection(connection, statement, resultSet);
         }
-        return arrayId;
+        return headers;
     }
 
     public List<User> getUsers() throws DAOException {

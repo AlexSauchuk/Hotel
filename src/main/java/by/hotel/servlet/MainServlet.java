@@ -2,7 +2,7 @@ package by.hotel.servlet;
 
 import by.hotel.command.exception.CommandException;
 import by.hotel.factories.commandfactory.CommandFactory;
-import by.hotel.factories.commandfactory.commandfactoriesimplementation.CommandFactoryMapper;
+import by.hotel.factories.commandfactory.commandfactoriesimpl.CommandFactoryMapper;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

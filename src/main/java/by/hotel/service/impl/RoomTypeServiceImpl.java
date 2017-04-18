@@ -4,18 +4,18 @@ import by.hotel.bean.RoomType;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.daoimpl.RoomTypeDaoImpl;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.service.CrudService;
+import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 import java.util.Map;
 
-public class RoomTypeServiceImpl implements CrudService<RoomType> {
+public class RoomTypeServiceImpl implements CrudServiceExtended<RoomType> {
     private RoomTypeDaoImpl roomTypeDao = new RoomTypeDaoImpl();
 
-    public List<Integer> getAllId() throws ServiceException {
+    public List<String> getAllHeaders() throws ServiceException {
         try {
-            return roomTypeDao.getId();
+            return roomTypeDao.getRoomTypeHeaders();
         }catch (DAOException e){
             throw new ServiceException(e);
         }

@@ -17,8 +17,28 @@ import java.util.Map;
 import static by.hotel.dao.constants.Constants.*;
 
 public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
-    public List<Integer> getId() throws DAOException {
-        return null;
+    public List<String> getDiscountHeaders() throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<String> headers = new ArrayList<String>();
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(GET_ALL_DISCOUNTS_HEADERS);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                stringBuilder.append(resultSet.getInt("id") + " ");
+                stringBuilder.append(resultSet.getString("name"));
+                headers.add(stringBuilder.toString());
+                stringBuilder.setLength(0);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeConnection(connection, statement, resultSet);
+        }
+        return headers;
     }
 
     public List<Discount> getDiscounts() throws DAOException {

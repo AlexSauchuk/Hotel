@@ -6,18 +6,18 @@ import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.RoomDao;
 import by.hotel.dao.daoimpl.RoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.service.CrudService;
+import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 import java.util.Map;
 
-public class RoomServiceImpl implements CrudService<Room> {
+public class RoomServiceImpl implements CrudServiceExtended<Room> {
 	private RoomDao roomDao = new RoomDaoImpl();
 
-	public List<Integer> getAllId() throws ServiceException {
+	public List<String> getAllHeaders() throws ServiceException {
 		try {
-			return roomDao.getId();
+			return roomDao.getRoomHeaders();
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}

@@ -1,8 +1,6 @@
 /**
  * Created by SK on 28.03.2017.
  */
-    
-
     function decreaseDeep() {
         deep--;
         zIndex--;
@@ -118,7 +116,6 @@
                 }
             });
         });
-
     }
 
     var NameTable = "";

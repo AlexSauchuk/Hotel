@@ -4,18 +4,18 @@ import by.hotel.bean.ParkingSpace;
 import by.hotel.builder.ParkingSpaceBuilder;
 import by.hotel.dao.daoimpl.ParkingSpaceDaoImpl;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.service.CrudService;
+import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 import java.util.Map;
 
-public class ParkingSpaceServiceImpl implements CrudService<ParkingSpace> {
+public class ParkingSpaceServiceImpl implements CrudServiceExtended<ParkingSpace> {
     private ParkingSpaceDaoImpl parkingSpaceDao = new ParkingSpaceDaoImpl();
 
-    public List<Integer> getAllId() throws ServiceException {
+    public List<String> getAllHeaders() throws ServiceException {
         try {
-            return parkingSpaceDao.getId();
+            return parkingSpaceDao.getParkingSpaceHeaders();
         }catch (DAOException e){
             throw new ServiceException(e);
         }

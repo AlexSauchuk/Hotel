@@ -1,11 +1,9 @@
 package by.hotel.dao.daoimpl;
 
-import by.hotel.bean.Room;
 import by.hotel.bean.RoomType;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoomTypeDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.util.ErrorStringBuilder;
 
@@ -18,24 +16,28 @@ import java.util.Map;
 import static by.hotel.dao.constants.Constants.*;
 
 public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
-    public List<Integer> getId() throws DAOException {
+    public List<String> getRoomTypeHeaders() throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Integer> arrayId = new ArrayList<Integer>();
+        List<String> headers = new ArrayList<String>();
+        StringBuilder stringBuilder = new StringBuilder();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_ID_ROOM_TYPES);
+            statement = connection.prepareStatement(GET_ALL_ROOM_TYPES_HEADERS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                arrayId.add(resultSet.getInt("id"));
+                stringBuilder.append(resultSet.getInt("id")+" ");
+                stringBuilder.append(resultSet.getString("rooms_count"));
+                headers.add(stringBuilder.toString());
+                stringBuilder.setLength(0);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
             closeConnection(connection, statement, resultSet);
         }
-        return arrayId;
+        return headers;
     }
 
     public List<RoomType> getRoomTypes() throws DAOException {

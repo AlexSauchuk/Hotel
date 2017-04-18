@@ -19,8 +19,29 @@ import java.util.Map;
 import static by.hotel.dao.constants.Constants.*;
 
 public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
-    public List<Integer> getId() throws DAOException {
-        return null;
+    public List<String> getReservationHeaders() throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<String> headers = new ArrayList<String>();
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(GET_ALL_RESERVATIONS_HEADERS);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                stringBuilder.append(resultSet.getInt("id")+" ");
+                stringBuilder.append(resultSet.getString("date-in")+" ");
+                stringBuilder.append(resultSet.getString("date-out"));
+                headers.add(stringBuilder.toString());
+                stringBuilder.setLength(0);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeConnection(connection, statement, resultSet);
+        }
+        return headers;
     }
 
     public List<Reservation> getAllReservations() throws DAOException {
