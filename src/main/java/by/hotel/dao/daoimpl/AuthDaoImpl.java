@@ -10,9 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by 1 on 14.04.2017.
- */
 public class AuthDaoImpl extends AbstractDao implements AuthDao {
     public boolean authorisation(String login, String password, Connection connection) throws DAOException{
         PreparedStatement statement = null;

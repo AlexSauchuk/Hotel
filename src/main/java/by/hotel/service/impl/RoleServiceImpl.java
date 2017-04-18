@@ -20,7 +20,7 @@ public class RoleServiceImpl extends AbstractService implements CrudService<Role
         Connection connection = null;
         try {
             connection = getConnection();
-            return roleDao.getRoles(getConnection());
+            return roleDao.getRoles(connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }finally {
@@ -32,7 +32,7 @@ public class RoleServiceImpl extends AbstractService implements CrudService<Role
         Connection connection = null;
         try {
             connection = getConnection();
-            roleDao.addRole(entity,getConnection());
+            roleDao.addRole(entity,connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }finally {
@@ -44,7 +44,7 @@ public class RoleServiceImpl extends AbstractService implements CrudService<Role
         Connection connection = null;
         try {
             connection = getConnection();
-            roleDao.removeRole(entity,getConnection());
+            roleDao.removeRole(entity,connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }finally {
@@ -56,7 +56,7 @@ public class RoleServiceImpl extends AbstractService implements CrudService<Role
         Connection connection = null;
         try {
             connection = getConnection();
-            roleDao.updateRole(entity,getConnection());
+            roleDao.updateRole(entity,connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }finally {

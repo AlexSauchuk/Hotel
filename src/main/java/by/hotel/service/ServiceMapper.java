@@ -25,5 +25,4 @@ public class ServiceMapper {
     public static CrudService getService(String serviceName) {
         return services.get(serviceName.toUpperCase());
     }
-
 }

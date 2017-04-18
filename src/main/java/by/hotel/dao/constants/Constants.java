@@ -84,17 +84,14 @@ public class Constants {
     public static final String REMOVE_DISCOUNT = "DELETE FROM `db_hotel`.`discount` WHERE `id`=?";
     public static final String UPDATE_DISCOUNT = "UPDATE `db_hotel`.`discount` SET `name`=? WHERE `id`=?";
     public static final String GET_ALL_DISCOUNTS_HEADERS = "SELECT `id`, `name` FROM `db_hotel`.`discount`";
-
-    public static final String GET_ALL_ROLES_HEADERS = "SELECT `id`, `name_role` FROM `db_hotel`.`role`";
- //   public static final String GET_DISCOUNT = "SELECT `id`, `id_user`, `name`, `surname`, `room_number`, `date-in`, `date-out`, `days_count` " +
+    //   public static final String GET_DISCOUNT = "SELECT `id`, `id_user`, `name`, `surname`, `room_number`, `date-in`, `date-out`, `days_count` " +
   //          "FROM (`db_hotel`.`reservation` LEFT OUTER JOIN `db_hotel`.`user` ON `reservation`.`id_user` = `user`.`id`)";
 
-
     public static final String GET_ALL_ROLES = "SELECT `id`,`name_role`, `update`, `delete`, `insert`, `create`, `select`, `drop`, `grant` FROM `db_hotel`.`role`";
-    public static final String ADD_ROLE = "INSERT INTO `db_hotel`.`role` (`id`,`name_role`, `update`, `delete`, `insert`, `create`, `select`, `drop`, `grant`) VALUES (?,?,?,?,?,?,?,?,?)";
+    public static final String ADD_ROLE = "INSERT INTO `db_hotel`.`role` (`name_role`, `update`, `delete`, `insert`, `create`, `select`, `drop`, `grant`) VALUES (?,?,?,?,?,?,?,?)";
     public static final String REMOVE_ROLE = "DELETE FROM `db_hotel`.`role` WHERE `id`=?";
     public static final String UPDATE_ROLE = "UPDATE `db_hotel`.`role` SET `name_role`=?, `update`=?, `delete`=?,`insert`=?, `create`=?, `select`=?,`drop`=?, `grant`=? WHERE `id`=?";
-
+    public static final String GET_ALL_ROLES_HEADERS = "SELECT `id`, `name_role` FROM `db_hotel`.`role`";
 
     public static final String AUTR_USER = "SELECT `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `role` FROM `db_hotel`.`user` WHERE `id`=? AND `password`=?";
 }

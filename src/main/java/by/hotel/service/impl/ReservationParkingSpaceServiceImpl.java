@@ -20,7 +20,7 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
         Connection connection = null;
         try {
             connection = getConnection();
-            return reservationParkingSpaceDao.getReservationParkingSpaces(getConnection());
+            return reservationParkingSpaceDao.getReservationParkingSpaces(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -32,7 +32,7 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationParkingSpaceDao.addReservationParkingSpace(entity,getConnection());
+            reservationParkingSpaceDao.addReservationParkingSpace(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -44,7 +44,7 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationParkingSpaceDao.removeReservationParkingSpace(reservationParkingSpace,getConnection());
+            reservationParkingSpaceDao.removeReservationParkingSpace(reservationParkingSpace,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -56,7 +56,7 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationParkingSpaceDao.updateReservationParkingSpace(entity,getConnection());
+            reservationParkingSpaceDao.updateReservationParkingSpace(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {

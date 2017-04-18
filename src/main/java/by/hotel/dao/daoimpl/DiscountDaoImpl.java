@@ -33,7 +33,7 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return headers;
     }

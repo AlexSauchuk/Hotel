@@ -16,7 +16,7 @@ import java.util.Map;
 import static by.hotel.dao.constants.Constants.*;
 
 public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao {
-    public List<String> getParkingSpaceHeaders() throws DAOException {
+    public List<String> getParkingSpaceHeaders(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<String> headers = new ArrayList<String>();
@@ -33,7 +33,7 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return headers;
     }
@@ -49,7 +49,7 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
             while (resultSet.next()) {
                 parkingSpaces.add(parkingSpaceBuilder.id(resultSet.getInt("id"))
                                     .level(resultSet.getInt("level"))
-                                    .isReserved(resultSet.getBoolean("is_reserved"))
+                                    .reserved(resultSet.getByte("is_reserved"))
                                     .build());
             }
         } catch (SQLException e) {
@@ -108,7 +108,7 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
 
     private PreparedStatement fillStatement(PreparedStatement statement, ParkingSpace parkingSpace) throws SQLException {
         statement.setInt(1, parkingSpace.getLevel());
-        statement.setBoolean(2, parkingSpace.isReserved());
+        statement.setByte(2, parkingSpace.getReserved());
         return statement;
     }
 

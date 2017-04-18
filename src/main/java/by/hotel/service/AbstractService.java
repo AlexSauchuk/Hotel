@@ -1,7 +1,5 @@
 package by.hotel.service;
 
-import by.hotel.dao.AbstractDao;
-import by.hotel.dao.exception.DAOException;
 import by.hotel.service.exception.ServiceException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -10,12 +8,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.SQLException;
 import java.util.Properties;
 
-/**
- * Created by 1 on 18.04.2017.
- */
 public class AbstractService {
     private static final Logger logger;
     private static HikariDataSource dataSource;

@@ -16,10 +16,14 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
     private ParkingSpaceDaoImpl parkingSpaceDao = new ParkingSpaceDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
+        Connection connection = null;
         try {
-            return parkingSpaceDao.getParkingSpaceHeaders();
+            connection = getConnection();
+            return parkingSpaceDao.getParkingSpaceHeaders(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
@@ -30,6 +34,8 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
             return parkingSpaceDao.getParkingSpaces(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
@@ -40,6 +46,8 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
             parkingSpaceDao.addParkingSpace(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 

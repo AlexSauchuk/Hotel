@@ -18,7 +18,7 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
-    public List<String> getUserHeaders() throws DAOException {
+    public List<String> getUserHeaders(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<String> headers = new ArrayList<String>();
@@ -36,7 +36,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return headers;
     }

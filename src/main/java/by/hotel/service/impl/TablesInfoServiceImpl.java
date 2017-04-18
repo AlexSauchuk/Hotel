@@ -16,7 +16,7 @@ public class TablesInfoServiceImpl extends AbstractService implements TablesInfo
         Connection connection = null;
         try {
             connection = getConnection();
-            return tablesInfoDao.getNamesTables(getConnection());
+            return tablesInfoDao.getNamesTables(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {

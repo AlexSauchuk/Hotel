@@ -21,7 +21,7 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         Connection connection = null;
         try {
             connection = getConnection();
-            return reservationRoomDao.getReservationRooms(getConnection());
+            return reservationRoomDao.getReservationRooms(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -33,7 +33,7 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationRoomDao.addReservationRoom(entity,getConnection());
+            reservationRoomDao.addReservationRoom(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -45,7 +45,7 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationRoomDao.removeReservationRoom(reservationRoom,getConnection());
+            reservationRoomDao.removeReservationRoom(reservationRoom,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -57,7 +57,7 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationRoomDao.updateReservationRoom(entity,getConnection());
+            reservationRoomDao.updateReservationRoom(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {

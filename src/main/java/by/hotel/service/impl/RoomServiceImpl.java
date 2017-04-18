@@ -18,10 +18,14 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
 	private RoomDao roomDao = new RoomDaoImpl();
 
 	public List<String> getAllHeaders() throws ServiceException {
+		Connection connection = null;
 		try {
-			return roomDao.getRoomHeaders();
+			connection = getConnection();
+			return roomDao.getRoomHeaders(connection);
 		}catch (DAOException e){
 			throw new ServiceException(e);
+		}finally {
+			closeConnection(connection);
 		}
 	}
 
@@ -29,7 +33,7 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			return roomDao.getRooms(getConnection());
+			return roomDao.getRooms(connection);
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}finally {
@@ -41,7 +45,7 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			roomDao.addRoom(entity,getConnection());
+			roomDao.addRoom(entity,connection);
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}finally {
@@ -53,7 +57,7 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			roomDao.removeRoom(room,getConnection());
+			roomDao.removeRoom(room,connection);
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}finally {
@@ -65,7 +69,7 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			roomDao.updateRoom(entity,getConnection());
+			roomDao.updateRoom(entity,connection);
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}finally {

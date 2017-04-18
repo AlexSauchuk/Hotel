@@ -1,13 +1,7 @@
 package by.hotel.service.validator;
 
-import by.hotel.bean.ParkingSpace;
-import by.hotel.bean.Role;
-
 import java.util.Map;
 
-/**
- * Created by 1 on 18.04.2017.
- */
 public class ValidatorParkingSpace extends AbstractValidator{
     public boolean validate(Map<String, String[]> data) {
         if (validateReserved(data.get("isReserved")[0]) & validateReserved(data.get("level")[0])){

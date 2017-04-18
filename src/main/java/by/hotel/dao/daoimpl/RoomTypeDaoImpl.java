@@ -16,8 +16,7 @@ import java.util.Map;
 import static by.hotel.dao.constants.Constants.*;
 
 public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
-    public List<String> getRoomTypeHeaders() throws DAOException {
-        Connection connection = null;
+    public List<String> getRoomTypeHeaders(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<String> headers = new ArrayList<String>();
@@ -34,7 +33,7 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return headers;
     }

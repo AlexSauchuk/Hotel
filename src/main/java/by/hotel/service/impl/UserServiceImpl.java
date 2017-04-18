@@ -18,10 +18,14 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
     private UserDao userDao = new UserDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
+        Connection connection = null;
         try {
-            return userDao.getUserHeaders();
+            connection = getConnection();
+            return userDao.getUserHeaders(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 

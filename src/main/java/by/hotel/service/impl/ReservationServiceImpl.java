@@ -21,10 +21,14 @@ public class ReservationServiceImpl extends AbstractService implements CrudServi
     ReservationDaoImpl reservationDao = new ReservationDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
+        Connection connection = null;
         try {
-            return reservationDao.getReservationHeaders();
+            connection = getConnection();
+            return reservationDao.getReservationHeaders(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
@@ -32,7 +36,7 @@ public class ReservationServiceImpl extends AbstractService implements CrudServi
         Connection connection = null;
         try {
             connection = getConnection();
-            return reservationDao.getAllReservations(getConnection());
+            return reservationDao.getAllReservations(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -44,7 +48,7 @@ public class ReservationServiceImpl extends AbstractService implements CrudServi
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationDao.addReservation(entity,getConnection());
+            reservationDao.addReservation(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -56,7 +60,7 @@ public class ReservationServiceImpl extends AbstractService implements CrudServi
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationDao.removeReservation(reservation,getConnection());
+            reservationDao.removeReservation(reservation,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -68,7 +72,7 @@ public class ReservationServiceImpl extends AbstractService implements CrudServi
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationDao.updateReservation(entity,getConnection());
+            reservationDao.updateReservation(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {

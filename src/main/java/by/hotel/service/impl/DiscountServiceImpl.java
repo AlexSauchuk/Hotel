@@ -16,10 +16,14 @@ public class DiscountServiceImpl extends AbstractService implements CrudServiceE
     private DiscountDaoImpl discountDao = new DiscountDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
+        Connection connection = null;
         try {
-            return discountDao.getDiscountHeaders();
+            connection = getConnection();
+            return discountDao.getDiscountHeaders(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
@@ -27,9 +31,11 @@ public class DiscountServiceImpl extends AbstractService implements CrudServiceE
         Connection connection = null;
         try {
             connection = getConnection();
-            return discountDao.getDiscounts(getConnection());
+            return discountDao.getDiscounts(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
@@ -37,7 +43,7 @@ public class DiscountServiceImpl extends AbstractService implements CrudServiceE
         Connection connection = null;
         try {
             connection = getConnection();
-            discountDao.addDiscount(entity,getConnection());
+            discountDao.addDiscount(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -49,7 +55,7 @@ public class DiscountServiceImpl extends AbstractService implements CrudServiceE
         Connection connection = null;
         try {
             connection = getConnection();
-            discountDao.removeDiscount(discount,getConnection());
+            discountDao.removeDiscount(discount,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -61,7 +67,7 @@ public class DiscountServiceImpl extends AbstractService implements CrudServiceE
         Connection connection = null;
         try {
             connection = getConnection();
-            discountDao.updateDiscount(entity,getConnection());
+            discountDao.updateDiscount(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {

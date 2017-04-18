@@ -16,10 +16,14 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
     private RoomTypeDaoImpl roomTypeDao = new RoomTypeDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
+        Connection connection = null;
         try {
-            return roomTypeDao.getRoomTypeHeaders();
+            connection = getConnection();
+            return roomTypeDao.getRoomTypeHeaders(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
@@ -27,7 +31,7 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         Connection connection = null;
         try {
             connection = getConnection();
-            return roomTypeDao.getRoomTypes(getConnection());
+            return roomTypeDao.getRoomTypes(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -39,7 +43,7 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         Connection connection = null;
         try {
             connection = getConnection();
-            roomTypeDao.addRoomType(entity,getConnection());
+            roomTypeDao.addRoomType(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -51,7 +55,7 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         Connection connection = null;
         try {
             connection = getConnection();
-            roomTypeDao.removeRoomType(roomType,getConnection());
+            roomTypeDao.removeRoomType(roomType,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -63,7 +67,7 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         Connection connection = null;
         try {
             connection = getConnection();
-            roomTypeDao.updateRoomType(entity,getConnection());
+            roomTypeDao.updateRoomType(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {

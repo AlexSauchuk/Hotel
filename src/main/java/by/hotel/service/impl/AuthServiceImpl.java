@@ -1,9 +1,7 @@
 package by.hotel.service.impl;
 
 import by.hotel.dao.AuthDao;
-import by.hotel.dao.UserDao;
 import by.hotel.dao.daoimpl.AuthDaoImpl;
-import by.hotel.dao.daoimpl.UserDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.AuthService;
@@ -17,7 +15,7 @@ public class AuthServiceImpl extends AbstractService implements AuthService {
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			return authDao.authorisation(login,password,getConnection());
+			return authDao.authorisation(login,password,connection);
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}finally {
