@@ -1,14 +1,11 @@
 package by.hotel.dao.daoimpl;
 
-import by.hotel.bean.Room;
 import by.hotel.bean.RoomType;
+import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.AbstractDao;
-import by.hotel.dao.RoomDao;
 import by.hotel.dao.RoomTypeDao;
 import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,27 +16,24 @@ import java.util.List;
 
 import static by.hotel.dao.constants.Constants.*;
 
-/**
- * Created by 1 on 04.04.2017.
- */
 public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
     public List<RoomType> getRoomTypes() throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<RoomType> roomTypes = new ArrayList<RoomType>();
+        RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_ROOM_TYPES);
+            statement = connection.prepareStatement(GET_ALL_ROOM_TYPES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                RoomType roomType = new RoomType();
-                roomType.setId(resultSet.getInt("id"));
-                roomType.setRoomsCount(resultSet.getInt("rooms_count"));
-                roomType.setBedsCount(resultSet.getInt("beds_count"));
-                roomType.setCostPerDay(resultSet.getInt("cost_per_day"));
-                roomType.setAdditionalInfo(resultSet.getString("additional_info"));
-                roomTypes.add(roomType);
+                 roomTypes.add(roomTypeBuilder.id(resultSet.getInt("id"))
+                                .roomsCount(resultSet.getInt("rooms_count"))
+                                .bedsCount(resultSet.getInt("beds_count"))
+                                .costPerDay(resultSet.getInt("cost_per_day"))
+                                .additionalInfo(resultSet.getString("additional_info"))
+                                .build());
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -69,8 +63,8 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement.setInt(1, roomType.getId());
             statement = connection.prepareStatement(REMOVE_ROOM_TYPE);
+            statement.setInt(1, roomType.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);

@@ -1,12 +1,10 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.ParkingSpace;
+import by.hotel.builder.ParkingSpaceBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ParkingSpaceDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,12 +21,16 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<ParkingSpace> parkingSpaces = new ArrayList<ParkingSpace>();
+        ParkingSpaceBuilder parkingSpaceBuilder = new ParkingSpaceBuilder();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_PARKING_SPACES);
+            statement = connection.prepareStatement(GET_ALL_PARKING_SPACES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                parkingSpaces.add(fillParkingSpace(resultSet));
+                parkingSpaces.add(parkingSpaceBuilder.id(resultSet.getInt("id"))
+                                    .level(resultSet.getInt("level"))
+                                    .isReserved(resultSet.getBoolean("is_reserved"))
+                                    .build());
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -92,14 +94,5 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
         statement.setInt(2, parkingSpace.getLevel());
         statement.setBoolean(3, parkingSpace.isReserved());
         return statement;
-    }
-
-    private ParkingSpace fillParkingSpace(ResultSet resultSet) throws SQLException {
-        ParkingSpace parkingSpace = new ParkingSpace();
-        parkingSpace.setId(resultSet.getInt("id"));
-        parkingSpace.setId(resultSet.getInt("level"));
-        parkingSpace.setReserved(resultSet.getBoolean("is_reserved"));
-
-        return parkingSpace;
     }
 }

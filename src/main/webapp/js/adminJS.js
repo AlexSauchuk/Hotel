@@ -74,12 +74,51 @@
         else
             objects.push(temporaryData[Object.keys(temporaryData)[col]]);
 
-        console.log(objects);
         RecursionModals(objects[deep+1]);
     }
 
-    function UpdateData() {
+    function SendUpdatesValues() {
         console.log("1");
+    }
+
+    function UpdateData(obj) {
+        document.getElementById("mainForm").action =
+            '/servlet?tableName='+NameTable +'&action=UPDATE';
+        var editBody = document.getElementsByClassName('form-horizontal');
+        var arrayValues = new Array();
+        $(obj).each(function(){
+            $("td",this).each(function(){
+                arrayValues.push(this)
+            });
+        });
+
+        arrayValues.pop();
+        arrayValues.pop();
+
+        var i = 0;
+        $(editBody).each(function(){
+            $("div",this).each(function(){
+                if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
+                    console.log(arrayValues[i].innerHTML);
+                    var sex = this.firstElementChild.getAttribute('value');
+
+                    if (this.className == 'radio col-sm-8')
+                        if(arrayValues[i].innerHTML == sex) {
+                            this.childNodes[3].firstElementChild.checked = false;
+                            this.firstElementChild.firstElementChild.checked = true;
+                        }
+                        else{
+                            this.firstElementChild.firstElementChild.checked = false;
+                            this.childNodes[3].firstElementChild.checked = true;
+                        }
+                    else
+                        this.firstElementChild.setAttribute('value', arrayValues[i].innerHTML);
+
+                    i++;
+                }
+            });
+        });
+
     }
 
     var NameTable = "";
@@ -93,12 +132,28 @@
     var childModal = '#modalWindow0';
 
     function DeleteRow(obj) {
-        document.getElementById('tableHotel').deleteRow(obj.closest("tr").rowIndex);
         $.ajax({
-            type: 'DELETE',
-            url: '/servlet?tableName='+NameTable +'&action=REMOVE',
-            data:{'id':obj.closest("tr").firstChild.textContent}
+            type: 'POST',
+            url: '/servlet?tableName=' + NameTable + '&action=REMOVE',
+            data:{'entityParams': formParams(obj.closest('tr').rowIndex)},
+            success:function(){
+                document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
+            }
         });
+    }
+
+    function formParams(rowIndex) {
+        var resultParams='';
+        var columnNames = $("#tableHotel").find("tr").first().children();
+        for(var i=0; i< columnNames.length; i++){
+            var currentObj = Data[rowIndex-1][columnNames[i].textContent];
+            if($.isPlainObject(currentObj)){
+                resultParams = resultParams.concat("id_",columnNames[i].textContent,":",currentObj["id"],"&");
+            }else{
+                resultParams = resultParams.concat(columnNames[i].textContent,":",currentObj,"&");
+            }
+        }
+        return resultParams.slice(0,resultParams.length-1);
     }
 
     function setHtml(){
@@ -125,12 +180,11 @@
                 }else
                     additionalString +='<td>'+Data[j][key]+'</td>';
             }
-            additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
+            additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModal" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
                 '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="DeleteRow(this)"></td>';
             bodyString += strRow.replace(patternRow,additionalString);
             j++;
         }
-
 
         var headers= '<thead><tr>header</tr></thead>';
         var body = '<tbody>body</tbody>';
@@ -141,9 +195,25 @@
         $('#tableHotel').html(headers + body);
         
     }
+
+function LoadTemplate() {
+    var request = new XMLHttpRequest();
+    request.open('GET', '/templates/'+NameTable+'.html');
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            if (request.status == 200) {
+                $('#myModal').html(request.responseText);
+            } else {
+                alert('Сетевая ошибка, код: ' + request.status);
+            }
+        }
+    };
+    request.send(null);
+}
+
 $(document).ready(function() {
 
-    
+
     $('.col-lg-3').on('click', function(event) {
         var target = event.target;
 
@@ -155,7 +225,7 @@ $(document).ready(function() {
             type: 'GET',
             url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
             success: function(data) {
-                console.log(data);
+                LoadTemplate();
                 objects = new Array();
                 Data = data;
                 setHtml();

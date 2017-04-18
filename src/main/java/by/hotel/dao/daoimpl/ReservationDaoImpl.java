@@ -1,9 +1,9 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.Reservation;
-import by.hotel.bean.Room;
-import by.hotel.bean.RoomType;
-import by.hotel.bean.User;
+import by.hotel.builder.DiscountBuilder;
+import by.hotel.builder.ReservationBuilder;
+import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationDao;
 import by.hotel.dao.constants.Constants;
@@ -24,20 +24,29 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Reservation> reservations = new ArrayList<Reservation>();
+        UserBuilder userBuilder = new UserBuilder();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
+        ReservationBuilder reservationBuilder = new ReservationBuilder();
         try {
             connection = getConnection();
             statement = connection.prepareStatement(Constants.GET_ALL_RESERVATIONS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Reservation reservation = new Reservation();
-                User user = new User();
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                reservation.setUser(user);
-                reservation.setDateIn(resultSet.getDate("date-in"));
-                reservation.setDateOut(resultSet.getDate("date-out"));
-
-                reservations.add(reservation);
+                reservations.add(reservationBuilder.id(resultSet.getInt("id"))
+                                    .dateIn(resultSet.getDate("date-in"))
+                                    .dateOut(resultSet.getDate("date-out"))
+                                    .user(userBuilder.id(resultSet.getInt("id_user"))
+                                            .passportNumber(resultSet.getString("passport_number"))
+                                            .name(resultSet.getString("name"))
+                                            .surname(resultSet.getString("surname"))
+                                            .sex(resultSet.getString("sex"))
+                                            .mobilePhone(resultSet.getString("mobile_phone"))
+                                            .build())
+                                    .costAdditionalServices(resultSet.getInt("cost_additional_services"))
+                                    .discount(discountBuilder.id(resultSet.getInt("discount_id"))
+                                            .name(resultSet.getString("discount_name"))
+                                            .build())
+                                    .build());
             }
         } catch (SQLException e) {
             throw new DAOException(e);

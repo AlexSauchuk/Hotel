@@ -1,8 +1,7 @@
 package by.hotel.bean;
 
-/**
- * Created by 1 on 04.04.2017.
- */
+import by.hotel.builder.RoomTypeBuilder;
+
 public class RoomType {
     private int id;
     private int roomsCount;
@@ -10,15 +9,15 @@ public class RoomType {
     private float costPerDay;
     private String additionalInfo;
 
-    public RoomType() {
+    public RoomType() {super();
     }
 
-    public RoomType(int id, int roomsCount, int bedsCount, float costPerDay, String additionalInfo) {
-        this.id = id;
-        this.roomsCount = roomsCount;
-        this.bedsCount = bedsCount;
-        this.costPerDay = costPerDay;
-        this.additionalInfo = additionalInfo;
+    public RoomType(RoomTypeBuilder roomTypeBuilder){
+        this.id = roomTypeBuilder.getId();
+        this.roomsCount = roomTypeBuilder.getRoomsCount();
+        this.bedsCount = roomTypeBuilder.getBedsCount();
+        this.costPerDay = roomTypeBuilder.getCostPerDay();
+        this.additionalInfo = roomTypeBuilder.getAdditionalInfo();
     }
 
     public int getId() {

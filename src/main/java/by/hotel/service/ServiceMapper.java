@@ -11,15 +11,14 @@ public class ServiceMapper {
     static {
         services.put("DISCOUNT", new DiscountServiceImpl());
         services.put("PARKING_SPACE", new ParkingSpaceServiceImpl());
-        services.put("PAYMENT", new PaymentServiceImpl());
         services.put("RESERVATION", new ReservationServiceImpl());
         services.put("RESERVATION_PARKING_SPACE", new ReservationParkingSpaceServiceImpl());
+
         services.put("RESERVATION_ROOM", new ReservationRoomServiceImpl());
         services.put("ROOM", new RoomServiceImpl());
         services.put("ROOM_TYPE", new RoomTypeServiceImpl());
         services.put("USER", new UserServiceImpl());
         //services.put("REPORT", new ReportServiceImpl());
-
     }
 
     public static CrudService getService(String serviceName) {

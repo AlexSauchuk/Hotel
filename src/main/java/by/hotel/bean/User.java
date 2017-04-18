@@ -1,20 +1,9 @@
 package by.hotel.bean;
 
-/**
- * Created by SK on 16.02.2017.
- */
+import by.hotel.builder.UserBuilder;
+
 public class User {
     private int id;
-    private int role;
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
-
     private String name;
     private String surname;
     private String mobilePhone;
@@ -22,6 +11,21 @@ public class User {
     private String passportNumber;
     private String password;
     private String sex;
+    private int idRole;
+
+    public User(){super();}
+
+    public User(UserBuilder userBuilder){
+        this.id = userBuilder.getId();
+        this.name = userBuilder.getName();
+        this.surname = userBuilder.getSurname();
+        this.mobilePhone = userBuilder.getMobilePhone();
+        this.login = userBuilder.getLogin();
+        this.passportNumber = userBuilder.getPassportNumber();
+        this.password = userBuilder.getPassword();
+        this.sex = userBuilder.getSex();
+        this.idRole = userBuilder.getIdRole();
+    }
 
     public int getId() {
         return id;
@@ -87,10 +91,11 @@ public class User {
         this.sex = sex;
     }
 
-    @Override
-    public String toString() {
-        return "id=" + id + ", name=" + name + ", mobilePhone=" + mobilePhone + ", authorisation=" + login +
-                ", passportNumber=" + passportNumber + ", password=" + password + ", surname=" + surname +
-                ", sex=" + sex;
+    public int getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(int idRole) {
+        this.idRole = idRole;
     }
 }
