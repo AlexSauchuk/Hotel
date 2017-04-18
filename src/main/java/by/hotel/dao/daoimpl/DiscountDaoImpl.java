@@ -1,7 +1,6 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.Discount;
-import by.hotel.bean.ParkingSpace;
 import by.hotel.builder.DiscountBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.DiscountDao;
@@ -17,14 +16,12 @@ import java.util.Map;
 import static by.hotel.dao.constants.Constants.*;
 
 public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
-    public List<String> getDiscountHeaders() throws DAOException {
-        Connection connection = null;
+    public List<String> getDiscountHeaders(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<String> headers = new ArrayList<String>();
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(GET_ALL_DISCOUNTS_HEADERS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -36,19 +33,17 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeConnection(statement, resultSet);
         }
         return headers;
     }
 
-    public List<Discount> getDiscounts() throws DAOException {
-        Connection connection = null;
+    public List<Discount> getDiscounts(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Discount> discounts = new ArrayList<Discount>();
         DiscountBuilder discountBuilder = new DiscountBuilder();
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(GET_ALL_DISCOUNTS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -57,31 +52,27 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return discounts;
     }
 
-    public void addDiscount(Discount discount) throws DAOException {
-        Connection connection = null;
+    public void addDiscount(Discount discount,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(ADD_DISCOUNT);
             statement = fillStatement(statement, discount);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void removeDiscount(Discount discount) throws DAOException {
-        Connection connection = null;
+    public void removeDiscount(Discount discount,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(REMOVE_DISCOUNT);
             statement.setInt(1, discount.getId());
             statement.execute();
@@ -90,26 +81,24 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         }catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void updateDiscount(Discount discount) throws DAOException {
-        Connection connection = null;
+    public void updateDiscount(Discount discount,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(UPDATE_DISCOUNT);
             statement = fillStatement(statement, discount);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public Discount getDiscount(Integer id) throws DAOException {
+    public Discount getDiscount(Integer id,Connection connection) throws DAOException {
         return null;
     }
 

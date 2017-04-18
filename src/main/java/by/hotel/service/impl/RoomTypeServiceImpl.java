@@ -4,13 +4,15 @@ import by.hotel.bean.RoomType;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.daoimpl.RoomTypeDaoImpl;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-public class RoomTypeServiceImpl implements CrudServiceExtended<RoomType> {
+public class RoomTypeServiceImpl extends AbstractService implements CrudServiceExtended<RoomType> {
     private RoomTypeDaoImpl roomTypeDao = new RoomTypeDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
@@ -22,34 +24,50 @@ public class RoomTypeServiceImpl implements CrudServiceExtended<RoomType> {
     }
 
     public List<RoomType> getAllEntities() throws ServiceException {
+        Connection connection = null;
         try {
-            return roomTypeDao.getRoomTypes();
+            connection = getConnection();
+            return roomTypeDao.getRoomTypes(getConnection());
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void addEntity(RoomType entity) throws ServiceException {
+        Connection connection = null;
         try {
-            roomTypeDao.addRoomType(entity);
+            connection = getConnection();
+            roomTypeDao.addRoomType(entity,getConnection());
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void removeEntity(RoomType roomType) throws ServiceException {
+        Connection connection = null;
         try {
-            roomTypeDao.removeRoomType(roomType);
+            connection = getConnection();
+            roomTypeDao.removeRoomType(roomType,getConnection());
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void updateEntity(RoomType entity) throws ServiceException {
+        Connection connection = null;
         try {
-            roomTypeDao.updateRoomType(entity);
+            connection = getConnection();
+            roomTypeDao.updateRoomType(entity,getConnection());
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 

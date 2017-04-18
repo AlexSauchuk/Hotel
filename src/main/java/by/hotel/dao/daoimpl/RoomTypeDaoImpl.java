@@ -23,7 +23,6 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         List<String> headers = new ArrayList<String>();
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(GET_ALL_ROOM_TYPES_HEADERS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -35,19 +34,17 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeConnection(statement, resultSet);
         }
         return headers;
     }
 
-    public List<RoomType> getRoomTypes() throws DAOException {
-        Connection connection = null;
+    public List<RoomType> getRoomTypes(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<RoomType> roomTypes = new ArrayList<RoomType>();
         RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(GET_ALL_ROOM_TYPES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -61,16 +58,14 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return roomTypes;
     }
 
-    public void addRoomType(RoomType roomType) throws DAOException {
-        Connection connection = null;
+    public void addRoomType(RoomType roomType,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(ADD_ROOM_TYPE);
             statement = fillStatement(statement, roomType);
             statement.setInt(5, roomType.getId());
@@ -78,15 +73,13 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void removeRoomType(RoomType roomType) throws DAOException {
-        Connection connection = null;
+    public void removeRoomType(RoomType roomType,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(REMOVE_ROOM_TYPE);
             statement.setInt(1, roomType.getId());
             statement.execute();
@@ -95,22 +88,20 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void updateRoomType(RoomType roomType) throws DAOException {
-        Connection connection = null;
+    public void updateRoomType(RoomType roomType,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(UPDATE_ROOM_TYPE);
             statement = fillStatement(statement, roomType);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 

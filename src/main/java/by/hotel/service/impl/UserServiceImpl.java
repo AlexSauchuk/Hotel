@@ -2,59 +2,76 @@ package by.hotel.service.impl;
 
 import by.hotel.bean.User;
 import by.hotel.builder.RoleBuilder;
-import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.UserDao;
 import by.hotel.dao.daoimpl.UserDaoImpl;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-public class UserServiceImpl implements CrudServiceExtended<User> {
-	private UserDao userDao = new UserDaoImpl();
+public class UserServiceImpl extends AbstractService implements CrudServiceExtended<User> {
+    private UserDao userDao = new UserDaoImpl();
 
-	public List<String> getAllHeaders() throws ServiceException {
-		try {
-			return userDao.getUserHeaders();
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+    public List<String> getAllHeaders() throws ServiceException {
+        try {
+            return userDao.getUserHeaders();
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }
+    }
 
-	public List<User> getAllEntities() throws ServiceException {
-		try {
-			return userDao.getUsers();
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+    public List<User> getAllEntities() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return userDao.getUsers(connection);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        } finally {
+            closeConnection(connection);
+        }
+    }
 
-	public void addEntity(User entity) throws ServiceException {
-		try {
-			userDao.addUser(entity);
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+    public void addEntity(User entity) throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            userDao.addUser(entity, connection);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
 
-	public void removeEntity(User user) throws ServiceException {
-		try {
-			userDao.removeUser(user);
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+    public void removeEntity(User user) throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            userDao.removeUser(user, connection);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
 
-	public void updateEntity(User entity) throws ServiceException {
-		try {
-			userDao.updateUser(entity);
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+    public void updateEntity(User entity) throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            userDao.updateUser(entity, connection);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
 
 	public User buildEntity(Map<String,String[]> params) throws ServiceException {
 		return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
