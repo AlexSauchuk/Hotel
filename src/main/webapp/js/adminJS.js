@@ -133,11 +133,14 @@
 
     function DeleteRow(obj) {
         $.ajax({
-            type: 'POST',
-            url: '/servlet?tableName=' + NameTable + '&action=REMOVE',
-            data:{'entityParams': formParams(obj.closest('tr').rowIndex)},
-            success:function(){
-                document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
+            type: 'DELETE',
+            url: '/servlet?tableName=' + NameTable + '&action=REMOVE&'+formParams(obj.closest('tr').rowIndex),
+            success:function(result){
+                if(result == null){
+                    document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
+                }else{
+                    console.log(result);
+                }
             }
         });
     }
@@ -148,9 +151,9 @@
         for(var i=0; i< columnNames.length; i++){
             var currentObj = Data[rowIndex-1][columnNames[i].textContent];
             if($.isPlainObject(currentObj)){
-                resultParams = resultParams.concat("id_",columnNames[i].textContent,":",currentObj["id"],"&");
+                resultParams = resultParams.concat("id_",columnNames[i].textContent,"=",currentObj["id"],"&");
             }else{
-                resultParams = resultParams.concat(columnNames[i].textContent,":",currentObj,"&");
+                resultParams = resultParams.concat(columnNames[i].textContent,"=",currentObj,"&");
             }
         }
         return resultParams.slice(0,resultParams.length-1);

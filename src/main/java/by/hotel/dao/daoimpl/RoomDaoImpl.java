@@ -10,15 +10,15 @@ import by.hotel.dao.RoomDao;
 import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.servlet.MainServlet;
+import by.hotel.util.ErrorStringBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static by.hotel.dao.constants.Constants.*;
 
@@ -32,7 +32,7 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_ROOMS);
+            statement = connection.prepareStatement(GET_ALL_ROOMS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 rooms.add(roomBuilder.id(resultSet.getInt("id"))
@@ -76,6 +76,8 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
             statement = connection.prepareStatement(REMOVE_ROOM);
             statement.setInt(1, room.getId());
             statement.execute();
+        }catch (SQLIntegrityConstraintViolationException e){
+            throw new DAOException(buildMessage(room, e.getMessage()) ,e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -90,6 +92,7 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
             connection = getConnection();
             statement = connection.prepareStatement(UPDATE_ROOM);
             statement = fillStatement(statement, room);
+            statement.setInt(4, room.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -103,5 +106,11 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         statement.setInt(2, room.getFloor());
         statement.setString(3, room.getPhone());
         return statement;
+    }
+
+    private String buildMessage(Room room, String errorMessage){
+        Map<String,String> idNames = new HashMap<String, String>();
+        idNames.put("id",Integer.toString(room.getId()));
+        return ErrorStringBuilder.buildErrorString(idNames,errorMessage);
     }
 }

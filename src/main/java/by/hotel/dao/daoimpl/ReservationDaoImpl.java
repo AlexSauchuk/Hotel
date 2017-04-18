@@ -8,13 +8,13 @@ import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationDao;
 import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.util.ErrorStringBuilder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static by.hotel.dao.constants.Constants.*;
 
@@ -79,6 +79,9 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
             statement = connection.prepareStatement(REMOVE_RESERVATION);
             statement.setInt(1, reservation.getId());
             statement.execute();
+        }
+        catch (SQLIntegrityConstraintViolationException e){
+            throw new DAOException(buildMessage(reservation, e.getMessage()),e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -110,5 +113,11 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         statement.setDate(2, reservation.getDateIn());
         statement.setDate(3, reservation.getDateOut());
         return statement;
+    }
+
+    private String buildMessage(Reservation reservation, String errorMessage){
+        Map<String,String> idNames = new HashMap<String, String>();
+        idNames.put("id",Integer.toString(reservation.getId()));
+        return ErrorStringBuilder.buildErrorString(idNames,errorMessage);
     }
 }

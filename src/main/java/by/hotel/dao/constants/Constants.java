@@ -6,14 +6,14 @@ public class Constants {
     public static final String GET_ALL_USERS = "SELECT `id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password`, `role` FROM `db_hotel`.`user`";
     public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `password`, `role`) VALUES (?,?,?,?,?,?,?)";
     public static final String REMOVE_USER = "DELETE FROM `db_hotel`.`user` WHERE `id`=?";
-    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`=?, `name`=?, `surname`=?, `sex`=?, `mobile_phone`=?, `password`=?, `role`=? WHERE `id`=?";
+    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`=?, `name`=?, `surname`=?, `sex`=?, `mobile_phone`=?, `password`=?, `login`=?, `role`=? WHERE `id`=?";
     public static final String GET_USER = "SELECT `id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password`, `role` FROM `db_hotel`.`user` WHERE `id`=?";
 
     public static final String GET_ALL_ROOMS = "SELECT `room`.`id`,`id_room_type`, `rooms_count`, `beds_count`, `cost_per_day`, `additional_info`, `floor`, `phone` " +
             "FROM (`db_hotel`.`room` LEFT OUTER JOIN `db_hotel`.`room_type` ON `room`.`id_room_type` = `room_type`.`id`)";
     public static final String ADD_ROOM = "INSERT INTO `db_hotel`.`room` (`id_room_type`, `floor`, `phone`) VALUES (?,?,?)";
     public static final String REMOVE_ROOM = "DELETE FROM `db_hotel`.`room` WHERE `id`=?";
-    public static final String UPDATE_ROOM = "UPDATE `db_hotel`.`room` SET `id_room_type`=?, `floor`=?, `phone`=?";
+    public static final String UPDATE_ROOM = "UPDATE `db_hotel`.`room` SET `id_room_type`=?, `floor`=?, `phone`=? WHERE `id`=?";
   //  public static final String GET_ROOM = "UPDATE `db_hotel`.`user` SET `passport_number`='?', `name`='?', `surname`='?', `sex`='?', `mobile_phone`='?', `password`='?' WHERE `id`='?'";
 
     public static final String GET_ALL_ROOM_TYPES = "SELECT `id`, `rooms_count`, `beds_count`, `cost_per_day`, `additional_info` FROM `db_hotel`.`room_type`";
@@ -75,7 +75,7 @@ public class Constants {
     public static final String GET_ALL_DISCOUNTS = "SELECT `id`, `name` FROM `db_hotel`.`discount`";
     public static final String ADD_DISCOUNT = "INSERT INTO `db_hotel`.`discount` (`name`) VALUES (?)";
     public static final String REMOVE_DISCOUNT = "DELETE FROM `db_hotel`.`discount` WHERE `id`=?";
-    public static final String UPDATE_DISCOUNT = "UPDATE `db_hotel`.`discount` SET `name`='?' WHERE `id`=?";
+    public static final String UPDATE_DISCOUNT = "UPDATE `db_hotel`.`discount` SET `name`=? WHERE `id`=?";
  //   public static final String GET_DISCOUNT = "SELECT `id`, `id_user`, `name`, `surname`, `room_number`, `date-in`, `date-out`, `days_count` " +
   //          "FROM (`db_hotel`.`reservation` LEFT OUTER JOIN `db_hotel`.`user` ON `reservation`.`id_user` = `user`.`id`)";
 

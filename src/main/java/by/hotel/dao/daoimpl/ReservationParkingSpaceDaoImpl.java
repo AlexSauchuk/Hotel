@@ -29,7 +29,7 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
         ReservationParkingSpaceBuilder reservationParkingSpaceBuilder = new ReservationParkingSpaceBuilder();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_RESERVATION_PARKING_SPACES);
+            statement = connection.prepareStatement(GET_ALL_RESERVATION_PARKING_SPACES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 reservationParkingSpaces.add(reservationParkingSpaceBuilder
@@ -107,8 +107,8 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
         }
     }
     private PreparedStatement fillStatement(PreparedStatement statement, ReservationParkingSpace reservationParkingSpace) throws SQLException {
-        statement.setInt(1, reservationParkingSpace.getParkingSpace().getId());
-        statement.setInt(2, reservationParkingSpace.getReservation().getId());
+        statement.setInt(1, reservationParkingSpace.getReservation().getId());
+        statement.setInt(2, reservationParkingSpace.getParkingSpace().getId());
         return statement;
     }
 }

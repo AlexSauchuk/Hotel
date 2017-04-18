@@ -75,6 +75,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             connection = getConnection();
             statement = connection.prepareStatement(UPDATE_USER);
             statement = fillStatement(statement, user);
+            statement.setInt(9, user.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -110,6 +111,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         statement.setString(5, user.getMobilePhone());
         statement.setString(6, user.getPassword());
         statement.setString(7, user.getLogin());
+        statement.setInt(8, user.getIdRole());
         return statement;
     }
 
@@ -122,6 +124,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 .mobilePhone(resultSet.getString("mobile_phone"))
                 .password(resultSet.getString("password"))
                 .login(resultSet.getString("login"))
-                .idRole(resultSet.getInt("role")).build();
+                .idRole(resultSet.getInt("role"))
+                .build();
     }
 }

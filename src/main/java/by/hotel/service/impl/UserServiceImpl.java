@@ -50,10 +50,10 @@ public class UserServiceImpl implements CrudService<User> {
 		return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
 				.name(params.get("name")[0])
 				.surname(params.get("surname")[0])
-				.passportNumber(params.get("passport_number")[0])
 				.login(params.get("login")[0])
 				.password(params.get("password")[0])
-				.passportNumber(params.get("passport_number")[0])
+				.passportNumber(params.get("passportNumber")[0])
+				.mobilePhone(params.get("mobilePhone")[0])
 				.sex(params.get("sex")[0])
 				.idRole(params.get("idRole")[0].equals("null") ? 0 : Integer.parseInt(params.get("idRole")[0]))
 				.build();
