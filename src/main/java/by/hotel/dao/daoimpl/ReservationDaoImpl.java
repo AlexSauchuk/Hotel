@@ -19,8 +19,7 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
-    public List<Reservation> getAllReservations() throws DAOException {
-        Connection connection = null;
+    public List<Reservation> getAllReservations(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Reservation> reservations = new ArrayList<Reservation>();
@@ -28,7 +27,6 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         DiscountBuilder discountBuilder = new DiscountBuilder();
         ReservationBuilder reservationBuilder = new ReservationBuilder();
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(Constants.GET_ALL_RESERVATIONS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -51,57 +49,51 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return reservations;
     }
 
-    public void addReservation(Reservation reservation) throws DAOException {
-        Connection connection = null;
+    public void addReservation(Reservation reservation,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(ADD_RESERVATION);
             statement = fillStatement(statement, reservation);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void removeReservation(Reservation reservation) throws DAOException {
-        Connection connection = null;
+    public void removeReservation(Reservation reservation,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(REMOVE_RESERVATION);
             statement.setInt(1, reservation.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void updateReservation(Reservation reservation) throws DAOException {
-        Connection connection = null;
+    public void updateReservation(Reservation reservation,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(UPDATE_RESERVATION);
             statement = fillStatement(statement, reservation);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public Reservation getReservation(Integer id) throws DAOException {
+    public Reservation getReservation(Integer id,Connection connection) throws DAOException {
         return null;
     }
 

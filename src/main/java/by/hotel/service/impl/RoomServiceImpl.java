@@ -6,44 +6,62 @@ import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.RoomDao;
 import by.hotel.dao.daoimpl.RoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.service.AbstractService;
 import by.hotel.service.CrudService;
 import by.hotel.service.exception.ServiceException;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-public class RoomServiceImpl implements CrudService<Room> {
+public class RoomServiceImpl extends AbstractService implements CrudService<Room> {
 	private RoomDao roomDao = new RoomDaoImpl();
 
 	public List<Room> getAllEntities() throws ServiceException {
+		Connection connection = null;
 		try {
-			return roomDao.getRooms();
+			connection = getConnection();
+			return roomDao.getRooms(getConnection());
 		}catch (DAOException e){
 			throw new ServiceException(e);
+		}finally {
+			closeConnection(connection);
 		}
 	}
 
 	public void addEntity(Room entity) throws ServiceException {
+		Connection connection = null;
 		try {
-			roomDao.addRoom(entity);
+			connection = getConnection();
+			roomDao.addRoom(entity,getConnection());
 		}catch (DAOException e){
 			throw new ServiceException(e);
+		}finally {
+			closeConnection(connection);
 		}
 	}
 
 	public void removeEntity(Room room) throws ServiceException {
+		Connection connection = null;
 		try {
-			roomDao.removeRoom(room);
+			connection = getConnection();
+			roomDao.removeRoom(room,getConnection());
 		}catch (DAOException e){
 			throw new ServiceException(e);
+		}finally {
+			closeConnection(connection);
 		}
 	}
 
 	public void updateEntity(Room entity) throws ServiceException {
+		Connection connection = null;
 		try {
-			roomDao.updateRoom(entity);
+			connection = getConnection();
+			roomDao.updateRoom(entity,getConnection());
 		}catch (DAOException e){
 			throw new ServiceException(e);
+		}finally {
+			closeConnection(connection);
 		}
 	}
 

@@ -6,44 +6,62 @@ import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.ReservationParkingSpaceBuilder;
 import by.hotel.dao.daoimpl.ReservationParkingSpaceDaoImpl;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.service.AbstractService;
 import by.hotel.service.CrudService;
 import by.hotel.service.exception.ServiceException;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-public class ReservationParkingSpaceServiceImpl implements CrudService<ReservationParkingSpace> {
+public class ReservationParkingSpaceServiceImpl extends AbstractService implements CrudService<ReservationParkingSpace> {
     ReservationParkingSpaceDaoImpl reservationParkingSpaceDao = new ReservationParkingSpaceDaoImpl();
 
     public List<ReservationParkingSpace> getAllEntities() throws ServiceException {
+        Connection connection = null;
         try {
-            return reservationParkingSpaceDao.getReservationParkingSpaces();
+            connection = getConnection();
+            return reservationParkingSpaceDao.getReservationParkingSpaces(getConnection());
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void addEntity(ReservationParkingSpace entity) throws ServiceException {
+        Connection connection = null;
         try {
-            reservationParkingSpaceDao.addReservationParkingSpace(entity);
+            connection = getConnection();
+            reservationParkingSpaceDao.addReservationParkingSpace(entity,getConnection());
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void removeEntity(ReservationParkingSpace reservationParkingSpace) throws ServiceException {
+        Connection connection = null;
         try {
-            reservationParkingSpaceDao.removeReservationParkingSpace(reservationParkingSpace);
+            connection = getConnection();
+            reservationParkingSpaceDao.removeReservationParkingSpace(reservationParkingSpace,getConnection());
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void updateEntity(ReservationParkingSpace entity) throws ServiceException {
+        Connection connection = null;
         try {
-            reservationParkingSpaceDao.updateReservationParkingSpace(entity);
+            connection = getConnection();
+            reservationParkingSpaceDao.updateReservationParkingSpace(entity,getConnection());
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 

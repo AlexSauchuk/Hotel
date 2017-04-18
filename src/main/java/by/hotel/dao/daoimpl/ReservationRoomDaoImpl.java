@@ -16,8 +16,7 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRoomDao {
-    public List<ReservationRoom> getReservationRooms() throws DAOException {
-        Connection connection = null;
+    public List<ReservationRoom> getReservationRooms(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<ReservationRoom> reservationRooms = new ArrayList<ReservationRoom>();
@@ -28,7 +27,6 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         ReservationBuilder reservationBuilder = new ReservationBuilder();
         ReservationRoomBuilder reservationRoomBuilder = new ReservationRoomBuilder();
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(GET_ALL_RESERVATION_ROOMS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -65,31 +63,27 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return reservationRooms;
     }
 
-    public void addReservationRoom(ReservationRoom reservationRoom) throws DAOException {
-        Connection connection = null;
+    public void addReservationRoom(ReservationRoom reservationRoom,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(ADD_RESERVATION_ROOM);
             statement = fillStatement(statement, reservationRoom);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void removeReservationRoom(ReservationRoom reservationRoom) throws DAOException {
-        Connection connection = null;
+    public void removeReservationRoom(ReservationRoom reservationRoom,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(REMOVE_RESERVATION_ROOM);
             statement.setInt(1, reservationRoom.getReservation().getId());
             statement.setInt(2, reservationRoom.getRoom().getId());
@@ -97,22 +91,20 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void updateReservationRoom(ReservationRoom reservationRoom) throws DAOException {
-        Connection connection = null;
+    public void updateReservationRoom(ReservationRoom reservationRoom,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(UPDATE_RESERVATION_ROOM);
             statement = fillStatement(statement, reservationRoom);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 

@@ -18,14 +18,12 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
-    public List<User> getUsers() throws DAOException {
-        Connection connection = null;
+    public List<User> getUsers(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<User> users = new ArrayList<User>();
         UserBuilder userBuilder = new UserBuilder();
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(GET_ALL_USERS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -34,71 +32,63 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return users;
     }
 
-    public void addUser(User user) throws DAOException {
-        Connection connection = null;
+    public void addUser(User user,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(ADD_USER);
             statement = fillStatement(statement, user);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void removeUser(User user) throws DAOException {
-        Connection connection = null;
+    public void removeUser(User user,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(REMOVE_USER);
             statement.setInt(1, user.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void updateUser(User user) throws DAOException {
-        Connection connection = null;
+    public void updateUser(User user,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(UPDATE_USER);
             statement = fillStatement(statement, user);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public User getUser(Integer id) throws DAOException {
-        Connection connection = null;
+    public User getUser(Integer id,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         User user;
         UserBuilder userBuilder = new UserBuilder();
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(Constants.GET_USER);
             resultSet = statement.executeQuery();
             user = fillUser(resultSet, userBuilder);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return user;
     }

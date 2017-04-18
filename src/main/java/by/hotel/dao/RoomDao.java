@@ -3,14 +3,15 @@ package by.hotel.dao;
 import by.hotel.bean.Room;
 import by.hotel.dao.exception.DAOException;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface RoomDao {
-    List<Room> getRooms() throws DAOException;
+    List<Room> getRooms(Connection connection) throws DAOException;
 
-    void addRoom(Room room) throws DAOException;
+    void addRoom(Room room, Connection connection) throws DAOException;
 
-    void removeRoom(Room room) throws DAOException;
+    void removeRoom(Room room, Connection connection) throws DAOException;
 
-    void updateRoom(Room room) throws DAOException;
+    void updateRoom(Room room, Connection connection) throws DAOException;
 }
