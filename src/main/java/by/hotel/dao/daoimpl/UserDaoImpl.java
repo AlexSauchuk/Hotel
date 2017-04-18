@@ -17,6 +17,26 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
+    public List<Integer> getId() throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Integer> arrayId = new ArrayList<Integer>();
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(Constants.GET_ALL_ID_USER);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                arrayId.add(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeConnection(connection, statement, resultSet);
+        }
+        return arrayId;
+    }
+
     public List<User> getUsers() throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;

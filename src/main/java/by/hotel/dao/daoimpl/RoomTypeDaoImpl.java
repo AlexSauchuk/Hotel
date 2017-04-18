@@ -18,6 +18,26 @@ import java.util.Map;
 import static by.hotel.dao.constants.Constants.*;
 
 public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
+    public List<Integer> getId() throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Integer> arrayId = new ArrayList<Integer>();
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(Constants.GET_ALL_ID_ROOM_TYPES);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                arrayId.add(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeConnection(connection, statement, resultSet);
+        }
+        return arrayId;
+    }
+
     public List<RoomType> getRoomTypes() throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;

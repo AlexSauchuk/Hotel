@@ -17,6 +17,10 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class ReservationParkingSpaceDaoImpl extends AbstractDao implements ReservationParkingSpaceDao {
+    public List<Integer> getId() throws DAOException {
+        return null;
+    }
+
     public List<ReservationParkingSpace> getReservationParkingSpaces() throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;

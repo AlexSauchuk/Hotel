@@ -6,6 +6,7 @@ import by.hotel.dao.exception.DAOException;
 import java.util.List;
 
 public interface ParkingSpaceDao {
+    List<Integer> getId() throws DAOException;
     List<ParkingSpace> getParkingSpaces() throws DAOException;
 
     void addParkingSpace(ParkingSpace parkingSpace) throws DAOException;

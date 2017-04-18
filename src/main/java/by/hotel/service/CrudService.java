@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CrudService<T> {
+    List<Integer> getAllId() throws ServiceException;
     List<T> getAllEntities() throws ServiceException;
     void addEntity(T entity) throws ServiceException;
     void removeEntity(T entity) throws ServiceException;

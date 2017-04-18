@@ -6,6 +6,7 @@ import by.hotel.dao.exception.DAOException;
 import java.util.List;
 
 public interface RoomTypeDao {
+    List<Integer> getId() throws DAOException;
     List<RoomType> getRoomTypes() throws DAOException;
 
     void addRoomType(RoomType roomType) throws DAOException;

@@ -19,6 +19,10 @@ import java.util.Map;
 import static by.hotel.dao.constants.Constants.*;
 
 public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
+    public List<Integer> getId() throws DAOException {
+        return null;
+    }
+
     public List<Reservation> getAllReservations() throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;

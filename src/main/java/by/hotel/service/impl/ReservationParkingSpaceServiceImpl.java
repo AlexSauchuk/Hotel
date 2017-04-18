@@ -15,6 +15,14 @@ import java.util.Map;
 public class ReservationParkingSpaceServiceImpl implements CrudService<ReservationParkingSpace> {
     ReservationParkingSpaceDaoImpl reservationParkingSpaceDao = new ReservationParkingSpaceDaoImpl();
 
+    public List<Integer> getAllId() throws ServiceException {
+        try {
+            return reservationParkingSpaceDao.getId();
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }
+    }
+
     public List<ReservationParkingSpace> getAllEntities() throws ServiceException {
         try {
             return reservationParkingSpaceDao.getReservationParkingSpaces();

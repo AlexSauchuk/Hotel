@@ -6,6 +6,7 @@ import by.hotel.dao.exception.DAOException;
 import java.util.List;
 
 public interface DiscountDao {
+    List<Integer> getId() throws DAOException;
     List<Discount> getDiscounts() throws DAOException;
 
     void addDiscount(Discount discount) throws DAOException;
