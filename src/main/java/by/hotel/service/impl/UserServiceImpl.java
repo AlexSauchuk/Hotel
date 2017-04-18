@@ -1,6 +1,8 @@
 package by.hotel.service.impl;
 
 import by.hotel.bean.User;
+import by.hotel.builder.RoleBuilder;
+import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.UserDao;
 import by.hotel.dao.daoimpl.UserDaoImpl;
@@ -55,7 +57,7 @@ public class UserServiceImpl implements CrudService<User> {
 				.password(params.get("password")[0])
 				.passportNumber(params.get("passport_number")[0])
 				.sex(params.get("sex")[0])
-				.idRole(params.get("idRole")[0].equals("null") ? 0 : Integer.parseInt(params.get("idRole")[0]))
+				.role(new RoleBuilder().id(Integer.parseInt(params.get("id_role")[0])).build())
 				.build();
 	}
 }

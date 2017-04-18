@@ -50,7 +50,7 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
                                         .build())
                                     .parkingSpace(parkingSpaceBuilder.id(resultSet.getInt("id_parking_space"))
                                         .level(resultSet.getInt("level"))
-                                        .isReserved(resultSet.getBoolean("is_reserved"))
+                                        .reserved(resultSet.getByte("is_reserved"))
                                         .build())
                                     .build());
             }

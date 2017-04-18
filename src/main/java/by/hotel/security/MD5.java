@@ -34,6 +34,6 @@ public class MD5 {
                 hexString.append(Integer.toHexString(0xFF & hash[i]));
             }
         }
-        return "12345";//hexString.toString();
+        return hexString.toString();
     }
 }

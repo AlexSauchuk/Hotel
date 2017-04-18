@@ -1,8 +1,9 @@
 package by.hotel.bean;
 
+import by.hotel.builder.RoleBuilder;
 public class Role {
     private int id;
-    private String name;
+    private String nameRole;
     private byte update;
     private byte delete;
     private byte insert;
@@ -10,6 +11,18 @@ public class Role {
     private byte select;
     private byte drop;
     private byte grant;
+
+    public Role(RoleBuilder roleBuilder){
+        this.id = roleBuilder.getId();
+        this.nameRole = roleBuilder.getNameRole();
+        this.update = roleBuilder.getUpdate();
+        this.delete = roleBuilder.getDelete();
+        this.insert = roleBuilder.getInsert();
+        this.create = roleBuilder.getCreate();
+        this.select = roleBuilder.getSelect();
+        this.drop = roleBuilder.getDrop();
+        this.grant = roleBuilder.getGrant();
+    }
 
     public int getId() {
         return id;
@@ -19,12 +32,12 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameRole() {
+        return nameRole;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameRole(String nameRole) {
+        this.nameRole = nameRole;
     }
 
     public byte getUpdate() {

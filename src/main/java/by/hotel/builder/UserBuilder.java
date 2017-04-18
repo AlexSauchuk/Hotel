@@ -1,5 +1,6 @@
 package by.hotel.builder;
 
+import by.hotel.bean.Role;
 import by.hotel.bean.User;
 
 public class UserBuilder {
@@ -11,7 +12,7 @@ public class UserBuilder {
     private String passportNumber;
     private String password;
     private String sex;
-    private int idRole;
+    private Role role;
 
     public UserBuilder id(int id){
         this.id = id;
@@ -53,8 +54,8 @@ public class UserBuilder {
         return this;
     }
 
-    public UserBuilder idRole(int idRole){
-        this.idRole = idRole;
+    public UserBuilder role(Role role){
+        this.role = role;
         return this;
     }
 
@@ -90,8 +91,8 @@ public class UserBuilder {
         return sex;
     }
 
-    public int getIdRole() {
-        return idRole;
+    public Role getRole() {
+        return role;
     }
 
     public User build(){

@@ -29,7 +29,7 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
             while (resultSet.next()) {
                 parkingSpaces.add(parkingSpaceBuilder.id(resultSet.getInt("id"))
                                     .level(resultSet.getInt("level"))
-                                    .isReserved(resultSet.getBoolean("is_reserved"))
+                                    .reserved(resultSet.getByte("is_reserved"))
                                     .build());
             }
         } catch (SQLException e) {
@@ -92,7 +92,7 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
     private PreparedStatement fillStatement(PreparedStatement statement, ParkingSpace parkingSpace) throws SQLException {
         statement.setInt(1, parkingSpace.getId());
         statement.setInt(2, parkingSpace.getLevel());
-        statement.setBoolean(3, parkingSpace.isReserved());
+        statement.setByte(3, parkingSpace.getReserved());
         return statement;
     }
 }
