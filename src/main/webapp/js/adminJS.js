@@ -21,7 +21,7 @@
 
     function RecursionModals(data) {
         Data = data;
-        var modalString = '<div id="modalWindow'+deep+'" class="modal fade in" style="z-index: '+zIndex+';display: block"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"  id="headID"><button class="close" onclick="decreaseDeep()" type="button" id="closeBtn" data-dismiss="modal">Close</button></div><div class="modal-body">custom</div><div  class="modal-footer" onclick="decreaseDeep()"><button class="btn btn-default"  id="closeBtn" type="button" data-dismiss="modal">Close</button></div></div></div></div>';
+        var modalString = '<div id="modalWindow'+deep+'" class="modal fade in" style="z-index: '+zIndex+';display: block"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"  id="headID"><button class="close" onclick="decreaseDeep()" type="button" data-dismiss="modal">Close</button></div><div class="modal-body">custom</div><div  class="modal-footer" onclick="decreaseDeep()"><button class="btn btn-default"  id="closeBtn" type="button" data-dismiss="modal">Close</button></div></div></div></div>';
         childModal = '\'#modalWindow'+deep+'\'';
         deep++;
         parentModal = childModal;
@@ -59,6 +59,8 @@
             exStr+=modalStrings[str];
 
         $('#modalWindow').html(exStr);
+        console.log(document.getElementById("closeBtn"));
+        document.getElementById("closeBtn").focus();
 
     }
 
@@ -116,7 +118,7 @@
             });
         });
 
-
+        console.log(arrayValues);
         if(Object.keys(arrayObj).length>0){
             var inputs = obj.getElementsByTagName('input');
             var i = 0;
@@ -141,7 +143,8 @@
 
     var mapStringsTables = {
         "roomType":"room_type",
-        "user":"user"
+        "user":"user",
+        "reservation":"reservation"
     };
 
     function DeleteRow(obj) {
@@ -155,6 +158,7 @@
 
     function GenerateChilds(arrayObj) {
         for(var arrayType in arrayObj) {
+            console.log(arrayType);
             var selectList = document.getElementById('id'+arrayType);
 
             if(selectList.childElementCount==0)
@@ -179,18 +183,24 @@
         }
     }
 
+    function AddData(obj) {
+
+    }
+
     function setHtml(){
         var countRows = Data.length;
-
+        var newItem = "";
         var headerString = '';
         var bodyString = '';
         var j = 0;
         var countColumn = 0;
         zIndex = 1050;
+
         for(var key in Data[0]) {
             headerString+='<th>'+key+'</th>';
             countColumn++;
         }
+
         while(j!=countRows){
             var strRow = '<tr class="id'+Data[j].id+'" style="border: none">row</tr>';
             var patternRow = /row/;
@@ -204,10 +214,19 @@
                     GenerateSelectChilds();
                 }else
                     additionalString +='<td>'+Data[j][key]+'</td>';
+
+                if(j==countRows-1){
+                    newItem += '<td></td>';
+                }
             }
             additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModal" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
                 '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="DeleteRow(this)"></td>';
             bodyString += strRow.replace(patternRow,additionalString);
+
+            if(j==countRows-1){
+                newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" onclick="AddData((this.parentNode).parentNode)"></td>';
+                bodyString += strRow.replace(patternRow,newItem);
+            }
             j++;
         }
 
