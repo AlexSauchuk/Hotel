@@ -11,7 +11,7 @@ public class User {
     private String passportNumber;
     private String password;
     private String sex;
-    private int idRole;
+    private Role role;
 
     public User(){super();}
 
@@ -24,7 +24,7 @@ public class User {
         this.passportNumber = userBuilder.getPassportNumber();
         this.password = userBuilder.getPassword();
         this.sex = userBuilder.getSex();
-        this.idRole = userBuilder.getIdRole();
+        this.role = userBuilder.getRole();
     }
 
     public int getId() {
@@ -91,11 +91,11 @@ public class User {
         this.sex = sex;
     }
 
-    public int getIdRole() {
-        return idRole;
+    public Role getRole() {
+        return role;
     }
 
-    public void setIdRole(int idRole) {
-        this.idRole = idRole;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

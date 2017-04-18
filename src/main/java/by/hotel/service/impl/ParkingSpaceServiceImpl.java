@@ -56,7 +56,7 @@ public class ParkingSpaceServiceImpl implements CrudServiceExtended<ParkingSpace
     public ParkingSpace buildEntity(Map<String, String[]> params) throws ServiceException {
         return new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id")[0]))
                 .level(Integer.parseInt(params.get("level")[0]))
-                .isReserved(Boolean.parseBoolean(params.get("isReserved")[0]))
+                .reserved(Byte.parseByte(params.get("isReserved")[0]))
                 .build();
     }
 }

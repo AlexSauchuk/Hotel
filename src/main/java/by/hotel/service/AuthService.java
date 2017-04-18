@@ -1,8 +1,9 @@
 package by.hotel.service;
 
 
+import by.hotel.service.exception.ServiceException;
+
 public interface AuthService {
 
-	boolean login(String login, String password);
-	boolean logout();
+	boolean authorisation(String login, String password)  throws ServiceException;
 }

@@ -18,6 +18,7 @@ public class ServiceMapper {
         services.put("ROOM", new RoomServiceImpl());
         services.put("ROOM_TYPE", new RoomTypeServiceImpl());
         services.put("USER", new UserServiceImpl());
+        services.put("ROLE", new RoleServiceImpl());
         //services.put("REPORT", new ReportServiceImpl());
     }
 

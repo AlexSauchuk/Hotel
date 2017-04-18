@@ -5,7 +5,7 @@ import by.hotel.bean.ParkingSpace;
 public class ParkingSpaceBuilder {
     private int id;
     private int level;
-    private boolean isReserved;
+    private byte reserved;
 
     public ParkingSpaceBuilder id(int id){
         this.id = id;
@@ -17,8 +17,8 @@ public class ParkingSpaceBuilder {
         return this;
     }
 
-    public ParkingSpaceBuilder isReserved(boolean isReserved){
-        this.isReserved = isReserved;
+    public ParkingSpaceBuilder reserved(byte reserved){
+        this.reserved = reserved;
         return this;
     }
 
@@ -30,8 +30,8 @@ public class ParkingSpaceBuilder {
         return level;
     }
 
-    public boolean getIsReserved() {
-        return isReserved;
+    public byte getReserved() {
+        return reserved;
     }
 
     public ParkingSpace build(){

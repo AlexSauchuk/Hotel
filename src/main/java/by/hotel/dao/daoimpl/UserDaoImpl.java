@@ -1,6 +1,7 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.User;
+import by.hotel.builder.RoleBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.UserDao;
@@ -136,11 +137,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         statement.setString(5, user.getMobilePhone());
         statement.setString(6, user.getPassword());
         statement.setString(7, user.getLogin());
-        statement.setInt(8, user.getIdRole());
+        statement.setInt(8, user.getRole().getId());
         return statement;
     }
 
     private User fillUser(ResultSet resultSet, UserBuilder userBuilder) throws SQLException {
+        RoleBuilder roleBuilder = new RoleBuilder();
         return userBuilder.id(resultSet.getInt("id"))
                 .passportNumber(resultSet.getString("passport_number"))
                 .name(resultSet.getString("name"))
@@ -149,7 +151,15 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 .mobilePhone(resultSet.getString("mobile_phone"))
                 .password(resultSet.getString("password"))
                 .login(resultSet.getString("login"))
-                .idRole(resultSet.getInt("role"))
+                .role(roleBuilder.id(resultSet.getInt("id"))
+                        .nameRole(resultSet.getString("name_role"))
+                        .update(resultSet.getByte("update"))
+                        .delete(resultSet.getByte("delete"))
+                        .insert(resultSet.getByte("insert"))
+                        .create(resultSet.getByte("create"))
+                        .select(resultSet.getByte("select"))
+                        .drop(resultSet.getByte("drop"))
+                        .grant(resultSet.getByte("grant")).build())
                 .build();
     }
 }

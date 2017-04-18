@@ -3,7 +3,8 @@ package by.hotel.dao.constants;
 public class Constants {
     public static final String GET_ALL_NAMES_TABLES = "SHOW TABLES FROM `db_hotel`";
 
-    public static final String GET_ALL_USERS = "SELECT `id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password`, `role` FROM `db_hotel`.`user`";
+    public static final String GET_ALL_USERS = "SELECT `user`.`id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password`, `role`,`role`.`id`,`role`.`name_role`,`role`.`update`,`role`.`delete`,`role`.`insert`,`role`.`create`,`role`.`select`,`role`.`drop`,`role`.`grant` " +
+            "FROM (`db_hotel`.`user` LEFT OUTER JOIN `db_hotel`.`role` ON `user`.`role` = `role`.`id`)";
     public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `password`, `role`) VALUES (?,?,?,?,?,?,?)";
     public static final String REMOVE_USER = "DELETE FROM `db_hotel`.`user` WHERE `id`=?";
     public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`=?, `name`=?, `surname`=?, `sex`=?, `mobile_phone`=?, `password`=?, `login`=?, `role`=? WHERE `id`=?";
@@ -88,4 +89,12 @@ public class Constants {
  //   public static final String GET_DISCOUNT = "SELECT `id`, `id_user`, `name`, `surname`, `room_number`, `date-in`, `date-out`, `days_count` " +
   //          "FROM (`db_hotel`.`reservation` LEFT OUTER JOIN `db_hotel`.`user` ON `reservation`.`id_user` = `user`.`id`)";
 
+
+    public static final String GET_ALL_ROLES = "SELECT `id`,`name_role`, `update`, `delete`, `insert`, `create`, `select`, `drop`, `grant` FROM `db_hotel`.`role`";
+    public static final String ADD_ROLE = "INSERT INTO `db_hotel`.`role` (`id`,`name_role`, `update`, `delete`, `insert`, `create`, `select`, `drop`, `grant`) VALUES (?,?,?,?,?,?,?,?,?)";
+    public static final String REMOVE_ROLE = "DELETE FROM `db_hotel`.`role` WHERE `id`=?";
+    public static final String UPDATE_ROLE = "UPDATE `db_hotel`.`role` SET `name_role`=?, `update`=?, `delete`=?,`insert`=?, `create`=?, `select`=?,`drop`=?, `grant`=? WHERE `id`=?";
+
+
+    public static final String AUTR_USER = "SELECT `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `role` FROM `db_hotel`.`user` WHERE `id`=? AND `password`=?";
 }
