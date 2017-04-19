@@ -14,8 +14,8 @@ public class GetEntityHeaders implements Command{
     public Object execute(Map<String, String[]> requestParameters) throws CommandException {
         List<String> resultList;
         try {
-            CrudService service =  ServiceMapper.getService(requestParameters.get("tableName")[0]);
-            resultList = ((CrudServiceExtended)service).getAllHeaders();
+            CrudService<?> service =  ServiceMapper.getService(requestParameters.get("tableName")[0]);
+            resultList = ((CrudServiceExtended<?>)service).getAllHeaders();
         }catch (ServiceException e){
             throw new CommandException(e);
         }

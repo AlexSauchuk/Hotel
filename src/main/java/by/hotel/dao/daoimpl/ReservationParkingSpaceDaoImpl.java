@@ -98,8 +98,8 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
         }
     }
     private PreparedStatement fillStatement(PreparedStatement statement, ReservationParkingSpace reservationParkingSpace) throws SQLException {
-        statement.setInt(1, reservationParkingSpace.getReservation().getId());
-        statement.setInt(2, reservationParkingSpace.getParkingSpace().getId());
+        statement.setInt(1, reservationParkingSpace.getParkingSpace().getId());
+        statement.setInt(2, reservationParkingSpace.getReservation().getId());
         return statement;
     }
 }

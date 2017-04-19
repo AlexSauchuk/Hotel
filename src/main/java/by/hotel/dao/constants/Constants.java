@@ -5,10 +5,10 @@ public class Constants {
 
     public static final String GET_ALL_USERS = "SELECT `user`.`id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password`, `role`,`role`.`id`,`role`.`name_role`,`role`.`update`,`role`.`delete`,`role`.`insert`,`role`.`create`,`role`.`select`,`role`.`drop`,`role`.`grant` " +
             "FROM (`db_hotel`.`user` LEFT OUTER JOIN `db_hotel`.`role` ON `user`.`role` = `role`.`id`)";
-    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `password`, `role`) VALUES (?,?,?,?,?,?,?)";
+    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `password`, `login`,`role`) VALUES (?,?,?,?,?,?,?,?)";
     public static final String REMOVE_USER = "DELETE FROM `db_hotel`.`user` WHERE `id`=?";
     public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`=?, `name`=?, `surname`=?, `sex`=?, `mobile_phone`=?, `password`=?, `login`=?, `role`=? WHERE `id`=?";
-    public static final String GET_USER = "SELECT `id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password`, `role` FROM `db_hotel`.`user` WHERE `id`=?";
+    public static final String GET_USER = "SELECT `id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `password`, `login`, `role` FROM `db_hotel`.`user` WHERE `id`=?";
     public static final String GET_ALL_USERS_HEADERS = "SELECT `id`, `surname`, `name` FROM `db_hotel`.`user`";
 
     public static final String GET_ALL_ROOMS = "SELECT `room`.`id`,`id_room_type`, `rooms_count`, `beds_count`, `cost_per_day`, `additional_info`, `floor`, `phone` " +
@@ -32,9 +32,9 @@ public class Constants {
             "ON `reservation`.`id_user` = `user`.`id`)" +
             "LEFT OUTER JOIN `db_hotel`.`discount`" +
             "ON `discount`.`id` = `discount_id`)";
-    public static final String ADD_RESERVATION = "INSERT INTO `db_hotel`.`reservation` (`id_user`, `id_room`, `date-in`, `date-out`) VALUES (?,?,?,?)";
+    public static final String ADD_RESERVATION = "INSERT INTO `db_hotel`.`reservation` (`id_user`, `date-in`, `date-out`, `discount_id`) VALUES (?,?,?,?)";
     public static final String REMOVE_RESERVATION = "DELETE FROM `db_hotel`.`reservation` WHERE `id`=?";
-    public static final String UPDATE_RESERVATION = "UPDATE `db_hotel`.`reservation` SET `id_user`=?, `id_room`=?, `date-in`=?, `date-out`=? WHERE `id`=?";
+    public static final String UPDATE_RESERVATION = "UPDATE `db_hotel`.`reservation` SET `id_user`=?, `date-in`=?, `date-out`=? `discount_id`=? WHERE `id`=?";
  //   public static final String GET_RESERVATION = "SELECT `id`, `id_user`, `name`, `surname`, `room_number`, `date-in`, `date-out`, `days_count` " +
   //          "FROM (`db_hotel`.`reservation` LEFT OUTER JOIN `db_hotel`.`user` ON `reservation`.`id_user` = `user`.`id`)";
     public static final String GET_ALL_RESERVATIONS_HEADERS = "SELECT `id`, `date-in`, `date-out` FROM `db_hotel`.`reservation`";
@@ -58,7 +58,7 @@ public class Constants {
             "LEFT OUTER JOIN `db_hotel`.`discount`" +
             "ON `discount_id` = `discount`.`id`)";
     public static final String ADD_RESERVATION_PARKING_SPACE = "INSERT INTO `db_hotel`.`reservation_parking_space` (`id_parking_space`, `id_reservation`) VALUES (?,?)";
-    public static final String REMOVE_RESERVATION_PARKING_SPACE = "DELETE FROM `db_hotel`.`reservation_parking_space` WHERE `id`=?";
+    public static final String REMOVE_RESERVATION_PARKING_SPACE = "DELETE FROM `db_hotel`.`reservation_parking_space` WHERE `id_parking_space`=? AND `id_reservation`=?";
     public static final String UPDATE_RESERVATION_PARKING_SPACE = "UPDATE `db_hotel`.`reservation_parking_space` SET `id_parking_space`=?, `id_reservation`=? WHERE `id_parking_space`=? AND `id_reservation`=?";
     public static final String GET_RESERVATION_PARKING_SPACE = "";
 
@@ -75,7 +75,7 @@ public class Constants {
             "LEFT OUTER JOIN `db_hotel`.`discount`" +
             "ON `discount_id` = `discount`.`id`)";
     public static final String ADD_RESERVATION_ROOM = "INSERT INTO `db_hotel`.`reservation_room` (`id_room`, `id_reservation`) VALUES (?,?)";
-    public static final String REMOVE_RESERVATION_ROOM = "DELETE FROM `db_hotel`.`reservation_room` WHERE `id`=?";
+    public static final String REMOVE_RESERVATION_ROOM = "DELETE FROM `db_hotel`.`reservation_room` WHERE `id_room`=? AND `id_reservation`=?";
     public static final String UPDATE_RESERVATION_ROOM = "UPDATE `db_hotel`.`reservation_room` SET `id_room`=?, `id_reservation`=? WHERE `id_room`=? AND `id_reservation`=?";
     public static final String GET_RESERVATION_ROOM = "";
 

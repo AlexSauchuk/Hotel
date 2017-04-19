@@ -85,8 +85,7 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(REMOVE_RESERVATION_ROOM);
-            statement.setInt(1, reservationRoom.getReservation().getId());
-            statement.setInt(2, reservationRoom.getRoom().getId());
+            statement = fillStatement(statement, reservationRoom);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);

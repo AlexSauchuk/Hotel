@@ -90,6 +90,7 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         try {
             statement = connection.prepareStatement(UPDATE_DISCOUNT);
             statement = fillStatement(statement, discount);
+            statement.setInt(2, discount.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -104,7 +105,6 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
 
     private PreparedStatement fillStatement(PreparedStatement statement, Discount discount) throws SQLException {
         statement.setString(1, discount.getName());
-        statement.setInt(2, discount.getId());
         return statement;
     }
 

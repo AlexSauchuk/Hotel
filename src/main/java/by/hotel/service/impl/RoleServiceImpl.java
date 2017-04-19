@@ -6,18 +6,26 @@ import by.hotel.dao.RoleDao;
 import by.hotel.dao.daoimpl.RoleDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
-import by.hotel.service.CrudService;
+import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-public class RoleServiceImpl extends AbstractService implements CrudService<Role> {
+public class RoleServiceImpl extends AbstractService implements CrudServiceExtended<Role> {
     private RoleDao roleDao = new RoleDaoImpl();
 
-    public List<Integer> getAllId() throws ServiceException {
-        return null;
+    public List<String> getAllHeaders() throws ServiceException {
+        Connection connection = null;
+        try{
+            connection = getConnection();
+            return roleDao.getRoleHeaders(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
     }
 
     public List<Role> getAllEntities() throws ServiceException {
