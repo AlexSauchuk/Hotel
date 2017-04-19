@@ -83,7 +83,7 @@
         var elem = $('#myModalUpdate').find('#mainForm');
         elem[0].action =
             '/servlet?tableName='+NameTable +'&action=UPDATE';
-        var editBody = document.getElementsByClassName('form-horizontal');
+        var editBody = $('#myModalUpdate').find('#mainForm');
 
         var arrayValues = new Array();
         $(obj).each(function(){
@@ -94,7 +94,6 @@
 
         arrayValues.pop();
         arrayValues.pop();
-
         var i = 0;
         $(editBody).each(function(){
             $("div",this).each(function(){
@@ -110,18 +109,22 @@
                             this.firstElementChild.firstElementChild.checked = false;
                             this.childNodes[3].firstElementChild.checked = true;
                         }
-                    else
-                        this.firstElementChild.setAttribute('value', arrayValues[i].innerHTML);
-
+                    else {
+                        if((this.firstElementChild).childNodes.length==0)
+                            $(this.firstElementChild).val(arrayValues[i].innerHTML);
+                        else
+                            $('select[name=idrole]').val(1);
+                    }
                     i++;
                 }
             });
         });
+        console.log(arrayObj);
 
-        console.log(arrayValues);
         if(Object.keys(arrayObj).length>0){
             var inputs = obj.getElementsByTagName('input');
             var i = 0;
+
             for(var arrayType in arrayObj){
                 $('select[name=id'+arrayType+']').val(inputs[i].value);
                 i++;
@@ -141,11 +144,6 @@
     var childModal = '#modalWindow0';
     var arrayObj = {};
     var oldTarget;
-    var mapStringsTables = {
-        "roomType":"room_type",
-        "user":"user",
-        "reservation":"reservation"
-    };
 
     function DeleteRow(obj) {
         $.ajax({
@@ -190,9 +188,10 @@
         for(var value in futureQueryForID) {
             $.ajax({
                 type: 'GET',
-                url: '/servlet?tableName=' + mapStringsTables[value] + '&action=GET_ALL_ID',
+                url: '/servlet?tableName=' + value + '&action=GET_ALL_ID',
                 success: function (data) {
                     arrayObj[value] = data;
+                    console.log(arrayObj);
                     GenerateChilds(arrayObj);
                 }});
         }
@@ -218,6 +217,7 @@
             headerString+='<th>'+key+'</th>';
             countColumn++;
         }
+        GenerateSelectChilds();
 
         while(j!=countRows){
             var strRow = '<tr class="id'+Data[j].id+'" style="border: none">row</tr>';
@@ -229,7 +229,6 @@
                 {
                     futureQueryForID[key] = key;
                     additionalString +='<td><input type="button" style="width: 100%" value="'+(Data[j][key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
-                    GenerateSelectChilds();
                 }else
                     additionalString +='<td>'+Data[j][key]+'</td>';
 
@@ -281,11 +280,9 @@ $(document).ready(function() {
 
     $('.col-lg-3').on('click', function(event) {
         var target = event.target;
-
         if(oldTarget!=null)
-            oldTarget.style.backgroundColor = "rgb(235, 235, 228)";
-        oldTarget = target.closest('td').childNodes[0];
-
+            oldTarget.closest('td').childNodes[0].classList.remove("animationColor");
+        oldTarget = target;
         target.closest('td').childNodes[0].classList.add("animationColor");
         if(!target.closest('td')) return;
 

@@ -5,8 +5,6 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="import" href="/templates/user.html">
-    <link rel="import" href="/templates/room_type.html">
 
     <title>Admin</title>
     <script>
@@ -16,6 +14,7 @@
     </script>
     <style>
         <%@include file="/bootstrap/bootstrap.min.css"%>
+        <%@include file="/css/admin.css"%>
     </style>
 </head>
     <body>
@@ -36,7 +35,8 @@
                 </div>
             </div>
         </div>
-        <div id="myModal" class="modal fade"></div>
+        <div id="myModalUpdate" class="modal fade"></div>
+        <div id="myModalAdd" class="modal fade"></div>
         <div id="modalWindow"></div>
     </body>
 </html>
