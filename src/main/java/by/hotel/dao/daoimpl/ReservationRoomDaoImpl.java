@@ -1,12 +1,10 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.*;
+import by.hotel.builder.*;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationRoomDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,40 +25,46 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<ReservationRoom> reservationRooms = new ArrayList<ReservationRoom>();
+        RoomBuilder roomBuilder = new RoomBuilder();
+        UserBuilder userBuilder = new UserBuilder();
+        RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
+        ReservationBuilder reservationBuilder = new ReservationBuilder();
+        ReservationRoomBuilder reservationRoomBuilder = new ReservationRoomBuilder();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_RESERVATION_ROOMS);
+            statement = connection.prepareStatement(GET_ALL_RESERVATION_ROOMS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                ReservationRoom reservationRoom = new ReservationRoom();
-                Reservation reservation = new Reservation();
-                User user = new User();
-                user.setId(resultSet.getInt("id_user"));
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                user.setMobilePhone(resultSet.getString("mobile_phone"));
-                user.setPassportNumber(resultSet.getString("passport_number"));
-                user.setSex(resultSet.getString("sex"));
-                reservation.setUser(user);
-                reservation.setId(resultSet.getInt("id_reservation"));
-                reservation.setDateIn(resultSet.getDate("date-in"));
-                reservation.setDateOut(resultSet.getDate("date-out"));
+                Reservation reservation = reservationBuilder.id(resultSet.getInt("id_reservation"))
+                                .dateIn(resultSet.getDate("date-in"))
+                                .dateOut(resultSet.getDate("date-out"))
+                                .user(userBuilder.id(resultSet.getInt("id_user"))
+                                        .passportNumber(resultSet.getString("passport_number"))
+                                        .name(resultSet.getString("name"))
+                                        .surname(resultSet.getString("surname"))
+                                        .sex(resultSet.getString("sex"))
+                                        .mobilePhone(resultSet.getString("mobile_phone"))
+                                        .build())
+                                .costAdditionalServices(resultSet.getInt("cost_additional_services"))
+                                .discount(discountBuilder.id(resultSet.getInt("discount_id"))
+                                        .name(resultSet.getString("discount_name"))
+                                        .build())
+                                .build();
+                Room room = roomBuilder.id(resultSet.getInt("id_room"))
+                                .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
+                                        .roomsCount(resultSet.getInt("rooms_count"))
+                                        .bedsCount(resultSet.getInt("beds_count"))
+                                        .costPerDay(resultSet.getInt("cost_per_day"))
+                                        .additionalInfo(resultSet.getString("additional_info"))
+                                        .build())
+                                .floor(resultSet.getInt("floor"))
+                                .phone(resultSet.getString("phone"))
+                                .build();
 
-                reservationRoom.setReservation(reservation);
-
-                Room room = new Room();
-                RoomType roomType = new RoomType(resultSet.getInt("id_room_type"),
-                        resultSet.getInt("rooms_count"),
-                        resultSet.getInt("beds_count"),
-                        resultSet.getInt("cost_per_day"),
-                        resultSet.getString("additional_info"));
-                room.setId(resultSet.getInt("id_room"));
-                room.setRoomType(roomType);
-                room.setFloor(resultSet.getInt("floor"));
-                room.setPhone(resultSet.getString("phone"));
-
-                reservationRoom.setRoom(room);
-                reservationRooms.add(reservationRoom);
+                reservationRooms.add(reservationRoomBuilder.reservation(reservation)
+                                        .room(room)
+                                        .build());
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -90,9 +94,9 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         PreparedStatement statement = null;
         try {
             connection = getConnection();
+            statement = connection.prepareStatement(REMOVE_RESERVATION_ROOM);
             statement.setInt(1, reservationRoom.getReservation().getId());
             statement.setInt(2, reservationRoom.getRoom().getId());
-            statement = connection.prepareStatement(REMOVE_RESERVATION_ROOM);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);

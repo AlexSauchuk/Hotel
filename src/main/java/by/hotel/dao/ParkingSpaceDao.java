@@ -5,9 +5,6 @@ import by.hotel.dao.exception.DAOException;
 
 import java.util.List;
 
-/**
- * Created by 1 on 06.04.2017.
- */
 public interface ParkingSpaceDao {
     List<Integer> getId() throws DAOException;
     List<ParkingSpace> getParkingSpaces() throws DAOException;

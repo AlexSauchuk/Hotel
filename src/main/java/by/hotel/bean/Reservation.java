@@ -1,5 +1,7 @@
 package by.hotel.bean;
 
+import by.hotel.builder.ReservationBuilder;
+
 import java.sql.Date;
 
 public class Reservation {
@@ -7,14 +9,18 @@ public class Reservation {
     private Date dateIn;
     private Date dateOut;
     private User user;
-    private Room room;
+    private int costAdditionalServices;
+    private Discount discount;
 
-    public Room getRoom() {
-        return room;
-    }
+    public Reservation(){super();}
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public Reservation(ReservationBuilder reservationBuilder){
+        this.id = reservationBuilder.getId();
+        this.dateIn = reservationBuilder.getDateIn();
+        this.dateOut = reservationBuilder.getDateOut();
+        this.user = reservationBuilder.getUser();
+        this.costAdditionalServices = reservationBuilder.getCostAdditionalServices();
+        this.discount = reservationBuilder.getDiscount();
     }
 
     public User getUser() {
@@ -47,5 +53,21 @@ public class Reservation {
 
     public void setDateOut(Date dateOut) {
         this.dateOut = dateOut;
+    }
+
+    public int getCostAdditionalServices() {
+        return costAdditionalServices;
+    }
+
+    public void setCostAdditionalServices(int costAdditionalServices) {
+        this.costAdditionalServices = costAdditionalServices;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 }

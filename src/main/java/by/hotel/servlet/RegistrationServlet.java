@@ -20,7 +20,7 @@ public class RegistrationServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setStatus(HttpServletResponse.SC_OK);
 //        Controller controller = new Controller();
-//        boolean resp= ReservationDaoImpl.authorization(new User(request.getParameter("login"),request.getParameter("password")));
+//        boolean resp= ReservationDaoImpl.authorization(new User(request.getParameter("authorisation"),request.getParameter("password")));
 //        resp = controller.doAction("REGISTRATION" + "&" + request.getParameter("name") + "&" + request.getParameter("password"));
 
 /*        if (!resp){

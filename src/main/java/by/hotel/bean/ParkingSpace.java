@@ -1,12 +1,19 @@
 package by.hotel.bean;
 
-/**
- * Created by 1 on 06.04.2017.
- */
+import by.hotel.builder.ParkingSpaceBuilder;
+
 public class ParkingSpace {
     private int id;
     private int level;
     private boolean isReserved;
+
+    public ParkingSpace(){super();}
+
+    public ParkingSpace(ParkingSpaceBuilder parkingSpaceBuilder){
+        this.id = parkingSpaceBuilder.getId();
+        this.level = parkingSpaceBuilder.getLevel();
+        this.isReserved = parkingSpaceBuilder.getIsReserved();
+    }
 
     public int getId() {
         return id;
@@ -24,7 +31,7 @@ public class ParkingSpace {
         this.level = level;
     }
 
-    public boolean isReserved() {
+    public boolean getReserved() {
         return isReserved;
     }
 

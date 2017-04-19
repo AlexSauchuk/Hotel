@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: SK
-  Date: 27.03.2017
-  Time: 22:26
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
@@ -25,29 +18,25 @@
         <%@include file="/bootstrap/bootstrap.min.css"%>
     </style>
 </head>
-<body>
-<div class="container" style="padding-left: 0px;margin-left: 0px;width: 100%">
-    <div class="row" style="width: 100%;position: relative">
-        <div class="col-lg-3" style="width:15%;">
-            <table class="table table-hover table-bordered">
-                <tbody>
-                    <c:forEach var="item" items="${items}">
-                        <tr><td><input type="text" style="width: 100%" disabled="disabled" value="${item}" class="head"/></td></tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+    <body>
+        <div class="container" style="padding-left: 0px;margin-left: 0px;width: 100%">
+            <div class="row" style="width: 100%;position: relative">
+                <div class="col-lg-3" style="width:15%;">
+                    <table class="table table-hover table-bordered">
+                        <tbody>
+                            <c:forEach var="item" items="${items}">
+                                <tr><td><input type="text" style="width: 100%" disabled="disabled" value="${item}" class="head"/></td></tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-12" style="float: right;width: 85%;">
+                    <table class="table table-bordered table-hover" id="tableHotel" style="border-right: none; border-bottom: none">
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-12" style="float: right;width: 85%;">
-            <table class="table table-bordered table-hover" id="tableHotel" style="border-right: none; border-bottom: none">
-            </table>
-        </div>
-    </div>
-</div>
-<div id="myModal" class="modal fade">
-
-</div>
-<div id="modalWindow">
-
-</div>
-</body>
+        <div id="myModal" class="modal fade"></div>
+        <div id="modalWindow"></div>
+    </body>
 </html>

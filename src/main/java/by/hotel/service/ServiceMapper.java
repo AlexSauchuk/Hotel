@@ -10,10 +10,7 @@ public class ServiceMapper {
 
     static {
         services.put("DISCOUNT", new DiscountServiceImpl());
-        services.put("DISCOUNT_TYPE", new DiscountTypeServiceImpl());
         services.put("PARKING_SPACE", new ParkingSpaceServiceImpl());
-        services.put("PAYMENT", new PaymentServiceImpl());
-        services.put("REGISTRATION_CARD", new RegistrationCardServiceImpl());
         services.put("RESERVATION", new ReservationServiceImpl());
         services.put("RESERVATION_PARKING_SPACE", new ReservationParkingSpaceServiceImpl());
 
@@ -21,8 +18,8 @@ public class ServiceMapper {
         services.put("ROOM", new RoomServiceImpl());
         services.put("ROOM_TYPE", new RoomTypeServiceImpl());
         services.put("USER", new UserServiceImpl());
+        services.put("ROLE", new RoleServiceImpl());
         //services.put("REPORT", new ReportServiceImpl());
-
     }
 
     public static CrudService getService(String serviceName) {

@@ -1,9 +1,7 @@
 package by.hotel.dao.daoimpl;
 
-import by.hotel.bean.ParkingSpace;
-import by.hotel.bean.Reservation;
 import by.hotel.bean.ReservationParkingSpace;
-import by.hotel.bean.User;
+import by.hotel.builder.*;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationParkingSpaceDao;
 import by.hotel.dao.constants.Constants;
@@ -28,35 +26,37 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<ReservationParkingSpace> reservationParkingSpaces = new ArrayList<ReservationParkingSpace>();
+        UserBuilder userBuilder = new UserBuilder();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
+        ReservationBuilder reservationBuilder = new ReservationBuilder();
+        ParkingSpaceBuilder parkingSpaceBuilder = new ParkingSpaceBuilder();
+        ReservationParkingSpaceBuilder reservationParkingSpaceBuilder = new ReservationParkingSpaceBuilder();
         try {
             connection = getConnection();
             statement = connection.prepareStatement(Constants.GET_ALL_RESERVATION_PARKING_SPACES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                ReservationParkingSpace reservationParkingSpace = new ReservationParkingSpace();
-                Reservation reservation = new Reservation();
-                User user = new User();
-                user.setId(resultSet.getInt("id_user"));
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                user.setMobilePhone(resultSet.getString("mobile_phone"));
-                user.setPassportNumber(resultSet.getString("passport_number"));
-                user.setSex(resultSet.getString("sex"));
-                reservation.setUser(user);
-                reservation.setId(resultSet.getInt("id_reservation"));
-                reservation.setDateIn(resultSet.getDate("date-in"));
-                reservation.setDateOut(resultSet.getDate("date-out"));
-
-                reservationParkingSpace.setReservation(reservation);
-
-                ParkingSpace parkingSpace = new ParkingSpace();
-                parkingSpace.setId(resultSet.getInt("id_parking_space"));
-                parkingSpace.setId(resultSet.getInt("level"));
-                parkingSpace.setReserved(resultSet.getBoolean("is_reserved"));
-
-                reservationParkingSpace.setParkingSpace(parkingSpace);
-
-                reservationParkingSpaces.add(reservationParkingSpace);
+                reservationParkingSpaces.add(reservationParkingSpaceBuilder
+                                    .reservation(reservationBuilder.id(resultSet.getInt("id_reservation"))
+                                        .dateIn(resultSet.getDate("date-in"))
+                                        .dateOut(resultSet.getDate("date-out"))
+                                        .user(userBuilder.id(resultSet.getInt("id_user"))
+                                                .passportNumber(resultSet.getString("passport_number"))
+                                                .name(resultSet.getString("name"))
+                                                .surname(resultSet.getString("surname"))
+                                                .sex(resultSet.getString("sex"))
+                                                .mobilePhone(resultSet.getString("mobile_phone"))
+                                                .build())
+                                        .costAdditionalServices(resultSet.getInt("cost_additional_services"))
+                                        .discount(discountBuilder.id(resultSet.getInt("discount_id"))
+                                                .name(resultSet.getString("discount_name"))
+                                                .build())
+                                        .build())
+                                    .parkingSpace(parkingSpaceBuilder.id(resultSet.getInt("id_parking_space"))
+                                        .level(resultSet.getInt("level"))
+                                        .reserved(resultSet.getByte("is_reserved"))
+                                        .build())
+                                    .build());
             }
         } catch (SQLException e) {
             throw new DAOException(e);

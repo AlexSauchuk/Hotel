@@ -1,18 +1,20 @@
 package by.hotel.command.impl;
 
-import by.hotel.bean.User;
 import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
 import by.hotel.service.CrudService;
 import by.hotel.service.ServiceMapper;
+import by.hotel.service.exception.ServiceException;
+import by.hotel.util.ParametersParser;
+
+import java.util.Map;
 
 public class AddEntity implements Command {
-    public Object execute(String request) throws CommandException {
+    public Object execute(Map<String, String[]> requestParameters) throws CommandException {
         try {
-            String[] requestParams = request.split("&");
-            CrudService service =  ServiceMapper.getService(requestParams[0]);
-            service.addEntity(new User());
-        }catch (Exception e){
+            CrudService service =  ServiceMapper.getService(requestParameters.get("tableName")[0]);
+            service.addEntity(service.buildEntity(requestParameters));
+        }catch (ServiceException e){
             throw new CommandException(e);
         }
         return null;

@@ -1,0 +1,44 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal">×</button>
+            <h4 class="modal-title">Modify row</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" id="mainForm" action="" method="post">
+                <div class="form-group">
+                    <label for="id" class="col-sm-4 control-label">ID</label>
+                    <div class="col-sm-8">
+                        <input type="id" class="form-control" id="id" name="id" placeholder="ID" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dateIn" class="col-sm-4 control-label">Date In</label>
+                    <div class="col-sm-8">
+                        <input type="dateIn" class="form-control" id="dateIn" name="dateIn" placeholder="Date In">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dateOut" class="col-sm-4 control-label">Date Out</label>
+                    <div class="col-sm-8">
+                        <input type="dateOut" class="form-control" id="dateOut" name="dateOut" placeholder="Date Out">
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-sm-4 control-label">RelationshipID</label>
+                    <div class="col-sm-8" >
+                        <select class="form-control" id="iduser" name="iduser">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" style="width:100%" onclick="SendUpdatesValues()" class="btn btn-success">Подтвердить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer"><button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button></div>
+    </div>
+</div>

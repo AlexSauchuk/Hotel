@@ -1,18 +1,15 @@
 package by.hotel.service.impl;
 
-import by.hotel.bean.DiscountType;
 import by.hotel.bean.ParkingSpace;
-import by.hotel.dao.daoimpl.DiscountTypeDaoImpl;
+import by.hotel.builder.ParkingSpaceBuilder;
 import by.hotel.dao.daoimpl.ParkingSpaceDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.CrudService;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by 1 on 07.04.2017.
- */
 public class ParkingSpaceServiceImpl implements CrudService<ParkingSpace> {
     private ParkingSpaceDaoImpl parkingSpaceDao = new ParkingSpaceDaoImpl();
 
@@ -40,9 +37,9 @@ public class ParkingSpaceServiceImpl implements CrudService<ParkingSpace> {
         }
     }
 
-    public void removeEntity(ParkingSpace entity) throws ServiceException {
+    public void removeEntity(ParkingSpace parkingSpace) throws ServiceException {
         try {
-            parkingSpaceDao.removeParkingSpace(entity);
+            parkingSpaceDao.removeParkingSpace(parkingSpace);
         }catch (DAOException e){
             throw new ServiceException(e);
         }
@@ -54,5 +51,12 @@ public class ParkingSpaceServiceImpl implements CrudService<ParkingSpace> {
         }catch (DAOException e){
             throw new ServiceException(e);
         }
+    }
+
+    public ParkingSpace buildEntity(Map<String, String[]> params) throws ServiceException {
+        return new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id")[0]))
+                .level(Integer.parseInt(params.get("level")[0]))
+                .reserved(Byte.parseByte(params.get("isReserved")[0]))
+                .build();
     }
 }

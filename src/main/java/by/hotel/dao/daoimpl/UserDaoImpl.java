@@ -1,6 +1,8 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.User;
+import by.hotel.builder.RoleBuilder;
+import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.UserDao;
 import by.hotel.dao.constants.Constants;
@@ -41,12 +43,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<User> users = new ArrayList<User>();
+        UserBuilder userBuilder = new UserBuilder();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_USERS);
+            statement = connection.prepareStatement(GET_ALL_USERS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                users.add(fillUser(resultSet));
+                users.add(fillUser(resultSet, userBuilder));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -76,8 +79,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement.setInt(1, user.getId());
             statement = connection.prepareStatement(REMOVE_USER);
+            statement.setInt(1, user.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -106,11 +109,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         User user;
+        UserBuilder userBuilder = new UserBuilder();
         try {
             connection = getConnection();
             statement = connection.prepareStatement(Constants.GET_USER);
             resultSet = statement.executeQuery();
-            user = fillUser(resultSet);
+            user = fillUser(resultSet, userBuilder);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -127,19 +131,29 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         statement.setString(5, user.getMobilePhone());
         statement.setString(6, user.getPassword());
         statement.setString(7, user.getLogin());
+        statement.setInt(8, user.getRole().getId());
         return statement;
     }
 
-    private User fillUser(ResultSet resultSet) throws SQLException {
-        User user = new User();
-        user.setId(resultSet.getInt("id"));
-        user.setPassportNumber(resultSet.getString("passport_number"));
-        user.setName(resultSet.getString("name"));
-        user.setSurname(resultSet.getString("surname"));
-        user.setSex(resultSet.getString("sex"));
-        user.setMobilePhone(resultSet.getString("mobile_phone"));
-        user.setPassword(resultSet.getString("password"));
-        user.setLogin(resultSet.getString("login"));
-        return user;
+    private User fillUser(ResultSet resultSet, UserBuilder userBuilder) throws SQLException {
+        RoleBuilder roleBuilder = new RoleBuilder();
+        return userBuilder.id(resultSet.getInt("id"))
+                .passportNumber(resultSet.getString("passport_number"))
+                .name(resultSet.getString("name"))
+                .surname(resultSet.getString("surname"))
+                .sex(resultSet.getString("sex"))
+                .mobilePhone(resultSet.getString("mobile_phone"))
+                .password(resultSet.getString("password"))
+                .login(resultSet.getString("login"))
+                .role(roleBuilder.id(resultSet.getInt("id"))
+                        .nameRole(resultSet.getString("name_role"))
+                        .update(resultSet.getByte("update"))
+                        .delete(resultSet.getByte("delete"))
+                        .insert(resultSet.getByte("insert"))
+                        .create(resultSet.getByte("create"))
+                        .select(resultSet.getByte("select"))
+                        .drop(resultSet.getByte("drop"))
+                        .grant(resultSet.getByte("grant")).build())
+                .build();
     }
 }

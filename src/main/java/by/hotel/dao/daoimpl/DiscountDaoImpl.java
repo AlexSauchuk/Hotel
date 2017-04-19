@@ -1,14 +1,11 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.Discount;
-import by.hotel.bean.DiscountType;
+import by.hotel.builder.DiscountBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.DiscountDao;
-import by.hotel.dao.DiscountTypeDao;
 import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,12 +26,13 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Discount> discounts = new ArrayList<Discount>();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_DISCOUNTS);
+            statement = connection.prepareStatement(GET_ALL_DISCOUNTS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                discounts.add(fillDiscount(resultSet));
+                discounts.add(fillDiscount(resultSet, discountBuilder));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -94,21 +92,13 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, Discount discount) throws SQLException {
-        statement.setInt(1, discount.getDiscountType().getId());
+//        statement.setInt(1, discount.getDiscountType().getId());
         return statement;
     }
 
-    private Discount fillDiscount(ResultSet resultSet) throws SQLException {
-        Discount discount = new Discount();
-
-        DiscountType discountType = new DiscountType();
-        discountType.setId(resultSet.getInt("id"));
-        discountType.setName(resultSet.getString("name"));
-        discountType.setAmount(resultSet.getFloat("amount"));
-
-        discount.setDiscountType(discountType);
-        discount.setId(resultSet.getInt("id"));
-
-        return discount;
+    private Discount fillDiscount(ResultSet resultSet, DiscountBuilder discountBuilder) throws SQLException {
+        return discountBuilder.id(resultSet.getInt("id"))
+                              .name(resultSet.getString("name"))
+                              .build();
     }
 }

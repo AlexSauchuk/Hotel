@@ -44,7 +44,7 @@
 
             if($.isPlainObject(data[key]))
             {
-                additionalString +='<td><input type="button" style="width: 100%" value="'+data[key]+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
+                additionalString +='<td><input type="button" style="width: 100%" value="'+(data[key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
             }else
                 additionalString +='<td>'+data[key]+'</td>';
         }
@@ -76,13 +76,13 @@
         else
             objects.push(temporaryData[Object.keys(temporaryData)[col]]);
 
-        //console.log(objects);
         RecursionModals(objects[deep+1]);
     }
 
     function UpdateData(obj) {
-        document.getElementById("mainForm").action =
-            '/servlet?tableName='+NameTable +'&action=UPDATE_ENTITY';
+        var elem = $('#myModalUpdate').find('#mainForm');
+        elem[0].action =
+            '/servlet?tableName='+NameTable +'&action=UPDATE';
         var editBody = document.getElementsByClassName('form-horizontal');
 
         var arrayValues = new Array();
@@ -140,7 +140,7 @@
     var parentModal = '';
     var childModal = '#modalWindow0';
     var arrayObj = {};
-
+    var oldTarget;
     var mapStringsTables = {
         "roomType":"room_type",
         "user":"user",
@@ -148,17 +148,32 @@
     };
 
     function DeleteRow(obj) {
-        document.getElementById('tableHotel').deleteRow(obj.closest("tr").rowIndex);
         $.ajax({
-            type: 'DELETE',
-            url: '/servlet?tableName='+NameTable +'&action=REMOVE',
-            data:{'id':obj.closest("tr").firstChild.textContent}
+            type: 'POST',
+            url: '/servlet?tableName=' + NameTable + '&action=REMOVE',
+            data:{'entityParams': formParams(obj.closest('tr').rowIndex)},
+            success:function(){
+                document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
+            }
         });
+    }
+
+    function formParams(rowIndex) {
+        var resultParams='';
+        var columnNames = $("#tableHotel").find("tr").first().children();
+        for(var i=0; i< columnNames.length; i++){
+            var currentObj = Data[rowIndex-1][columnNames[i].textContent];
+            if($.isPlainObject(currentObj)){
+                resultParams = resultParams.concat("id_",columnNames[i].textContent,":",currentObj["id"],"&");
+            }else{
+                resultParams = resultParams.concat(columnNames[i].textContent,":",currentObj,"&");
+            }
+        }
+        return resultParams.slice(0,resultParams.length-1);
     }
 
     function GenerateChilds(arrayObj) {
         for(var arrayType in arrayObj) {
-            console.log(arrayType);
             var selectList = document.getElementById('id'+arrayType);
 
             if(selectList.childElementCount==0)
@@ -184,7 +199,10 @@
     }
 
     function AddData(obj) {
-
+        var elem = $('#myModalAdd').find('#mainForm');
+        elem[0].action =
+            '/servlet?tableName='+NameTable +'&action=ADD';
+        $('#myModalAdd').find('select[name=idrole]').val(1);
     }
 
     function setHtml(){
@@ -219,12 +237,12 @@
                     newItem += '<td></td>';
                 }
             }
-            additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModal" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
+            additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModalUpdate" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
                 '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="DeleteRow(this)"></td>';
             bodyString += strRow.replace(patternRow,additionalString);
 
             if(j==countRows-1){
-                newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" onclick="AddData((this.parentNode).parentNode)"></td>';
+                newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" data-toggle="modal" data-target="#myModalAdd" onclick="AddData((this.parentNode).parentNode)"></td>';
                 bodyString += strRow.replace(patternRow,newItem);
             }
             j++;
@@ -249,9 +267,10 @@ function LoadTemplate() {
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             if (request.status == 200) {
-                $('#myModal').html(request.responseText);
+                $('#myModalUpdate').html(request.responseText);
+                $('#myModalAdd').html(request.responseText);
             } else {
-                alert('Сетевая ошибка, код: ' + request.status);
+                alert('Network error, code: ' + request.status);
             }
         }
     };
@@ -260,10 +279,14 @@ function LoadTemplate() {
 
 $(document).ready(function() {
 
-    
     $('.col-lg-3').on('click', function(event) {
         var target = event.target;
 
+        if(oldTarget!=null)
+            oldTarget.style.backgroundColor = "rgb(235, 235, 228)";
+        oldTarget = target.closest('td').childNodes[0];
+
+        target.closest('td').childNodes[0].classList.add("animationColor");
         if(!target.closest('td')) return;
 
         var nameTable = target.closest('td').childNodes[0].value;
