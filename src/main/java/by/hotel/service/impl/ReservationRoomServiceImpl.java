@@ -8,7 +8,10 @@ import by.hotel.dao.daoimpl.ReservationRoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudService;
+import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
+import by.hotel.service.exception.IncorrectParkingSpaceRecervationException;
 import by.hotel.service.exception.ServiceException;
+import by.hotel.service.validator.ValidatorParkingSpace;
 
 import java.sql.Connection;
 import java.util.List;
@@ -21,10 +24,10 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         Connection connection = null;
         try {
             connection = getConnection();
-            return reservationRoomDao.getReservationRooms(getConnection());
-        }catch (DAOException e){
+            return reservationRoomDao.getReservationRooms(connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -33,10 +36,10 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationRoomDao.addReservationRoom(entity,getConnection());
-        }catch (DAOException e){
+            reservationRoomDao.addReservationRoom(entity, connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -45,10 +48,10 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationRoomDao.removeReservationRoom(reservationRoom,getConnection());
-        }catch (DAOException e){
+            reservationRoomDao.removeReservationRoom(reservationRoom, connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -57,18 +60,23 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationRoomDao.updateReservationRoom(entity,getConnection());
-        }catch (DAOException e){
+            reservationRoomDao.updateReservationRoom(entity, connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
 
-    public ReservationRoom buildEntity(Map<String, String[]> params) throws ServiceException {
-        return new ReservationRoomBuilder()
-                .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation")[0])).build())
-                .room(new RoomBuilder().id(Integer.parseInt(params.get("id_room")[0])).build())
-                .build();
+    public ReservationRoom buildEntity(Map<String, String[]> params) throws ServiceException, IncorrectParkingSpaceLevelException, IncorrectParkingSpaceRecervationException {
+        ValidatorParkingSpace validatorParkingSpace = new ValidatorParkingSpace();
+        if (validatorParkingSpace.validate(params)) {
+            return new ReservationRoomBuilder()
+                    .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation")[0])).build())
+                    .room(new RoomBuilder().id(Integer.parseInt(params.get("id_room")[0])).build())
+                    .build();
+        } else {
+            return null;
+        }
     }
 }

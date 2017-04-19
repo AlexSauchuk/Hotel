@@ -8,6 +8,7 @@ import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.AuthService;
 import by.hotel.service.exception.ServiceException;
+import by.hotel.service.validator.ValidatorUser;
 
 import java.sql.Connection;
 
@@ -17,7 +18,7 @@ public class AuthServiceImpl extends AbstractService implements AuthService {
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			return authDao.authorisation(login,password,getConnection());
+			return authDao.authorisation(login,password,connection);
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}finally {

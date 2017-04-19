@@ -4,6 +4,9 @@ import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
 import by.hotel.service.CrudService;
 import by.hotel.service.ServiceMapper;
+import by.hotel.service.exception.IncorrectDiscountNameException;
+import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
+import by.hotel.service.exception.IncorrectParkingSpaceRecervationException;
 import by.hotel.service.exception.ServiceException;
 import by.hotel.util.ParametersParser;
 
@@ -15,7 +18,7 @@ public class RemoveEntity implements Command {
             CrudService service =  ServiceMapper.getService(requestParameters.get("tableName")[0]);
             Map<String, String[]> entityParams = ParametersParser.parseParameters(requestParameters.get("entityParams")[0]);
             service.removeEntity(service.buildEntity(entityParams));
-        }catch (ServiceException e){
+        }catch (ServiceException | IncorrectDiscountNameException | IncorrectParkingSpaceLevelException | IncorrectParkingSpaceRecervationException e){
             throw new CommandException(e);
         }
         return null;

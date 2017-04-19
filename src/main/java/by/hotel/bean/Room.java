@@ -5,6 +5,7 @@ import by.hotel.builder.RoomBuilder;
 public class Room {
     private int id;
     private int floor;
+    private String path;
     private String phone;
     private RoomType roomType;
 
@@ -12,6 +13,7 @@ public class Room {
 
     public Room(RoomBuilder roomBuilder){
         this.id = roomBuilder.getId();
+        this.path = roomBuilder.getPath();
         this.floor = roomBuilder.getFloor();
         this.phone = roomBuilder.getPhone();
         this.roomType = roomBuilder.getRoomType();
@@ -47,5 +49,13 @@ public class Room {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

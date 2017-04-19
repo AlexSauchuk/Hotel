@@ -9,7 +9,10 @@ import by.hotel.dao.daoimpl.UserDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudService;
+import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
+import by.hotel.service.exception.IncorrectParkingSpaceRecervationException;
 import by.hotel.service.exception.ServiceException;
+import by.hotel.service.validator.ValidatorParkingSpace;
 
 import java.sql.Connection;
 import java.util.HashMap;
@@ -38,7 +41,7 @@ public class UserServiceImpl extends AbstractService implements CrudService<User
             userDao.addUser(entity, connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -50,7 +53,7 @@ public class UserServiceImpl extends AbstractService implements CrudService<User
             userDao.removeUser(user, connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -62,21 +65,26 @@ public class UserServiceImpl extends AbstractService implements CrudService<User
             userDao.updateUser(entity, connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
 
-    public User buildEntity(Map<String, String[]> params) throws ServiceException {
-        return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
-                .name(params.get("name")[0])
-                .surname(params.get("surname")[0])
-                .passportNumber(params.get("passport_number")[0])
-                .login(params.get("login")[0])
-                .password(params.get("password")[0])
-                .passportNumber(params.get("passport_number")[0])
-                .sex(params.get("sex")[0])
-                .role(new RoleBuilder().id(Integer.parseInt(params.get("id_role")[0])).build())
-                .build();
+    public User buildEntity(Map<String, String[]> params) throws ServiceException, IncorrectParkingSpaceLevelException, IncorrectParkingSpaceRecervationException {
+        ValidatorParkingSpace validatorParkingSpace = new ValidatorParkingSpace();
+        if (validatorParkingSpace.validate(params)) {
+            return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
+                    .name(params.get("name")[0])
+                    .surname(params.get("surname")[0])
+                    .passportNumber(params.get("passport_number")[0])
+                    .login(params.get("login")[0])
+                    .password(params.get("password")[0])
+                    .passportNumber(params.get("passport_number")[0])
+                    .sex(params.get("sex")[0])
+                    .role(new RoleBuilder().id(Integer.parseInt(params.get("id_role")[0])).build())
+                    .build();
+        } else {
+            return null;
+        }
     }
 }

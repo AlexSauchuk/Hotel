@@ -6,7 +6,9 @@ import by.hotel.dao.daoimpl.DiscountDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudService;
+import by.hotel.service.exception.IncorrectDiscountNameException;
 import by.hotel.service.exception.ServiceException;
+import by.hotel.service.validator.ValidatorDiscount;
 
 import java.sql.Connection;
 import java.util.List;
@@ -19,9 +21,11 @@ public class DiscountServiceImpl extends AbstractService implements CrudService<
         Connection connection = null;
         try {
             connection = getConnection();
-            return discountDao.getDiscounts(getConnection());
+            return discountDao.getDiscounts(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
@@ -29,7 +33,7 @@ public class DiscountServiceImpl extends AbstractService implements CrudService<
         Connection connection = null;
         try {
             connection = getConnection();
-            discountDao.addDiscount(entity,getConnection());
+            discountDao.addDiscount(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -41,7 +45,7 @@ public class DiscountServiceImpl extends AbstractService implements CrudService<
         Connection connection = null;
         try {
             connection = getConnection();
-            discountDao.removeDiscount(discount,getConnection());
+            discountDao.removeDiscount(discount,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -53,7 +57,7 @@ public class DiscountServiceImpl extends AbstractService implements CrudService<
         Connection connection = null;
         try {
             connection = getConnection();
-            discountDao.updateDiscount(entity,getConnection());
+            discountDao.updateDiscount(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
@@ -61,9 +65,14 @@ public class DiscountServiceImpl extends AbstractService implements CrudService<
         }
     }
 
-    public Discount buildEntity(Map<String, String[]> params) throws ServiceException {
-        return new DiscountBuilder().id(Integer.parseInt(params.get("id")[0]))
-                .name(params.get("name")[0])
-                .build();
+    public Discount buildEntity(Map<String, String[]> params) throws ServiceException, IncorrectDiscountNameException {
+        ValidatorDiscount validatorDiscount = new ValidatorDiscount();
+        if (validatorDiscount.validate(params)) {
+            return new DiscountBuilder().id(Integer.parseInt(params.get("id")[0]))
+                    .name(params.get("name")[0])
+                    .build();
+        }else{
+            return null;
+        }
     }
 }

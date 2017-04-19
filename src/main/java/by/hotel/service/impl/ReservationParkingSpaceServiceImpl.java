@@ -1,4 +1,5 @@
 package by.hotel.service.impl;
+
 import by.hotel.bean.Reservation;
 import by.hotel.bean.ReservationParkingSpace;
 import by.hotel.builder.ParkingSpaceBuilder;
@@ -8,7 +9,10 @@ import by.hotel.dao.daoimpl.ReservationParkingSpaceDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudService;
+import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
+import by.hotel.service.exception.IncorrectParkingSpaceRecervationException;
 import by.hotel.service.exception.ServiceException;
+import by.hotel.service.validator.ValidatorParkingSpace;
 
 import java.sql.Connection;
 import java.util.List;
@@ -22,9 +26,9 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
         try {
             connection = getConnection();
             return reservationParkingSpaceDao.getReservationParkingSpaces(getConnection());
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -33,10 +37,10 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationParkingSpaceDao.addReservationParkingSpace(entity,getConnection());
-        }catch (DAOException e){
+            reservationParkingSpaceDao.addReservationParkingSpace(entity, connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -45,10 +49,10 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationParkingSpaceDao.removeReservationParkingSpace(reservationParkingSpace,getConnection());
-        }catch (DAOException e){
+            reservationParkingSpaceDao.removeReservationParkingSpace(reservationParkingSpace, connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -57,18 +61,23 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationParkingSpaceDao.updateReservationParkingSpace(entity,getConnection());
-        }catch (DAOException e){
+            reservationParkingSpaceDao.updateReservationParkingSpace(entity, connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
 
-    public ReservationParkingSpace buildEntity(Map<String, String[]> params) throws ServiceException {
-        return new ReservationParkingSpaceBuilder()
-                .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation")[0])).build())
-                .parkingSpace(new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id_parkingSpace")[0])).build())
-                .build();
+    public ReservationParkingSpace buildEntity(Map<String, String[]> params) throws ServiceException, IncorrectParkingSpaceLevelException, IncorrectParkingSpaceRecervationException {
+        ValidatorParkingSpace validatorParkingSpace = new ValidatorParkingSpace();
+        if (validatorParkingSpace.validate(params)) {
+            return new ReservationParkingSpaceBuilder()
+                    .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation")[0])).build())
+                    .parkingSpace(new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id_parkingSpace")[0])).build())
+                    .build();
+        } else {
+            return null;
+        }
     }
 }

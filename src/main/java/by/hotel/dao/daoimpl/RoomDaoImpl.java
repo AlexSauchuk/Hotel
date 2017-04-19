@@ -36,6 +36,7 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
                                     .additionalInfo(resultSet.getString("additional_info")).build())
                             .floor(resultSet.getInt("floor"))
                             .phone(resultSet.getString("phone"))
+                            .phone(resultSet.getString("path"))
                             .build());
             }
         } catch (SQLException e) {
@@ -89,6 +90,7 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         statement.setInt(1, room.getRoomType().getId());
         statement.setInt(2, room.getFloor());
         statement.setString(3, room.getPhone());
+        statement.setString(4, room.getPath());
         return statement;
     }
 }

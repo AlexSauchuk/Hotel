@@ -7,7 +7,10 @@ import by.hotel.dao.daoimpl.RoleDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudService;
+import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
+import by.hotel.service.exception.IncorrectParkingSpaceRecervationException;
 import by.hotel.service.exception.ServiceException;
+import by.hotel.service.validator.ValidatorParkingSpace;
 
 import java.sql.Connection;
 import java.util.List;
@@ -20,10 +23,10 @@ public class RoleServiceImpl extends AbstractService implements CrudService<Role
         Connection connection = null;
         try {
             connection = getConnection();
-            return roleDao.getRoles(getConnection());
+            return roleDao.getRoles(connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -32,10 +35,10 @@ public class RoleServiceImpl extends AbstractService implements CrudService<Role
         Connection connection = null;
         try {
             connection = getConnection();
-            roleDao.addRole(entity,getConnection());
+            roleDao.addRole(entity, connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -44,10 +47,10 @@ public class RoleServiceImpl extends AbstractService implements CrudService<Role
         Connection connection = null;
         try {
             connection = getConnection();
-            roleDao.removeRole(entity,getConnection());
+            roleDao.removeRole(entity, connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -56,24 +59,34 @@ public class RoleServiceImpl extends AbstractService implements CrudService<Role
         Connection connection = null;
         try {
             connection = getConnection();
-            roleDao.updateRole(entity,getConnection());
+            roleDao.updateRole(entity, connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
 
     public Role buildEntity(Map<String, String[]> params) throws ServiceException {
-        return new RoleBuilder().id(Integer.parseInt(params.get("id")[0]))
-                .nameRole(params.get("nameRole")[0])
-                .update(Byte.parseByte(params.get("update")[0]))
-                .delete(Byte.parseByte(params.get("delete")[0]))
-                .insert(Byte.parseByte(params.get("insert")[0]))
-                .create(Byte.parseByte(params.get("create")[0]))
-                .select(Byte.parseByte(params.get("select")[0]))
-                .drop(Byte.parseByte(params.get("drop")[0]))
-                .grant(Byte.parseByte(params.get("grant")[0]))
-                .build();
+        ValidatorParkingSpace validatorParkingSpace = new ValidatorParkingSpace();
+        try {
+            if (validatorParkingSpace.validate(params)) {
+                return new RoleBuilder().id(Integer.parseInt(params.get("id")[0]))
+                        .nameRole(params.get("nameRole")[0])
+                        .update(Byte.parseByte(params.get("update")[0]))
+                        .delete(Byte.parseByte(params.get("delete")[0]))
+                        .insert(Byte.parseByte(params.get("insert")[0]))
+                        .create(Byte.parseByte(params.get("create")[0]))
+                        .select(Byte.parseByte(params.get("select")[0]))
+                        .drop(Byte.parseByte(params.get("drop")[0]))
+                        .grant(Byte.parseByte(params.get("grant")[0]))
+                        .build();
+            }
+        } catch (IncorrectParkingSpaceLevelException e) {
+            e.printStackTrace();
+        } catch (IncorrectParkingSpaceRecervationException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
