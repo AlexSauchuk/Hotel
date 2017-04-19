@@ -6,6 +6,7 @@ public class ParkingSpaceBuilder {
     private int id;
     private int level;
     private byte reserved;
+    private boolean isReserved;
 
     public ParkingSpaceBuilder id(int id){
         this.id = id;
@@ -36,5 +37,9 @@ public class ParkingSpaceBuilder {
 
     public ParkingSpace build(){
         return new ParkingSpace(this);
+    }
+
+    public boolean getIsReserved() {
+        return isReserved;
     }
 }

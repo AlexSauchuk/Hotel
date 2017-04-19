@@ -19,7 +19,7 @@
 
     function RecursionModals(data) {
         Data = data;
-        var modalString = '<div id="modalWindow'+deep+'" class="modal fade in" style="z-index: '+zIndex+';display: block"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"  id="headID"><button class="close" onclick="decreaseDeep()" type="button" id="closeBtn" data-dismiss="modal">Close</button></div><div class="modal-body">custom</div><div  class="modal-footer" onclick="decreaseDeep()"><button class="btn btn-default"  id="closeBtn" type="button" data-dismiss="modal">Close</button></div></div></div></div>';
+        var modalString = '<div id="modalWindow'+deep+'" class="modal fade in" style="z-index: '+zIndex+';display: block"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"  id="headID"><button class="close" onclick="decreaseDeep()" type="button" data-dismiss="modal">Close</button></div><div class="modal-body">custom</div><div  class="modal-footer" onclick="decreaseDeep()"><button class="btn btn-default"  id="closeBtn" type="button" data-dismiss="modal">Close</button></div></div></div></div>';
         childModal = '\'#modalWindow'+deep+'\'';
         deep++;
         parentModal = childModal;
@@ -42,7 +42,7 @@
 
             if($.isPlainObject(data[key]))
             {
-                additionalString +='<td><input type="button" style="width: 100%" value="'+data[key]+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
+                additionalString +='<td><input type="button" style="width: 100%" value="'+(data[key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
             }else
                 additionalString +='<td>'+data[key]+'</td>';
         }
@@ -57,6 +57,8 @@
             exStr+=modalStrings[str];
 
         $('#modalWindow').html(exStr);
+        console.log(document.getElementById("closeBtn"));
+        document.getElementById("closeBtn").focus();
 
     }
 
@@ -75,14 +77,12 @@
         RecursionModals(objects[deep+1]);
     }
 
-    function SendUpdatesValues() {
-        console.log("1");
-    }
-
     function UpdateData(obj) {
-        document.getElementById("mainForm").action =
+        var elem = $('#myModalUpdate').find('#mainForm');
+        elem[0].action =
             '/servlet?tableName='+NameTable +'&action=UPDATE';
         var editBody = document.getElementsByClassName('form-horizontal');
+
         var arrayValues = new Array();
         $(obj).each(function(){
             $("td",this).each(function(){
@@ -97,7 +97,6 @@
         $(editBody).each(function(){
             $("div",this).each(function(){
                 if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
-                    console.log(arrayValues[i].innerHTML);
                     var sex = this.firstElementChild.getAttribute('value');
 
                     if (this.className == 'radio col-sm-8')
@@ -116,10 +115,21 @@
                 }
             });
         });
+
+        console.log(arrayValues);
+        if(Object.keys(arrayObj).length>0){
+            var inputs = obj.getElementsByTagName('input');
+            var i = 0;
+            for(var arrayType in arrayObj){
+                $('select[name=id'+arrayType+']').val(inputs[i].value);
+                i++;
+            }
+        }
     }
 
     var NameTable = "";
     var Data;
+    var futureQueryForID = {};
     var temporaryData;
     var zIndex = 1050;
     var modalStrings = new Array();
@@ -127,6 +137,13 @@
     var deep = 0;
     var parentModal = '';
     var childModal = '#modalWindow0';
+    var arrayObj = {};
+    var oldTarget;
+    var mapStringsTables = {
+        "roomType":"room_type",
+        "user":"user",
+        "reservation":"reservation"
+    };
 
     function DeleteRow(obj) {
         $.ajax({
@@ -156,6 +173,39 @@
         return resultParams.slice(0,resultParams.length-1);
     }
 
+    function GenerateChilds(arrayObj) {
+        for(var arrayType in arrayObj) {
+            var selectList = document.getElementById('id'+arrayType);
+
+            if(selectList.childElementCount==0)
+            for(var value in arrayObj[arrayType]) {
+                var option = document.createElement("option");
+                option.value = arrayObj[arrayType][value];
+                option.text = arrayObj[arrayType][value];
+                selectList.appendChild(option);
+            }
+        }
+    }
+
+    function GenerateSelectChilds() {
+        for(var value in futureQueryForID) {
+            $.ajax({
+                type: 'GET',
+                url: '/servlet?tableName=' + mapStringsTables[value] + '&action=GET_ALL_ID',
+                success: function (data) {
+                    arrayObj[value] = data;
+                    GenerateChilds(arrayObj);
+                }});
+        }
+    }
+
+    function AddData(obj) {
+        var elem = $('#myModalAdd').find('#mainForm');
+        elem[0].action =
+            '/servlet?tableName='+NameTable +'&action=ADD';
+        $('#myModalAdd').find('select[name=idrole]').val(1);
+    }
+
     function setHtml(){
         var countRows = Data.length;
 
@@ -176,13 +226,24 @@
 
                 if($.isPlainObject(Data[j][key]))
                 {
-                    additionalString +='<td><input type="button" style="width: 100%" value="'+Data[j][key]+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
+                    futureQueryForID[key] = key;
+                    additionalString +='<td><input type="button" style="width: 100%" value="'+(Data[j][key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
+                    GenerateSelectChilds();
                 }else
                     additionalString +='<td>'+Data[j][key]+'</td>';
+
+                if(j==countRows-1){
+                    newItem += '<td></td>';
+                }
             }
-            additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModal" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
+            additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModalUpdate" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
                 '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="DeleteRow(this)"></td>';
             bodyString += strRow.replace(patternRow,additionalString);
+
+            if(j==countRows-1){
+                newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" data-toggle="modal" data-target="#myModalAdd" onclick="AddData((this.parentNode).parentNode)"></td>';
+                bodyString += strRow.replace(patternRow,newItem);
+            }
             j++;
         }
 
@@ -198,13 +259,17 @@
 
 function LoadTemplate() {
     var request = new XMLHttpRequest();
-    request.open('GET', '/templates/'+NameTable+'.html');
+    var table = NameTable;
+    if(NameTable=="room")
+        table="rooms";
+    request.open('GET', '/templates/'+table+'.html');
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             if (request.status == 200) {
-                $('#myModal').html(request.responseText);
+                $('#myModalUpdate').html(request.responseText);
+                $('#myModalAdd').html(request.responseText);
             } else {
-                alert('Сетевая ошибка, код: ' + request.status);
+                alert('Network error, code: ' + request.status);
             }
         }
     };
@@ -213,10 +278,14 @@ function LoadTemplate() {
 
 $(document).ready(function() {
 
-
     $('.col-lg-3').on('click', function(event) {
         var target = event.target;
 
+        if(oldTarget!=null)
+            oldTarget.style.backgroundColor = "rgb(235, 235, 228)";
+        oldTarget = target.closest('td').childNodes[0];
+
+        target.closest('td').childNodes[0].classList.add("animationColor");
         if(!target.closest('td')) return;
 
         var nameTable = target.closest('td').childNodes[0].value;
@@ -225,7 +294,10 @@ $(document).ready(function() {
             type: 'GET',
             url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
             success: function(data) {
+                console.log(data);
+                futureQueryForID = {};
                 LoadTemplate();
+                arrayObj = {};
                 objects = new Array();
                 Data = data;
                 setHtml();

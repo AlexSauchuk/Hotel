@@ -16,6 +16,10 @@ import java.util.Map;
 public class RoleServiceImpl extends AbstractService implements CrudService<Role> {
     private RoleDao roleDao = new RoleDaoImpl();
 
+    public List<Integer> getAllId() throws ServiceException {
+        return null;
+    }
+
     public List<Role> getAllEntities() throws ServiceException {
         Connection connection = null;
         try {
