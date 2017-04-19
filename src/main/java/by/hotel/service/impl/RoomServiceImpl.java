@@ -71,6 +71,7 @@ public class RoomServiceImpl extends AbstractService implements CrudService<Room
 						.build())
 				.floor(Integer.parseInt(params.get("floor")[0]))
 				.phone(params.get("phone")[0])
+				.path(params.get("path")[0])
 				.build();
 	}
 }
