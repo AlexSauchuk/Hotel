@@ -39,16 +39,18 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
         }
     }
 
-    public void addEntity(ParkingSpace entity) throws ServiceException {
+    public ParkingSpace addEntity(ParkingSpace entity) throws ServiceException {
         Connection connection = null;
         try {
             connection = getConnection();
             parkingSpaceDao.addParkingSpace(entity,connection);
+            entity.setId(parkingSpaceDao.getLastInsertedId(connection));
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
+        return entity;
     }
 
     public void removeEntity(ParkingSpace parkingSpace) throws ServiceException {
@@ -78,7 +80,7 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
     public ParkingSpace buildEntity(Map<String, String[]> params) throws ServiceException {
         return new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id")[0]))
                 .level(Integer.parseInt(params.get("level")[0]))
-                .reserved(Byte.parseByte(params.get("isReserved")[0]))
+                .reserved(Byte.parseByte(params.get("reserved")[0]))
                 .build();
     }
 }

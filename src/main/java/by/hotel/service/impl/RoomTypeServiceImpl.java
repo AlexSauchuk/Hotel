@@ -39,16 +39,18 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         }
     }
 
-    public void addEntity(RoomType entity) throws ServiceException {
+    public RoomType addEntity(RoomType entity) throws ServiceException {
         Connection connection = null;
         try {
             connection = getConnection();
             roomTypeDao.addRoomType(entity,connection);
+            entity.setId(roomTypeDao.getLastInsertedId(connection));
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
+        return entity;
     }
 
     public void removeEntity(RoomType roomType) throws ServiceException {
@@ -79,8 +81,10 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         return new RoomTypeBuilder().id(Integer.parseInt(params.get("id")[0]))
                 .roomsCount(Integer.parseInt(params.get("roomsCount")[0]))
                 .bedsCount(Integer.parseInt(params.get("bedsCount")[0]))
-                .costPerDay(Integer.parseInt(params.get("costPerDay")[0]))
+                .costPerDay(Float.parseFloat(params.get("costPerDay")[0]))
                 .additionalInfo(params.get("additionalInfo")[0])
+                .bathroomsCount(Integer.parseInt(params.get("bathroomsCount")[0]))
+                .size(Integer.parseInt(params.get("size")[0]))
                 .build();
     }
 }

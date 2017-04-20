@@ -2,7 +2,6 @@ package by.hotel.service.impl;
 
 import by.hotel.bean.Role;
 import by.hotel.builder.RoleBuilder;
-import by.hotel.dao.RoleDao;
 import by.hotel.dao.daoimpl.RoleDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RoleServiceImpl extends AbstractService implements CrudServiceExtended<Role> {
-    private RoleDao roleDao = new RoleDaoImpl();
+    private RoleDaoImpl roleDao = new RoleDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
         Connection connection = null;
@@ -40,16 +39,18 @@ public class RoleServiceImpl extends AbstractService implements CrudServiceExten
         }
     }
 
-    public void addEntity(Role entity) throws ServiceException {
+    public Role addEntity(Role entity) throws ServiceException {
         Connection connection = null;
         try {
             connection = getConnection();
             roleDao.addRole(entity,connection);
+            entity.setId(roleDao.getLastInsertedId(connection));
         } catch (DAOException e) {
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
+        return entity;
     }
 
     public void removeEntity(Role entity) throws ServiceException {

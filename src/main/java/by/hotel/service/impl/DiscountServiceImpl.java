@@ -39,16 +39,18 @@ public class DiscountServiceImpl extends AbstractService implements CrudServiceE
         }
     }
 
-    public void addEntity(Discount entity) throws ServiceException {
+    public Discount addEntity(Discount entity) throws ServiceException {
         Connection connection = null;
         try {
             connection = getConnection();
             discountDao.addDiscount(entity,connection);
+            entity.setId(discountDao.getLastInsertedId(connection));
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
+        return entity;
     }
 
     public void removeEntity(Discount discount) throws ServiceException {

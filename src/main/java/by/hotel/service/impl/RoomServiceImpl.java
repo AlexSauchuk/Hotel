@@ -3,7 +3,6 @@ package by.hotel.service.impl;
 import by.hotel.bean.Room;
 import by.hotel.builder.RoomBuilder;
 import by.hotel.builder.RoomTypeBuilder;
-import by.hotel.dao.RoomDao;
 import by.hotel.dao.daoimpl.RoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RoomServiceImpl extends AbstractService implements CrudServiceExtended<Room> {
-	private RoomDao roomDao = new RoomDaoImpl();
+	private RoomDaoImpl roomDao = new RoomDaoImpl();
 
 	public List<String> getAllHeaders() throws ServiceException {
 		Connection connection = null;
@@ -41,16 +40,18 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
 		}
 	}
 
-	public void addEntity(Room entity) throws ServiceException {
+	public Room addEntity(Room entity) throws ServiceException {
 		Connection connection = null;
 		try {
 			connection = getConnection();
 			roomDao.addRoom(entity,connection);
+			entity.setId(roomDao.getLastInsertedId(connection));
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}finally {
 			closeConnection(connection);
 		}
+		return entity;
 	}
 
 	public void removeEntity(Room room) throws ServiceException {
@@ -81,6 +82,7 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
 		return new RoomBuilder().id(Integer.parseInt(params.get("id")[0]))
 				.roomType(new RoomTypeBuilder().id(Integer.parseInt(params.get("id_roomType")[0]))
 						.build())
+				.name(params.get("name")[0])
 				.floor(Integer.parseInt(params.get("floor")[0]))
 				.phone(params.get("phone")[0])
 				.build();

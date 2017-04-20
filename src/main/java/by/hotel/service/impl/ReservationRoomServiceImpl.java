@@ -29,7 +29,7 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         }
     }
 
-    public void addEntity(ReservationRoom entity) throws ServiceException {
+    public ReservationRoom addEntity(ReservationRoom entity) throws ServiceException {
         Connection connection = null;
         try {
             connection = getConnection();
@@ -39,6 +39,7 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         }finally {
             closeConnection(connection);
         }
+        return null;
     }
 
     public void removeEntity(ReservationRoom reservationRoom) throws ServiceException {

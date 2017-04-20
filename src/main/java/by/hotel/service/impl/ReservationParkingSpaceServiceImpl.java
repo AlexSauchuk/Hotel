@@ -28,7 +28,7 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
         }
     }
 
-    public void addEntity(ReservationParkingSpace entity) throws ServiceException {
+    public ReservationParkingSpace addEntity(ReservationParkingSpace entity) throws ServiceException {
         Connection connection = null;
         try {
             connection = getConnection();
@@ -38,6 +38,7 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
         }finally {
             closeConnection(connection);
         }
+        return null;
     }
 
     public void removeEntity(ReservationParkingSpace reservationParkingSpace) throws ServiceException {

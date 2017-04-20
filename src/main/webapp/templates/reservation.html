@@ -5,7 +5,7 @@
             <h4 class="modal-title">Modify row</h4>
         </div>
         <div class="modal-body">
-            <form class="form-horizontal" id="mainForm" action="" method="post">
+            <div class="form-horizontal" id="mainForm">
                 <div class="form-group">
                     <label for="id" class="col-sm-4 control-label">ID</label>
                     <div class="col-sm-8">
@@ -25,19 +25,33 @@
                     </div>
                 </div>
                 <div class="form-group" >
-                    <label class="col-sm-4 control-label">RelationshipID</label>
+                    <label class="col-sm-4 control-label">UserID</label>
                     <div class="col-sm-8" >
-                        <select class="form-control" id="iduser" name="iduser">
+                        <select class="form-control" id="iduser" name="id_user">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="costAdditionalServices" class="col-sm-4 control-label">Cost Additional Services</label>
+                    <div class="col-sm-8">
+                        <input type="costAdditionalServices" class="form-control" id="costAdditionalServices" name="costAdditionalServices" placeholder="Cost Additional Services">
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-sm-4 control-label">DiscountID</label>
+                    <div class="col-sm-8" >
+                        <select class="form-control" id="iddiscount" name="id_discount">
 
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <button type="submit" style="width:100%" onclick="SendUpdatesValues()" class="btn btn-success">Подтвердить</button>
+                        <button style="width:100%" onclick="" class="btn btn-success">Подтвердить</button>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
         <div class="modal-footer"><button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button></div>
     </div>

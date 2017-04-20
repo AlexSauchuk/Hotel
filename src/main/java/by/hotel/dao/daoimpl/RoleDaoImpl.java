@@ -1,17 +1,18 @@
 package by.hotel.dao.daoimpl;
 
 import by.hotel.bean.Role;
+import by.hotel.bean.RoomType;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoleDao;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.util.ErrorStringBuilder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static by.hotel.dao.constants.Constants.*;
 
@@ -85,6 +86,8 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
             statement = connection.prepareStatement(REMOVE_ROLE);
             statement.setInt(1, role.getId());
             statement.execute();
+        }catch (SQLIntegrityConstraintViolationException e){
+            throw new DAOException(buildMessage(role, e.getMessage()) ,e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -117,4 +120,11 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
         statement.setInt(8, role.getGrant());
         return statement;
     }
+
+    private String buildMessage(Role role, String errorMessage){
+        Map<String,String> idNames = new HashMap<String, String>();
+        idNames.put("id",Integer.toString(role.getId()));
+        return ErrorStringBuilder.buildErrorString(idNames,errorMessage);
+    }
+
 }

@@ -5,7 +5,6 @@ import by.hotel.builder.RoleBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.UserDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 
 import java.sql.Connection;
@@ -106,7 +105,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         User user;
         UserBuilder userBuilder = new UserBuilder();
         try {
-            statement = connection.prepareStatement(Constants.GET_USER);
+            statement = connection.prepareStatement(GET_USER);
             resultSet = statement.executeQuery();
             user = fillUser(resultSet, userBuilder);
         } catch (SQLException e) {
@@ -139,7 +138,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 .mobilePhone(resultSet.getString("mobile_phone"))
                 .password(resultSet.getString("password"))
                 .login(resultSet.getString("login"))
-                .role(roleBuilder.id(resultSet.getInt("id"))
+                .role(roleBuilder.id(resultSet.getInt("id_role"))
                         .nameRole(resultSet.getString("name_role"))
                         .update(resultSet.getByte("update"))
                         .delete(resultSet.getByte("delete"))

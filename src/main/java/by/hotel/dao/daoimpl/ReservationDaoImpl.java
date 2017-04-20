@@ -111,7 +111,7 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         try {
             statement = connection.prepareStatement(UPDATE_RESERVATION);
             statement = fillStatement(statement, reservation);
-            statement.setInt(5, reservation.getId());
+            statement.setInt(6, reservation.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -128,7 +128,8 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         statement.setInt(1, reservation.getUser().getId());
         statement.setDate(2, reservation.getDateIn());
         statement.setDate(3, reservation.getDateOut());
-        statement.setInt(4,reservation.getDiscount().getId());
+        statement.setInt(4, reservation.getCostAdditionalServices());
+        statement.setInt(5,reservation.getDiscount().getId());
         return statement;
     }
 

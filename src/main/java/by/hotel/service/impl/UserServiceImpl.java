@@ -3,7 +3,6 @@ package by.hotel.service.impl;
 import by.hotel.bean.User;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.builder.UserBuilder;
-import by.hotel.dao.UserDao;
 import by.hotel.dao.daoimpl.UserDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UserServiceImpl extends AbstractService implements CrudServiceExtended<User> {
-    private UserDao userDao = new UserDaoImpl();
+    private UserDaoImpl userDao = new UserDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
         Connection connection = null;
@@ -41,16 +40,18 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
         }
     }
 
-    public void addEntity(User entity) throws ServiceException {
+    public User addEntity(User entity) throws ServiceException {
         Connection connection = null;
         try {
             connection = getConnection();
             userDao.addUser(entity, connection);
+            entity.setId(userDao.getLastInsertedId(connection));
         } catch (DAOException e) {
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
+        return entity;
     }
 
     public void removeEntity(User user) throws ServiceException {
