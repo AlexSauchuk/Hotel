@@ -2,6 +2,7 @@ package by.hotel.service.impl;
 
 import by.hotel.bean.RoomType;
 import by.hotel.builder.RoomTypeBuilder;
+import by.hotel.dao.RoomTypeDao;
 import by.hotel.dao.daoimpl.RoomTypeDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RoomTypeServiceImpl extends AbstractService implements CrudServiceExtended<RoomType> {
-    private RoomTypeDaoImpl roomTypeDao = new RoomTypeDaoImpl();
+    private RoomTypeDao roomTypeDao = new RoomTypeDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
         Connection connection = null;
@@ -39,18 +40,19 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         }
     }
 
-    public RoomType addEntity(RoomType entity) throws ServiceException {
+    public List<RoomType> addEntity(RoomType entity) throws ServiceException {
         Connection connection = null;
+        List<RoomType> roomTypes;
         try {
             connection = getConnection();
             roomTypeDao.addRoomType(entity,connection);
-            entity.setId(roomTypeDao.getLastInsertedId(connection));
+            roomTypes = roomTypeDao.getRoomTypes(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
-        return entity;
+        return roomTypes;
     }
 
     public void removeEntity(RoomType roomType) throws ServiceException {

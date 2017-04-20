@@ -2,6 +2,7 @@ package by.hotel.service.impl;
 
 import by.hotel.bean.Discount;
 import by.hotel.builder.DiscountBuilder;
+import by.hotel.dao.DiscountDao;
 import by.hotel.dao.daoimpl.DiscountDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DiscountServiceImpl extends AbstractService implements CrudServiceExtended<Discount> {
-    private DiscountDaoImpl discountDao = new DiscountDaoImpl();
+    private DiscountDao discountDao = new DiscountDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
         Connection connection = null;
@@ -39,18 +40,19 @@ public class DiscountServiceImpl extends AbstractService implements CrudServiceE
         }
     }
 
-    public Discount addEntity(Discount entity) throws ServiceException {
+    public List<Discount> addEntity(Discount entity) throws ServiceException {
         Connection connection = null;
+        List<Discount> discounts;
         try {
             connection = getConnection();
             discountDao.addDiscount(entity,connection);
-            entity.setId(discountDao.getLastInsertedId(connection));
+            discounts = discountDao.getDiscounts(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
-        return entity;
+        return discounts;
     }
 
     public void removeEntity(Discount discount) throws ServiceException {

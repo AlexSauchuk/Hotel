@@ -4,6 +4,7 @@ import by.hotel.bean.ReservationRoom;
 import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.ReservationRoomBuilder;
 import by.hotel.builder.RoomBuilder;
+import by.hotel.dao.ReservationRoomDao;
 import by.hotel.dao.daoimpl.ReservationRoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ReservationRoomServiceImpl extends AbstractService implements CrudService<ReservationRoom> {
-    ReservationRoomDaoImpl reservationRoomDao = new ReservationRoomDaoImpl();
+    ReservationRoomDao reservationRoomDao = new ReservationRoomDaoImpl();
 
     public List<ReservationRoom> getAllEntities() throws ServiceException {
         Connection connection = null;
@@ -29,17 +30,19 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         }
     }
 
-    public ReservationRoom addEntity(ReservationRoom entity) throws ServiceException {
+    public List<ReservationRoom> addEntity(ReservationRoom entity) throws ServiceException {
+        List<ReservationRoom> reservationRooms;
         Connection connection = null;
         try {
             connection = getConnection();
             reservationRoomDao.addReservationRoom(entity,connection);
+            reservationRooms = reservationRoomDao.getReservationRooms(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
-        return null;
+        return reservationRooms;
     }
 
     public void removeEntity(ReservationRoom reservationRoom) throws ServiceException {
