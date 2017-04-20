@@ -2,7 +2,7 @@ package by.hotel.servlet;
 
 import by.hotel.command.exception.CommandException;
 import by.hotel.factories.commandfactory.CommandFactory;
-import by.hotel.factories.commandfactory.commandfactoriesimplementation.CommandFactoryMapper;
+import by.hotel.factories.commandfactory.commandfactoriesimpl.CommandFactoryMapper;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,13 +27,12 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("items", result);
                 req.getRequestDispatcher(page).forward(req,resp);
             }else {
-                resp.setContentType("application/json");
-                resp.setCharacterEncoding("UTF-8");
-                Gson jsonConverter = new Gson();
-                resp.getWriter().write(jsonConverter.toJson(result));
+                formJsonResponse(resp, result);
             }
         } catch (CommandException e) {
             logger.error(e);
+            String message = e.getMessage();
+            formJsonResponse(resp,message.substring(message.lastIndexOf(":")+1));
         }catch (IOException e){
             logger.error(e);
         }catch (ServletException e){
@@ -51,5 +50,16 @@ public class MainServlet extends HttpServlet {
 
     protected void doDelete(HttpServletRequest req,HttpServletResponse resp) {
         doRequest(req, resp);
+    }
+
+    private void formJsonResponse(HttpServletResponse resp,Object result){
+        try {
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            Gson jsonConverter = new Gson();
+            resp.getWriter().write(jsonConverter.toJson(result));
+        }catch (IOException e){
+            logger.error(e);
+        }
     }
 }

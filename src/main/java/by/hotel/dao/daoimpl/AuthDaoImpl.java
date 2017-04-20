@@ -1,6 +1,5 @@
 package by.hotel.dao.daoimpl;
 
-import by.hotel.bean.User;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.AuthDao;
 import by.hotel.dao.constants.Constants;
@@ -11,16 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by 1 on 14.04.2017.
- */
 public class AuthDaoImpl extends AbstractDao implements AuthDao {
-    public boolean authorisation(String login, String password) throws DAOException{
-        Connection connection = null;
+    public boolean authorisation(String login, String password, Connection connection) throws DAOException{
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(Constants.AUTR_USER);
             statement = fillStatement(statement, login,password);
             resultSet = statement.executeQuery();
@@ -31,7 +25,7 @@ public class AuthDaoImpl extends AbstractDao implements AuthDao {
             throw new DAOException(e);
         }
         finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return false;
     }

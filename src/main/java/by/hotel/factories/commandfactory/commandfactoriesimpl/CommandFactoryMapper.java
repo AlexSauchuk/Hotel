@@ -1,12 +1,9 @@
-package by.hotel.factories.commandfactory.commandfactoriesimplementation;
+package by.hotel.factories.commandfactory.commandfactoriesimpl;
 
 import by.hotel.factories.commandfactory.CommandFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by user1 on 16.03.2017.
- */
 public final class CommandFactoryMapper {
     final private static Map<String, CommandFactory> commands = new HashMap();
 
@@ -16,7 +13,7 @@ public final class CommandFactoryMapper {
         commands.put("REMOVE", new RemoveEntityCommandFactory());
         commands.put("UPDATE", new UpdateEntityCommandFactory());
         commands.put("ADMIN_START",new GetTablesNamesCommandFactory());
-        commands.put("GET_ALL_ID",new GetAllIdCommandFactory());
+        commands.put("GET_ALL_HEADERS",new GetAllHeadersCommandFactory());
     }
 
     public static CommandFactory getCommandFactory(String commandName) {

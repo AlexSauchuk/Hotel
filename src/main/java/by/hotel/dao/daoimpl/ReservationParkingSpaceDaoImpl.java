@@ -4,7 +4,6 @@ import by.hotel.bean.ReservationParkingSpace;
 import by.hotel.builder.*;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationParkingSpaceDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 
 import java.sql.Connection;
@@ -17,12 +16,7 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class ReservationParkingSpaceDaoImpl extends AbstractDao implements ReservationParkingSpaceDao {
-    public List<Integer> getId() throws DAOException {
-        return null;
-    }
-
-    public List<ReservationParkingSpace> getReservationParkingSpaces() throws DAOException {
-        Connection connection = null;
+    public List<ReservationParkingSpace> getReservationParkingSpaces(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<ReservationParkingSpace> reservationParkingSpaces = new ArrayList<ReservationParkingSpace>();
@@ -32,8 +26,7 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
         ParkingSpaceBuilder parkingSpaceBuilder = new ParkingSpaceBuilder();
         ReservationParkingSpaceBuilder reservationParkingSpaceBuilder = new ReservationParkingSpaceBuilder();
         try {
-            connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_RESERVATION_PARKING_SPACES);
+            statement = connection.prepareStatement(GET_ALL_RESERVATION_PARKING_SPACES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 reservationParkingSpaces.add(reservationParkingSpaceBuilder
@@ -61,53 +54,47 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return reservationParkingSpaces;
     }
 
-    public void addReservationParkingSpace(ReservationParkingSpace reservationParkingSpace) throws DAOException {
-        Connection connection = null;
+    public void addReservationParkingSpace(ReservationParkingSpace reservationParkingSpace, Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(ADD_RESERVATION_PARKING_SPACE);
             statement = fillStatement(statement, reservationParkingSpace);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void removeReservationParkingSpace(ReservationParkingSpace reservationParkingSpace) throws DAOException {
-        Connection connection = null;
+    public void removeReservationParkingSpace(ReservationParkingSpace reservationParkingSpace,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(REMOVE_RESERVATION_PARKING_SPACE);
             statement = fillStatement(statement, reservationParkingSpace);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void updateReservationParkingSpace(ReservationParkingSpace reservationParkingSpace) throws DAOException {
-        Connection connection = null;
+    public void updateReservationParkingSpace(ReservationParkingSpace reservationParkingSpace,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(UPDATE_RESERVATION_PARKING_SPACE);
             statement = fillStatement(statement, reservationParkingSpace);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
     private PreparedStatement fillStatement(PreparedStatement statement, ReservationParkingSpace reservationParkingSpace) throws SQLException {

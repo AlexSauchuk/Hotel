@@ -5,7 +5,6 @@ import by.hotel.command.exception.CommandException;
 import by.hotel.service.CrudService;
 import by.hotel.service.ServiceMapper;
 import by.hotel.service.exception.ServiceException;
-import by.hotel.util.ParametersParser;
 
 import java.util.Map;
 

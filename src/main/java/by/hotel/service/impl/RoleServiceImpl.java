@@ -5,48 +5,74 @@ import by.hotel.builder.RoleBuilder;
 import by.hotel.dao.RoleDao;
 import by.hotel.dao.daoimpl.RoleDaoImpl;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.service.CrudService;
+import by.hotel.service.AbstractService;
+import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-public class RoleServiceImpl implements CrudService<Role> {
+public class RoleServiceImpl extends AbstractService implements CrudServiceExtended<Role> {
     private RoleDao roleDao = new RoleDaoImpl();
 
-    public List<Integer> getAllId() throws ServiceException {
-        return null;
+    public List<String> getAllHeaders() throws ServiceException {
+        Connection connection = null;
+        try{
+            connection = getConnection();
+            return roleDao.getRoleHeaders(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
     }
 
     public List<Role> getAllEntities() throws ServiceException {
+        Connection connection = null;
         try {
-            return roleDao.getRoles();
+            connection = getConnection();
+            return roleDao.getRoles(connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void addEntity(Role entity) throws ServiceException {
+        Connection connection = null;
         try {
-            roleDao.addRole(entity);
+            connection = getConnection();
+            roleDao.addRole(entity,connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void removeEntity(Role entity) throws ServiceException {
+        Connection connection = null;
         try {
-            roleDao.removeRole(entity);
+            connection = getConnection();
+            roleDao.removeRole(entity,connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void updateEntity(Role entity) throws ServiceException {
+        Connection connection = null;
         try {
-            roleDao.updateRole(entity);
+            connection = getConnection();
+            roleDao.updateRole(entity,connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 

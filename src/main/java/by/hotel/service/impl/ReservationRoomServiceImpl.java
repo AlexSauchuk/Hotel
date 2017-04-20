@@ -6,52 +6,62 @@ import by.hotel.builder.ReservationRoomBuilder;
 import by.hotel.builder.RoomBuilder;
 import by.hotel.dao.daoimpl.ReservationRoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.service.AbstractService;
 import by.hotel.service.CrudService;
 import by.hotel.service.exception.ServiceException;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-public class ReservationRoomServiceImpl implements CrudService<ReservationRoom> {
+public class ReservationRoomServiceImpl extends AbstractService implements CrudService<ReservationRoom> {
     ReservationRoomDaoImpl reservationRoomDao = new ReservationRoomDaoImpl();
 
-    public List<Integer> getAllId() throws ServiceException {
-        try {
-            return reservationRoomDao.getId();
-        }catch (DAOException e){
-            throw new ServiceException(e);
-        }
-    }
-
     public List<ReservationRoom> getAllEntities() throws ServiceException {
+        Connection connection = null;
         try {
-            return reservationRoomDao.getReservationRooms();
+            connection = getConnection();
+            return reservationRoomDao.getReservationRooms(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void addEntity(ReservationRoom entity) throws ServiceException {
+        Connection connection = null;
         try {
-            reservationRoomDao.addReservationRoom(entity);
+            connection = getConnection();
+            reservationRoomDao.addReservationRoom(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void removeEntity(ReservationRoom reservationRoom) throws ServiceException {
+        Connection connection = null;
         try {
-            reservationRoomDao.removeReservationRoom(reservationRoom);
+            connection = getConnection();
+            reservationRoomDao.removeReservationRoom(reservationRoom,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 
     public void updateEntity(ReservationRoom entity) throws ServiceException {
+        Connection connection = null;
         try {
-            reservationRoomDao.updateReservationRoom(entity);
+            connection = getConnection();
+            reservationRoomDao.updateReservationRoom(entity,connection);
         }catch (DAOException e){
             throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
         }
     }
 

@@ -2,70 +2,89 @@ package by.hotel.service.impl;
 
 import by.hotel.bean.User;
 import by.hotel.builder.RoleBuilder;
-import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.UserDao;
 import by.hotel.dao.daoimpl.UserDaoImpl;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.service.CrudService;
+import by.hotel.service.AbstractService;
+import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
 
-import java.util.HashMap;
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-public class UserServiceImpl implements CrudService<User> {
-	private UserDao userDao = new UserDaoImpl();
+public class UserServiceImpl extends AbstractService implements CrudServiceExtended<User> {
+    private UserDao userDao = new UserDaoImpl();
 
+    public List<String> getAllHeaders() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return userDao.getUserHeaders(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
 
-	public List<Integer> getAllId() throws ServiceException {
-		try {
-			return userDao.getId();
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+    public List<User> getAllEntities() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return userDao.getUsers(connection);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        } finally {
+            closeConnection(connection);
+        }
+    }
 
-	public List<User> getAllEntities() throws ServiceException {
-		try {
-			return userDao.getUsers();
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+    public void addEntity(User entity) throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            userDao.addUser(entity, connection);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
 
-	public void addEntity(User entity) throws ServiceException {
-		try {
-			userDao.addUser(entity);
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+    public void removeEntity(User user) throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            userDao.removeUser(user, connection);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
 
-	public void removeEntity(User user) throws ServiceException {
-		try {
-			userDao.removeUser(user);
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
-
-	public void updateEntity(User entity) throws ServiceException {
-		try {
-			userDao.updateUser(entity);
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+    public void updateEntity(User entity) throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            userDao.updateUser(entity, connection);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
 
 	public User buildEntity(Map<String,String[]> params) throws ServiceException {
 		return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
 				.name(params.get("name")[0])
 				.surname(params.get("surname")[0])
-				.passportNumber(params.get("passport_number")[0])
 				.login(params.get("login")[0])
 				.password(params.get("password")[0])
-				.passportNumber(params.get("passport_number")[0])
+				.passportNumber(params.get("passportNumber")[0])
+				.mobilePhone(params.get("mobilePhone")[0])
 				.sex(params.get("sex")[0])
 				.role(new RoleBuilder().id(Integer.parseInt(params.get("id_role")[0])).build())
 				.build();

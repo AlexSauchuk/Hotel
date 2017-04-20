@@ -13,6 +13,7 @@ public class GetTableNames implements Command {
     public Object execute(Map<String, String[]> requestParameters) throws CommandException {
         List<String> resultList;
         try {
+
             TablesInfoService service = new TablesInfoServiceImpl();
             resultList = service.getAllTablesNames();
         }catch (ServiceException e){

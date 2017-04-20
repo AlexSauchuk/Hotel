@@ -5,14 +5,14 @@ import by.hotel.builder.ParkingSpaceBuilder;
 public class ParkingSpace {
     private int id;
     private int level;
-    private boolean isReserved;
+    private byte reserved;
 
     public ParkingSpace(){super();}
 
     public ParkingSpace(ParkingSpaceBuilder parkingSpaceBuilder){
         this.id = parkingSpaceBuilder.getId();
         this.level = parkingSpaceBuilder.getLevel();
-        this.isReserved = parkingSpaceBuilder.getIsReserved();
+        this.reserved = parkingSpaceBuilder.getReserved();
     }
 
     public int getId() {
@@ -31,11 +31,11 @@ public class ParkingSpace {
         this.level = level;
     }
 
-    public boolean getReserved() {
-        return isReserved;
+    public byte getReserved() {
+        return reserved;
     }
 
-    public void setReserved(boolean reserved) {
-        isReserved = reserved;
+    public void setReserved(byte reserved) {
+        reserved = reserved;
     }
 }

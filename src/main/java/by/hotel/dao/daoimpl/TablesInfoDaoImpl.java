@@ -14,13 +14,11 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.GET_ALL_NAMES_TABLES;
 
 public class TablesInfoDaoImpl extends AbstractDao implements TablesInfoDao{
-    public List<String> getNamesTables() throws DAOException {
-        Connection connection=null;
+    public List<String> getNamesTables(Connection connection) throws DAOException {
         PreparedStatement statement=null;
         ResultSet resultSet=null;
         List<String> namesTables=new ArrayList<String>();
         try {
-            connection = getConnection();
             statement=connection.prepareStatement(GET_ALL_NAMES_TABLES);
             resultSet=statement.executeQuery();
             while(resultSet.next()){
@@ -29,7 +27,7 @@ public class TablesInfoDaoImpl extends AbstractDao implements TablesInfoDao{
         }catch (SQLException e){
             throw new DAOException(e);
         }finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return namesTables;
     }

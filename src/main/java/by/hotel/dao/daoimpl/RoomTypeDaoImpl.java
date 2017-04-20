@@ -4,47 +4,46 @@ import by.hotel.bean.RoomType;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoomTypeDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.util.ErrorStringBuilder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static by.hotel.dao.constants.Constants.*;
 
 public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
-    public List<Integer> getId() throws DAOException {
-        Connection connection = null;
+    public List<String> getRoomTypeHeaders(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Integer> arrayId = new ArrayList<Integer>();
+        List<String> headers = new ArrayList<String>();
+        StringBuilder stringBuilder = new StringBuilder();
         try {
-            connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_ID_ROOM_TYPES);
+            statement = connection.prepareStatement(GET_ALL_ROOM_TYPES_HEADERS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                arrayId.add(resultSet.getInt("id"));
+                stringBuilder.append(resultSet.getInt("id")+" ");
+                stringBuilder.append(resultSet.getString("rooms_count"));
+                headers.add(stringBuilder.toString());
+                stringBuilder.setLength(0);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
-        return arrayId;
+        return headers;
     }
 
-    public List<RoomType> getRoomTypes() throws DAOException {
-        Connection connection = null;
+    public List<RoomType> getRoomTypes(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<RoomType> roomTypes = new ArrayList<RoomType>();
         RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(GET_ALL_ROOM_TYPES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -58,62 +57,64 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+            closeStatement(statement, resultSet);
         }
         return roomTypes;
     }
 
-    public void addRoomType(RoomType roomType) throws DAOException {
-        Connection connection = null;
+    public void addRoomType(RoomType roomType,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(ADD_ROOM_TYPE);
             statement = fillStatement(statement, roomType);
+            statement.setInt(5, roomType.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void removeRoomType(RoomType roomType) throws DAOException {
-        Connection connection = null;
+    public void removeRoomType(RoomType roomType,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(REMOVE_ROOM_TYPE);
             statement.setInt(1, roomType.getId());
             statement.execute();
+        }catch (SQLIntegrityConstraintViolationException e){
+            throw new DAOException(buildMessage(roomType, e.getMessage()) ,e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void updateRoomType(RoomType roomType) throws DAOException {
-        Connection connection = null;
+    public void updateRoomType(RoomType roomType,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(UPDATE_ROOM_TYPE);
             statement = fillStatement(statement, roomType);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, RoomType roomType) throws SQLException {
-        statement.setInt(1, roomType.getId());
-        statement.setInt(2, roomType.getRoomsCount());
-        statement.setInt(3, roomType.getBedsCount());
-        statement.setFloat(4, roomType.getCostPerDay());
-        statement.setString(5, roomType.getAdditionalInfo());
+        statement.setInt(1, roomType.getRoomsCount());
+        statement.setInt(2, roomType.getBedsCount());
+        statement.setFloat(3, roomType.getCostPerDay());
+        statement.setString(4, roomType.getAdditionalInfo());
         return statement;
+    }
+
+    private String buildMessage(RoomType roomType, String errorMessage){
+        Map<String,String> idNames = new HashMap<String, String>();
+        idNames.put("id",Integer.toString(roomType.getId()));
+        return ErrorStringBuilder.buildErrorString(idNames,errorMessage);
     }
 }

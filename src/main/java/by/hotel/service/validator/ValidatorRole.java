@@ -1,12 +1,7 @@
 package by.hotel.service.validator;
 
-import by.hotel.bean.Role;
-
 import java.util.Map;
 
-/**
- * Created by 1 on 18.04.2017.
- */
 public class ValidatorRole extends AbstractValidator{
     public boolean validate(Map<String, String[]> data) {
         if (validateNameRole(data.get("name_role")[0]) & validateRight(data.get("update")[0]) & validateRight(data.get("delete")[0])

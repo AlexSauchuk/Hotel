@@ -17,15 +17,35 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class RoleDaoImpl extends AbstractDao implements RoleDao {
-    public List<Role> getRoles() throws DAOException {
-        Connection connection = null;
+    public List<String> getRoleHeaders(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<String> headers = new ArrayList<String>();
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            statement = connection.prepareStatement(GET_ALL_ROLES_HEADERS);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                stringBuilder.append(resultSet.getInt("id")+" ");
+                stringBuilder.append(resultSet.getString("name_role"));
+                headers.add(stringBuilder.toString());
+                stringBuilder.setLength(0);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, resultSet);
+        }
+        return headers;
+    }
+
+    public List<Role> getRoles(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Role> roles = new ArrayList<Role>();
         RoleBuilder roleBuilder = new RoleBuilder();
         try {
-            connection = getConnection();
-            statement = connection.prepareStatement(Constants.GET_ALL_ROLES);
+            statement = connection.prepareStatement(GET_ALL_ROLES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 roles.add(roleBuilder.id(resultSet.getInt("id"))
@@ -42,53 +62,49 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, resultSet);
+
+            closeStatement(statement, resultSet);
         }
         return roles;
     }
 
-    public void addRole(Role role) throws DAOException {
-        Connection connection = null;
+    public void addRole(Role role,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(ADD_ROLE);
             statement = fillStatement(statement, role);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void removeRole(Role role) throws DAOException {
-        Connection connection = null;
+    public void removeRole(Role role,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(REMOVE_ROLE);
             statement.setInt(1, role.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 
-    public void updateRole(Role role) throws DAOException {
-        Connection connection = null;
+    public void updateRole(Role role,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
-            connection = getConnection();
             statement = connection.prepareStatement(UPDATE_ROLE);
             statement = fillStatement(statement, role);
+            statement.setInt(9, role.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, statement, null);
+            closeStatement(statement, null);
         }
     }
 

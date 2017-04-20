@@ -1,17 +1,10 @@
 package by.hotel.service.validator;
 
-import by.hotel.bean.Reservation;
-import by.hotel.bean.Role;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
-/**
- * Created by 1 on 18.04.2017.
- */
 public class ValidatorReservation extends AbstractValidator{
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     public boolean validate(Map<String, String[]> data) {
