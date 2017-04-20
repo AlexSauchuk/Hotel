@@ -4,7 +4,7 @@
             <h4 class="modal-title">Modify row</h4>
         </div>
         <div class="modal-body">
-            <form class="form-horizontal" id="mainForm" action="" method="post">
+            <div class="form-horizontal" id="mainForm">
             <div class="form-group">
                 <label for="id" class="col-sm-4 control-label">ID</label>
                 <div class="col-sm-8">
@@ -51,11 +51,11 @@
                 <label for="sex" class="col-sm-4 control-label">Sex</label>
                 <div class="radio col-sm-8" id="sex">
                     <label value="М">
-                        <input type="radio" name="optionsRadios" value="М">
+                        <input type="radio" name="sex" value="М">
                         М
                     </label>
                     <label value="Ж">
-                        <input type="radio" name="optionsRadios" value="Ж">
+                        <input type="radio" name="sex" value="Ж">
                         Ж
                     </label>
                 </div>
@@ -63,17 +63,17 @@
             <div class="form-group" >
                 <label class="col-sm-4 control-label">RoleID</label>
                 <div class="col-sm-8" >
-                    <select class="form-control" id="idrole" name="idrole">
+                    <select class="form-control" id="id_role" name="id_role">
 
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-12">
-                    <button type="submit" style="width:100%" class="btn btn-success">Подтвердить</button>
+                    <button onclick="" style="width:100%" class="btn btn-success">Подтвердить</button>
                 </div>
             </div>
-        </form></div>
+        </div></div>
         <div class="modal-footer"><button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button></div>
     </div>
 </div>
