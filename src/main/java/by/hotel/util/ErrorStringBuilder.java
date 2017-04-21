@@ -9,10 +9,10 @@ import java.util.regex.Pattern;
 public class ErrorStringBuilder {
     private ErrorStringBuilder(){}
 
-    public static String buildErrorString(Map<String, String> rowId, String errorMessage){
+    public static String buildDeleteErrorString(Map<String, String> rowId, String errorMessage){
         List<String> tableNames = getTableNames(errorMessage);
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Не удалось удалить строку таблицы "+ tableNames.get(4) +" c ");
+        stringBuilder.append("Ошибка. Не удалось удалить строку таблицы "+ tableNames.get(4) +" c ");
         for (String key: rowId.keySet()){
             stringBuilder.append(key + " = " + rowId.get(key) + ", ");
         }
@@ -29,5 +29,21 @@ public class ErrorStringBuilder {
             tablesInfo.add(matcher.group());
         }
         return tablesInfo;
+    }
+
+    public static String buildAddErrorString(Map<String, String> rowId, String errorMessage){
+        StringBuilder errorStringBuilder = new StringBuilder();
+        StringBuilder keysStringBuilder = new StringBuilder();
+        errorStringBuilder.append("Ошибка. Невозможно добавить запись");
+        for(String key: rowId.keySet()){
+            errorStringBuilder.append(" " + key);
+            errorStringBuilder.append(" = ");
+            errorStringBuilder.append(rowId.get(key));
+            keysStringBuilder.append(key + "_");
+        }
+        errorStringBuilder.append(", т.к. в таблице ");
+        errorStringBuilder.append(keysStringBuilder.substring(0,keysStringBuilder.length()-1));
+        errorStringBuilder.append(" существует запись с такими значениями ключей");
+        return errorStringBuilder.toString();
     }
 }

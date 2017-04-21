@@ -1,4 +1,4 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.User;
 import by.hotel.builder.RoleBuilder;

@@ -6,6 +6,7 @@ import by.hotel.service.CrudService;
 import by.hotel.service.ServiceMapper;
 import by.hotel.service.exception.ServiceException;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Map;
 
 public class AddEntity implements Command {

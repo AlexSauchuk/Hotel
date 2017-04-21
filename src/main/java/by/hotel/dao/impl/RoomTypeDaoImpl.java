@@ -1,4 +1,4 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.RoomType;
 import by.hotel.builder.RoomTypeBuilder;
@@ -119,6 +119,6 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
     private String buildMessage(RoomType roomType, String errorMessage){
         Map<String,String> idNames = new HashMap<String, String>();
         idNames.put("id",Integer.toString(roomType.getId()));
-        return ErrorStringBuilder.buildErrorString(idNames,errorMessage);
+        return ErrorStringBuilder.buildDeleteErrorString(idNames,errorMessage);
     }
 }

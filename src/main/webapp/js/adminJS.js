@@ -179,9 +179,13 @@ function sendAddData() {
         type: 'POST',
         url: '/servlet?tableName='+NameTable +'&action=ADD' + getData(editBodyAdd),
         success: function (result) {
-            Data = result;
-            $('#myModalAdd').find('.modal-footer > .btn').click();
-            setHtml();
+            if(typeof result == 'string'){
+                alert(result);
+            }else {
+                Data = result;
+                $('#myModalAdd').find('.modal-footer > .btn').click();
+                setHtml();
+            }
         }});
 }
 
@@ -281,8 +285,8 @@ function generateSelectChilds() {
 
 function addData() {
     var editBodyAdd = $('#myModalAdd').find('#mainForm');
+    clearInputs(editBodyAdd);
     ($(editBodyAdd[0].lastElementChild).find("button")[0]).addEventListener("click",sendAddData);
-    $('#myModalAdd').find('select[name=idrole]').val(1);
 }
 
 function setHtml(){

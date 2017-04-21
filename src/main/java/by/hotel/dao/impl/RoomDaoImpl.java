@@ -1,18 +1,12 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.Room;
-import by.hotel.bean.RoomType;
-import by.hotel.bean.User;
 import by.hotel.builder.RoomBuilder;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoomDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.servlet.MainServlet;
 import by.hotel.util.ErrorStringBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -129,6 +123,6 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
     private String buildMessage(Room room, String errorMessage){
         Map<String,String> idNames = new HashMap<String, String>();
         idNames.put("id",Integer.toString(room.getId()));
-        return ErrorStringBuilder.buildErrorString(idNames,errorMessage);
+        return ErrorStringBuilder.buildDeleteErrorString(idNames,errorMessage);
     }
 }

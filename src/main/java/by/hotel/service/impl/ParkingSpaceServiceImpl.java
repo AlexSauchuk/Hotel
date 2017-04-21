@@ -3,7 +3,7 @@ package by.hotel.service.impl;
 import by.hotel.bean.ParkingSpace;
 import by.hotel.builder.ParkingSpaceBuilder;
 import by.hotel.dao.ParkingSpaceDao;
-import by.hotel.dao.daoimpl.ParkingSpaceDaoImpl;
+import by.hotel.dao.impl.ParkingSpaceDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;

@@ -4,7 +4,7 @@ import by.hotel.bean.Room;
 import by.hotel.builder.RoomBuilder;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.RoomDao;
-import by.hotel.dao.daoimpl.RoomDaoImpl;
+import by.hotel.dao.impl.RoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;

@@ -3,7 +3,7 @@ package by.hotel.service.impl;
 import by.hotel.bean.Discount;
 import by.hotel.builder.DiscountBuilder;
 import by.hotel.dao.DiscountDao;
-import by.hotel.dao.daoimpl.DiscountDaoImpl;
+import by.hotel.dao.impl.DiscountDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;

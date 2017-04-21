@@ -1,14 +1,5 @@
 package by.hotel.service.impl;
 
-import by.hotel.bean.Report;
-import by.hotel.bean.Room;
-import by.hotel.dao.daoimpl.RoomDaoImpl;
-import by.hotel.dao.exception.DAOException;
-import by.hotel.service.CrudService;
-import by.hotel.service.exception.ServiceException;
-
-import java.util.List;
-
 public class ReportServiceImpl {
 /*	private DaoImpl reportDao = new RoomDaoImpl();
 

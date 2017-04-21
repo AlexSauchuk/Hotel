@@ -1,7 +1,7 @@
 package by.hotel.service.impl;
 
 import by.hotel.dao.AuthDao;
-import by.hotel.dao.daoimpl.AuthDaoImpl;
+import by.hotel.dao.impl.AuthDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.AuthService;
