@@ -1,0 +1,18 @@
+.animationColor{
+    animation: colorChange 10s;
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation: colorChange 10s;
+}
+
+@keyframes colorChange {
+    0%{background-color: rgb(235, 235, 228)}
+    50%{background-color: greenyellow}
+    100%{background-color: rgb(235, 235, 228)}
+}
+
+@-webkit-keyframes colorChange {
+    0%{background-color: rgb(235, 235, 228)}
+    50%{background-color: greenyellow}
+    100%{background-color: rgb(235, 235, 228)}
+}

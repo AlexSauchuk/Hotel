@@ -1,17 +1,17 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.*;
 import by.hotel.builder.*;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationRoomDao;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.util.ErrorStringBuilder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static by.hotel.dao.constants.Constants.*;
 
@@ -74,6 +74,8 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
             statement = connection.prepareStatement(ADD_RESERVATION_ROOM);
             statement = fillStatement(statement, reservationRoom);
             statement.execute();
+        }catch (SQLIntegrityConstraintViolationException e){
+            throw new DAOException(buildMessage(reservationRoom, e.getMessage()),e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -85,8 +87,7 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(REMOVE_RESERVATION_ROOM);
-            statement.setInt(1, reservationRoom.getReservation().getId());
-            statement.setInt(2, reservationRoom.getRoom().getId());
+            statement = fillStatement(statement, reservationRoom);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -114,4 +115,12 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
 
         return statement;
     }
+
+    private String buildMessage(ReservationRoom reservationRoom, String errorMessage){
+        Map<String,String> idNames = new HashMap<String, String>();
+        idNames.put("reservation",Integer.toString(reservationRoom.getReservation().getId()));
+        idNames.put("room",Integer.toString(reservationRoom.getRoom().getId()));
+        return ErrorStringBuilder.buildAddErrorString(idNames,errorMessage);
+    }
+
 }

@@ -8,7 +8,6 @@ import by.hotel.service.exception.IncorrectDiscountNameException;
 import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
 import by.hotel.service.exception.IncorrectParkingSpaceRecervationException;
 import by.hotel.service.exception.ServiceException;
-import by.hotel.util.ParametersParser;
 
 import java.util.Map;
 

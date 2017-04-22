@@ -1,15 +1,12 @@
 package by.hotel.dao;
 
 import by.hotel.dao.exception.DAOException;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.*;
-import java.util.Properties;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public abstract class AbstractDao {
     private static final Logger logger = LogManager.getLogger(AbstractDao.class.getName());

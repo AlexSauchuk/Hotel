@@ -1,11 +1,10 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.User;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.UserDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 
 import java.sql.Connection;
@@ -18,6 +17,29 @@ import java.util.List;
 import static by.hotel.dao.constants.Constants.*;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
+    public List<String> getUserHeaders(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<String> headers = new ArrayList<String>();
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            statement = connection.prepareStatement(GET_ALL_USERS_HEADERS);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                stringBuilder.append(resultSet.getInt("id")+" ");
+                stringBuilder.append(resultSet.getString("surname")+" ");
+                stringBuilder.append(resultSet.getString("name"));
+                headers.add(stringBuilder.toString());
+                stringBuilder.setLength(0);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, resultSet);
+        }
+        return headers;
+    }
+
     public List<User> getUsers(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -68,6 +90,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             statement = connection.prepareStatement(UPDATE_USER);
             statement = fillStatement(statement, user);
+            statement.setInt(9, user.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -82,7 +105,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         User user;
         UserBuilder userBuilder = new UserBuilder();
         try {
-            statement = connection.prepareStatement(Constants.GET_USER);
+            statement = connection.prepareStatement(GET_USER);
             resultSet = statement.executeQuery();
             user = fillUser(resultSet, userBuilder);
         } catch (SQLException e) {
@@ -115,7 +138,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 .mobilePhone(resultSet.getString("mobile_phone"))
                 .password(resultSet.getString("password"))
                 .login(resultSet.getString("login"))
-                .role(roleBuilder.id(resultSet.getInt("id"))
+                .role(roleBuilder.id(resultSet.getInt("id_role"))
                         .nameRole(resultSet.getString("name_role"))
                         .update(resultSet.getByte("update"))
                         .delete(resultSet.getByte("delete"))

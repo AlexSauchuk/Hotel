@@ -1,21 +1,43 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.Discount;
 import by.hotel.builder.DiscountBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.DiscountDao;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.util.ErrorStringBuilder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static by.hotel.dao.constants.Constants.*;
 
 public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
+    public List<String> getDiscountHeaders(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<String> headers = new ArrayList<String>();
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            statement = connection.prepareStatement(GET_ALL_DISCOUNTS_HEADERS);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                stringBuilder.append(resultSet.getInt("id") + " ");
+                stringBuilder.append(resultSet.getString("name"));
+                headers.add(stringBuilder.toString());
+                stringBuilder.setLength(0);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, resultSet);
+        }
+        return headers;
+    }
+
     public List<Discount> getDiscounts(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -54,7 +76,9 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
             statement = connection.prepareStatement(REMOVE_DISCOUNT);
             statement.setInt(1, discount.getId());
             statement.execute();
-        } catch (SQLException e) {
+        }catch (SQLIntegrityConstraintViolationException e){
+            throw new DAOException(buildMessage(discount, e.getMessage()),e);
+        }catch (SQLException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -66,6 +90,7 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         try {
             statement = connection.prepareStatement(UPDATE_DISCOUNT);
             statement = fillStatement(statement, discount);
+            statement.setInt(2, discount.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -79,8 +104,7 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, Discount discount) throws SQLException {
-        statement.setInt(1, discount.getId());
-        statement.setString(2, discount.getName());
+        statement.setString(1, discount.getName());
         return statement;
     }
 
@@ -88,5 +112,11 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         return discountBuilder.id(resultSet.getInt("id"))
                               .name(resultSet.getString("name"))
                               .build();
+    }
+
+    private String buildMessage(Discount discount, String errorMessage){
+        Map<String,String> idNames = new HashMap<String, String>();
+        idNames.put("id",Integer.toString(discount.getId()));
+        return ErrorStringBuilder.buildDeleteErrorString(idNames, errorMessage);
     }
 }

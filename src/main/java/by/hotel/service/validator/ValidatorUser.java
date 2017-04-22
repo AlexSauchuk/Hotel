@@ -4,9 +4,6 @@ import by.hotel.service.exception.*;
 
 import java.util.Map;
 
-/**
- * Created by 1 on 18.04.2017.
- */
 public class ValidatorUser extends AbstractValidator {
     public boolean validate(Map<String, String[]> data) throws IncorrectSexException, IncorrectUserNameException, IncorrectPassportNumberException, IncorrectPasswordException, IncorrectLoginException, IncorrectMobilePhoneException, IncorrectUserSurnameException {
 
