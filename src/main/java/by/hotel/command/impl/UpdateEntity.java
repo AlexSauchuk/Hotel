@@ -16,7 +16,7 @@ public class UpdateEntity implements Command {
         try {
             CrudService service =  ServiceMapper.getService(requestParameters.get("tableName")[0]);
             service.updateEntity(service.buildEntity(requestParameters));
-        }catch (ServiceException | IncorrectDiscountNameException | IncorrectParkingSpaceLevelException | IncorrectParkingSpaceRecervationException e){
+        }catch (ServiceException e){
             throw new CommandException(e);
         }
         return null;

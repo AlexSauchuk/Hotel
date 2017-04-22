@@ -8,7 +8,6 @@ import by.hotel.service.exception.IncorrectDiscountNameException;
 import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
 import by.hotel.service.exception.IncorrectParkingSpaceRecervationException;
 import by.hotel.service.exception.ServiceException;
-import by.hotel.util.ParametersParser;
 
 import java.util.Map;
 
@@ -17,7 +16,7 @@ public class AddEntity implements Command {
         try {
             CrudService service =  ServiceMapper.getService(requestParameters.get("tableName")[0]);
             service.addEntity(service.buildEntity(requestParameters));
-        }catch (ServiceException | IncorrectDiscountNameException | IncorrectParkingSpaceLevelException | IncorrectParkingSpaceRecervationException e){
+        }catch (ServiceException e){
             throw new CommandException(e);
         }
         return null;

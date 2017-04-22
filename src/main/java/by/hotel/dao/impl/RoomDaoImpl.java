@@ -1,23 +1,44 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.Room;
 import by.hotel.builder.RoomBuilder;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoomDao;
-import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.util.ErrorStringBuilder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static by.hotel.dao.constants.Constants.*;
 
 public class RoomDaoImpl extends AbstractDao implements RoomDao {
+    public List<String> getRoomHeaders(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<String> headers = new ArrayList<String>();
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            statement = connection.prepareStatement(GET_ALL_ROOMS_HEADERS);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                stringBuilder.append(resultSet.getInt("id")+" ");
+                stringBuilder.append(resultSet.getString("name"));
+                headers.add(stringBuilder.toString());
+                stringBuilder.setLength(0);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, resultSet);
+        }
+        return headers;
+    }
+
     public List<Room> getRooms(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -25,19 +46,21 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         RoomBuilder roomBuilder = new RoomBuilder();
         RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
         try {
-            statement = connection.prepareStatement(Constants.GET_ALL_ROOMS);
+            statement = connection.prepareStatement(GET_ALL_ROOMS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 rooms.add(roomBuilder.id(resultSet.getInt("id"))
-                            .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
-                                    .roomsCount(resultSet.getInt("rooms_count"))
-                                    .bedsCount(resultSet.getInt("beds_count"))
-                                    .costPerDay(resultSet.getInt("cost_per_day"))
-                                    .additionalInfo(resultSet.getString("additional_info")).build())
-                            .floor(resultSet.getInt("floor"))
-                            .phone(resultSet.getString("phone"))
-                            .phone(resultSet.getString("path"))
-                            .build());
+                        .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
+                                .roomsCount(resultSet.getInt("rooms_count"))
+                                .bedsCount(resultSet.getInt("beds_count"))
+                                .costPerDay(resultSet.getInt("cost_per_day"))
+                                .additionalInfo(resultSet.getString("additional_info"))
+                                .bathroomsCount(resultSet.getInt("bathrooms_count"))
+                                .size(resultSet.getInt("size")).build())
+                        .floor(resultSet.getInt("floor"))
+                        .phone(resultSet.getString("phone"))
+                        .name(resultSet.getString("name"))
+                        .build());
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -66,6 +89,8 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
             statement = connection.prepareStatement(REMOVE_ROOM);
             statement.setInt(1, room.getId());
             statement.execute();
+        }catch (SQLIntegrityConstraintViolationException e){
+            throw new DAOException(buildMessage(room, e.getMessage()) ,e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -78,6 +103,7 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         try {
             statement = connection.prepareStatement(UPDATE_ROOM);
             statement = fillStatement(statement, room);
+            statement.setInt(5, room.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -88,9 +114,15 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
 
     private PreparedStatement fillStatement(PreparedStatement statement, Room room) throws SQLException {
         statement.setInt(1, room.getRoomType().getId());
-        statement.setInt(2, room.getFloor());
-        statement.setString(3, room.getPhone());
-        statement.setString(4, room.getPath());
+        statement.setString(2, room.getName());
+        statement.setInt(3, room.getFloor());
+        statement.setString(4, room.getPhone());
         return statement;
+    }
+
+    private String buildMessage(Room room, String errorMessage){
+        Map<String,String> idNames = new HashMap<String, String>();
+        idNames.put("id",Integer.toString(room.getId()));
+        return ErrorStringBuilder.buildDeleteErrorString(idNames,errorMessage);
     }
 }

@@ -4,54 +4,55 @@ import by.hotel.bean.ReservationRoom;
 import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.ReservationRoomBuilder;
 import by.hotel.builder.RoomBuilder;
-import by.hotel.dao.daoimpl.ReservationRoomDaoImpl;
+import by.hotel.dao.ReservationRoomDao;
+import by.hotel.dao.impl.ReservationRoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudService;
-import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
-import by.hotel.service.exception.IncorrectParkingSpaceRecervationException;
 import by.hotel.service.exception.ServiceException;
-import by.hotel.service.validator.ValidatorParkingSpace;
 
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
 public class ReservationRoomServiceImpl extends AbstractService implements CrudService<ReservationRoom> {
-    ReservationRoomDaoImpl reservationRoomDao = new ReservationRoomDaoImpl();
+    ReservationRoomDao reservationRoomDao = new ReservationRoomDaoImpl();
 
     public List<ReservationRoom> getAllEntities() throws ServiceException {
         Connection connection = null;
         try {
             connection = getConnection();
             return reservationRoomDao.getReservationRooms(connection);
-        } catch (DAOException e) {
+        }catch (DAOException e){
             throw new ServiceException(e);
-        } finally {
+        }finally {
             closeConnection(connection);
         }
     }
 
-    public void addEntity(ReservationRoom entity) throws ServiceException {
+    public List<ReservationRoom> addEntity(ReservationRoom entity) throws ServiceException {
+        List<ReservationRoom> reservationRooms;
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationRoomDao.addReservationRoom(entity, connection);
-        } catch (DAOException e) {
+            reservationRoomDao.addReservationRoom(entity,connection);
+            reservationRooms = reservationRoomDao.getReservationRooms(connection);
+        }catch (DAOException e){
             throw new ServiceException(e);
-        } finally {
+        }finally {
             closeConnection(connection);
         }
+        return reservationRooms;
     }
 
     public void removeEntity(ReservationRoom reservationRoom) throws ServiceException {
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationRoomDao.removeReservationRoom(reservationRoom, connection);
-        } catch (DAOException e) {
+            reservationRoomDao.removeReservationRoom(reservationRoom,connection);
+        }catch (DAOException e){
             throw new ServiceException(e);
-        } finally {
+        }finally {
             closeConnection(connection);
         }
     }
@@ -60,23 +61,18 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         Connection connection = null;
         try {
             connection = getConnection();
-            reservationRoomDao.updateReservationRoom(entity, connection);
-        } catch (DAOException e) {
+            reservationRoomDao.updateReservationRoom(entity,connection);
+        }catch (DAOException e){
             throw new ServiceException(e);
-        } finally {
+        }finally {
             closeConnection(connection);
         }
     }
 
-    public ReservationRoom buildEntity(Map<String, String[]> params) throws ServiceException, IncorrectParkingSpaceLevelException, IncorrectParkingSpaceRecervationException {
-        ValidatorParkingSpace validatorParkingSpace = new ValidatorParkingSpace();
-        if (validatorParkingSpace.validate(params)) {
-            return new ReservationRoomBuilder()
-                    .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation")[0])).build())
-                    .room(new RoomBuilder().id(Integer.parseInt(params.get("id_room")[0])).build())
-                    .build();
-        } else {
-            return null;
-        }
+    public ReservationRoom buildEntity(Map<String, String[]> params) throws ServiceException {
+        return new ReservationRoomBuilder()
+                .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation")[0])).build())
+                .room(new RoomBuilder().id(Integer.parseInt(params.get("id_room")[0])).build())
+                .build();
     }
 }

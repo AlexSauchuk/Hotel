@@ -1,8 +1,5 @@
 package by.hotel.service;
 
-import by.hotel.service.exception.IncorrectDiscountNameException;
-import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
-import by.hotel.service.exception.IncorrectParkingSpaceRecervationException;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
@@ -13,6 +10,6 @@ public interface CrudService<T> {
     List<T> addEntity(T entity) throws ServiceException;
     void removeEntity(T entity) throws ServiceException;
     void updateEntity(T entity) throws ServiceException;
-    T buildEntity(Map<String, String[]> params) throws ServiceException, IncorrectParkingSpaceLevelException, IncorrectParkingSpaceRecervationException, IncorrectDiscountNameException;
-   // <T> getEntity(Integer id) throws ServiceException;
+    T buildEntity(Map<String, String[]> params) throws ServiceException;
+    // <T> getEntity(Integer id) throws ServiceException;
 }
