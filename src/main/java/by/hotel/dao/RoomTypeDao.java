@@ -1,5 +1,6 @@
 package by.hotel.dao;
 
+import by.hotel.bean.Discount;
 import by.hotel.bean.RoomType;
 import by.hotel.dao.exception.DAOException;
 
@@ -12,4 +13,6 @@ public interface RoomTypeDao {
     void addRoomType(RoomType roomType, Connection connection) throws DAOException;
     void removeRoomType(RoomType roomType, Connection connection) throws DAOException;
     void updateRoomType(RoomType roomType, Connection connection) throws DAOException;
+    RoomType getLastInsertedRoomType(Connection connection) throws DAOException;
+
 }

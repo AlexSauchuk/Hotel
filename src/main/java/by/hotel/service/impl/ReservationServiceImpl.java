@@ -99,4 +99,18 @@ public class ReservationServiceImpl extends AbstractService implements CrudServi
         }
         return reservation;
     }
+
+    @Override
+    public Reservation getLastInsertedEntity() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return reservationDao.getLastInsertedReservation(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
+
 }

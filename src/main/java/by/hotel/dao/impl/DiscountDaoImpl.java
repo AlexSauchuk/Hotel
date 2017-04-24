@@ -57,50 +57,67 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
         return discounts;
     }
 
-    public void addDiscount(Discount discount,Connection connection) throws DAOException {
+    public void addDiscount(Discount discount, Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(ADD_DISCOUNT);
             statement = fillStatement(statement, discount);
             statement.execute();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
         }
     }
 
-    public void removeDiscount(Discount discount,Connection connection) throws DAOException {
+    public void removeDiscount(Discount discount, Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(REMOVE_DISCOUNT);
             statement.setInt(1, discount.getId());
             statement.execute();
-        }catch (SQLIntegrityConstraintViolationException e){
-            throw new DAOException(buildMessage(discount, e.getMessage()),e);
-        }catch (SQLException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new DAOException(buildMessage(discount, e.getMessage()), e);
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
         }
     }
 
-    public void updateDiscount(Discount discount,Connection connection) throws DAOException {
+    public void updateDiscount(Discount discount, Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(UPDATE_DISCOUNT);
             statement = fillStatement(statement, discount);
             statement.setInt(2, discount.getId());
             statement.execute();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
         }
     }
 
-    public Discount getDiscount(Integer id,Connection connection) throws DAOException {
-        return null;
+    @Override
+    public Discount getLastInsertedDiscount(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        Discount discount = null;
+        ResultSet resultSet;
+        DiscountBuilder discountBuilder = new DiscountBuilder();
+        try {
+            statement = connection.prepareStatement(GET_LAST_INSERTED_DISCOUNT);
+           // statement.setString(1,"discount");
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                discount = fillDiscount(resultSet, discountBuilder);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, null);
+        }
+        return discount;
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, Discount discount) throws SQLException {
@@ -110,13 +127,13 @@ public class DiscountDaoImpl extends AbstractDao implements DiscountDao {
 
     private Discount fillDiscount(ResultSet resultSet, DiscountBuilder discountBuilder) throws SQLException {
         return discountBuilder.id(resultSet.getInt("id"))
-                              .name(resultSet.getString("name"))
-                              .build();
+                .name(resultSet.getString("name"))
+                .build();
     }
 
-    private String buildMessage(Discount discount, String errorMessage){
-        Map<String,String> idNames = new HashMap<String, String>();
-        idNames.put("id",Integer.toString(discount.getId()));
+    private String buildMessage(Discount discount, String errorMessage) {
+        Map<String, String> idNames = new HashMap<String, String>();
+        idNames.put("id", Integer.toString(discount.getId()));
         return ErrorStringBuilder.buildDeleteErrorString(idNames, errorMessage);
     }
 }

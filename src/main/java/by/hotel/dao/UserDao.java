@@ -1,5 +1,6 @@
 package by.hotel.dao;
 
+import by.hotel.bean.Discount;
 import by.hotel.bean.User;
 import by.hotel.dao.exception.DAOException;
 
@@ -13,4 +14,6 @@ public interface UserDao {
     void removeUser(User user, Connection connection) throws DAOException;
     void updateUser(User user, Connection connection) throws DAOException;
     User getUser(Integer id, Connection connection) throws DAOException;
+    User getLastInsertedUser(Connection connection) throws DAOException;
+
 }

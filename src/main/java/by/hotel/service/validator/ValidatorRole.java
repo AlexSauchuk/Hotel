@@ -1,6 +1,5 @@
 package by.hotel.service.validator;
 
-import by.hotel.bean.Role;
 import by.hotel.service.exception.IncorrectNameRoleException;
 import by.hotel.service.exception.IncorrectRightRoleException;
 

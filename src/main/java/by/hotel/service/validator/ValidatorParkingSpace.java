@@ -18,7 +18,7 @@ public class ValidatorParkingSpace extends AbstractValidator {
         return false;
     }
 
-    private boolean validateLevel(String level) throws IncorrectParkingSpaceLevelException,NumberFormatException {
+    private boolean validateLevel(String level) throws IncorrectParkingSpaceLevelException {
         if (Integer.parseInt(level) >= 0 & Integer.parseInt(level) <= 5) {
             return true;
         }
@@ -26,7 +26,7 @@ public class ValidatorParkingSpace extends AbstractValidator {
 
     }
 
-    private boolean validateReserved(String reserved) throws NumberFormatException, IncorrectParkingSpaceRecervationException {
+    private boolean validateReserved(String reserved) throws IncorrectParkingSpaceRecervationException {
         if (Integer.parseInt(reserved) == 0 | Integer.parseInt(reserved) == 1) {
             return true;
         }

@@ -92,4 +92,18 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
                 .role(new RoleBuilder().id(Integer.parseInt(params.get("id_role")[0])).build())
                 .build();
     }
+
+    @Override
+    public User getLastInsertedEntity() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return userDao.getLastInsertedUser(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
+
 }

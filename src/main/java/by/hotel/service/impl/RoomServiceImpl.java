@@ -89,4 +89,18 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
                 .phone(params.get("phone")[0])
                 .build();
     }
+
+    @Override
+    public Room getLastInsertedEntity() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return roomDao.getLastInsertedRoom(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
+
 }

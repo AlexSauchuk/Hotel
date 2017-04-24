@@ -86,4 +86,19 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
                 .reserved(Byte.parseByte(params.get("reserved")[0]))
                 .build();
     }
+
+    @Override
+    public ParkingSpace getLastInsertedEntity() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return parkingSpaceDao.getLastInsertedParkingSpace(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
+
+
 }

@@ -12,7 +12,6 @@ public class ValidatorRoomType extends AbstractValidator{
         if (validateRoomsCountDigit(data.get("rooms_count")[0])
                 & validateBedsCountDigit(data.get("beds_count")[0])
                 & validateBathroomsCountDigit(data.get("bathrooms_count")[0])
-                & validateRoomsCountDigit(data.get("rooms_count")[0])
                 & validateSizeDigit(data.get("size")[0])
                 & validateAdditionalInfo(data.get("additional_info")[0])
                 & validateCostPerDayDigit(data.get("cost_per_day")[0])){
@@ -50,7 +49,7 @@ public class ValidatorRoomType extends AbstractValidator{
     }
 
     private boolean validateCostPerDayDigit(String digit) throws IncorrectCostException {
-        if(Float.parseFloat(digit) >= 0 & Float.parseFloat(digit) < 100000){
+        if(Float.parseFloat(digit) >= 0 & Float.parseFloat(digit) <= 100000){
             return true;
         }
         throw new IncorrectCostException("Incorrect room cost!");

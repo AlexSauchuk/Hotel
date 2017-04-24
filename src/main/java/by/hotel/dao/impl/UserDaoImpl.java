@@ -1,6 +1,8 @@
 package by.hotel.dao.impl;
 
+import by.hotel.bean.Reservation;
 import by.hotel.bean.User;
+import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
@@ -65,7 +67,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             statement = connection.prepareStatement(ADD_USER);
             statement = fillStatement(statement, user);
             statement.execute();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -112,6 +114,27 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, resultSet);
+        }
+        return user;
+    }
+
+    @Override
+    public User getLastInsertedUser(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        User user = null;
+        ResultSet resultSet;
+        UserBuilder userBuilder = new UserBuilder();
+        try {
+            statement = connection.prepareStatement(GET_LAST_INSERTED_USER);
+            // statement.setString(1,"user");
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                user = fillUser(resultSet, userBuilder);
+            }
+        } catch (SQLException | NullPointerException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, null);
         }
         return user;
     }

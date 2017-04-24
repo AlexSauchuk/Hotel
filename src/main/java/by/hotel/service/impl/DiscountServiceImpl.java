@@ -84,4 +84,18 @@ public class DiscountServiceImpl extends AbstractService implements CrudServiceE
                 .name(params.get("name")[0])
                 .build();
     }
+
+    @Override
+    public Discount getLastInsertedEntity() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return discountDao.getLastInsertedDiscount(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
+
 }

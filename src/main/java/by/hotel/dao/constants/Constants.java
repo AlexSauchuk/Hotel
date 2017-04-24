@@ -95,4 +95,16 @@ public class Constants {
 
     public static final String GET_LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
     public static final String AUTR_USER = "SELECT `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `role` FROM `db_hotel`.`user` WHERE `id`=? AND `password`=?";
+
+
+    public static final String GET_ENTITY = "SELECT * FROM `db_hotel`.? WHERE `id`=?";
+    public static final String GET_LAST_INSERTED_DISCOUNT = "SELECT * FROM `db_hotel`.`discount` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_PARKING_SPACE = "SELECT * FROM `db_hotel`.`parking_space` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_RESERVATION = "SELECT * FROM `db_hotel`.`reservation` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_ROLE = "SELECT * FROM `db_hotel`.`role` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_ROOM = "SELECT * FROM `db_hotel`.`room` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_ROOM_TYPE = "SELECT * FROM `db_hotel`.`room_type` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_USER = "SELECT * FROM `db_hotel`.`user` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_RESERVATION_PARKING_SPACE = "SELECT * FROM `db_hotel`.`reservation_parking_space` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_RESERVATION_ROOM = "SELECT * FROM `db_hotel`.`reservation_room` WHERE `id`=LAST_INSERT_ID()";
 }

@@ -76,7 +76,7 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
             statement = connection.prepareStatement(ADD_ROOM);
             statement = fillStatement(statement, room);
             statement.execute();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -110,6 +110,43 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         } finally {
             closeStatement(statement, null);
         }
+    }
+
+    @Override
+    public Room getLastInsertedRoom(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        Room room = null;
+        ResultSet resultSet;
+        RoomBuilder roomBuilder = new RoomBuilder();
+        try {
+            statement = connection.prepareStatement(GET_LAST_INSERTED_ROOM);
+            // statement.setString(1,room");
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                room = fillRoom(resultSet, roomBuilder);
+            }
+        } catch (SQLException | NullPointerException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, null);
+        }
+        return room;
+    }
+
+    private Room fillRoom(ResultSet resultSet, RoomBuilder roomBuilder) throws SQLException {
+        RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
+        return roomBuilder.id(resultSet.getInt("id"))
+                .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
+                        .roomsCount(resultSet.getInt("rooms_count"))
+                        .bedsCount(resultSet.getInt("beds_count"))
+                        .costPerDay(resultSet.getInt("cost_per_day"))
+                        .additionalInfo(resultSet.getString("additional_info"))
+                        .bathroomsCount(resultSet.getInt("bathrooms_count"))
+                        .size(resultSet.getInt("size")).build())
+                .floor(resultSet.getInt("floor"))
+                .phone(resultSet.getString("phone"))
+                .name(resultSet.getString("name"))
+                .build();
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, Room room) throws SQLException {

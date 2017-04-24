@@ -12,4 +12,6 @@ public interface ReservationDao {
     void addReservation(Reservation reservation, Connection connection) throws DAOException;
     void removeReservation(Reservation reservation, Connection connection) throws DAOException;
     void updateReservation(Reservation reservation, Connection connection) throws DAOException;
-  }
+    Reservation getLastInsertedReservation(Connection connection) throws DAOException;
+
+}

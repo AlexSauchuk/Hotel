@@ -89,4 +89,18 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
                 .size(Integer.parseInt(params.get("size")[0]))
                 .build();
     }
+
+    @Override
+    public RoomType getLastInsertedEntity() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return roomTypeDao.getLastInsertedRoomType(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package by.hotel.service.impl;
 
+import by.hotel.bean.ReservationRoom;
 import by.hotel.bean.Role;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.dao.RoleDao;
@@ -91,4 +92,19 @@ public class RoleServiceImpl extends AbstractService implements CrudServiceExten
                 .grant(Byte.parseByte(params.get("grant")[0]))
                 .build();
     }
+
+    @Override
+    public Role getLastInsertedEntity() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return roleDao.getLastInsertedRole(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
+
+
 }
