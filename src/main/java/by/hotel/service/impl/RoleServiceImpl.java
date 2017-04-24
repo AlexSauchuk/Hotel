@@ -40,16 +40,19 @@ public class RoleServiceImpl extends AbstractService implements CrudServiceExten
         }
     }
 
-    public void addEntity(Role entity) throws ServiceException {
+    public List<Role> addEntity(Role entity) throws ServiceException {
         Connection connection = null;
+        List<Role> roles;
         try {
             connection = getConnection();
             roleDao.addRole(entity,connection);
+            roles = roleDao.getRoles(connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
+        return roles;
     }
 
     public void removeEntity(Role entity) throws ServiceException {

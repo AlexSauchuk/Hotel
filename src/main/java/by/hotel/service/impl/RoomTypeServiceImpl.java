@@ -2,6 +2,7 @@ package by.hotel.service.impl;
 
 import by.hotel.bean.RoomType;
 import by.hotel.builder.RoomTypeBuilder;
+import by.hotel.dao.RoomTypeDao;
 import by.hotel.dao.daoimpl.RoomTypeDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RoomTypeServiceImpl extends AbstractService implements CrudServiceExtended<RoomType> {
-    private RoomTypeDaoImpl roomTypeDao = new RoomTypeDaoImpl();
+    private RoomTypeDao roomTypeDao = new RoomTypeDaoImpl();
 
     public List<String> getAllHeaders() throws ServiceException {
         Connection connection = null;
@@ -39,16 +40,19 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         }
     }
 
-    public void addEntity(RoomType entity) throws ServiceException {
+    public List<RoomType> addEntity(RoomType entity) throws ServiceException {
         Connection connection = null;
+        List<RoomType> roomTypes;
         try {
             connection = getConnection();
             roomTypeDao.addRoomType(entity,connection);
+            roomTypes = roomTypeDao.getRoomTypes(connection);
         }catch (DAOException e){
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
+        return roomTypes;
     }
 
     public void removeEntity(RoomType roomType) throws ServiceException {
@@ -79,8 +83,10 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         return new RoomTypeBuilder().id(Integer.parseInt(params.get("id")[0]))
                 .roomsCount(Integer.parseInt(params.get("roomsCount")[0]))
                 .bedsCount(Integer.parseInt(params.get("bedsCount")[0]))
-                .costPerDay(Integer.parseInt(params.get("costPerDay")[0]))
+                .costPerDay(Float.parseFloat(params.get("costPerDay")[0]))
                 .additionalInfo(params.get("additionalInfo")[0])
+                .bathroomsCount(Integer.parseInt(params.get("bathroomsCount")[0]))
+                .size(Integer.parseInt(params.get("size")[0]))
                 .build();
     }
 }

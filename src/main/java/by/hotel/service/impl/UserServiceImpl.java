@@ -41,16 +41,19 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
         }
     }
 
-    public void addEntity(User entity) throws ServiceException {
+    public List<User> addEntity(User entity) throws ServiceException {
         Connection connection = null;
+        List<User> users;
         try {
             connection = getConnection();
             userDao.addUser(entity, connection);
+            users = userDao.getUsers(connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }finally {
             closeConnection(connection);
         }
+        return users;
     }
 
     public void removeEntity(User user) throws ServiceException {

@@ -7,6 +7,7 @@ public class RoomBuilder {
     private int id;
     private int floor;
     private String phone;
+    private String name;
     private RoomType roomType;
 
     public RoomBuilder id(int id){
@@ -29,6 +30,11 @@ public class RoomBuilder {
         return this;
     }
 
+    public RoomBuilder name(String name){
+        this.name = name;
+        return this;
+    }
+
     public int getId() {
         return id;
     }
@@ -43,6 +49,10 @@ public class RoomBuilder {
 
     public RoomType getRoomType() {
         return roomType;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Room build(){

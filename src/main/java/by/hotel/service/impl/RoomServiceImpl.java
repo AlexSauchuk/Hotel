@@ -41,16 +41,19 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
 		}
 	}
 
-	public void addEntity(Room entity) throws ServiceException {
+	public List<Room> addEntity(Room entity) throws ServiceException {
+		List<Room> rooms;
 		Connection connection = null;
 		try {
 			connection = getConnection();
 			roomDao.addRoom(entity,connection);
+			rooms = roomDao.getRooms(connection);
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}finally {
 			closeConnection(connection);
 		}
+		return rooms;
 	}
 
 	public void removeEntity(Room room) throws ServiceException {
@@ -81,6 +84,7 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
 		return new RoomBuilder().id(Integer.parseInt(params.get("id")[0]))
 				.roomType(new RoomTypeBuilder().id(Integer.parseInt(params.get("id_roomType")[0]))
 						.build())
+				.name(params.get("name")[0])
 				.floor(Integer.parseInt(params.get("floor")[0]))
 				.phone(params.get("phone")[0])
 				.build();

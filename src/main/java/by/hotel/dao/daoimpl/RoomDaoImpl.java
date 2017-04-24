@@ -60,9 +60,12 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
                                     .roomsCount(resultSet.getInt("rooms_count"))
                                     .bedsCount(resultSet.getInt("beds_count"))
                                     .costPerDay(resultSet.getInt("cost_per_day"))
-                                    .additionalInfo(resultSet.getString("additional_info")).build())
+                                    .additionalInfo(resultSet.getString("additional_info"))
+                                    .bathroomsCount(resultSet.getInt("bathrooms_count"))
+                                    .size(resultSet.getInt("size")).build())
                             .floor(resultSet.getInt("floor"))
                             .phone(resultSet.getString("phone"))
+                            .name(resultSet.getString("name"))
                             .build());
             }
         } catch (SQLException e) {
@@ -106,7 +109,7 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         try {
             statement = connection.prepareStatement(UPDATE_ROOM);
             statement = fillStatement(statement, room);
-            statement.setInt(4, room.getId());
+            statement.setInt(5, room.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -117,8 +120,9 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
 
     private PreparedStatement fillStatement(PreparedStatement statement, Room room) throws SQLException {
         statement.setInt(1, room.getRoomType().getId());
-        statement.setInt(2, room.getFloor());
-        statement.setString(3, room.getPhone());
+        statement.setString(2, room.getName());
+        statement.setInt(3, room.getFloor());
+        statement.setString(4, room.getPhone());
         return statement;
     }
 

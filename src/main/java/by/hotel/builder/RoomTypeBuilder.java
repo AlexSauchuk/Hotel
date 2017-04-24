@@ -8,6 +8,8 @@ public class RoomTypeBuilder {
     private int bedsCount;
     private float costPerDay;
     private String additionalInfo;
+    private int bathroomsCount;
+    private int size;
 
     public RoomTypeBuilder id(int id){
         this.id = id;
@@ -34,6 +36,16 @@ public class RoomTypeBuilder {
         return this;
     }
 
+    public RoomTypeBuilder bathroomsCount(int bathroomsCount){
+        this.bathroomsCount = bathroomsCount;
+        return this;
+    }
+
+    public RoomTypeBuilder size(int size){
+        this.size = size;
+        return this;
+    }
+
     public int getId() {
         return id;
     }
@@ -56,5 +68,13 @@ public class RoomTypeBuilder {
 
     public RoomType build(){
         return new RoomType(this);
+    }
+
+    public int getBathroomsCount() {
+        return bathroomsCount;
+    }
+
+    public int getSize() {
+        return size;
     }
 }

@@ -6,6 +6,8 @@ public class RoomType {
     private int id;
     private int roomsCount;
     private int bedsCount;
+    private int bathroomsCount;
+    private int size;
     private float costPerDay;
     private String additionalInfo;
 
@@ -18,6 +20,8 @@ public class RoomType {
         this.bedsCount = roomTypeBuilder.getBedsCount();
         this.costPerDay = roomTypeBuilder.getCostPerDay();
         this.additionalInfo = roomTypeBuilder.getAdditionalInfo();
+        this.bathroomsCount = roomTypeBuilder.getBathroomsCount();
+        this.size = roomTypeBuilder.getSize();
     }
 
     public int getId() {
@@ -58,5 +62,21 @@ public class RoomType {
 
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
+    }
+
+    public int getBathroomsCount() {
+        return bathroomsCount;
+    }
+
+    public void setBathroomsCount(int bathroomsCount) {
+        this.bathroomsCount = bathroomsCount;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }

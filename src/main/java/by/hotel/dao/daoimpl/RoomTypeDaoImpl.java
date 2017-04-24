@@ -25,7 +25,7 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
             statement = connection.prepareStatement(GET_ALL_ROOM_TYPES_HEADERS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                stringBuilder.append(resultSet.getInt("id")+" ");
+                stringBuilder.append(resultSet.getInt("id")+" rooms count: ");
                 stringBuilder.append(resultSet.getString("rooms_count"));
                 headers.add(stringBuilder.toString());
                 stringBuilder.setLength(0);
@@ -52,6 +52,8 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
                                 .bedsCount(resultSet.getInt("beds_count"))
                                 .costPerDay(resultSet.getInt("cost_per_day"))
                                 .additionalInfo(resultSet.getString("additional_info"))
+                                .bathroomsCount(resultSet.getInt("bathrooms_count"))
+                                .size(resultSet.getInt("size"))
                                 .build());
             }
         } catch (SQLException e) {
@@ -67,7 +69,6 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         try {
             statement = connection.prepareStatement(ADD_ROOM_TYPE);
             statement = fillStatement(statement, roomType);
-            statement.setInt(5, roomType.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -96,6 +97,7 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         try {
             statement = connection.prepareStatement(UPDATE_ROOM_TYPE);
             statement = fillStatement(statement, roomType);
+            statement.setInt(7, roomType.getId());
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -109,6 +111,8 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         statement.setInt(2, roomType.getBedsCount());
         statement.setFloat(3, roomType.getCostPerDay());
         statement.setString(4, roomType.getAdditionalInfo());
+        statement.setInt(5, roomType.getBathroomsCount());
+        statement.setInt(6, roomType.getSize());
         return statement;
     }
 
