@@ -112,17 +112,13 @@ function UpdateData(obj) {
         });
     });
 
-
     if(Object.keys(arrayObj).length>0){
         var inputs = obj.getElementsByTagName('input');
         var i = 0;
         for(var arrayType in arrayObj){
 
             var j = 0;
-            console.log(arrayObj[arrayType].length);
             while(j!=arrayObj[arrayType].length) {
-                console.log(inputs[i].value);
-                console.log((arrayObj[arrayType])[j]);
                 if (inputs[i].value == (arrayObj[arrayType])[j].substr(0, 1))
                     $('select[name=id_' + arrayType + ']').val((arrayObj[arrayType])[j]);
                 j++;
@@ -190,7 +186,7 @@ var mapStringTable = {
     "reservation_room":"reservation_room",
     "reservation_parking_space":"reservation_parking_space",
     "reservation":"reservation",
-    "parking_space":"parking_space",
+    "parkingSpace":"parking_space",
     "discount":"discount"
 };
 
@@ -226,35 +222,37 @@ function GenerateOption(arrayObj,value,arrayType) {
     return option;
 }
 function GenerateChilds(arrayObj) {
-    console.log(arrayObj);
     for(var arrayType in arrayObj) {
-        console.log(arrayType);
         var editBodyUpdate = $('#myModalUpdate').find('#id_'+arrayType+'');
         var editBodyAdd = $('#myModalAdd').find('#id_'+arrayType+'');
-        console.log(editBodyUpdate);
         if(editBodyUpdate[0].childElementCount==0)
             for(var value in arrayObj[arrayType]) {
-                console.log(value);
                 editBodyUpdate[0].appendChild(GenerateOption(arrayObj,value,arrayType));
                 editBodyAdd[0].appendChild(GenerateOption(arrayObj,value,arrayType));
             }
     }
 }
-function GenerateSelectChilds() {
+function FormGetAllHeadersRequest() {
+    var result='';
     for(var value in futureQueryForID) {
-        console.log(futureQueryForID);
-        console.log(futureQueryForID[value]);
-        var arrObj = {};
-        arrObj[futureQueryForID[value]] = new Array();
+        result = result.concat('tableName=', mapStringTable[value], '&')
+    }
+    return result;
+}
+function GenerateSelectChilds() {
+    var tables = FormGetAllHeadersRequest();
+    if(tables != '') {
         $.ajax({
             type: 'GET',
-            url: '/servlet?tableName=' + mapStringTable[futureQueryForID[value]] + '&action=GET_ALL_HEADERS',
-
+            url: '/servlet?' + tables + 'action=GET_ALL_HEADERS',
             success: function (data) {
-                arrObj[Object.keys(arrObj)[0]] = data;
-                GenerateChilds(arrObj);
-            }}
-        );
+                for (var value in futureQueryForID) {
+                    arrayObj[value] = data[mapStringTable[value]];
+                }
+                console.log(arrayObj);
+                GenerateChilds(arrayObj);
+            }
+        });
     }
 }
 function AddData(obj) {
