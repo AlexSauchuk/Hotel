@@ -35,8 +35,7 @@ function recursionModals(data) {
 
     for(var key in data) {
 
-        if($.isPlainObject(data[key]))
-        {
+        if($.isPlainObject(data[key])) {
             additionalString +='<td><input type="button" style="width: 100%" value="'+(data[key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="generateModals(this)"></td>';
         }else
             additionalString +='<td>'+data[key]+'</td>';
@@ -127,7 +126,11 @@ function updateData(obj) {
 function clearInputs(editBody) {
     $(editBody).each(function(){
         $("div",this).each(function() {
-            $(this.firstElementChild).val(null);
+            if(this.className == 'radio col-sm-8'){
+                $("input[type='radio']").prop('checked',false);
+            }else {
+                $(this.firstElementChild).val(null);
+            }
         });
     });
 }
@@ -140,7 +143,7 @@ function getData(editBody) {
                 var key = $(this.firstElementChild).attr('name');
                 var value = $(this.firstElementChild).val();
                 if(key == 'id' && value == ''){
-                    value ="0";
+                    value = 0;
                 }else{
                     if($(this.firstElementChild).get(0).tagName == 'SELECT'){
                         value = value.substr(0,value.indexOf(' '))
@@ -159,7 +162,7 @@ function getData(editBody) {
 
 function getUpdatedData() {
     $('#myModalUpdate').find('.modal-footer > .btn').click();
-    getAllTableElements(NameTable);
+    getAllTableRows(NameTable);
 }
 
 function sendUpdateData() {
@@ -309,8 +312,7 @@ function setHtml(){
         var additionalString = '';
         for(var key in Data[j]) {
 
-            if($.isPlainObject(Data[j][key]))
-            {
+            if($.isPlainObject(Data[j][key])){
                 futureQueryForID[key] = key;
                 additionalString +='<td><input type="button" style="width: 100%" value="'+(Data[j][key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="generateModals(this)"></td>';
             }else
@@ -359,7 +361,7 @@ function loadTemplate() {
     request.send(null);
 }
 
-function getAllTableElements(nameTable) {
+function getAllTableRows(nameTable) {
     $.ajax({
         type: 'GET',
         url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
@@ -386,6 +388,6 @@ $(document).ready(function() {
 
         var nameTable = target.closest('td').childNodes[0].value;
         NameTable = nameTable;
-        getAllTableElements(nameTable);
+        getAllTableRows(nameTable);
     });
 });

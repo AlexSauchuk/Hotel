@@ -67,7 +67,7 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
             statement = fillStatement(statement, reservationParkingSpace);
             statement.execute();
         }catch (SQLIntegrityConstraintViolationException e){
-            throw new DAOException(buildMessage(reservationParkingSpace, e.getMessage()),e);
+            throw new DAOException(buildMessage(reservationParkingSpace),e);
         }catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -106,10 +106,10 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
         return statement;
     }
 
-    private String buildMessage(ReservationParkingSpace reservationParkingSpace, String errorMessage){
+    private String buildMessage(ReservationParkingSpace reservationParkingSpace){
         Map<String,String> idNames = new HashMap<String, String>();
         idNames.put("reservation",Integer.toString(reservationParkingSpace.getReservation().getId()));
         idNames.put("parking_space",Integer.toString(reservationParkingSpace.getParkingSpace().getId()));
-        return ErrorStringBuilder.buildAddErrorString(idNames,errorMessage);
+        return ErrorStringBuilder.buildAddErrorString(idNames);
     }
 }
