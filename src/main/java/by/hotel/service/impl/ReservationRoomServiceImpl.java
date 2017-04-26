@@ -5,7 +5,7 @@ import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.ReservationRoomBuilder;
 import by.hotel.builder.RoomBuilder;
 import by.hotel.dao.ReservationRoomDao;
-import by.hotel.dao.daoimpl.ReservationRoomDaoImpl;
+import by.hotel.dao.impl.ReservationRoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudService;

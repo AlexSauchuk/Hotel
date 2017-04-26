@@ -1,0 +1,63 @@
+<div class="bs-docs-example">
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#lA" data-toggle="tab">Sign In</a></li>
+            <li><a href="#lB" data-toggle="tab">Sign Up</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="lA">
+                <div id="myFormIn">
+                    <div class="group">
+                        <label for="emailIn" class="label">Email</label>
+                        <input id="emailIn" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="passIn" class="label">Пароль</label>
+                        <input id="passIn" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <input type="submit" class="button" onclick="validateForm()" value="Sign In">
+                    </div>
+                    <div class="hr">
+
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="lB">
+                <form id="myFormUp" onsubmit="return validateForm();">
+                    <div class="group">
+                        <label for="login" class="label">Логин</label>
+                        <input id="login" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="emailUp" class="label">Email</label>
+                        <input id="emailUp" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="passUp" class="label">Пароль</label>
+                        <input id="passUp" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <label for="phone" class="label">Телефон</label>
+                        <input id="phone" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <input id="sex" type="checkbox" class="check" checked>
+                        <label for="sex"><span class="icon"></span>Мужчина</label>
+                    </div>
+                    <div class="group">
+                        <input id="check" type="checkbox" class="check" checked>
+                        <label for="check"><span class="icon"></span>Запомнить меня</label>
+                    </div>
+                    <div class="group">
+                        <input type="submit" class="button" value="Sign Up">
+                    </div>
+                    <div class="hr"></div>
+                </form>
+            </div>
+            <p></p>
+        </div>
+        <p></p>
+    </div>
+    <p></p>
+</div>

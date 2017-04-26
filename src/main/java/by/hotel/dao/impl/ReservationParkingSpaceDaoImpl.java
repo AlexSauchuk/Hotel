@@ -1,17 +1,18 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.ReservationParkingSpace;
+import by.hotel.bean.Role;
 import by.hotel.builder.*;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationParkingSpaceDao;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.util.ErrorStringBuilder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static by.hotel.dao.constants.Constants.*;
 
@@ -65,7 +66,9 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
             statement = connection.prepareStatement(ADD_RESERVATION_PARKING_SPACE);
             statement = fillStatement(statement, reservationParkingSpace);
             statement.execute();
-        } catch (SQLException e) {
+        }catch (SQLIntegrityConstraintViolationException e){
+            throw new DAOException(buildMessage(reservationParkingSpace, e.getMessage()),e);
+        }catch (SQLException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -101,5 +104,12 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
         statement.setInt(1, reservationParkingSpace.getParkingSpace().getId());
         statement.setInt(2, reservationParkingSpace.getReservation().getId());
         return statement;
+    }
+
+    private String buildMessage(ReservationParkingSpace reservationParkingSpace, String errorMessage){
+        Map<String,String> idNames = new HashMap<String, String>();
+        idNames.put("reservation",Integer.toString(reservationParkingSpace.getReservation().getId()));
+        idNames.put("parking_space",Integer.toString(reservationParkingSpace.getParkingSpace().getId()));
+        return ErrorStringBuilder.buildAddErrorString(idNames,errorMessage);
     }
 }

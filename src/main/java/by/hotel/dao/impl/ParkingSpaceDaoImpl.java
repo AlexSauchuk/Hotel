@@ -1,4 +1,4 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.ParkingSpace;
 import by.hotel.builder.ParkingSpaceBuilder;
@@ -115,6 +115,6 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
     private String buildMessage(ParkingSpace parkingSpace, String errorMessage){
         Map<String,String> idNames = new HashMap<String, String>();
         idNames.put("id",Integer.toString(parkingSpace.getId()));
-        return ErrorStringBuilder.buildErrorString(idNames,errorMessage);
+        return ErrorStringBuilder.buildDeleteErrorString(idNames,errorMessage);
     }
 }

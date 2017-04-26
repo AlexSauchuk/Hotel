@@ -4,7 +4,7 @@ import by.hotel.bean.User;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.UserDao;
-import by.hotel.dao.daoimpl.UserDaoImpl;
+import by.hotel.dao.impl.UserDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;

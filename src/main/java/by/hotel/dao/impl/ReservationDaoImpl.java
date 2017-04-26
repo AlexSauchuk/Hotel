@@ -1,4 +1,4 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.Reservation;
 import by.hotel.builder.DiscountBuilder;
@@ -136,6 +136,6 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
     private String buildMessage(Reservation reservation, String errorMessage){
         Map<String,String> idNames = new HashMap<String, String>();
         idNames.put("id",Integer.toString(reservation.getId()));
-        return ErrorStringBuilder.buildErrorString(idNames,errorMessage);
+        return ErrorStringBuilder.buildDeleteErrorString(idNames,errorMessage);
     }
 }

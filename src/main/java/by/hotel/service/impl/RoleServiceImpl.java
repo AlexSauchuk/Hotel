@@ -3,7 +3,7 @@ package by.hotel.service.impl;
 import by.hotel.bean.Role;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.dao.RoleDao;
-import by.hotel.dao.daoimpl.RoleDaoImpl;
+import by.hotel.dao.impl.RoleDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;

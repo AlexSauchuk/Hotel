@@ -1,7 +1,7 @@
 package by.hotel.service.impl;
 
 import by.hotel.dao.TablesInfoDao;
-import by.hotel.dao.daoimpl.TablesInfoDaoImpl;
+import by.hotel.dao.impl.TablesInfoDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.TablesInfoService;

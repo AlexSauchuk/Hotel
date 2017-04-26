@@ -3,7 +3,7 @@ package by.hotel.service.impl;
 import by.hotel.bean.RoomType;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.RoomTypeDao;
-import by.hotel.dao.daoimpl.RoomTypeDaoImpl;
+import by.hotel.dao.impl.RoomTypeDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;

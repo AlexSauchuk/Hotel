@@ -1,7 +1,6 @@
-package by.hotel.dao.daoimpl;
+package by.hotel.dao.impl;
 
 import by.hotel.bean.Role;
-import by.hotel.bean.RoomType;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoleDao;
@@ -126,7 +125,6 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
     private String buildMessage(Role role, String errorMessage){
         Map<String,String> idNames = new HashMap<String, String>();
         idNames.put("id",Integer.toString(role.getId()));
-        return ErrorStringBuilder.buildErrorString(idNames,errorMessage);
+        return ErrorStringBuilder.buildDeleteErrorString(idNames,errorMessage);
     }
-
 }

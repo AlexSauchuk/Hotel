@@ -36,7 +36,7 @@
 				<div class="header-box-small">
 					<div class="inner">
 						<ul class="nav">
-					 		<li><a href="index.jsp">Главная</a></li>
+					 		<li><a href="main.jsp">Главная</a></li>
 							<li><a href="services.jsp">Услуги</a></li>
 							<li><a href="gallery.jsp">Галерея</a></li>
 							<li><a href="testimonials.jsp">Отзывы</a></li>
