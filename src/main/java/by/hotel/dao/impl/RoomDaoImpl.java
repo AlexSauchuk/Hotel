@@ -42,25 +42,13 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
     public List<Room> getRooms(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Room> rooms = new ArrayList<Room>();
+        List<Room> rooms = new ArrayList<>();
         RoomBuilder roomBuilder = new RoomBuilder();
-        RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
         try {
             statement = connection.prepareStatement(GET_ALL_ROOMS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                rooms.add(roomBuilder.id(resultSet.getInt("id"))
-                        .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
-                                .roomsCount(resultSet.getInt("rooms_count"))
-                                .bedsCount(resultSet.getInt("beds_count"))
-                                .costPerDay(resultSet.getInt("cost_per_day"))
-                                .additionalInfo(resultSet.getString("additional_info"))
-                                .bathroomsCount(resultSet.getInt("bathrooms_count"))
-                                .size(resultSet.getInt("size")).build())
-                        .floor(resultSet.getInt("floor"))
-                        .phone(resultSet.getString("phone"))
-                        .name(resultSet.getString("name"))
-                        .build());
+                rooms.add(fillRoom(resultSet,roomBuilder));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -118,12 +106,20 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
         Room room = null;
         ResultSet resultSet;
         RoomBuilder roomBuilder = new RoomBuilder();
+        RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
         try {
             statement = connection.prepareStatement(GET_LAST_INSERTED_ROOM);
             // statement.setString(1,room");
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                room = fillRoom(resultSet, roomBuilder);
+                room = roomBuilder.id(resultSet.getInt("id"))
+                        .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
+                                .additionalInfo(resultSet.getString("additional_info"))
+                                .build())
+                        .floor(resultSet.getInt("floor"))
+                        .phone(resultSet.getString("phone"))
+                        .name(resultSet.getString("name"))
+                        .build();
             }
         } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);

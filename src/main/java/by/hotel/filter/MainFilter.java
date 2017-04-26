@@ -17,11 +17,10 @@ import java.util.Map;
         initParams = @WebInitParam(name = "env", value = "dev"))
 public class MainFilter implements Filter
 {
-    final private static Map<String, String> rights = new HashMap();
+    final private static Map<String, Integer> rights = new HashMap();
     static {
-        rights.put("ADMIN_START","1111111");
-        rights.put("EDITOR","1111100");
-        rights.put("USER","0000100");
+        rights.put("ADMIN_START",127);
+        rights.put("GET_ALL",8);
     }
     private FilterConfig filterConfig = null;
 
@@ -34,8 +33,8 @@ public class MainFilter implements Filter
     {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession(true);
-        session.setAttribute("rights","1101111");
-        Integer requiredRight = Integer.parseInt(rights.get(request.getParameter("action")));
+        session.setAttribute("rights","127");//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Integer requiredRight = rights.get(request.getParameter("action"));
         Integer userRights = Integer.parseInt((String)session.getAttribute("rights"));
 
         if( (requiredRight & userRights)  == requiredRight ){

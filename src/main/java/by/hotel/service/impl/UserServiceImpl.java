@@ -6,6 +6,7 @@ import by.hotel.builder.UserBuilder;
 import by.hotel.dao.UserDao;
 import by.hotel.dao.impl.UserDaoImpl;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.security.MD5;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
@@ -83,7 +84,7 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
     public User buildEntity(Map<String,String[]> params) throws ServiceException {
         return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
                 .name(params.get("name")[0])
-                .surname(params.get("surname")[0])
+                .surname(MD5.crypt(params.get("surname")[0]))
                 .login(params.get("login")[0])
                 .password(params.get("password")[0])
                 .passportNumber(params.get("passportNumber")[0])

@@ -15,7 +15,7 @@ public class AuthDaoImpl extends AbstractDao implements AuthDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(Constants.AUTR_USER);
+            statement = connection.prepareStatement(Constants.AUTH_USER);
             statement = fillStatement(statement, login,password);
             resultSet = statement.executeQuery();
             if(resultSet.next()){

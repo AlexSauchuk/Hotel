@@ -93,11 +93,9 @@ public class Constants {
     public static final String UPDATE_ROLE = "UPDATE `db_hotel`.`role` SET `name_role`=?, `update`=?, `delete`=?,`insert`=?, `create`=?, `select`=?,`drop`=?, `grant`=? WHERE `id`=?";
     public static final String GET_ALL_ROLES_HEADERS = "SELECT `id`, `name_role` FROM `db_hotel`.`role`";
 
-    public static final String GET_LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
-    public static final String AUTR_USER = "SELECT `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `role` FROM `db_hotel`.`user` WHERE `id`=? AND `password`=?";
+    public static final String AUTH_USER = "SELECT `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `role` FROM `db_hotel`.`user` WHERE `id`=? AND `password`=?";
 
 
-    public static final String GET_ENTITY = "SELECT * FROM `db_hotel`.? WHERE `id`=?";
     public static final String GET_LAST_INSERTED_DISCOUNT = "SELECT * FROM `db_hotel`.`discount` WHERE `id`=LAST_INSERT_ID()";
     public static final String GET_LAST_INSERTED_PARKING_SPACE = "SELECT * FROM `db_hotel`.`parking_space` WHERE `id`=LAST_INSERT_ID()";
     public static final String GET_LAST_INSERTED_RESERVATION = "SELECT * FROM `db_hotel`.`reservation` WHERE `id`=LAST_INSERT_ID()";
