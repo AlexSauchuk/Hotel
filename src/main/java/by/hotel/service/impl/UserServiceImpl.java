@@ -86,6 +86,7 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
                 .name(params.get("name")[0])
                 .surname(MD5.crypt(params.get("surname")[0]))
                 .login(params.get("login")[0])
+                .login(params.get("email")[0])
                 .password(params.get("password")[0])
                 .passportNumber(params.get("passportNumber")[0])
                 .mobilePhone(params.get("mobilePhone")[0])

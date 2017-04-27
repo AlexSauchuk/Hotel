@@ -128,7 +128,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
         UserBuilder userBuilder = new UserBuilder();
         try {
             statement = connection.prepareStatement(GET_LAST_INSERTED_USER);
-            // statement.setString(1,"user");
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 user = fillUser(resultSet, userBuilder);
@@ -176,6 +175,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
         statement.setString(6, user.getPassword());
         statement.setString(7, user.getLogin());
         statement.setInt(8, user.getRole().getId());
+        statement.setString(9, user.getEmail());
         return statement;
     }
 
@@ -185,6 +185,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
                 .passportNumber(resultSet.getString("passport_number"))
                 .name(resultSet.getString("name"))
                 .surname(resultSet.getString("surname"))
+                .email(resultSet.getString("email"))
                 .sex(resultSet.getString("sex"))
                 .mobilePhone(resultSet.getString("mobile_phone"))
                 .password(resultSet.getString("password"))
