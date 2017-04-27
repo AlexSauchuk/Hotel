@@ -87,6 +87,7 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
                 .name(params.get("name")[0])
                 .floor(Integer.parseInt(params.get("floor")[0]))
                 .phone(params.get("phone")[0])
+                .path(params.get("path")[0])
                 .build();
     }
 
@@ -102,5 +103,4 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
             closeConnection(connection);
         }
     }
-
 }

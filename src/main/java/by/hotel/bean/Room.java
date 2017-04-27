@@ -5,6 +5,7 @@ import by.hotel.builder.RoomBuilder;
 public class Room {
     private int id;
     private int floor;
+    private String path;
     private String phone;
     private String name;
     private RoomType roomType;
@@ -15,6 +16,7 @@ public class Room {
     public Room(RoomBuilder roomBuilder){
         this.id = roomBuilder.getId();
         this.name = roomBuilder.getName();
+        this.path = roomBuilder.getPath();
         this.floor = roomBuilder.getFloor();
         this.phone = roomBuilder.getPhone();
         this.roomType = roomBuilder.getRoomType();
@@ -60,7 +62,14 @@ public class Room {
         this.name = name;
     }
 
-    @Override
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+        @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
