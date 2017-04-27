@@ -6,7 +6,9 @@ import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
+import by.hotel.dao.AuthDao;
 import by.hotel.dao.UserDao;
+import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
 
 import java.sql.Connection;
@@ -18,7 +20,7 @@ import java.util.List;
 
 import static by.hotel.dao.constants.Constants.*;
 
-public class UserDaoImpl extends AbstractDao implements UserDao {
+public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
     public List<String> getUserHeaders(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -137,6 +139,32 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             closeStatement(statement, null);
         }
         return user;
+    }
+
+    public User authorisation(String login, String password, Connection connection) throws DAOException{
+        User user = new User();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(Constants.AUTH_USER);
+            statement = fillStatement(statement, login,password);
+            resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                return user;
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+        finally {
+            closeStatement(statement, resultSet);
+        }
+        return user;
+    }
+
+    private PreparedStatement fillStatement(PreparedStatement statement, String login, String password) throws SQLException {
+        statement.setString(1, login);
+        statement.setString(2, password);
+        return statement;
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, User user) throws SQLException {

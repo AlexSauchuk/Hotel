@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/authorisation"})
+@WebServlet(urlPatterns = {"/checkUser"})
 public class LoginServlet  extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -27,7 +27,7 @@ public class LoginServlet  extends HttpServlet {
             session.setAttribute("name", request.getParameter("name"));
         }else {
             out.print("Sorry, username or password error!");
-            request.getRequestDispatcher("authorisation.html").include(request, response);
+            request.getRequestDispatcher("checkUser.html").include(request, response);
         }
         out.close();*/
     }
