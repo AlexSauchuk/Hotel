@@ -12,7 +12,7 @@ function decreaseDeep() {
     document.body.removeChild(document.getElementsByClassName('modal-backdrop fade in')[document.getElementsByClassName('modal-backdrop fade in').length-1]);
 }
 
-function recursionModals(data) {
+function RecursionModals(data) {
     Data = data;
     var modalString = '<div id="modalWindow'+deep+'" class="modal fade in" style="z-index: '+zIndex+';display: block"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"  id="headID"><button class="close" onclick="decreaseDeep()" type="button" data-dismiss="modal">Close</button></div><div class="modal-body">custom</div><div  class="modal-footer" onclick="decreaseDeep()"><button class="btn btn-default"  id="closeBtn" type="button" data-dismiss="modal">Close</button></div></div></div></div>';
     childModal = '\'#modalWindow'+deep+'\'';
@@ -37,7 +37,7 @@ function recursionModals(data) {
 
         if($.isPlainObject(data[key]))
         {
-            additionalString +='<td><input type="button" style="width: 100%" value="'+(data[key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="generateModals(this)"></td>';
+            additionalString +='<td><input type="button" style="width: 100%" value="'+(data[key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
         }else
             additionalString +='<td>'+data[key]+'</td>';
     }
@@ -56,7 +56,7 @@ function recursionModals(data) {
 
 }
 
-function generateModals(obj) {
+function GenerateModals(obj) {
     temporaryData = Data;
     if(deep==0 && objects.length==0)
         objects.push(temporaryData);
@@ -68,14 +68,15 @@ function generateModals(obj) {
     else
         objects.push(temporaryData[Object.keys(temporaryData)[col]]);
 
-    recursionModals(objects[deep+1]);
+    RecursionModals(objects[deep+1]);
 }
 
-function updateData(obj) {
+function UpdateData(obj) {
+    var elem = $('#myModalUpdate').find('#mainForm');
+    SetFunctions();
+    elem[0].action =
+        '/servlet?tableName='+NameTable +'&action=UPDATE';
     var editBody = $('#myModalUpdate').find('#mainForm');
-    ($(editBody[0].lastElementChild).find("button")[0]).addEventListener("click",sendUpdateData);
-    ($('#myModalUpdate').find('.btn.btn-default')[0]).addEventListener("click", getUpdatedData);
-    ($('#myModalUpdate').find('.close')[0]).addEventListener("click", getUpdatedData);
 
     var arrayValues = new Array();
     $(obj).each(function(){
@@ -102,6 +103,7 @@ function updateData(obj) {
                         this.childNodes[3].firstElementChild.checked = true;
                     }
                 else {
+
                     if((this.firstElementChild).childNodes.length==0)
                         $(this.firstElementChild).val(arrayValues[i].innerHTML);
                 }
@@ -109,13 +111,19 @@ function updateData(obj) {
             }
         });
     });
+
+
     if(Object.keys(arrayObj).length>0){
         var inputs = obj.getElementsByTagName('input');
         var i = 0;
         for(var arrayType in arrayObj){
+
             var j = 0;
+            console.log(arrayObj[arrayType].length);
             while(j!=arrayObj[arrayType].length) {
-                if ($(inputs[i]).val() == (arrayObj[arrayType])[j].substr(0, 1))
+                console.log(inputs[i].value);
+                console.log((arrayObj[arrayType])[j]);
+                if (inputs[i].value == (arrayObj[arrayType])[j].substr(0, 1))
                     $('select[name=id_' + arrayType + ']').val((arrayObj[arrayType])[j]);
                 j++;
             }
@@ -123,69 +131,42 @@ function updateData(obj) {
         }
     }
 }
-
-function clearInputs(editBody) {
+function GetData(editBody) {
+    var data = {};
     $(editBody).each(function(){
         $("div",this).each(function() {
-            $(this.firstElementChild).val(null);
-        });
-    });
-}
 
-function getData(editBody) {
-    var result = '';
-    $(editBody).each(function(){
-        $("div",this).each(function() {
             if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
-                var key = $(this.firstElementChild).attr('name');
-                var value = $(this.firstElementChild).val();
-                if(key == 'id' && value == ''){
-                    value ="0";
-                }else{
-                    if($(this.firstElementChild).get(0).tagName == 'SELECT'){
-                        value = value.substr(0,value.indexOf(' '))
-                    }
-                    if(this.className == 'radio col-sm-8'){
-                        key = this.id;
-                        value = $("input[type='radio']:checked").val();
-                    }
-                }
-                result = result.concat('&',key,'=', value);
+                console.log($(this.firstElementChild).attr('name'));
+                data[$(this.firstElementChild).attr('name')] = $(this.firstElementChild).val();
             }
+
         });
     });
-    return result;
+    return data;
 }
-
-function getUpdatedData() {
-    $('#myModalUpdate').find('.modal-footer > .btn').click();
-    getAllTableElements(NameTable);
-}
-
-function sendUpdateData() {
+function SendUpdateData() {
     var editBodyUpdate = $('#myModalUpdate').find('#mainForm');
+    var data = GetData(editBodyUpdate);
 
     $.ajax({
         type: 'POST',
-        url: '/servlet?tableName='+NameTable +'&action=UPDATE' + getData(editBodyUpdate),
-        success: function () {
+        url: '/servlet?tableName='+NameTable +'&action=UPDATE',
+        data:{assocArray:data},
+        success: function (data) {
+            console.log(data);
         }});
 }
-
-function sendAddData() {
+function SendAddData() {
     var editBodyAdd = $('#myModalAdd').find('#mainForm');
+    var data = GetData(editBodyAdd);
 
     $.ajax({
         type: 'POST',
-        url: '/servlet?tableName='+NameTable +'&action=ADD' + getData(editBodyAdd),
-        success: function (result) {
-            if(typeof result == 'string'){
-                alert(result);
-            }else {
-                Data = result;
-                $('#myModalAdd').find('.modal-footer > .btn').click();
-                setHtml();
-            }
+        url: '/servlet?tableName='+NameTable +'&action=ADD',
+        data:{assocArray:data},
+        success: function (data) {
+            console.log(data);
         }});
 }
 
@@ -206,20 +187,20 @@ var mapStringTable = {
     "user":"user",
     "room":"room",
     "role":"role",
+    "reservation_room":"reservation_room",
+    "reservation_parking_space":"reservation_parking_space",
     "reservation":"reservation",
-    "parkingSpace":"parking_space",
+    "parking_space":"parking_space",
     "discount":"discount"
 };
 
-function deleteRow(obj) {
+function DeleteRow(obj) {
     $.ajax({
         type: 'DELETE',
         url: '/servlet?tableName=' + NameTable + '&action=REMOVE&' +  formParams(obj.closest('tr').rowIndex),
         success:function(result){
             if(result==null){
                 document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
-            }else {
-                alert(result);
             }
         }
     });
@@ -238,55 +219,55 @@ function formParams(rowIndex) {
     }
     return resultParams.slice(0,resultParams.length-1);
 }
-
-function generateOption(arrayObj, value, arrayType) {
+function GenerateOption(arrayObj,value,arrayType) {
     var option = document.createElement("option");
     option.value = arrayObj[arrayType][value];
     option.text = arrayObj[arrayType][value];
     return option;
 }
-
-function generateChilds(arrayObj) {
+function GenerateChilds(arrayObj) {
+    console.log(arrayObj);
     for(var arrayType in arrayObj) {
-        var editBodyUpdate = $('#myModalUpdate').find('#id'+arrayType+'');
-        var editBodyAdd = $('#myModalAdd').find('#id'+arrayType+'');
-
+        console.log(arrayType);
+        var editBodyUpdate = $('#myModalUpdate').find('#id_'+arrayType+'');
+        var editBodyAdd = $('#myModalAdd').find('#id_'+arrayType+'');
+        console.log(editBodyUpdate);
         if(editBodyUpdate[0].childElementCount==0)
             for(var value in arrayObj[arrayType]) {
-                editBodyUpdate[0].appendChild(generateOption(arrayObj,value,arrayType));
-                editBodyAdd[0].appendChild(generateOption(arrayObj,value,arrayType));
+                console.log(value);
+                editBodyUpdate[0].appendChild(GenerateOption(arrayObj,value,arrayType));
+                editBodyAdd[0].appendChild(GenerateOption(arrayObj,value,arrayType));
             }
     }
 }
-
-function formGetAllHeadersRequest() {
-    var result='';
+function GenerateSelectChilds() {
     for(var value in futureQueryForID) {
-        result = result.concat('tableName=', mapStringTable[value], '&')
-    }
-    return result;
-}
-
-function generateSelectChilds() {
-    var tables = formGetAllHeadersRequest();
-    if(tables != '') {
+        console.log(futureQueryForID);
+        console.log(futureQueryForID[value]);
+        var arrObj = {};
+        arrObj[futureQueryForID[value]] = new Array();
         $.ajax({
             type: 'GET',
-            url: '/servlet?' + tables + 'action=GET_ALL_HEADERS',
+            url: '/servlet?tableName=' + mapStringTable[futureQueryForID[value]] + '&action=GET_ALL_HEADERS',
+
             success: function (data) {
-                for (var value in futureQueryForID) {
-                    arrayObj[value] = data[mapStringTable[value]];
-                }
-                generateChilds(arrayObj);
-            }
-        });
+                arrObj[Object.keys(arrObj)[0]] = data;
+                GenerateChilds(arrObj);
+            }}
+        );
     }
 }
-
-function addData() {
+function AddData(obj) {
+    var elem = $('#myModalAdd').find('#mainForm');
+    elem[0].action =
+        '/servlet?tableName='+NameTable +'&action=ADD';
+    $('#myModalAdd').find('select[name=idrole]').val(1);
+}
+function SetFunctions() {
+    var editBodyUpdate = $('#myModalUpdate').find('#mainForm');
     var editBodyAdd = $('#myModalAdd').find('#mainForm');
-    clearInputs(editBodyAdd);
-    ($(editBodyAdd[0].lastElementChild).find("button")[0]).addEventListener("click",sendAddData);
+    ($(editBodyUpdate[0].lastElementChild).find("button")[0]).addEventListener("click",SendUpdateData);
+    ($(editBodyAdd[0].lastElementChild).find("button")[0]).addEventListener("click",SendAddData);
 }
 
 function setHtml(){
@@ -312,7 +293,7 @@ function setHtml(){
             if($.isPlainObject(Data[j][key]))
             {
                 futureQueryForID[key] = key;
-                additionalString +='<td><input type="button" style="width: 100%" value="'+(Data[j][key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="generateModals(this)"></td>';
+                additionalString +='<td><input type="button" style="width: 100%" value="'+(Data[j][key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
             }else
                 additionalString +='<td>'+Data[j][key]+'</td>';
 
@@ -320,17 +301,17 @@ function setHtml(){
                 newItem += '<td></td>';
             }
         }
-        additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModalUpdate" onclick="updateData((this.parentNode).parentNode)"></td>' +
-            '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="deleteRow(this)"></td>';
+        additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModalUpdate" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
+            '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="DeleteRow(this)"></td>';
         bodyString += strRow.replace(patternRow,additionalString);
 
         if(j==countRows-1){
-            newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" data-toggle="modal" data-target="#myModalAdd" onclick="addData((this.parentNode).parentNode)"></td>';
+            newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" data-toggle="modal" data-target="#myModalAdd" onclick="AddData((this.parentNode).parentNode)"></td>';
             bodyString += strRow.replace(patternRow,newItem);
         }
         j++;
     }
-    generateSelectChilds();
+    GenerateSelectChilds();
     var headers= '<thead><tr>header</tr></thead>';
     var body = '<tbody>body</tbody>';
     var patternHead = /header/;
@@ -340,7 +321,7 @@ function setHtml(){
     $('#tableHotel').html(headers + body);
 }
 
-function loadTemplate() {
+function LoadTemplate() {
     var request = new XMLHttpRequest();
     var table = NameTable;
     if(NameTable=="room")
@@ -359,21 +340,6 @@ function loadTemplate() {
     request.send(null);
 }
 
-function getAllTableElements(nameTable) {
-    $.ajax({
-        type: 'GET',
-        url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
-        success: function(data) {
-            futureQueryForID = {};
-            loadTemplate();
-            arrayObj = {};
-            objects = new Array();
-            Data = data;
-            setHtml();
-        }
-    });
-}
-
 $(document).ready(function() {
 
     $('.col-lg-3').on('click', function(event) {
@@ -386,6 +352,18 @@ $(document).ready(function() {
 
         var nameTable = target.closest('td').childNodes[0].value;
         NameTable = nameTable;
-        getAllTableElements(nameTable);
+        $.ajax({
+            type: 'GET',
+            url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
+            success: function(data) {
+                console.log(data);
+                futureQueryForID = {};
+                LoadTemplate();
+                arrayObj = {};
+                objects = new Array();
+                Data = data;
+                setHtml();
+            }
+        });
     });
 });

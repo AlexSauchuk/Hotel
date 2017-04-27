@@ -1,8 +1,10 @@
 .animationColor{
-    animation: colorChange 10s;
-    animation-iteration-count: infinite;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation: colorChange 10s;
+    animation: colorChange 3s infinite;
+    animation-iteration-count: 5;
+    -webkit-animation-play-state: running;
+    -webkit-animation-iteration-count: 5;
+    -webkit-animation: colorChange 3s infinite;
+    -webkit-animation-fill-mode: forwards;
 }
 
 @keyframes colorChange {
