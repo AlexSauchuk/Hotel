@@ -1,6 +1,7 @@
 package by.hotel.dao.impl;
 
 import by.hotel.bean.Reservation;
+import by.hotel.bean.User;
 import by.hotel.builder.DiscountBuilder;
 import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.UserBuilder;
@@ -8,6 +9,7 @@ import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationDao;
 import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.service.exception.ServiceException;
 import by.hotel.util.ErrorStringBuilder;
 
 import java.sql.*;
@@ -53,21 +55,7 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
             statement = connection.prepareStatement(Constants.GET_ALL_RESERVATIONS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                reservations.add(reservationBuilder.id(resultSet.getInt("id"))
-                                    .dateIn(resultSet.getDate("date-in"))
-                                    .dateOut(resultSet.getDate("date-out"))
-                                    .user(userBuilder.id(resultSet.getInt("id_user"))
-                                            .passportNumber(resultSet.getString("passport_number"))
-                                            .name(resultSet.getString("name"))
-                                            .surname(resultSet.getString("surname"))
-                                            .sex(resultSet.getString("sex"))
-                                            .mobilePhone(resultSet.getString("mobile_phone"))
-                                            .build())
-                                    .costAdditionalServices(resultSet.getInt("cost_additional_services"))
-                                    .discount(discountBuilder.id(resultSet.getInt("discount_id"))
-                                            .name(resultSet.getString("discount_name"))
-                                            .build())
-                                    .build());
+                reservations.add(fillReservation(resultSet, reservationBuilder, userBuilder, discountBuilder));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -121,7 +109,23 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
     }
 
     public Reservation getReservation(Integer id,Connection connection) throws DAOException {
-        return null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Reservation reservation;
+        ReservationBuilder reservationBuilder = new ReservationBuilder();
+        UserBuilder userBuilder = new UserBuilder();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
+        try {
+            statement = connection.prepareStatement(GET_RESERVATION);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            reservation = fillReservation(resultSet, reservationBuilder, userBuilder, discountBuilder);
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, resultSet);
+        }
+        return reservation;
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, Reservation reservation) throws SQLException {
@@ -131,6 +135,24 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         statement.setInt(4, reservation.getCostAdditionalServices());
         statement.setInt(5,reservation.getDiscount().getId());
         return statement;
+    }
+
+    private Reservation fillReservation(ResultSet resultSet, ReservationBuilder reservationBuilder, UserBuilder userBuilder, DiscountBuilder discountBuilder) throws SQLException{
+        return reservationBuilder.id(resultSet.getInt("id"))
+                .dateIn(resultSet.getDate("date-in"))
+                .dateOut(resultSet.getDate("date-out"))
+                .user(userBuilder.id(resultSet.getInt("id_user"))
+                        .passportNumber(resultSet.getString("passport_number"))
+                        .name(resultSet.getString("name"))
+                        .surname(resultSet.getString("surname"))
+                        .sex(resultSet.getString("sex"))
+                        .mobilePhone(resultSet.getString("mobile_phone"))
+                        .build())
+                .costAdditionalServices(resultSet.getInt("cost_additional_services"))
+                .discount(discountBuilder.id(resultSet.getInt("discount_id"))
+                        .name(resultSet.getString("discount_name"))
+                        .build())
+                .build();
     }
 
     private String buildMessage(Reservation reservation, String errorMessage){
