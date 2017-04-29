@@ -78,9 +78,7 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
             throw new DAOException(buildMessage(reservationRoom),e);
         } catch (SQLException | NullPointerException e) {
             throw new DAOException(buildMessage(reservationRoom),e);
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
+        }finally {
             closeStatement(statement, null);
         }
     }
