@@ -65,7 +65,7 @@ public class RoomBuilder {
         return path;
     }
 
-    public Room build(){
+    public Room build() {
         return new Room(this);
     }
 }

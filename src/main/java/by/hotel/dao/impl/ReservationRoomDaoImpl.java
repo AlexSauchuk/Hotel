@@ -75,8 +75,10 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
             statement = fillStatement(statement, reservationRoom);
             statement.execute();
         }catch (SQLIntegrityConstraintViolationException e){
-            throw new DAOException(buildMessage(reservationRoom, e.getMessage()),e);
+            throw new DAOException(buildMessage(reservationRoom),e);
         } catch (SQLException | NullPointerException e) {
+            throw new DAOException(buildMessage(reservationRoom),e);
+        } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -165,11 +167,11 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         return statement;
     }
 
-    private String buildMessage(ReservationRoom reservationRoom, String errorMessage){
+    private String buildMessage(ReservationRoom reservationRoom){
         Map<String,String> idNames = new HashMap<String, String>();
         idNames.put("reservation",Integer.toString(reservationRoom.getReservation().getId()));
         idNames.put("room",Integer.toString(reservationRoom.getRoom().getId()));
-        return ErrorStringBuilder.buildAddErrorString(idNames,errorMessage);
+        return ErrorStringBuilder.buildAddErrorString(idNames);
     }
 
 }

@@ -81,14 +81,14 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
     }
 
     public Room buildEntity(Map<String, String[]> params) throws ServiceException {
-        return new RoomBuilder().id(Integer.parseInt(params.get("id")[0]))
-                .roomType(new RoomTypeBuilder().id(Integer.parseInt(params.get("id_roomType")[0]))
-                        .build())
-                .name(params.get("name")[0])
-                .floor(Integer.parseInt(params.get("floor")[0]))
-                .phone(params.get("phone")[0])
-                .path(params.get("path")[0])
-                .build();
+		return new RoomBuilder().id(Integer.parseInt(params.get("id")[0]))
+				.roomType(new RoomTypeBuilder().id(Integer.parseInt(params.get("id_roomType")[0]))
+						.build())
+				.name(params.get("name")[0])
+				.floor(Integer.parseInt(params.get("floor")[0]))
+				.phone(params.get("phone")[0])
+				.path(params.get("path")[0])
+				.build();
     }
 
     @Override

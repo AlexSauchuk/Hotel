@@ -5,7 +5,7 @@ import by.hotel.service.impl.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServiceMapper {
+public class CrudServiceMapper {
     final private static Map<String, CrudService> services = new HashMap();
 
     static {

@@ -12,7 +12,7 @@ function decreaseDeep() {
     document.body.removeChild(document.getElementsByClassName('modal-backdrop fade in')[document.getElementsByClassName('modal-backdrop fade in').length-1]);
 }
 
-function RecursionModals(data) {
+function recursionModals(data) {
     Data = data;
     var modalString = '<div id="modalWindow'+deep+'" class="modal fade in" style="z-index: '+zIndex+';display: block"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"  id="headID"><button class="close" onclick="decreaseDeep()" type="button" data-dismiss="modal">Close</button></div><div class="modal-body">custom</div><div  class="modal-footer" onclick="decreaseDeep()"><button class="btn btn-default"  id="closeBtn" type="button" data-dismiss="modal">Close</button></div></div></div></div>';
     childModal = '\'#modalWindow'+deep+'\'';
@@ -35,9 +35,8 @@ function RecursionModals(data) {
 
     for(var key in data) {
 
-        if($.isPlainObject(data[key]))
-        {
-            additionalString +='<td><input type="button" style="width: 100%" value="'+(data[key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
+        if($.isPlainObject(data[key])) {
+            additionalString +='<td><input type="button" style="width: 100%" value="'+(data[key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="generateModals(this)"></td>';
         }else
             additionalString +='<td>'+data[key]+'</td>';
     }
@@ -56,7 +55,7 @@ function RecursionModals(data) {
 
 }
 
-function GenerateModals(obj) {
+function generateModals(obj) {
     temporaryData = Data;
     if(deep==0 && objects.length==0)
         objects.push(temporaryData);
@@ -68,15 +67,14 @@ function GenerateModals(obj) {
     else
         objects.push(temporaryData[Object.keys(temporaryData)[col]]);
 
-    RecursionModals(objects[deep+1]);
+    recursionModals(objects[deep+1]);
 }
 
-function UpdateData(obj) {
-    var elem = $('#myModalUpdate').find('#mainForm');
-    SetFunctions();
-    elem[0].action =
-        '/servlet?tableName='+NameTable +'&action=UPDATE';
+function updateData(obj) {
     var editBody = $('#myModalUpdate').find('#mainForm');
+    ($(editBody[0].lastElementChild).find("button")[0]).addEventListener("click",sendUpdateData);
+    ($('#myModalUpdate').find('.btn.btn-default')[0]).addEventListener("click", getUpdatedData);
+    ($('#myModalUpdate').find('.close')[0]).addEventListener("click", getUpdatedData);
 
     var arrayValues = new Array();
     $(obj).each(function(){
@@ -103,7 +101,6 @@ function UpdateData(obj) {
                         this.childNodes[3].firstElementChild.checked = true;
                     }
                 else {
-
                     if((this.firstElementChild).childNodes.length==0)
                         $(this.firstElementChild).val(arrayValues[i].innerHTML);
                 }
@@ -111,19 +108,13 @@ function UpdateData(obj) {
             }
         });
     });
-
-
     if(Object.keys(arrayObj).length>0){
         var inputs = obj.getElementsByTagName('input');
         var i = 0;
         for(var arrayType in arrayObj){
-
             var j = 0;
-            console.log(arrayObj[arrayType].length);
             while(j!=arrayObj[arrayType].length) {
-                console.log(inputs[i].value);
-                console.log((arrayObj[arrayType])[j]);
-                if (inputs[i].value == (arrayObj[arrayType])[j].substr(0, 1))
+                if ($(inputs[i]).val() == (arrayObj[arrayType])[j].substr(0, 1))
                     $('select[name=id_' + arrayType + ']').val((arrayObj[arrayType])[j]);
                 j++;
             }
@@ -131,42 +122,73 @@ function UpdateData(obj) {
         }
     }
 }
-function GetData(editBody) {
-    var data = {};
+
+function clearInputs(editBody) {
     $(editBody).each(function(){
         $("div",this).each(function() {
-
-            if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
-                console.log($(this.firstElementChild).attr('name'));
-                data[$(this.firstElementChild).attr('name')] = $(this.firstElementChild).val();
+            if(this.className == 'radio col-sm-8'){
+                $("input[type='radio']").prop('checked',false);
+            }else {
+                $(this.firstElementChild).val(null);
             }
-
         });
     });
-    return data;
 }
-function SendUpdateData() {
+
+function getData(editBody) {
+    var result = '';
+    $(editBody).each(function(){
+        $("div",this).each(function() {
+            if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
+                var key = $(this.firstElementChild).attr('name');
+                var value = $(this.firstElementChild).val();
+                if(key == 'id' && value == ''){
+                    value = 0;
+                }else{
+                    if($(this.firstElementChild).get(0).tagName == 'SELECT'){
+                        value = value.substr(0,value.indexOf(' '))
+                    }
+                    if(this.className == 'radio col-sm-8'){
+                        key = this.id;
+                        value = $("input[type='radio']:checked").val();
+                    }
+                }
+                result = result.concat('&',key,'=', value);
+            }
+        });
+    });
+    return result;
+}
+
+function getUpdatedData() {
+    $('#myModalUpdate').find('.modal-footer > .btn').click();
+    getAllTableRows(NameTable);
+}
+
+function sendUpdateData() {
     var editBodyUpdate = $('#myModalUpdate').find('#mainForm');
-    var data = GetData(editBodyUpdate);
 
     $.ajax({
         type: 'POST',
-        url: '/servlet?tableName='+NameTable +'&action=UPDATE',
-        data:{assocArray:data},
-        success: function (data) {
-            console.log(data);
+        url: '/servlet?tableName='+NameTable +'&action=UPDATE' + getData(editBodyUpdate),
+        success: function () {
         }});
 }
-function SendAddData() {
+
+function sendAddData() {
     var editBodyAdd = $('#myModalAdd').find('#mainForm');
-    var data = GetData(editBodyAdd);
 
     $.ajax({
         type: 'POST',
-        url: '/servlet?tableName='+NameTable +'&action=ADD',
-        data:{assocArray:data},
-        success: function (data) {
-            console.log(data);
+        url: '/servlet?tableName='+NameTable +'&action=ADD' + getData(editBodyAdd),
+        success: function (result) {
+            if(typeof result == 'string'){
+                alert(result);
+            }else {
+                Data = result;
+                $('#myModalAdd').find('.modal-footer > .btn').click();
+                setHtml();
+            }
         }});
 }
 
@@ -187,20 +209,20 @@ var mapStringTable = {
     "user":"user",
     "room":"room",
     "role":"role",
-    "reservation_room":"reservation_room",
-    "reservation_parking_space":"reservation_parking_space",
     "reservation":"reservation",
-    "parking_space":"parking_space",
+    "parkingSpace":"parking_space",
     "discount":"discount"
 };
 
-function DeleteRow(obj) {
+function deleteRow(obj) {
     $.ajax({
         type: 'DELETE',
         url: '/servlet?tableName=' + NameTable + '&action=REMOVE&' +  formParams(obj.closest('tr').rowIndex),
         success:function(result){
             if(result==null){
                 document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
+            }else {
+                alert(result);
             }
         }
     });
@@ -219,55 +241,55 @@ function formParams(rowIndex) {
     }
     return resultParams.slice(0,resultParams.length-1);
 }
-function GenerateOption(arrayObj,value,arrayType) {
+
+function generateOption(arrayObj, value, arrayType) {
     var option = document.createElement("option");
     option.value = arrayObj[arrayType][value];
     option.text = arrayObj[arrayType][value];
     return option;
 }
-function GenerateChilds(arrayObj) {
-    console.log(arrayObj);
+
+function generateChilds(arrayObj) {
     for(var arrayType in arrayObj) {
-        console.log(arrayType);
-        var editBodyUpdate = $('#myModalUpdate').find('#id_'+arrayType+'');
-        var editBodyAdd = $('#myModalAdd').find('#id_'+arrayType+'');
-        console.log(editBodyUpdate);
+        var editBodyUpdate = $('#myModalUpdate').find('#id'+arrayType+'');
+        var editBodyAdd = $('#myModalAdd').find('#id'+arrayType+'');
+
         if(editBodyUpdate[0].childElementCount==0)
             for(var value in arrayObj[arrayType]) {
-                console.log(value);
-                editBodyUpdate[0].appendChild(GenerateOption(arrayObj,value,arrayType));
-                editBodyAdd[0].appendChild(GenerateOption(arrayObj,value,arrayType));
+                editBodyUpdate[0].appendChild(generateOption(arrayObj,value,arrayType));
+                editBodyAdd[0].appendChild(generateOption(arrayObj,value,arrayType));
             }
     }
 }
-function GenerateSelectChilds() {
+
+function formGetAllHeadersRequest() {
+    var result='';
     for(var value in futureQueryForID) {
-        console.log(futureQueryForID);
-        console.log(futureQueryForID[value]);
-        var arrObj = {};
-        arrObj[futureQueryForID[value]] = new Array();
+        result = result.concat('tableName=', mapStringTable[value], '&')
+    }
+    return result;
+}
+
+function generateSelectChilds() {
+    var tables = formGetAllHeadersRequest();
+    if(tables != '') {
         $.ajax({
             type: 'GET',
-            url: '/servlet?tableName=' + mapStringTable[futureQueryForID[value]] + '&action=GET_ALL_HEADERS',
-
+            url: '/servlet?' + tables + 'action=GET_ALL_HEADERS',
             success: function (data) {
-                arrObj[Object.keys(arrObj)[0]] = data;
-                GenerateChilds(arrObj);
-            }}
-        );
+                for (var value in futureQueryForID) {
+                    arrayObj[value] = data[mapStringTable[value]];
+                }
+                generateChilds(arrayObj);
+            }
+        });
     }
 }
-function AddData(obj) {
-    var elem = $('#myModalAdd').find('#mainForm');
-    elem[0].action =
-        '/servlet?tableName='+NameTable +'&action=ADD';
-    $('#myModalAdd').find('select[name=idrole]').val(1);
-}
-function SetFunctions() {
-    var editBodyUpdate = $('#myModalUpdate').find('#mainForm');
+
+function addData() {
     var editBodyAdd = $('#myModalAdd').find('#mainForm');
-    ($(editBodyUpdate[0].lastElementChild).find("button")[0]).addEventListener("click",SendUpdateData);
-    ($(editBodyAdd[0].lastElementChild).find("button")[0]).addEventListener("click",SendAddData);
+    clearInputs(editBodyAdd);
+    ($(editBodyAdd[0].lastElementChild).find("button")[0]).addEventListener("click",sendAddData);
 }
 
 function setHtml(){
@@ -290,10 +312,9 @@ function setHtml(){
         var additionalString = '';
         for(var key in Data[j]) {
 
-            if($.isPlainObject(Data[j][key]))
-            {
+            if($.isPlainObject(Data[j][key])){
                 futureQueryForID[key] = key;
-                additionalString +='<td><input type="button" style="width: 100%" value="'+(Data[j][key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="GenerateModals(this)"></td>';
+                additionalString +='<td><input type="button" style="width: 100%" value="'+(Data[j][key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="generateModals(this)"></td>';
             }else
                 additionalString +='<td>'+Data[j][key]+'</td>';
 
@@ -301,17 +322,17 @@ function setHtml(){
                 newItem += '<td></td>';
             }
         }
-        additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModalUpdate" onclick="UpdateData((this.parentNode).parentNode)"></td>' +
-            '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="DeleteRow(this)"></td>';
+        additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModalUpdate" onclick="updateData((this.parentNode).parentNode)"></td>' +
+            '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="deleteRow(this)"></td>';
         bodyString += strRow.replace(patternRow,additionalString);
 
         if(j==countRows-1){
-            newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" data-toggle="modal" data-target="#myModalAdd" onclick="AddData((this.parentNode).parentNode)"></td>';
+            newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" data-toggle="modal" data-target="#myModalAdd" onclick="addData((this.parentNode).parentNode)"></td>';
             bodyString += strRow.replace(patternRow,newItem);
         }
         j++;
     }
-    GenerateSelectChilds();
+    generateSelectChilds();
     var headers= '<thead><tr>header</tr></thead>';
     var body = '<tbody>body</tbody>';
     var patternHead = /header/;
@@ -321,7 +342,7 @@ function setHtml(){
     $('#tableHotel').html(headers + body);
 }
 
-function LoadTemplate() {
+function loadTemplate() {
     var request = new XMLHttpRequest();
     var table = NameTable;
     if(NameTable=="room")
@@ -340,6 +361,21 @@ function LoadTemplate() {
     request.send(null);
 }
 
+function getAllTableRows(nameTable) {
+    $.ajax({
+        type: 'GET',
+        url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
+        success: function(data) {
+            futureQueryForID = {};
+            loadTemplate();
+            arrayObj = {};
+            objects = new Array();
+            Data = data;
+            setHtml();
+        }
+    });
+}
+
 $(document).ready(function() {
 
     $('.col-lg-3').on('click', function(event) {
@@ -352,18 +388,6 @@ $(document).ready(function() {
 
         var nameTable = target.closest('td').childNodes[0].value;
         NameTable = nameTable;
-        $.ajax({
-            type: 'GET',
-            url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
-            success: function(data) {
-                console.log(data);
-                futureQueryForID = {};
-                LoadTemplate();
-                arrayObj = {};
-                objects = new Array();
-                Data = data;
-                setHtml();
-            }
-        });
+        getAllTableRows(nameTable);
     });
 });

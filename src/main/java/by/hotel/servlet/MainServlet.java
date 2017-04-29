@@ -2,7 +2,7 @@ package by.hotel.servlet;
 
 import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
-import by.hotel.factory.commandfactory.impl.CommandFactoryMapper;
+import by.hotel.factory.impl.CommandFactoryMapper;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +22,7 @@ public class MainServlet extends HttpServlet {
         try {
             String page = req.getParameter("page");
             CommandFactoryMapper commandFactoryMapper = CommandFactoryMapper.getInstance();
-            Command command = commandFactoryMapper.createCommand(req.getParameter("action"));
+            Command command = commandFactoryMapper.getCommand(req.getParameter("action"));
             Object result = command.execute(req.getParameterMap());
             if(page != null) {
                 req.setAttribute("items", result);

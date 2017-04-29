@@ -15,8 +15,8 @@ public class Room {
 
     public Room(RoomBuilder roomBuilder){
         this.id = roomBuilder.getId();
-        this.name = roomBuilder.getName();
         this.path = roomBuilder.getPath();
+        this.name = roomBuilder.getName();
         this.floor = roomBuilder.getFloor();
         this.phone = roomBuilder.getPhone();
         this.roomType = roomBuilder.getRoomType();
@@ -60,6 +60,14 @@ public class Room {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getPath() {

@@ -4,7 +4,7 @@ import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
 import by.hotel.service.CrudService;
 import by.hotel.service.CrudServiceExtended;
-import by.hotel.service.ServiceMapper;
+import by.hotel.service.CrudServiceMapper;
 import by.hotel.service.exception.ServiceException;
 
 import java.util.LinkedHashMap;
@@ -17,7 +17,7 @@ public class GetEntityHeaders implements Command{
         int tablesCount = requestParameters.get("tableName").length;
         try {
             for (int i = 0; i < tablesCount; i++){
-                CrudService service =  ServiceMapper.getService(requestParameters.get("tableName")[i]);
+                CrudService service =  CrudServiceMapper.getService(requestParameters.get("tableName")[i]);
                 resultMap.put(requestParameters.get("tableName")[i], ((CrudServiceExtended)service).getAllHeaders());
             }
         }catch (ServiceException e){
