@@ -110,6 +110,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
         UserBuilder userBuilder = new UserBuilder();
         try {
             statement = connection.prepareStatement(GET_USER);
+            statement.setInt(1, id);
             resultSet = statement.executeQuery();
             user = fillUser(resultSet, userBuilder);
         } catch (SQLException e) {

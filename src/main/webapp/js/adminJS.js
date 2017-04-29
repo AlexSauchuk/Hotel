@@ -73,8 +73,6 @@ function generateModals(obj) {
 function updateData(obj) {
     var editBody = $('#myModalUpdate').find('#mainForm');
     ($(editBody[0].lastElementChild).find("button")[0]).addEventListener("click",sendUpdateData);
-    ($('#myModalUpdate').find('.btn.btn-default')[0]).addEventListener("click", getUpdatedData);
-    ($('#myModalUpdate').find('.close')[0]).addEventListener("click", getUpdatedData);
 
     var arrayValues = new Array();
     $(obj).each(function(){
@@ -172,6 +170,8 @@ function sendUpdateData() {
         type: 'POST',
         url: '/servlet?tableName='+NameTable +'&action=UPDATE' + getData(editBodyUpdate),
         success: function () {
+            ($('#myModalUpdate').find('.btn.btn-default')[0]).addEventListener("click", getUpdatedData);
+            ($('#myModalUpdate').find('.close')[0]).addEventListener("click", getUpdatedData);
         }});
 }
 
@@ -217,7 +217,7 @@ var mapStringTable = {
 function deleteRow(obj) {
     $.ajax({
         type: 'DELETE',
-        url: '/servlet?tableName=' + NameTable + '&action=REMOVE&' +  formParams(obj.closest('tr').rowIndex),
+        url: '/servlet?tableName=' + NameTable + '&action=REMOVE' +  formParams(obj.closest('tr').rowIndex),
         success:function(result){
             if(result==null){
                 document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
@@ -234,12 +234,12 @@ function formParams(rowIndex) {
     for(var i=0; i< columnNames.length; i++){
         var currentObj = Data[rowIndex-1][columnNames[i].textContent];
         if($.isPlainObject(currentObj)){
-            resultParams = resultParams.concat("id_",columnNames[i].textContent,"=",currentObj["id"],"&");
+            resultParams = resultParams.concat("&","id_",columnNames[i].textContent,"=",currentObj["id"]);
         }else{
-            resultParams = resultParams.concat(columnNames[i].textContent,"=",currentObj,"&");
+            resultParams = resultParams.concat("&",columnNames[i].textContent,"=",currentObj);
         }
     }
-    return resultParams.slice(0,resultParams.length-1);
+    return resultParams;
 }
 
 function generateOption(arrayObj, value, arrayType) {
@@ -249,25 +249,22 @@ function generateOption(arrayObj, value, arrayType) {
     return option;
 }
 
-function generateChilds(arrayObj) {
-    for(var arrayType in arrayObj) {
-        var editBodyUpdate = $('#myModalUpdate').find('#id'+arrayType+'');
-        var editBodyAdd = $('#myModalAdd').find('#id'+arrayType+'');
-
-        if(editBodyUpdate[0].childElementCount==0)
-            for(var value in arrayObj[arrayType]) {
-                editBodyUpdate[0].appendChild(generateOption(arrayObj,value,arrayType));
-                editBodyAdd[0].appendChild(generateOption(arrayObj,value,arrayType));
-            }
-    }
-}
-
 function formGetAllHeadersRequest() {
     var result='';
     for(var value in futureQueryForID) {
         result = result.concat('tableName=', mapStringTable[value], '&')
     }
     return result;
+}
+
+function generateChilds(modalId,arrayObj) {
+    for(var arrayType in arrayObj) {
+        var editBody = $(modalId).find('#id'+arrayType+'');
+        if(editBody[0].childElementCount==0)
+            for(var value in arrayObj[arrayType]) {
+                editBody[0].appendChild(generateOption(arrayObj,value,arrayType));
+            }
+    }
 }
 
 function generateSelectChilds() {
@@ -280,7 +277,8 @@ function generateSelectChilds() {
                 for (var value in futureQueryForID) {
                     arrayObj[value] = data[mapStringTable[value]];
                 }
-                generateChilds(arrayObj);
+                generateChilds('#myModalUpdate',arrayObj);
+                generateChilds('#myModalAdd',arrayObj);
             }
         });
     }

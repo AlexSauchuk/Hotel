@@ -1,10 +1,7 @@
 package by.hotel.dao.impl;
 
-import by.hotel.bean.Discount;
-import by.hotel.bean.ParkingSpace;
 import by.hotel.bean.Reservation;
 import by.hotel.builder.DiscountBuilder;
-import by.hotel.builder.ParkingSpaceBuilder;
 import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;

@@ -5,8 +5,8 @@ import by.hotel.builder.DiscountBuilder;
 import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.ReservationDao;
-import by.hotel.dao.impl.ReservationDaoImpl;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.dao.impl.ReservationDaoImpl;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.ServiceException;
@@ -43,6 +43,20 @@ public class ReservationServiceImpl extends AbstractService implements CrudServi
         }finally {
             closeConnection(connection);
         }
+    }
+
+    public Reservation getEntity(Integer id) throws ServiceException {
+        Connection connection = null;
+        Reservation reservation;
+        try {
+            connection = getConnection();
+            reservation = reservationDao.getReservation(id, connection);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        } finally {
+            closeConnection(connection);
+        }
+        return reservation;
     }
 
     public List<Reservation> addEntity(Reservation entity) throws ServiceException {
