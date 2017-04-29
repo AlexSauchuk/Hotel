@@ -61,6 +61,11 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         return reservations;
     }
 
+    @Override
+    public Reservation getReservation(Integer id, Connection connection) throws DAOException {
+        return null;
+    }
+
     public void addReservation(Reservation reservation,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         try {
