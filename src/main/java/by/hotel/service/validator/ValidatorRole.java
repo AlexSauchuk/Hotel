@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class ValidatorRole extends AbstractValidator{
     public boolean validate(Map<String, String[]> data) throws IncorrectRightRoleException, IncorrectNameRoleException {
-        if (validateNameRole(data.get("name_role")[0]) & validateRight(data.get("update")[0]) & validateRight(data.get("delete")[0])
+        if (validateNameRole(data.get("nameRole")[0]) & validateRight(data.get("update")[0]) & validateRight(data.get("delete")[0])
                 &validateRight(data.get("insert")[0]) & validateRight(data.get("create")[0]) & validateRight(data.get("select")[0])
                 &validateRight(data.get("drop")[0]) & validateRight(data.get("grant")[0])){
             return true;

@@ -7,7 +7,9 @@ import by.hotel.dao.impl.RoomTypeDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
-import by.hotel.service.exception.ServiceException;
+import by.hotel.service.exception.*;
+import by.hotel.service.validator.ValidatorRoom;
+import by.hotel.service.validator.ValidatorRoomType;
 
 import java.sql.Connection;
 import java.util.List;
@@ -21,9 +23,9 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         try {
             connection = getConnection();
             return roomTypeDao.getRoomTypeHeaders(connection);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -33,9 +35,9 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         try {
             connection = getConnection();
             return roomTypeDao.getRoomTypes(connection);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -45,11 +47,11 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         List<RoomType> roomTypes;
         try {
             connection = getConnection();
-            roomTypeDao.addRoomType(entity,connection);
+            roomTypeDao.addRoomType(entity, connection);
             roomTypes = roomTypeDao.getRoomTypes(connection);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
         return roomTypes;
@@ -59,10 +61,10 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         Connection connection = null;
         try {
             connection = getConnection();
-            roomTypeDao.removeRoomType(roomType,connection);
-        }catch (DAOException e){
+            roomTypeDao.removeRoomType(roomType, connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -71,23 +73,33 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         Connection connection = null;
         try {
             connection = getConnection();
-            roomTypeDao.updateRoomType(entity,connection);
-        }catch (DAOException e){
+            roomTypeDao.updateRoomType(entity, connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
 
     public RoomType buildEntity(Map<String, String[]> params) throws ServiceException {
-        return new RoomTypeBuilder().id(Integer.parseInt(params.get("id")[0]))
-                .roomsCount(Integer.parseInt(params.get("roomsCount")[0]))
-                .bedsCount(Integer.parseInt(params.get("bedsCount")[0]))
-                .costPerDay(Float.parseFloat(params.get("costPerDay")[0]))
-                .additionalInfo(params.get("additionalInfo")[0])
-                .bathroomsCount(Integer.parseInt(params.get("bathroomsCount")[0]))
-                .size(Integer.parseInt(params.get("size")[0]))
-                .build();
+        ValidatorRoomType validatorRoomType = new ValidatorRoomType();
+        try {
+            if (validatorRoomType.validate(params)) {
+                return new RoomTypeBuilder().id(Integer.parseInt(params.get("id")[0]))
+                        .roomsCount(Integer.parseInt(params.get("roomsCount")[0]))
+                        .bedsCount(Integer.parseInt(params.get("bedsCount")[0]))
+                        .costPerDay(Float.parseFloat(params.get("costPerDay")[0]))
+                        .additionalInfo(params.get("additionalInfo")[0])
+                        .bathroomsCount(Integer.parseInt(params.get("bathroomsCount")[0]))
+                        .size(Integer.parseInt(params.get("size")[0]))
+                        .build();
+            }
+        } catch (IncorrectRoomBedsException | IncorrectCostException
+                | IncorrectRoomsCountException | IncorrectRoomBathroomsException
+                | IncorrectRoomAdditionalInfoException | IncorrectRoomSizeException e) {
+            throw new ServiceException(e);
+        }
+        return null;
     }
 
     @Override
@@ -96,9 +108,9 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         try {
             connection = getConnection();
             return roomTypeDao.getLastInsertedRoomType(connection);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }

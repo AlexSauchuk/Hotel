@@ -8,7 +8,10 @@ import by.hotel.dao.impl.ParkingSpaceDaoImpl;
 import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
+import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
+import by.hotel.service.exception.IncorrectParkingSpaceReservationException;
 import by.hotel.service.exception.ServiceException;
+import by.hotel.service.validator.ValidatorParkingSpace;
 
 import java.sql.Connection;
 import java.util.List;
@@ -22,9 +25,9 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
         try {
             connection = getConnection();
             return parkingSpaceDao.getParkingSpaceHeaders(connection);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -34,9 +37,9 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
         try {
             connection = getConnection();
             return parkingSpaceDao.getParkingSpaces(connection);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -46,11 +49,11 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
         Connection connection = null;
         try {
             connection = getConnection();
-            parkingSpaceDao.addParkingSpace(entity,connection);
+            parkingSpaceDao.addParkingSpace(entity, connection);
             parkingSpaces = parkingSpaceDao.getParkingSpaces(connection);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
         return parkingSpaces;
@@ -60,10 +63,10 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
         Connection connection = null;
         try {
             connection = getConnection();
-            parkingSpaceDao.removeParkingSpace(parkingSpace,connection);
-        }catch (DAOException e){
+            parkingSpaceDao.removeParkingSpace(parkingSpace, connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -72,19 +75,28 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
         Connection connection = null;
         try {
             connection = getConnection();
-            parkingSpaceDao.updateParkingSpace(entity,connection);
-        }catch (DAOException e){
+            parkingSpaceDao.updateParkingSpace(entity, connection);
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
 
     public ParkingSpace buildEntity(Map<String, String[]> params) throws ServiceException {
-        return new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id")[0]))
-                .level(Integer.parseInt(params.get("level")[0]))
-                .reserved(Byte.parseByte(params.get("reserved")[0]))
-                .build();
+        ValidatorParkingSpace validatorParkingSpace = new ValidatorParkingSpace();
+        try {
+            if (validatorParkingSpace.validate(params)) {
+                return new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id")[0]))
+                        .level(Integer.parseInt(params.get("level")[0]))
+                        .reserved(Byte.parseByte(params.get("reserved")[0]))
+                        .build();
+            }
+        } catch (IncorrectParkingSpaceLevelException | IncorrectParkingSpaceReservationException e) {
+            throw new ServiceException(e);
+        }
+        return null;
+
     }
 
     @Override
@@ -93,9 +105,9 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
         try {
             connection = getConnection();
             return parkingSpaceDao.getLastInsertedParkingSpace(connection);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }

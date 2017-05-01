@@ -21,6 +21,11 @@ public class MainFilter implements Filter
     static {
         rights.put("ADMIN_START",127);
         rights.put("GET_ALL",8);
+        rights.put("ADD",16);
+        rights.put("REMOVE",32);
+        rights.put("UPDATE",64);
+        rights.put("GET_ALL_HEADERS",127);
+        rights.put("CREATE_DOCUMENT",127);
     }
     private FilterConfig filterConfig = null;
 
@@ -33,7 +38,7 @@ public class MainFilter implements Filter
     {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession(true);
-        session.setAttribute("rights","127");//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        session.setAttribute("rights","127");
         Integer requiredRight = rights.get(request.getParameter("action"));
         Integer userRights = Integer.parseInt((String)session.getAttribute("rights"));
 
@@ -42,7 +47,6 @@ public class MainFilter implements Filter
         }else{
             request.getRequestDispatcher("tut.by").forward(request, response);
         }
-
     }
 
     public void destroy()
