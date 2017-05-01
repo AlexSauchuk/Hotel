@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+	<title>Services</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -22,7 +23,7 @@
 		<div class="row-1">
 	 		<div class="wrapper">
 				<div class="logo">
-					<h1><a href="index.html">Бобруйск</a></h1>
+					<h1><a href="main.jsp">Бобруйск</a></h1>
 					<em>Отель</em>
 					<strong>Настоящая роскошь</strong>
 				</div>
@@ -36,7 +37,7 @@
 				<div class="header-box-small">
 					<div class="inner">
 						<ul class="nav">
-					 		<li><a href="index.jsp">Главная</a></li>
+					 		<li><a href="main.jsp">Главная</a></li>
 							<li><a href="services.jsp" class="current">Услуги</a></li>
 							<li><a href="gallery.jsp">Галерея</a></li>
 							<li><a href="testimonials.jsp">Отзывы</a></li>

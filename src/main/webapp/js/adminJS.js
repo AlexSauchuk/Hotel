@@ -14,7 +14,7 @@ function decreaseDeep() {
 
 function recursionModals(data) {
     Data = data;
-    var modalString = '<div id="modalWindow'+deep+'" class="modal fade in" style="z-index: '+zIndex+';display: block"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"  id="headID"><button class="close" onclick="decreaseDeep()" type="button" data-dismiss="modal">Close</button></div><div class="modal-body">custom</div><div  class="modal-footer" onclick="decreaseDeep()"><button class="btn btn-default"  id="closeBtn" type="button" data-dismiss="modal">Close</button></div></div></div></div>';
+    var modalString = '<div id="modalWindow'+deep+'" class="modal fade in" style="z-index: '+zIndex+';display: block"><div class="modal-dialog" style="width: 90%" ><div class="modal-content"><div class="modal-header"  id="headID"><button class="close" onclick="decreaseDeep()" type="button" data-dismiss="modal">Close</button></div><div class="modal-body">custom</div><div  class="modal-footer" onclick="decreaseDeep()"><button class="btn btn-default"  id="closeBtn" type="button" data-dismiss="modal">Close</button></div></div></div></div>';
     childModal = '\'#modalWindow'+deep+'\'';
     deep++;
     parentModal = childModal;
@@ -321,7 +321,7 @@ function setHtml(){
                 newItem += '<td></td>';
             }
         }
-        additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModalUpdate" onclick="updateData((this.parentNode).parentNode)"></td>' +
+        additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModalUpdate" disabled onclick="updateData((this.parentNode).parentNode)"></td>' +
             '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="deleteRow(this)"></td>';
         bodyString += strRow.replace(patternRow,additionalString);
 
@@ -390,3 +390,4 @@ $(document).ready(function() {
         getAllTableElements(nameTable);
     });
 });
+

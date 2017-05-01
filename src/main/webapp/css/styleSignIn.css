@@ -1,5 +1,5 @@
 body{
-	
+	font-size: 10px;
 	color:#6a6f8c;
 	font:600 16px/18px 'Open Sans',sans-serif;
 }
@@ -159,3 +159,59 @@ a{color:inherit;text-decoration:none}
 .foot-lnk{
 	text-align:center;
 }
+
+
+/*part bootstrap
+.nav-tabs {
+	border-bottom: 1px solid #fbe8e8;
+}
+
+.nav {
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+.nav-tabs > li {
+	float: left;
+	margin-bottom: -1px;
+}
+.nav > li {
+	position: relative;
+	display: block;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+	color: #555;
+	cursor: default;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-bottom-color: transparent;
+}
+.nav-tabs > li > a {
+	 margin-right: 2px;
+	 line-height: 1.42857143;
+	 border: 1px solid transparent;
+	 border-radius: 4px 4px 0 0;
+ }
+.nav > li > a {
+	position: relative;
+	display: block;
+	padding: 10px 15px;
+}
+.nav {
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+.tab-content > .active, .pill-content > .active {
+	display: block;
+}
+.tab-content > .tab-pane, .pill-content > .pill-pane {
+	display: none;
+}
+.tab-content > .active {
+	display: block;
+}
+.tab-content > .tab-pane {
+	display: none;
+}
+*/
