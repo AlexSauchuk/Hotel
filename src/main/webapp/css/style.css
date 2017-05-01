@@ -1,6 +1,13 @@
 * {margin:0;padding:0}
 html,body {height:100%}
-body {background:url(../images/body-bg.gif) center top #37271c;font-family:Tahoma,Geneva,sans-serif;font-size:100%;line-height:1.125em;color:#bca695}
+body {
+    background:url(../images/body-bg.gif) center top #37271c;
+    font-family:Tahoma,Geneva,sans-serif;
+    font-size:100%;
+    line-height:1.25em;
+    color:#bca695
+}
+body > div > div > section{ display:none; }
 input,select,textarea {font-family:Tahoma,Geneva,sans-serif;font-size:1em}
 .fleft {float:left}
 .fright {float:right}
@@ -90,10 +97,9 @@ h6 {font-size:1em;color:#e7e7e7}
 #header .nav li a:hover {background:url(../images/nav-bg2.png) no-repeat left top}
 #header .nav li a.current {background:url(../images/nav-bg2.png) no-repeat left top}
 /* content */
-#content {background:url(../images/content-bg.png) left top;margin:0 8px; padding:11px 40px 20px 40px}
+#content {background:url(../images/content-bg.png) left top;margin:0 8px; padding:10px 26px 0px 26px}
 #content .indent {padding:17px 0 20px 0}
-#content ul {padding-bottom:20px}
-#content ul li {background:url(../images/bull1.gif) no-repeat left 8px;padding:0 0 0 13px}
+#content ul {margin-bottom:20px}
 .contacts-list dt {font-weight:bold;margin-bottom:10px}
 .contacts-list dd {font-weight:bold}
 #content .gallery {width:100%;}
@@ -125,8 +131,9 @@ h6 {font-size:1em;color:#e7e7e7}
 #content .list4 li img {float:left;margin:0 13px 0 0}
 #content .aside ul {font-size:.91em}
 /* footer */
-#footer {font-family:Arial,Helvetica,sans-serif;padding:28px 40px 35px 40px}
+#footer {font-family:Arial,Helvetica,sans-serif;padding:28px 20px 25px 25px}
 #footer a {color:#e3dad2}
 #footer .nav {text-align:center;padding-bottom:25px}
 #footer .nav li {display:inline}
 #footer .nav li a {padding:0 48px 0 45px;color:#e3dad2}
+#footer .nav li a:hover {padding:0 48px 0 45px;color:black}

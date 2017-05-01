@@ -1,9 +1,9 @@
 .animationColor{
-    animation: colorChange 3s infinite;
+    animation: colorChange 2s infinite;
     animation-iteration-count: 5;
     -webkit-animation-play-state: running;
     -webkit-animation-iteration-count: 5;
-    -webkit-animation: colorChange 3s infinite;
+    -webkit-animation: colorChange 2s infinite;
     -webkit-animation-fill-mode: forwards;
 }
 
