@@ -6,10 +6,11 @@ import by.hotel.factory.impl.DocumentBuilderMapper;
 import by.hotel.service.DocumentBuilderService;
 import by.hotel.service.exception.ServiceException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public class CreateDocument implements Command {
-    public Object execute(Map<String, String[]> requestParameters) throws CommandException {
+    public Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException {
         try {
             DocumentBuilderMapper documentBuilderMapper = DocumentBuilderMapper.getInstance();
             DocumentBuilderService documentBuilderService = documentBuilderMapper.getDocumentBuilderService(requestParameters.get("docname")[0]);
