@@ -3,9 +3,11 @@ package by.hotel.service.validator;
 import by.hotel.service.exception.*;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ValidatorUser extends AbstractValidator {
-    public boolean validate(Map<String, String[]> data) throws IncorrectSexException, IncorrectUserNameException, IncorrectPassportNumberException, IncorrectPasswordException, IncorrectLoginException, IncorrectMobilePhoneException, IncorrectUserSurnameException {
+    public boolean validate(Map<String, String[]> data) throws IncorrectSexException, IncorrectUserNameException, IncorrectPassportNumberException, IncorrectPasswordException, IncorrectLoginException, IncorrectMobilePhoneException, IncorrectUserSurnameException,IncorrectUserEmailException {
 
         if (validatePassportNumber(data.get("passportNumber")[0])
                 & validateUserName(data.get("name")[0])
@@ -13,7 +15,8 @@ public class ValidatorUser extends AbstractValidator {
                 & validateSex(data.get("sex")[0])
                 & validateMobilePhone(data.get("mobilePhone")[0])
                 & validatePassword(data.get("password")[0])
-                & validateLogin(data.get("login")[0])) {
+                & validateLogin(data.get("login")[0])
+                & validateEmail(data.get("email")[0])) {
             return true;
         }
         return false;
@@ -67,4 +70,13 @@ public class ValidatorUser extends AbstractValidator {
         }
         throw new IncorrectLoginException("Incorrect login!");
     }
+    private boolean validateEmail(String email) throws IncorrectUserEmailException {
+        Pattern p = Pattern.compile("^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$");
+        Matcher m = p.matcher(email);
+        if (m.matches()){
+            return true;
+        }
+        throw new IncorrectUserEmailException("Incorrect email!");
+    }
+
 }

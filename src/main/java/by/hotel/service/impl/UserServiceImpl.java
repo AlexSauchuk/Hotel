@@ -115,7 +115,8 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
             }
         } catch (IncorrectSexException | IncorrectPassportNumberException
                 | IncorrectUserSurnameException | IncorrectPasswordException
-                | IncorrectMobilePhoneException | IncorrectLoginException | IncorrectUserNameException e) {
+                | IncorrectMobilePhoneException | IncorrectLoginException
+                | IncorrectUserNameException | IncorrectUserEmailException e) {
             throw new ServiceException(e);
         }
         return null;

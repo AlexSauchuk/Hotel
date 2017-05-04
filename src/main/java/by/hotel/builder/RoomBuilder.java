@@ -41,6 +41,7 @@ public class RoomBuilder {
         return this;
     }
 
+
     public int getId() {
         return id;
     }

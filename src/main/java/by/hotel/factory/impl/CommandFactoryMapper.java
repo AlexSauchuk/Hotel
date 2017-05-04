@@ -18,6 +18,8 @@ public final class CommandFactoryMapper implements CommandFactory {
         commands.put("ADMIN_START",new GetTableNames());
         commands.put("GET_ALL_HEADERS",new GetEntityHeaders());
         commands.put("CREATE_DOCUMENT", new CreateDocument());
+        commands.put("AUTHORIZATION", new Authorization());
+        commands.put("REGISTRATION", new Registration());
     }
 
     private static class Holder{

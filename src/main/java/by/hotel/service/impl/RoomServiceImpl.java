@@ -9,6 +9,7 @@ import by.hotel.dao.exception.DAOException;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.IncorrectRoomNameException;
+import by.hotel.service.exception.IncorrectRoomPathException;
 import by.hotel.service.exception.IncorrectRoomPhoneNumberException;
 import by.hotel.service.exception.ServiceException;
 import by.hotel.service.validator.ValidatorRole;
@@ -97,7 +98,7 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
                         .path(params.get("path")[0])
                         .build();
             }
-        }catch (IncorrectRoomPhoneNumberException | IncorrectRoomNameException e) {
+        }catch (IncorrectRoomPhoneNumberException | IncorrectRoomNameException | IncorrectRoomPathException e) {
             throw new ServiceException(e);
         }
         return null;

@@ -11,11 +11,11 @@ public class Constants {
     public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`=?, `name`=?, `surname`=?, `sex`=?, `mobile_phone`=?, `password`=?, `login`=?, `role`=?, `email`=? WHERE `id`=?";
     public static final String GET_ALL_USERS_HEADERS = "SELECT `id`, `surname`, `name` FROM `db_hotel`.`user`";
 
-    public static final String GET_ALL_ROOMS = "SELECT `room`.`id`,`id_room_type`, `name`,`rooms_count`, `beds_count`, `cost_per_day`, `additional_info`,`bathrooms_count`,`size`, `floor`, `phone` " +
+    public static final String GET_ALL_ROOMS = "SELECT `room`.`id`,`id_room_type`, `name`,`rooms_count`, `beds_count`, `cost_per_day`, `additional_info`,`bathrooms_count`,`size`, `floor`, `phone`, `path` " +
             "FROM (`db_hotel`.`room` LEFT OUTER JOIN `db_hotel`.`room_type` ON `room`.`id_room_type` = `room_type`.`id`)";
-    public static final String ADD_ROOM = "INSERT INTO `db_hotel`.`room` (`id_room_type`, `name`,`floor`, `phone`) VALUES (?,?,?,?)";
+    public static final String ADD_ROOM = "INSERT INTO `db_hotel`.`room` (`id_room_type`, `name`,`floor`, `phone`, `path`) VALUES (?,?,?,?,?)";
     public static final String REMOVE_ROOM = "DELETE FROM `db_hotel`.`room` WHERE `id`=?";
-    public static final String UPDATE_ROOM = "UPDATE `db_hotel`.`room` SET `id_room_type`=?, `name`=?,`floor`=?, `phone`=? WHERE `id`=?";
+    public static final String UPDATE_ROOM = "UPDATE `db_hotel`.`room` SET `id_room_type`=?, `name`=?,`floor`=?, `phone`=?, `path`=? WHERE `id`=?";
     public static final String GET_ROOM = GET_ALL_ROOMS.concat(" WHERE `room`.`id`=?");
     public static final String GET_ALL_ROOMS_HEADERS = "SELECT `id`, `name` FROM `db_hotel`.`room`";
 

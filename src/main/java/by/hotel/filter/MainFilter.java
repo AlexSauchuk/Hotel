@@ -35,7 +35,7 @@ public class MainFilter implements Filter
     }
 
     public void doFilter (ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
-    {
+    {/*
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession(true);
         session.setAttribute("rights","127");
@@ -46,7 +46,7 @@ public class MainFilter implements Filter
             chain.doFilter(request, response);
         }else{
             request.getRequestDispatcher("tut.by").forward(request, response);
-        }
+        }*/chain.doFilter(request, response);
     }
 
     public void destroy()

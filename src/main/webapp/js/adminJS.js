@@ -321,7 +321,7 @@ function setHtml(){
                 newItem += '<td></td>';
             }
         }
-        additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModalUpdate" disabled onclick="updateData((this.parentNode).parentNode)"></td>' +
+        additionalString+='<td style="border: none"><input type="button" style="width: 100%" value="UPDATE" data-toggle="modal" data-target="#myModalUpdate" onclick="updateData((this.parentNode).parentNode)"></td>' +
             '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="deleteRow(this)"></td>';
         bodyString += strRow.replace(patternRow,additionalString);
 
@@ -346,7 +346,7 @@ function loadTemplate() {
     var table = NameTable;
     if(NameTable=="room")
         table="rooms";
-    request.open('GET', '/templates/'+table+'.html');
+    request.open('GET', '/templates/admin/'+table+'.html');
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             if (request.status == 200) {
