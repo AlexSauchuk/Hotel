@@ -214,6 +214,7 @@ var mapStringTable = {
 };
 
 function deleteRow(obj) {
+    document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
     $.ajax({
         type: 'DELETE',
         url: '/servlet?tableName=' + NameTable + '&action=REMOVE&' +  formParams(obj.closest('tr').rowIndex),
@@ -325,12 +326,13 @@ function setHtml(){
             '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="deleteRow(this)"></td>';
         bodyString += strRow.replace(patternRow,additionalString);
 
-        if(j==countRows-1){
-            newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" data-toggle="modal" data-target="#myModalAdd" onclick="addData((this.parentNode).parentNode)"></td>';
-            bodyString += strRow.replace(patternRow,newItem);
-        }
         j++;
     }
+
+    var strRow = '<tr class="add" style="border: none">row</tr>';
+    var patternRow = /row/;
+    newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" data-toggle="modal" data-target="#myModalAdd" onclick="addData((this.parentNode).parentNode)"></td>';
+    bodyString += strRow.replace(patternRow,newItem);
     generateSelectChilds();
     var headers= '<thead><tr>header</tr></thead>';
     var body = '<tbody>body</tbody>';
@@ -365,6 +367,7 @@ function getAllTableElements(nameTable) {
         type: 'GET',
         url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
         success: function(data) {
+            console.log(data);
             futureQueryForID = {};
             loadTemplate();
             arrayObj = {};

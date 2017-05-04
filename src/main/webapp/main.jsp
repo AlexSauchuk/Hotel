@@ -51,7 +51,7 @@
                             <li><a href="#contentGallery">Галерея</a></li>
                             <li><a href="#contentTestimonials">Отзывы</a></li>
                             <li><a href="#contentBooking">Бронирование</a></li>
-                            <li><a href="#entry">Вход</a></li>
+                            <li><a href="#entry" id="idEntryA">Вход</a></li>
                         </ul>
                     </div>
                 </div>
@@ -68,12 +68,12 @@
     </div>
     <div id="footer" style="width: 976px;margin: auto">
         <ul class="nav nav-pills" style="align:center;">
-            <li><a href="main.jsp">Главная</a></li>
-            <li><a href="services.jsp">Услуги</a></li>
-            <li><a href="gallery.jsp">Галерея</a></li>
-            <li><a href="testimonials.jsp">Отзывы</a></li>
-            <li><a href="booking.jsp">Бронирование</a></li>
-            <li><a href="signin.jsp">Вход</a></li>
+            <li><a href="#contentMain" class="current">Главная</a></li>
+            <li><a href="#contentServices">Услуги</a></li>
+            <li><a href="#contentGallery">Галерея</a></li>
+            <li><a href="#contentTestimonials">Отзывы</a></li>
+            <li><a href="#contentBooking">Бронирование</a></li>
+            <li><a href="#entry">Вход</a></li>
         </ul>
         <div class="wrapper">
             <div class="fleft">Copyright (c) 2017 Бобруйск Отель</div>
