@@ -4,11 +4,14 @@ import by.hotel.bean.User;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.UserDao;
-import by.hotel.dao.impl.UserDaoImpl;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.dao.impl.UserDaoImpl;
+import by.hotel.security.MD5;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
-import by.hotel.service.exception.ServiceException;
+import by.hotel.service.exception.*;
+import by.hotel.service.validator.ValidatorRoom;
+import by.hotel.service.validator.ValidatorUser;
 
 import java.sql.Connection;
 import java.util.List;
@@ -22,9 +25,9 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
         try {
             connection = getConnection();
             return userDao.getUserHeaders(connection);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -64,7 +67,7 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
             users = userDao.getUsers(connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
         return users;
@@ -77,7 +80,7 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
             userDao.removeUser(user, connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
@@ -89,21 +92,47 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
             userDao.updateUser(entity, connection);
         } catch (DAOException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             closeConnection(connection);
         }
     }
 
-	public User buildEntity(Map<String,String[]> params) throws ServiceException {
-		return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
-				.name(params.get("name")[0])
-				.surname(params.get("surname")[0])
-				.login(params.get("login")[0])
-				.password(params.get("password")[0])
-				.passportNumber(params.get("passportNumber")[0])
-				.mobilePhone(params.get("mobilePhone")[0])
-				.sex(params.get("sex")[0])
-				.role(new RoleBuilder().id(Integer.parseInt(params.get("id_role")[0])).build())
-				.build();
-	}
+    public User buildEntity(Map<String, String[]> params) throws ServiceException {
+        ValidatorUser validatorUser = new ValidatorUser();
+        try {
+            if (validatorUser.validate(params)) {
+                return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
+                        .name(params.get("name")[0])
+                        .surname(MD5.crypt(params.get("surname")[0]))
+                        .login(params.get("login")[0])
+                        .email(params.get("email")[0])
+                        .password(params.get("password")[0])
+                        .passportNumber(params.get("passportNumber")[0])
+                        .mobilePhone(params.get("mobilePhone")[0])
+                        .sex(params.get("sex")[0])
+                        .role(new RoleBuilder().id(Integer.parseInt(params.get("id_role")[0])).build())
+                        .build();
+            }
+        } catch (IncorrectSexException | IncorrectPassportNumberException
+                | IncorrectUserSurnameException | IncorrectPasswordException
+                | IncorrectMobilePhoneException | IncorrectLoginException
+                | IncorrectUserNameException | IncorrectUserEmailException e) {
+            throw new ServiceException(e);
+        }
+        return null;
+    }
+
+    @Override
+    public User getLastInsertedEntity() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return userDao.getLastInsertedUser(connection);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        } finally {
+            closeConnection(connection);
+        }
+    }
+
 }

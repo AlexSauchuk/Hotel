@@ -1,9 +1,13 @@
 package by.hotel.service.validator;
 
+import by.hotel.service.exception.*;
+
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ValidatorUser extends AbstractValidator {
-    public boolean validate(Map<String, String[]> data) {
+    public boolean validate(Map<String, String[]> data) throws IncorrectSexException, IncorrectUserNameException, IncorrectPassportNumberException, IncorrectPasswordException, IncorrectLoginException, IncorrectMobilePhoneException, IncorrectUserSurnameException,IncorrectUserEmailException {
 
         if (validatePassportNumber(data.get("passportNumber")[0])
                 & validateUserName(data.get("name")[0])
@@ -11,58 +15,68 @@ public class ValidatorUser extends AbstractValidator {
                 & validateSex(data.get("sex")[0])
                 & validateMobilePhone(data.get("mobilePhone")[0])
                 & validatePassword(data.get("password")[0])
-                & validateLogin(data.get("login")[0])) {
+                & validateLogin(data.get("login")[0])
+                & validateEmail(data.get("email")[0])) {
             return true;
         }
         return false;
     }
 
-    private boolean validatePassportNumber(String passportNumber) {
-        if (passportNumber.length() > 10) {
-            return false;
+    private boolean validatePassportNumber(String passportNumber) throws IncorrectPassportNumberException {
+        if (passportNumber.length() < 15 & passportNumber.length() > 5) {
+            return true;
         }
-        return true;
+        throw new IncorrectPassportNumberException("Incorrect passport number!");
     }
 
-    private boolean validateUserName(String userName) {
-        if (userName.length() > 45 | userName.length() < 3) {
-            return false;
+    private boolean validateUserName(String userName) throws IncorrectUserNameException {
+        if (userName.length() > 3 & userName.length() < 45) {
+            return true;
         }
-        return true;
+        throw new IncorrectUserNameException("Incorrect user name!");
     }
 
-    private boolean validateUserSurName(String userSurName) {
-        if (userSurName.length() > 45 | userSurName.length() < 3) {
-            return false;
+    private boolean validateUserSurName(String userSurName) throws IncorrectUserSurnameException {
+        if (userSurName.length() < 45 & userSurName.length() > 3) {
+            return true;
         }
-        return true;
+        throw new IncorrectUserSurnameException("Incorrect user surname!");
     }
 
-    private boolean validateSex(String sex) {
+    private boolean validateSex(String sex) throws IncorrectSexException {
         if (sex.length() == 1) {
             return true;
         }
-        return false;
+        throw new IncorrectSexException("Incorrect sex!");
     }
 
-    private boolean validateMobilePhone(String mobilePhone) {
-        if (mobilePhone.length() > 15 | mobilePhone.length() < 7) {
-            return false;
+    private boolean validateMobilePhone(String mobilePhone) throws IncorrectMobilePhoneException {
+        if (mobilePhone.length() < 15 & mobilePhone.length() >= 7) {
+            return true;
         }
-        return true;
+        throw new IncorrectMobilePhoneException("Incorrect mobile phone!");
     }
 
-    private boolean validatePassword(String password) {
-        if (password.length() < 8) {
-            return false;
+    private boolean validatePassword(String password) throws IncorrectPasswordException {
+        if (password.length() > 8 & password.length() < 30) {
+            return true;
         }
-        return true;
+        throw new IncorrectPasswordException("Incorrect password!");
     }
 
-    private boolean validateLogin(String login) {
-        if (login.length() < 1) {
-            return false;
+    private boolean validateLogin(String login) throws IncorrectLoginException {
+        if (login.length() > 5 & login.length() < 50) {
+            return true;
         }
-        return true;
+        throw new IncorrectLoginException("Incorrect login!");
     }
+    private boolean validateEmail(String email) throws IncorrectUserEmailException {
+        Pattern p = Pattern.compile("^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$");
+        Matcher m = p.matcher(email);
+        if (m.matches()){
+            return true;
+        }
+        throw new IncorrectUserEmailException("Incorrect email!");
+    }
+
 }

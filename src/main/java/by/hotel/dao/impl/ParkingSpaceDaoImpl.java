@@ -66,7 +66,7 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
             statement = connection.prepareStatement(ADD_PARKING_SPACE);
             statement = fillStatement(statement, parkingSpace);
             statement.execute();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -102,14 +102,38 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
         }
     }
 
-    public ParkingSpace getParkingSpace(Integer id,Connection connection) throws DAOException {
-        return null;
+    @Override
+    public ParkingSpace getLastInsertedParkingSpace(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        ParkingSpace parkingSpace = null;
+        ResultSet resultSet;
+        ParkingSpaceBuilder parkingSpaceBuilder = new ParkingSpaceBuilder();
+        try {
+            statement = connection.prepareStatement(GET_LAST_INSERTED_PARKING_SPACE);
+            // statement.setString(1,"parking_space");
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                parkingSpace = fillParkingSpace(resultSet,parkingSpaceBuilder);
+            }
+        } catch (SQLException | NullPointerException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, null);
+        }
+        return parkingSpace;
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, ParkingSpace parkingSpace) throws SQLException {
         statement.setInt(1, parkingSpace.getLevel());
         statement.setByte(2, parkingSpace.getReserved());
         return statement;
+    }
+
+    private ParkingSpace fillParkingSpace(ResultSet resultSet, ParkingSpaceBuilder parkingSpaceBuilder) throws SQLException {
+        return parkingSpaceBuilder.id(resultSet.getInt("id"))
+                .level(resultSet.getInt("level"))
+                .reserved(resultSet.getByte("is_reserved"))
+                .build();
     }
 
     private String buildMessage(ParkingSpace parkingSpace, String errorMessage){

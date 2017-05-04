@@ -41,6 +41,7 @@ public class RoomBuilder {
         return this;
     }
 
+
     public int getId() {
         return id;
     }
@@ -68,6 +69,4 @@ public class RoomBuilder {
     public Room build() {
         return new Room(this);
     }
-
-
 }

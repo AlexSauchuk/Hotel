@@ -71,7 +71,7 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
             statement = connection.prepareStatement(ADD_RESERVATION);
             statement = fillStatement(statement, reservation);
             statement.execute();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -126,6 +126,33 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, resultSet);
+        }
+        return reservation;
+    }
+
+    public Reservation getLastInsertedReservation(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        Reservation reservation = null;
+        ResultSet resultSet;
+        ReservationBuilder reservationBuilder = new ReservationBuilder();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
+        UserBuilder userBuilder = new UserBuilder();
+        try {
+            statement = connection.prepareStatement(GET_LAST_INSERTED_RESERVATION);
+            // statement.setString(1,"reservation");
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                reservation = reservationBuilder.id(resultSet.getInt("id"))
+                        .dateIn(resultSet.getDate("date-in"))
+                        .costAdditionalServices(resultSet.getInt("cost_additional_services"))
+                        .user(userBuilder.id(resultSet.getInt("id_user")).build())
+                        .discount(discountBuilder.id(resultSet.getInt("discount_id")).build())
+                        .build();
+            }
+        } catch (SQLException | NullPointerException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, null);
         }
         return reservation;
     }

@@ -8,6 +8,7 @@ public class RoomTypeBuilder {
     private int bedsCount;
     private float costPerDay;
     private String additionalInfo;
+    private String path;
     private int bathroomsCount;
     private int size;
 
@@ -38,6 +39,11 @@ public class RoomTypeBuilder {
 
     public RoomTypeBuilder bathroomsCount(int bathroomsCount){
         this.bathroomsCount = bathroomsCount;
+        return this;
+    }
+
+    public RoomTypeBuilder path(String path){
+        this.path = path;
         return this;
     }
 

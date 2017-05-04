@@ -12,4 +12,6 @@ public interface RoleDao {
     void addRole(Role role, Connection connection) throws DAOException;
     void removeRole(Role role, Connection connection) throws DAOException;
     void updateRole(Role role, Connection connection) throws DAOException;
+    Role getLastInsertedRole(Connection connection) throws DAOException;
+
 }

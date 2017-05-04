@@ -12,5 +12,5 @@ public interface DiscountDao {
     void addDiscount(Discount discount, Connection connection) throws DAOException;
     void removeDiscount(Discount discount, Connection connection) throws DAOException;
     void updateDiscount(Discount discount, Connection connection) throws DAOException;
-    Discount getDiscount(Integer id, Connection connection) throws DAOException;
+    Discount getLastInsertedDiscount(Connection connection) throws DAOException;
 }

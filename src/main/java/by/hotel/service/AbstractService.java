@@ -31,7 +31,7 @@ public class AbstractService {
         InputStream inputStream =null;
         Properties properties=new Properties();
         try {
-            inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("/config.properties");
+            inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
             properties.load(inputStream);
             dataSource = new HikariDataSource( new HikariConfig(properties));
         }catch (IOException e){

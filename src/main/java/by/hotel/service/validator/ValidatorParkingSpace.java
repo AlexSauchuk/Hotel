@@ -1,26 +1,33 @@
 package by.hotel.service.validator;
 
+import by.hotel.service.exception.IncorrectParkingSpaceLevelException;
+import by.hotel.service.exception.IncorrectParkingSpaceReservationException;
+
 import java.util.Map;
 
-public class ValidatorParkingSpace extends AbstractValidator{
-    public boolean validate(Map<String, String[]> data) {
-        if (validateReserved(data.get("isReserved")[0]) & validateReserved(data.get("level")[0])){
+/**
+ * Created by 1 on 18.04.2017.
+ */
+public class ValidatorParkingSpace extends AbstractValidator {
+    public boolean validate(Map<String, String[]> data) throws IncorrectParkingSpaceLevelException, IncorrectParkingSpaceReservationException {
+        if (validateReserved(data.get("reserved")[0]) & validateLevel(data.get("level")[0])) {
             return true;
         }
         return false;
     }
 
-    private boolean validateLevel(String level) {
-        if(Integer.parseInt(level) < 1){
+    private boolean validateLevel(String level) throws IncorrectParkingSpaceLevelException {
+        if (Integer.parseInt(level) >= 0 & Integer.parseInt(level) <= 5) {
             return true;
         }
-        return false;
+        throw new IncorrectParkingSpaceLevelException("Incorrect parking space level!");
+
     }
 
-    private boolean validateReserved(String reserved) {
-        if(Integer.parseInt(reserved) == 0 | Integer.parseInt(reserved) == 1){
+    private boolean validateReserved(String reserved) throws IncorrectParkingSpaceReservationException {
+        if (Integer.parseInt(reserved) == 0 | Integer.parseInt(reserved) == 1) {
             return true;
         }
-        return false;
+        throw new IncorrectParkingSpaceReservationException("Incorrect parking space reservation!");
     }
 }

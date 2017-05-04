@@ -7,6 +7,7 @@ public class UserBuilder {
     private int id;
     private String name;
     private String surname;
+    private String email;
     private String mobilePhone;
     private String login;
     private String passportNumber;
@@ -44,6 +45,11 @@ public class UserBuilder {
         return this;
     }
 
+    public UserBuilder email(String email){
+        this.email = email;
+        return this;
+    }
+
     public UserBuilder password(String password){
         this.password = password;
         return this;
@@ -71,6 +77,7 @@ public class UserBuilder {
         return surname;
     }
 
+    public String getEmail() {return email;}
     public String getMobilePhone() {
         return mobilePhone;
     }

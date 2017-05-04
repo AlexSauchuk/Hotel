@@ -76,9 +76,9 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
             statement.execute();
         }catch (SQLIntegrityConstraintViolationException e){
             throw new DAOException(buildMessage(reservationRoom),e);
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
+        } catch (SQLException | NullPointerException e) {
+            throw new DAOException(buildMessage(reservationRoom),e);
+        }finally {
             closeStatement(statement, null);
         }
     }
@@ -97,16 +97,65 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
     }
 
     public void updateReservationRoom(ReservationRoom reservationRoom,Connection connection) throws DAOException {
+        throw new UnsupportedOperationException("Unsupported operation!");
+    }
+
+    @Override
+    public ReservationRoom getLastInsertedReservationRoom(Connection connection) throws DAOException {
         PreparedStatement statement = null;
+        ReservationRoom reservationRoom = null;
+        ResultSet resultSet;
+        ReservationRoomBuilder reservationRoomBuilder = new ReservationRoomBuilder();
         try {
-            statement = connection.prepareStatement(UPDATE_RESERVATION_ROOM);
-            statement = fillStatement(statement, reservationRoom);
-            statement.execute();
-        } catch (SQLException e) {
+            statement = connection.prepareStatement(GET_LAST_INSERTED_RESERVATION_ROOM);
+            // statement.setString(1,"reservation_room");
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                reservationRoom = fillReservationRoom(resultSet, reservationRoomBuilder);
+            }
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
         }
+        return reservationRoom;
+    }
+
+    private ReservationRoom fillReservationRoom(ResultSet resultSet, ReservationRoomBuilder reservationRoomBuilder) throws SQLException {
+        RoomBuilder roomBuilder = new RoomBuilder();
+        UserBuilder userBuilder = new UserBuilder();
+        RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
+        ReservationBuilder reservationBuilder = new ReservationBuilder();
+        Reservation reservation = reservationBuilder.id(resultSet.getInt("id_reservation"))
+                .dateIn(resultSet.getDate("date-in"))
+                .dateOut(resultSet.getDate("date-out"))
+                .user(userBuilder.id(resultSet.getInt("id_user"))
+                        .passportNumber(resultSet.getString("passport_number"))
+                        .name(resultSet.getString("name"))
+                        .surname(resultSet.getString("surname"))
+                        .sex(resultSet.getString("sex"))
+                        .mobilePhone(resultSet.getString("mobile_phone"))
+                        .build())
+                .costAdditionalServices(resultSet.getInt("cost_additional_services"))
+                .discount(discountBuilder.id(resultSet.getInt("discount_id"))
+                        .name(resultSet.getString("discount_name"))
+                        .build())
+                .build();
+        Room room = roomBuilder.id(resultSet.getInt("id_room"))
+                .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
+                        .roomsCount(resultSet.getInt("rooms_count"))
+                        .bedsCount(resultSet.getInt("beds_count"))
+                        .costPerDay(resultSet.getInt("cost_per_day"))
+                        .additionalInfo(resultSet.getString("additional_info"))
+                        .build())
+                .floor(resultSet.getInt("floor"))
+                .phone(resultSet.getString("phone"))
+                .build();
+
+        return reservationRoomBuilder.reservation(reservation)
+                .room(room)
+                .build();
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, ReservationRoom reservationRoom) throws SQLException {

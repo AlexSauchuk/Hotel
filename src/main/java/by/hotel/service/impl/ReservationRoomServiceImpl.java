@@ -75,4 +75,18 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
                 .room(new RoomBuilder().id(Integer.parseInt(params.get("id_room")[0])).build())
                 .build();
     }
+
+    @Override
+    public ReservationRoom getLastInsertedEntity() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return reservationRoomDao.getLastInsertedReservationRoom(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
+
 }

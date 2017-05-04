@@ -3,19 +3,19 @@ package by.hotel.dao.constants;
 public class Constants {
     public static final String GET_ALL_NAMES_TABLES = "SHOW TABLES FROM `db_hotel`";
 
-    public static final String GET_ALL_USERS = "SELECT `user`.`id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password`, `role`,`role`.`id` AS `id_role`,`role`.`name_role`,`role`.`update`,`role`.`delete`,`role`.`insert`,`role`.`create`,`role`.`select`,`role`.`drop`,`role`.`grant` " +
+    public static final String GET_ALL_USERS = "SELECT `user`.`id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password`, `role`, `email`,`role`.`id` AS `id_role`,`role`.`name_role`,`role`.`update`,`role`.`delete`,`role`.`insert`,`role`.`create`,`role`.`select`,`role`.`drop`,`role`.`grant` " +
             "FROM (`db_hotel`.`user` LEFT OUTER JOIN `db_hotel`.`role` ON `user`.`role` = `role`.`id`)";
-    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `password`, `login`,`role`) VALUES (?,?,?,?,?,?,?,?)";
+    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `password`, `login`,`role`,`email`) VALUES (?,?,?,?,?,?,?,?,?)";
     public static final String REMOVE_USER = "DELETE FROM `db_hotel`.`user` WHERE `id`=?";
-    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`=?, `name`=?, `surname`=?, `sex`=?, `mobile_phone`=?, `password`=?, `login`=?, `role`=? WHERE `id`=?";
     public static final String GET_USER = GET_ALL_USERS.concat(" WHERE `user`.`id`=?");
+    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`=?, `name`=?, `surname`=?, `sex`=?, `mobile_phone`=?, `password`=?, `login`=?, `role`=?, `email`=? WHERE `id`=?";
     public static final String GET_ALL_USERS_HEADERS = "SELECT `id`, `surname`, `name` FROM `db_hotel`.`user`";
 
-    public static final String GET_ALL_ROOMS = "SELECT `room`.`id`,`id_room_type`, `name`,`rooms_count`, `beds_count`, `cost_per_day`, `additional_info`,`bathrooms_count`,`size`, `floor`, `phone` " +
+    public static final String GET_ALL_ROOMS = "SELECT `room`.`id`,`id_room_type`, `name`,`rooms_count`, `beds_count`, `cost_per_day`, `additional_info`,`bathrooms_count`,`size`, `floor`, `phone`, `path` " +
             "FROM (`db_hotel`.`room` LEFT OUTER JOIN `db_hotel`.`room_type` ON `room`.`id_room_type` = `room_type`.`id`)";
-    public static final String ADD_ROOM = "INSERT INTO `db_hotel`.`room` (`id_room_type`, `name`,`floor`, `phone`) VALUES (?,?,?,?)";
+    public static final String ADD_ROOM = "INSERT INTO `db_hotel`.`room` (`id_room_type`, `name`,`floor`, `phone`, `path`) VALUES (?,?,?,?,?)";
     public static final String REMOVE_ROOM = "DELETE FROM `db_hotel`.`room` WHERE `id`=?";
-    public static final String UPDATE_ROOM = "UPDATE `db_hotel`.`room` SET `id_room_type`=?, `name`=?,`floor`=?, `phone`=? WHERE `id`=?";
+    public static final String UPDATE_ROOM = "UPDATE `db_hotel`.`room` SET `id_room_type`=?, `name`=?,`floor`=?, `phone`=?, `path`=? WHERE `id`=?";
     public static final String GET_ROOM = GET_ALL_ROOMS.concat(" WHERE `room`.`id`=?");
     public static final String GET_ALL_ROOMS_HEADERS = "SELECT `id`, `name` FROM `db_hotel`.`room`";
 
@@ -25,6 +25,7 @@ public class Constants {
     public static final String UPDATE_ROOM_TYPE = "UPDATE `db_hotel`.`room_type` SET `rooms_count`=?, `beds_count`=?, `cost_per_day`=?, `additional_info`=?, `bathrooms_count`=?, `size`=? WHERE `id`=?";
     public static final String GET_ROOM_TYPE = GET_ALL_ROOM_TYPES.concat(" WHERE `room_type`.`id`=?");
     public static final String GET_ALL_ROOM_TYPES_HEADERS = "SELECT `id`, `rooms_count` FROM `db_hotel`.`room_type`";
+    //  public static final String GET_ROOM_TYPE = "UPDATE `db_hotel`.`user` SET `passport_number`='?', `name`='?', `surname`='?', `sex`='?', `mobile_phone`='?', `password`='?' WHERE `id`='?'";
 
     public static final String GET_ALL_RESERVATIONS = "SELECT `reservation`.`id`, `id_user`,`user`.`name`, `surname`, `passport_number`, `sex` ,`mobile_phone`, `date-in`, `date-out`,`cost_additional_services`, `discount_id`,`discount`.`name` AS `discount_name`" +
             "FROM ((`db_hotel`.`reservation` " +
@@ -36,6 +37,8 @@ public class Constants {
     public static final String REMOVE_RESERVATION = "DELETE FROM `db_hotel`.`reservation` WHERE `id`=?";
     public static final String UPDATE_RESERVATION = "UPDATE `db_hotel`.`reservation` SET `id_user`=?, `date-in`=?, `date-out`=?, `cost_additional_services`=?, `discount_id`=? WHERE `id`=?";
     public static final String GET_RESERVATION = GET_ALL_RESERVATIONS.concat(" WHERE `reservation`.`id` = ?");
+    //   public static final String GET_RESERVATION = "SELECT `id`, `id_user`, `name`, `surname`, `room_number`, `date-in`, `date-out`, `days_count` " +
+    //          "FROM (`db_hotel`.`reservation` LEFT OUTER JOIN `db_hotel`.`user` ON `reservation`.`id_user` = `user`.`id`)";
     public static final String GET_ALL_RESERVATIONS_HEADERS = "SELECT `id`, `date-in`, `date-out` FROM `db_hotel`.`reservation`";
 
 
@@ -93,5 +96,16 @@ public class Constants {
     public static final String GET_ALL_ROLES_HEADERS = "SELECT `id`, `name_role` FROM `db_hotel`.`role`";
 
     public static final String GET_LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
-    public static final String AUTR_USER = "SELECT `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `role` FROM `db_hotel`.`user` WHERE `id`=? AND `password`=?";
+    public static final String AUTH_USER = "SELECT `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `role` FROM `db_hotel`.`user` WHERE `id`=? AND `password`=?";
+
+
+    public static final String GET_LAST_INSERTED_DISCOUNT = "SELECT * FROM `db_hotel`.`discount` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_PARKING_SPACE = "SELECT * FROM `db_hotel`.`parking_space` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_RESERVATION = "SELECT * FROM `db_hotel`.`reservation` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_ROLE = "SELECT * FROM `db_hotel`.`role` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_ROOM = "SELECT * FROM `db_hotel`.`room` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_ROOM_TYPE = "SELECT * FROM `db_hotel`.`room_type` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_USER = "SELECT * FROM `db_hotel`.`user` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_RESERVATION_PARKING_SPACE = "SELECT * FROM `db_hotel`.`reservation_parking_space` WHERE `id`=LAST_INSERT_ID()";
+    public static final String GET_LAST_INSERTED_RESERVATION_ROOM = "SELECT * FROM `db_hotel`.`reservation_room` WHERE `id`=LAST_INSERT_ID()";
 }

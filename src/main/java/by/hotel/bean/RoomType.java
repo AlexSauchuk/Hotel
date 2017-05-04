@@ -79,4 +79,30 @@ public class RoomType {
     public void setSize(int size) {
         this.size = size;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RoomType roomType = (RoomType) o;
+
+        if (roomsCount != roomType.roomsCount) return false;
+        if (bedsCount != roomType.bedsCount) return false;
+        if (bathroomsCount != roomType.bathroomsCount) return false;
+        if (size != roomType.size) return false;
+        if (Float.compare(roomType.costPerDay, costPerDay) != 0) return false;
+        return additionalInfo.equals(roomType.additionalInfo);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = roomsCount;
+        result = 31 * result + bedsCount;
+        result = 31 * result + bathroomsCount;
+        result = 31 * result + size;
+        result = 31 * result + (costPerDay != +0.0f ? Float.floatToIntBits(costPerDay) : 0);
+        result = 31 * result + additionalInfo.hashCode();
+        return result;
+    }
 }

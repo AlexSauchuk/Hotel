@@ -11,4 +11,6 @@ public interface ReservationRoomDao {
     void addReservationRoom(ReservationRoom reservationRoom, Connection connection) throws DAOException;
     void removeReservationRoom(ReservationRoom reservationRoom, Connection connection) throws DAOException;
     void updateReservationRoom(ReservationRoom reservationRoom, Connection connection) throws DAOException;
+    ReservationRoom getLastInsertedReservationRoom(Connection connection) throws DAOException;
+
 }

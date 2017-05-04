@@ -14,7 +14,7 @@ function decreaseDeep() {
 
 function recursionModals(data) {
     Data = data;
-    var modalString = '<div id="modalWindow'+deep+'" class="modal fade in" style="z-index: '+zIndex+';display: block"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"  id="headID"><button class="close" onclick="decreaseDeep()" type="button" data-dismiss="modal">Close</button></div><div class="modal-body">custom</div><div  class="modal-footer" onclick="decreaseDeep()"><button class="btn btn-default"  id="closeBtn" type="button" data-dismiss="modal">Close</button></div></div></div></div>';
+    var modalString = '<div id="modalWindow'+deep+'" class="modal fade in" style="z-index: '+zIndex+';display: block"><div class="modal-dialog" style="width: 90%" ><div class="modal-content"><div class="modal-header"  id="headID"><button class="close" onclick="decreaseDeep()" type="button" data-dismiss="modal">Close</button></div><div class="modal-body">custom</div><div  class="modal-footer" onclick="decreaseDeep()"><button class="btn btn-default"  id="closeBtn" type="button" data-dismiss="modal">Close</button></div></div></div></div>';
     childModal = '\'#modalWindow'+deep+'\'';
     deep++;
     parentModal = childModal;
@@ -35,7 +35,8 @@ function recursionModals(data) {
 
     for(var key in data) {
 
-        if($.isPlainObject(data[key])) {
+        if($.isPlainObject(data[key]))
+        {
             additionalString +='<td><input type="button" style="width: 100%" value="'+(data[key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="generateModals(this)"></td>';
         }else
             additionalString +='<td>'+data[key]+'</td>';
@@ -73,6 +74,8 @@ function generateModals(obj) {
 function updateData(obj) {
     var editBody = $('#myModalUpdate').find('#mainForm');
     ($(editBody[0].lastElementChild).find("button")[0]).addEventListener("click",sendUpdateData);
+    ($('#myModalUpdate').find('.btn.btn-default')[0]).addEventListener("click", getUpdatedData);
+    ($('#myModalUpdate').find('.close')[0]).addEventListener("click", getUpdatedData);
 
     var arrayValues = new Array();
     $(obj).each(function(){
@@ -124,11 +127,7 @@ function updateData(obj) {
 function clearInputs(editBody) {
     $(editBody).each(function(){
         $("div",this).each(function() {
-            if(this.className == 'radio col-sm-8'){
-                $("input[type='radio']").prop('checked',false);
-            }else {
-                $(this.firstElementChild).val(null);
-            }
+            $(this.firstElementChild).val(null);
         });
     });
 }
@@ -141,7 +140,7 @@ function getData(editBody) {
                 var key = $(this.firstElementChild).attr('name');
                 var value = $(this.firstElementChild).val();
                 if(key == 'id' && value == ''){
-                    value = 0;
+                    value ="0";
                 }else{
                     if($(this.firstElementChild).get(0).tagName == 'SELECT'){
                         value = value.substr(0,value.indexOf(' '))
@@ -160,7 +159,7 @@ function getData(editBody) {
 
 function getUpdatedData() {
     $('#myModalUpdate').find('.modal-footer > .btn').click();
-    getAllTableRows(NameTable);
+    getAllTableElements(NameTable);
 }
 
 function sendUpdateData() {
@@ -170,8 +169,6 @@ function sendUpdateData() {
         type: 'POST',
         url: '/servlet?tableName='+NameTable +'&action=UPDATE' + getData(editBodyUpdate),
         success: function () {
-            ($('#myModalUpdate').find('.btn.btn-default')[0]).addEventListener("click", getUpdatedData);
-            ($('#myModalUpdate').find('.close')[0]).addEventListener("click", getUpdatedData);
         }});
 }
 
@@ -209,6 +206,8 @@ var mapStringTable = {
     "user":"user",
     "room":"room",
     "role":"role",
+    "reservation_room":"reservation_room",
+    "reservation_parking_space":"reservation_parking_space",
     "reservation":"reservation",
     "parkingSpace":"parking_space",
     "discount":"discount"
@@ -217,7 +216,7 @@ var mapStringTable = {
 function deleteRow(obj) {
     $.ajax({
         type: 'DELETE',
-        url: '/servlet?tableName=' + NameTable + '&action=REMOVE' +  formParams(obj.closest('tr').rowIndex),
+        url: '/servlet?tableName=' + NameTable + '&action=REMOVE&' +  formParams(obj.closest('tr').rowIndex),
         success:function(result){
             if(result==null){
                 document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
@@ -234,12 +233,12 @@ function formParams(rowIndex) {
     for(var i=0; i< columnNames.length; i++){
         var currentObj = Data[rowIndex-1][columnNames[i].textContent];
         if($.isPlainObject(currentObj)){
-            resultParams = resultParams.concat("&","id_",columnNames[i].textContent,"=",currentObj["id"]);
+            resultParams = resultParams.concat("id_",columnNames[i].textContent,"=",currentObj["id"],"&");
         }else{
-            resultParams = resultParams.concat("&",columnNames[i].textContent,"=",currentObj);
+            resultParams = resultParams.concat(columnNames[i].textContent,"=",currentObj,"&");
         }
     }
-    return resultParams;
+    return resultParams.slice(0,resultParams.length-1);
 }
 
 function generateOption(arrayObj, value, arrayType) {
@@ -249,22 +248,24 @@ function generateOption(arrayObj, value, arrayType) {
     return option;
 }
 
+function generateChilds(arrayObj) {
+    for(var arrayType in arrayObj) {
+        var editBodyUpdate = $('#myModalUpdate').find('#id_'+arrayType+'');
+        var editBodyAdd = $('#myModalAdd').find('#id_'+arrayType+'');
+        if(editBodyUpdate[0].childElementCount==0)
+            for(var value in arrayObj[arrayType]) {
+                editBodyUpdate[0].appendChild(generateOption(arrayObj,value,arrayType));
+                editBodyAdd[0].appendChild(generateOption(arrayObj,value,arrayType));
+            }
+    }
+}
+
 function formGetAllHeadersRequest() {
     var result='';
     for(var value in futureQueryForID) {
         result = result.concat('tableName=', mapStringTable[value], '&')
     }
     return result;
-}
-
-function generateChilds(modalId,arrayObj) {
-    for(var arrayType in arrayObj) {
-        var editBody = $(modalId).find('#id'+arrayType+'');
-        if(editBody[0].childElementCount==0)
-            for(var value in arrayObj[arrayType]) {
-                editBody[0].appendChild(generateOption(arrayObj,value,arrayType));
-            }
-    }
 }
 
 function generateSelectChilds() {
@@ -277,8 +278,7 @@ function generateSelectChilds() {
                 for (var value in futureQueryForID) {
                     arrayObj[value] = data[mapStringTable[value]];
                 }
-                generateChilds('#myModalUpdate',arrayObj);
-                generateChilds('#myModalAdd',arrayObj);
+                generateChilds(arrayObj);
             }
         });
     }
@@ -310,7 +310,8 @@ function setHtml(){
         var additionalString = '';
         for(var key in Data[j]) {
 
-            if($.isPlainObject(Data[j][key])){
+            if($.isPlainObject(Data[j][key]))
+            {
                 futureQueryForID[key] = key;
                 additionalString +='<td><input type="button" style="width: 100%" value="'+(Data[j][key])['id']+'" data-toggle="modal" data-target="#modalWindow'+deep+'" onclick="generateModals(this)"></td>';
             }else
@@ -345,7 +346,7 @@ function loadTemplate() {
     var table = NameTable;
     if(NameTable=="room")
         table="rooms";
-    request.open('GET', '/templates/'+table+'.html');
+    request.open('GET', '/templates/admin/'+table+'.html');
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             if (request.status == 200) {
@@ -359,7 +360,7 @@ function loadTemplate() {
     request.send(null);
 }
 
-function getAllTableRows(nameTable) {
+function getAllTableElements(nameTable) {
     $.ajax({
         type: 'GET',
         url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
@@ -386,6 +387,7 @@ $(document).ready(function() {
 
         var nameTable = target.closest('td').childNodes[0].value;
         NameTable = nameTable;
-        getAllTableRows(nameTable);
+        getAllTableElements(nameTable);
     });
 });
+
