@@ -111,7 +111,7 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
     public Reservation getReservation(Integer id,Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        Reservation reservation;
+        Reservation reservation = null;
         ReservationBuilder reservationBuilder = new ReservationBuilder();
         UserBuilder userBuilder = new UserBuilder();
         DiscountBuilder discountBuilder = new DiscountBuilder();
@@ -119,7 +119,9 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
             statement = connection.prepareStatement(GET_RESERVATION);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
-            reservation = fillReservation(resultSet, reservationBuilder, userBuilder, discountBuilder);
+            if(resultSet.next()) {
+                reservation = fillReservation(resultSet, reservationBuilder, userBuilder, discountBuilder);
+            }
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {

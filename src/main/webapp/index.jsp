@@ -6,7 +6,8 @@
         <link rel="stylesheet" type="text/css" href="styleindex.css" media="all">
     </head>
     <body>
-    <a href="/servlet?page=admin.jsp&action=ADMIN_START">Администратор</a>
+    <a href="/servlet?page=admin.jsp&action=ADMIN_START">Администратор</a></br>
+    <a href="/servlet?action=CREATE_DOCUMENT&docname=reservation_confirm&id=1">Подтверждение брони</a>
         <!-- "<c:forEach items="${users}" var="user">
             <tr>
                 <td>${user.id}</td>

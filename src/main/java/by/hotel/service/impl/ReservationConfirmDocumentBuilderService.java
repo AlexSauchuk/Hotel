@@ -7,7 +7,7 @@ import by.hotel.service.DocumentBuilderService;
 import by.hotel.service.exception.ServiceException;
 
 public class ReservationConfirmDocumentBuilderService implements DocumentBuilderService{
-    public void buildDocument(Integer idReservation) throws ServiceException {
+    public void buildDocument(int idReservation) throws ServiceException {
         Reservation reservation = new ReservationServiceImpl().getEntity(idReservation);
         DocumentBuilder reservationConfirmDocumentBuilder = ReservationConfirmDocumentBuilder.getInstance();
         reservationConfirmDocumentBuilder.buildDocument(reservation);
