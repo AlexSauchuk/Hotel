@@ -17,7 +17,7 @@
                             <input id="passIn" type="password" class="input" data-type="password">
                         </div>
                         <div class="group">
-                            <input type="submit" class="button" onclick="validateForm()" value="Sign In">
+                            <input type="submit" class="button" onclick="validateInForm()" value="Sign In">
                         </div>
                         <div class="hr">
 
@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="lB">
-                    <form id="myFormUp" onsubmit="return validateForm();">
+                    <div id="myFormUp">
                         <div class="group">
                             <label for="login" class="label">Логин</label>
                             <input id="login" type="text" class="input">
@@ -51,10 +51,10 @@
                             <label for="check"><span class="icon"></span>Запомнить меня</label>
                         </div>
                         <div class="group">
-                            <input type="submit" class="button" value="Sign Up">
+                            <input type="submit" class="button" onclick="validateUpForm()" value="Sign Up">
                         </div>
                         <div class="hr"></div>
-                    </form>
+                    </div>
                 </div>
                 <p></p>
             </div>

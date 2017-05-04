@@ -5,7 +5,6 @@ function setEventListener() {
 
 function loadTemplate() {
     var request = new XMLHttpRequest();
-    Hi();
     request.open('GET', '/templates/pages/signin/personalInfo.html');
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
@@ -47,6 +46,18 @@ function getUpdateDataUser() {
     return result;
 }
 
+function getSexValue(sex){
+    var sexValue = "";
+    $(sex).each(function() {
+        $("input",this).each(function(){
+            if(this.checked){
+                sexValue =  this.value;
+            }
+        });
+    });
+    return sexValue;
+}
+
 function updatePersonalInfo() {
     var name = document.getElementById("name");
     var surname = document.getElementById("surname");
@@ -54,17 +65,22 @@ function updatePersonalInfo() {
     var login = document.getElementById("login");
     var passportNumber = document.getElementById("passportNumber");
     var sex = document.getElementById("sex");
-    var passOld = document.getElementById("passOld");
-    var passNew = document.getElementById("passNew");
-    console.log(validName(name.value));
-    if(!validName(name.value) || !validPassword(surname.value)|| !validPassword(mobilePhone.value)|| !validPassword(login.value)
-        || !validPassword(passportNumber.value)|| !validPassword(sex.value)|| !validPassword(passOld.value) || !validPassword(passNew.value))
+    var pass = document.getElementById("pass");
+
+    if(!validName(name) || !validName(surname) || !validPhone(mobilePhone) ||
+        !validLogin(login) || !validPassport(passportNumber) || !validSex(getSexValue(sex))
+        || !validPassword(pass))
+    {
+        alert ("Данные заполнены неверно!");
+        return  false;
+    }
+
     $.ajax({
         type: 'POST',
-        url: '/servlet?action=UPDATE_USER_DATA' + getUpdateDataUser(),
+        url: '/servlet?action=UPDATE' + getUpdateDataUser(),
         data:{},
         success: function(data) {
-            
+
         }
     });
 }
@@ -75,7 +91,20 @@ function setNewValueEntryDiv() {
     entry.href = "";    
 }
 
-function sendUserData(email,pass){
+function sendUserDataRegistration(login,email,pass,phone,sex) {
+    loadTemplate();
+    setNewValueEntryDiv();
+    $.ajax({
+        type: 'POST',
+        url: '/servlet?action=REGISTRATION',
+        data:{"login":login,"email":email,"password":pass,"phone":phone,"sex":sex},
+        success: function(data) {
+            currentUser.name = data["name"];
+            currentUser.id  = parseInt(data["id"]);
+        }
+    });
+}
+function sendUserDataLogin(email,pass){
     loadTemplate();
     setNewValueEntryDiv();
     $.ajax({
@@ -89,25 +118,56 @@ function sendUserData(email,pass){
     });
 }
 
-function validateForm (){
+function getSexValueCB(sex) {
+    if(sex.checked)
+        return "M";
+    return "W";
+}
+
+function validateUpForm (){
+    var login = document.getElementById("login");
+    var email = document.getElementById("emailUp");
+    var password = document.getElementById("passUp");
+    var phone = document.getElementById("phone");
+    var sex = document.getElementById("sex");
+
+    if (!validEmail(email.value) || !validPassword(password.value) || !validLogin(login.value)
+        || !validPhone(phone.value) || !validSex(getSexValueCB(sex))){
+        alert ("Данные заполнены неверно!");
+        return  false;
+    }
+    alert ("Данные успешно отправлены на сервер!");
+    sendUserDataRegistration(login.value,email.value,password.value,phone.value,getSexValueCB(sex));
+}
+
+function validateInForm (){
     var email = document.getElementById("emailIn");
     var passw = document.getElementById("passIn");
+    console.log(email.value);
+    console.log(passw.value);
 
     if (!validEmail(email.value) || !validPassword(passw.value)){
         alert ("Данные заполнены неверно!");
         return  false;
     }
     alert ("Данные успешно отправлены на сервер!");
-    sendUserData();
-    return  true;
+    sendUserDataLogin(email.value,passw.value);
 }
 
+function validSex(sex) {
+    return(/(?=^[mwMWмжМЖ]$)/).test(sex);
+}
+function validPassport(passport) {
+    return (/(?=[a-zA-Z]{2}[0-9]{7})/).test(passport);
+}
+function validPhone(phone) {
+    return (/(?=^\d[\d\(\)\ -]{4,14}\d$)/).test(phone);
+}
 function validName(name) {
     return (/(?=^[A-ZЁА-Я][a-zёа-я-_\.]{3,20}$)/).test(name);
 }
-
 function validLogin	(login) { //с ограничением 2-20 символов, которыми могут быть буквы и цифры, первый символ обязательно буква
-    return (/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/).test(login);
+    return (/^[a-zA-z]{1}[a-zA-Z1-9]{3,20}$/).test(login);
 }
 function validEmail(email) {
     return (/^(?:[-a-z\d\+\*\/\?!{}`~_%&'=^$#]+(?:\.[-a-z\d\+\*\/\?!{}`~_%&'=^$#]+)*)@(?:[-a-z\d_]+\.){1,60}[a-z]{2,6}$/).test(email);
