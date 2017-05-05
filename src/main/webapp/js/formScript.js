@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 function setEventListener() {
     ($('#idAcceptUpdatePersonalInfo')[0]).addEventListener("click", updatePersonalInfo);
 }
@@ -78,7 +78,6 @@ function updatePersonalInfo() {
     $.ajax({
         type: 'POST',
         url: '/servlet?action=UPDATE' + getUpdateDataUser(),
-        data:{},
         success: function(data) {
 
         }
@@ -87,7 +86,7 @@ function updatePersonalInfo() {
 
 function setNewValueEntryDiv() {
     var entry = document.getElementById("idEntryA");
-    entry.innerHTML = "Кабинет";
+    entry.innerHTML = currentUser.name;
     entry.href = "";    
 }
 
@@ -98,24 +97,24 @@ function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passpo
         data:{"login":login,"email":email,"password":pass,"phone":phone,"sex":sex,"name":name,"surname":surname,"passport":passport},
         success: function(data) {
             currentUser.name = data["name"];
-            currentUser.id = parseInt(data["id"]);
+            currentUser.id  = parseInt(data["id"]);
             loadTemplate();
             setNewValueEntryDiv();
         }
     });
 }
 function sendUserDataLogin(email,pass){
-    loadTemplate();
-    setNewValueEntryDiv();
-    $.ajax({
-        type: 'POST',
-        url: '/servlet?action=LOGIN',
-        data:{"email":email,"password":pass},
-        success: function(data) {
-            currentUser.name = data["name"];
-            currentUser.id  = parseInt(data["id"]);
-        }
-    });
+    // $.ajax({
+    //     type: 'POST',
+    //     url: '/servlet?action=LOGIN',
+    //     data:{"email":email,"password":pass},
+    //     success: function(data) {
+    //         currentUser.name = data["name"];
+    //         currentUser.id  = parseInt(data["id"]);
+    //         loadTemplate();
+    //         setNewValueEntryDiv();
+    //     }
+    // });
 }
 
 function getSexValueCB(sex) {
@@ -139,7 +138,7 @@ function validateUpForm (){
         || !validPhone(phone.value) || !validSex(getSexValueCB(sex)) || !validName(name.value)
         || !validName(surname.value) || !validPassport(passport.value)){
         alert ("Данные заполнены неверно!");
-        return false;
+        return  false;
     }
     alert ("Данные успешно отправлены на сервер!");
     sendUserDataRegistration(login.value,email.value,password.value,phone.value,getSexValueCB(sex),name.value,surname.value,passport.value);
@@ -148,8 +147,6 @@ function validateUpForm (){
 function validateInForm (){
     var email = document.getElementById("emailIn");
     var passw = document.getElementById("passIn");
-    console.log(email.value);
-    console.log(passw.value);
 
     if (!validEmail(email.value) || !validPassword(passw.value)){
         alert ("Данные заполнены неверно!");
@@ -158,6 +155,12 @@ function validateInForm (){
     alert ("Данные успешно отправлены на сервер!");
     sendUserDataLogin(email.value,passw.value);
 }
+
+function LogOut() {
+    
+}
+
+
 
 function validSex(sex) {
     return(/(?=^[mwMWмжМЖ]$)/).test(sex);
@@ -177,13 +180,7 @@ function validLogin	(login) { //с ограничением 2-20 символо�
 function validEmail(email) {
     return (/^(?:[-a-z\d\+\*\/\?!{}`~_%&'=^$#]+(?:\.[-a-z\d\+\*\/\?!{}`~_%&'=^$#]+)*)@(?:[-a-z\d_]+\.){1,60}[a-z]{2,6}$/).test(email);
 }
-function validPassword(passw) {//Строчные и прописные латинские буквы, цифры, спецсимволы. Минимум 8 символов):
+function validPassword(passw) {
     return (/(?=^.{8,}$)/).test(passw);
-}
-function validCountry(country) {
-    if (country.length < 3 | country.length > 50) {
-        return false;
-    }
-    return true;
 }
 
