@@ -1,7 +1,9 @@
 package by.hotel.dao.impl;
 
 import by.hotel.bean.Role;
+import by.hotel.bean.User;
 import by.hotel.builder.RoleBuilder;
+import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoleDao;
 import by.hotel.dao.constants.Constants;
@@ -74,7 +76,7 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
             statement = connection.prepareStatement(ADD_ROLE);
             statement = fillStatement(statement, role);
             statement.execute();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -108,6 +110,40 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
         } finally {
             closeStatement(statement, null);
         }
+    }
+
+    @Override
+    public Role getLastInsertedRole(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        Role role = null;
+        ResultSet resultSet;
+        RoleBuilder roleBuilder = new RoleBuilder();
+        try {
+            statement = connection.prepareStatement(GET_LAST_INSERTED_ROLE);
+            // statement.setString(1,"role");
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                role = fillRole(resultSet, roleBuilder);
+            }
+        } catch (SQLException | NullPointerException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, null);
+        }
+        return role;
+    }
+
+    private Role fillRole(ResultSet resultSet, RoleBuilder roleBuilder) throws SQLException {
+        return roleBuilder.id(resultSet.getInt("id"))
+                .nameRole(resultSet.getString("name_role"))
+                .update(resultSet.getByte("update"))
+                .delete(resultSet.getByte("delete"))
+                .insert(resultSet.getByte("insert"))
+                .create(resultSet.getByte("create"))
+                .select(resultSet.getByte("select"))
+                .drop(resultSet.getByte("drop"))
+                .grant(resultSet.getByte("grant"))
+                .build();
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, Role role) throws SQLException {

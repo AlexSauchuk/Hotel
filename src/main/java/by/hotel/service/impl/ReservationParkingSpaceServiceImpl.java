@@ -75,4 +75,18 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
                 .parkingSpace(new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id_parkingSpace")[0])).build())
                 .build();
     }
+
+    @Override
+    public ReservationParkingSpace getLastInsertedEntity() throws ServiceException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            return reservationParkingSpaceDao.getLastInsertedReservationParkingSpace(connection);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+    }
+
 }

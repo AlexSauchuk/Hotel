@@ -12,5 +12,5 @@ public interface ParkingSpaceDao {
     void addParkingSpace(ParkingSpace parkingSpace, Connection connection) throws DAOException;
     void removeParkingSpace(ParkingSpace parkingSpace, Connection connection) throws DAOException;
     void updateParkingSpace(ParkingSpace parkingSpace, Connection connection) throws DAOException;
-    ParkingSpace getParkingSpace(Integer id, Connection connection) throws DAOException;
+    ParkingSpace getLastInsertedParkingSpace(Connection connection) throws DAOException;
 }

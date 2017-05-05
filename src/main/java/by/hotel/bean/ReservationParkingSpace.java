@@ -28,4 +28,22 @@ public class ReservationParkingSpace {
     public void setParkingSpace(ParkingSpace parkingSpace) {
         this.parkingSpace = parkingSpace;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ReservationParkingSpace that = (ReservationParkingSpace) o;
+
+        if (reservation != null ? !reservation.equals(that.reservation) : that.reservation != null) return false;
+        return parkingSpace != null ? parkingSpace.equals(that.parkingSpace) : that.parkingSpace == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = reservation != null ? reservation.hashCode() : 0;
+        result = 31 * result + (parkingSpace != null ? parkingSpace.hashCode() : 0);
+        return result;
+    }
 }

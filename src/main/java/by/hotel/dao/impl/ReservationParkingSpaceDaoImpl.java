@@ -67,8 +67,8 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
             statement = fillStatement(statement, reservationParkingSpace);
             statement.execute();
         }catch (SQLIntegrityConstraintViolationException e){
-            throw new DAOException(buildMessage(reservationParkingSpace, e.getMessage()),e);
-        }catch (SQLException e) {
+            throw new DAOException(buildMessage(reservationParkingSpace),e);
+        }catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -89,27 +89,68 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
     }
 
     public void updateReservationParkingSpace(ReservationParkingSpace reservationParkingSpace,Connection connection) throws DAOException {
+        throw new UnsupportedOperationException("Unsupported operation!");
+    }
+
+    @Override
+    public ReservationParkingSpace getLastInsertedReservationParkingSpace(Connection connection) throws DAOException {
         PreparedStatement statement = null;
+        ReservationParkingSpace reservationParkingSpace = null;
+        ResultSet resultSet;
+        ReservationParkingSpaceBuilder reservationParkingSpaceBuilder = new ReservationParkingSpaceBuilder();
         try {
-            statement = connection.prepareStatement(UPDATE_RESERVATION_PARKING_SPACE);
-            statement = fillStatement(statement, reservationParkingSpace);
-            statement.execute();
-        } catch (SQLException e) {
+            statement = connection.prepareStatement(GET_LAST_INSERTED_RESERVATION_PARKING_SPACE);
+            // statement.setString(1,"reservation_parking_space");
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                reservationParkingSpace = fillReservationParkingSpace(resultSet, reservationParkingSpaceBuilder);
+            }
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
         }
+        return reservationParkingSpace;
     }
+
+    private ReservationParkingSpace fillReservationParkingSpace(ResultSet resultSet, ReservationParkingSpaceBuilder reservationParkingSpaceBuilder) throws SQLException {
+        UserBuilder userBuilder = new UserBuilder();
+        DiscountBuilder discountBuilder = new DiscountBuilder();
+        ReservationBuilder reservationBuilder = new ReservationBuilder();
+        ParkingSpaceBuilder parkingSpaceBuilder = new ParkingSpaceBuilder();
+        return reservationParkingSpaceBuilder
+                .reservation(reservationBuilder.id(resultSet.getInt("id_reservation"))
+                        .dateIn(resultSet.getDate("date-in"))
+                        .dateOut(resultSet.getDate("date-out"))
+                        .user(userBuilder.id(resultSet.getInt("id_user"))
+                                .passportNumber(resultSet.getString("passport_number"))
+                                .name(resultSet.getString("name"))
+                                .surname(resultSet.getString("surname"))
+                                .sex(resultSet.getString("sex"))
+                                .mobilePhone(resultSet.getString("mobile_phone"))
+                                .build())
+                        .costAdditionalServices(resultSet.getInt("cost_additional_services"))
+                        .discount(discountBuilder.id(resultSet.getInt("discount_id"))
+                                .name(resultSet.getString("discount_name"))
+                                .build())
+                        .build())
+                .parkingSpace(parkingSpaceBuilder.id(resultSet.getInt("id_parking_space"))
+                        .level(resultSet.getInt("level"))
+                        .reserved(resultSet.getByte("is_reserved"))
+                        .build())
+                .build();
+    }
+
     private PreparedStatement fillStatement(PreparedStatement statement, ReservationParkingSpace reservationParkingSpace) throws SQLException {
         statement.setInt(1, reservationParkingSpace.getParkingSpace().getId());
         statement.setInt(2, reservationParkingSpace.getReservation().getId());
         return statement;
     }
 
-    private String buildMessage(ReservationParkingSpace reservationParkingSpace, String errorMessage){
+    private String buildMessage(ReservationParkingSpace reservationParkingSpace){
         Map<String,String> idNames = new HashMap<String, String>();
         idNames.put("reservation",Integer.toString(reservationParkingSpace.getReservation().getId()));
         idNames.put("parking_space",Integer.toString(reservationParkingSpace.getParkingSpace().getId()));
-        return ErrorStringBuilder.buildAddErrorString(idNames,errorMessage);
+        return ErrorStringBuilder.buildAddErrorString(idNames);
     }
 }

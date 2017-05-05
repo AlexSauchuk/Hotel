@@ -1,6 +1,8 @@
 package by.hotel.dao.impl;
 
+import by.hotel.bean.Room;
 import by.hotel.bean.RoomType;
+import by.hotel.builder.RoomBuilder;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoomTypeDao;
@@ -70,7 +72,7 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
             statement = connection.prepareStatement(ADD_ROOM_TYPE);
             statement = fillStatement(statement, roomType);
             statement.execute();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -104,6 +106,38 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
         } finally {
             closeStatement(statement, null);
         }
+    }
+
+    @Override
+    public RoomType getLastInsertedRoomType(Connection connection) throws DAOException {
+        PreparedStatement statement = null;
+        RoomType roomType = null;
+        ResultSet resultSet;
+        RoomTypeBuilder roomTypeBuilder = new RoomTypeBuilder();
+        try {
+            statement = connection.prepareStatement(GET_LAST_INSERTED_ROOM_TYPE);
+            // statement.setString(1,room_type");
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                roomType = fillRoomType(resultSet, roomTypeBuilder);
+            }
+        } catch (SQLException | NullPointerException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, null);
+        }
+        return roomType;
+    }
+
+    private RoomType fillRoomType(ResultSet resultSet, RoomTypeBuilder roomTypeBuilder) throws SQLException {
+        return roomTypeBuilder.id(resultSet.getInt("id"))
+                .roomsCount(resultSet.getInt("rooms_count"))
+                .bedsCount(resultSet.getInt("beds_count"))
+                .costPerDay(resultSet.getInt("cost_per_day"))
+                .additionalInfo(resultSet.getString("additional_info"))
+                .bathroomsCount(resultSet.getInt("bathrooms_count"))
+                .size(resultSet.getInt("size"))
+                .build();
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, RoomType roomType) throws SQLException {

@@ -1,8 +1,8 @@
-package by.hotel.factory.commandfactory.impl;
+package by.hotel.factory.impl;
 
 import by.hotel.command.Command;
 import by.hotel.command.impl.*;
-import by.hotel.factory.commandfactory.CommandFactory;
+import by.hotel.factory.CommandFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +17,9 @@ public final class CommandFactoryMapper implements CommandFactory {
         commands.put("UPDATE", new UpdateEntity());
         commands.put("ADMIN_START",new GetTableNames());
         commands.put("GET_ALL_HEADERS",new GetEntityHeaders());
+        commands.put("CREATE_DOCUMENT", new CreateDocument());
+        commands.put("AUTHORIZATION", new Authorization());
+        commands.put("REGISTRATION", new Registration());
     }
 
     private static class Holder{
@@ -27,7 +30,7 @@ public final class CommandFactoryMapper implements CommandFactory {
         return Holder.INSTANCE;
     }
 
-    public Command createCommand(String commandName) {
+    public Command getCommand(String commandName) {
         return commands.get(commandName.toUpperCase());
     }
 }

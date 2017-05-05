@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ErrorStringBuilder {
+public final class ErrorStringBuilder {
     private ErrorStringBuilder(){}
 
     public static String buildDeleteErrorString(Map<String, String> rowId, String errorMessage){
@@ -31,7 +31,7 @@ public class ErrorStringBuilder {
         return tablesInfo;
     }
 
-    public static String buildAddErrorString(Map<String, String> rowId, String errorMessage){
+    public static String buildAddErrorString(Map<String, String> rowId){
         StringBuilder errorStringBuilder = new StringBuilder();
         StringBuilder keysStringBuilder = new StringBuilder();
         errorStringBuilder.append("Ошибка. Невозможно добавить запись");
