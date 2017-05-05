@@ -67,9 +67,9 @@ function updatePersonalInfo() {
     var sex = document.getElementById("sex");
     var pass = document.getElementById("pass");
 
-    if(!validName(name) || !validName(surname) || !validPhone(mobilePhone) ||
-        !validLogin(login) || !validPassport(passportNumber) || !validSex(getSexValue(sex))
-        || !validPassword(pass))
+    if(!validName(name.value) || !validName(surname.value) || !validPhone(mobilePhone.value) ||
+        !validLogin(login.value) || !validPassport(passportNumber.value) || !validSex(getSexValue(sex))
+        || !validPassword(pass.value))
     {
         alert ("Данные заполнены неверно!");
         return  false;
@@ -91,16 +91,16 @@ function setNewValueEntryDiv() {
     entry.href = "";    
 }
 
-function sendUserDataRegistration(login,email,pass,phone,sex) {
-    loadTemplate();
-    setNewValueEntryDiv();
+function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passport) {
     $.ajax({
         type: 'POST',
         url: '/servlet?action=REGISTRATION',
-        data:{"login":login,"email":email,"password":pass,"phone":phone,"sex":sex},
+        data:{"login":login,"email":email,"password":pass,"phone":phone,"sex":sex,"name":name,"surname":surname,"passport":passport},
         success: function(data) {
             currentUser.name = data["name"];
-            currentUser.id  = parseInt(data["id"]);
+            currentUser.id = parseInt(data["id"]);
+            loadTemplate();
+            setNewValueEntryDiv();
         }
     });
 }
@@ -125,6 +125,10 @@ function getSexValueCB(sex) {
 }
 
 function validateUpForm (){
+    var name = document.getElementById("name");
+    var surname = document.getElementById("surname");
+    var passport = document.getElementById("passport");
+
     var login = document.getElementById("login");
     var email = document.getElementById("emailUp");
     var password = document.getElementById("passUp");
@@ -132,12 +136,13 @@ function validateUpForm (){
     var sex = document.getElementById("sex");
 
     if (!validEmail(email.value) || !validPassword(password.value) || !validLogin(login.value)
-        || !validPhone(phone.value) || !validSex(getSexValueCB(sex))){
+        || !validPhone(phone.value) || !validSex(getSexValueCB(sex)) || !validName(name.value)
+        || !validName(surname.value) || !validPassport(passport.value)){
         alert ("Данные заполнены неверно!");
-        return  false;
+        return false;
     }
     alert ("Данные успешно отправлены на сервер!");
-    sendUserDataRegistration(login.value,email.value,password.value,phone.value,getSexValueCB(sex));
+    sendUserDataRegistration(login.value,email.value,password.value,phone.value,getSexValueCB(sex),name.value,surname.value,passport.value);
 }
 
 function validateInForm (){
