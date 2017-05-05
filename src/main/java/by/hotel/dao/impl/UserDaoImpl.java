@@ -158,7 +158,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
         finally {
             closeStatement(statement, resultSet);
         }
-        return user;
+        return null;
     }
 
     private PreparedStatement fillStatement(PreparedStatement statement, String login, String password) throws SQLException {

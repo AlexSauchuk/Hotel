@@ -26,6 +26,7 @@ public class User {
         this.password = userBuilder.getPassword();
         this.sex = userBuilder.getSex();
         this.role = userBuilder.getRole();
+        this.email = userBuilder.getEmail();
     }
 
     public int getId() {

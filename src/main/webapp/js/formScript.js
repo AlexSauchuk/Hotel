@@ -1,4 +1,4 @@
-﻿﻿
+﻿
 function setEventListener() {
     ($('#idAcceptUpdatePersonalInfo')[0]).addEventListener("click", updatePersonalInfo);
 }
@@ -94,7 +94,7 @@ function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passpo
     $.ajax({
         type: 'POST',
         url: '/servlet?action=REGISTRATION',
-        data:{"login":login,"email":email,"password":pass,"phone":phone,"sex":sex,"name":name,"surname":surname,"passport":passport},
+        data:{"login":login,"email":email,"password":pass,"mobilePhone":phone,"sex":sex,"name":name,"surname":surname,"passportNumber":passport,"id":0,"id_role":1},
         success: function(data) {
             currentUser.name = data["name"];
             currentUser.id  = parseInt(data["id"]);
@@ -126,12 +126,12 @@ function getSexValueCB(sex) {
 function validateUpForm (){
     var name = document.getElementById("name");
     var surname = document.getElementById("surname");
-    var passport = document.getElementById("passport");
+    var passport = document.getElementById("passportNumber");
 
     var login = document.getElementById("login");
     var email = document.getElementById("emailUp");
     var password = document.getElementById("passUp");
-    var phone = document.getElementById("phone");
+    var phone = document.getElementById("mobilePhone");
     var sex = document.getElementById("sex");
 
     if (!validEmail(email.value) || !validPassword(password.value) || !validLogin(login.value)

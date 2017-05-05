@@ -1,6 +1,5 @@
 package by.hotel.service.validator;
 
-import by.hotel.security.MD5;
 import by.hotel.service.exception.*;
 
 import java.util.Map;

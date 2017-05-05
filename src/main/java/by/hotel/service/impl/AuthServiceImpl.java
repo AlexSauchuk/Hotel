@@ -14,16 +14,14 @@ public class AuthServiceImpl extends AbstractService implements AuthService {
 	private AuthDao authDao = new UserDaoImpl();
 	public User checkUser(String login, String password)  throws ServiceException{
 		Connection connection = null;
-		User user = null;
 		try {
 			connection = getConnection();
-			user = authDao.authorisation(login,password,connection);
+			return authDao.authorisation(login,password,connection);
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}finally {
 			closeConnection(connection);
 		}
-		return user;
 	}
 
 	public boolean logout(){
