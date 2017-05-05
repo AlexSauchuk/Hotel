@@ -67,9 +67,9 @@ function updatePersonalInfo() {
     var sex = document.getElementById("sex");
     var pass = document.getElementById("pass");
 
-    if(!validName(name) || !validName(surname) || !validPhone(mobilePhone) ||
-        !validLogin(login) || !validPassport(passportNumber) || !validSex(getSexValue(sex))
-        || !validPassword(pass))
+    if(!validName(name.value) || !validName(surname.value) || !validPhone(mobilePhone.value) ||
+        !validLogin(login.value) || !validPassport(passportNumber.value) || !validSex(getSexValue(sex))
+        || !validPassword(pass.value))
     {
         alert ("Данные заполнены неверно!");
         return  false;
@@ -78,7 +78,6 @@ function updatePersonalInfo() {
     $.ajax({
         type: 'POST',
         url: '/servlet?action=UPDATE' + getUpdateDataUser(),
-        data:{},
         success: function(data) {
 
         }
@@ -87,35 +86,35 @@ function updatePersonalInfo() {
 
 function setNewValueEntryDiv() {
     var entry = document.getElementById("idEntryA");
-    entry.innerHTML = "Кабинет";
+    entry.innerHTML = currentUser.name;
     entry.href = "";    
 }
 
-function sendUserDataRegistration(login,email,pass,phone,sex) {
-    loadTemplate();
-    setNewValueEntryDiv();
+function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passport) {
     $.ajax({
         type: 'POST',
         url: '/servlet?action=REGISTRATION',
-        data:{"login":login,"email":email,"password":pass,"phone":phone,"sex":sex},
+        data:{"login":login,"email":email,"password":pass,"phone":phone,"sex":sex,"name":name,"surname":surname,"passport":passport},
         success: function(data) {
             currentUser.name = data["name"];
             currentUser.id  = parseInt(data["id"]);
+            loadTemplate();
+            setNewValueEntryDiv();
         }
     });
 }
 function sendUserDataLogin(email,pass){
-    loadTemplate();
-    setNewValueEntryDiv();
-    $.ajax({
-        type: 'POST',
-        url: '/servlet?action=LOGIN',
-        data:{"email":email,"password":pass},
-        success: function(data) {
-            currentUser.name = data["name"];
-            currentUser.id  = parseInt(data["id"]);
-        }
-    });
+    // $.ajax({
+    //     type: 'POST',
+    //     url: '/servlet?action=LOGIN',
+    //     data:{"email":email,"password":pass},
+    //     success: function(data) {
+    //         currentUser.name = data["name"];
+    //         currentUser.id  = parseInt(data["id"]);
+    //         loadTemplate();
+    //         setNewValueEntryDiv();
+    //     }
+    // });
 }
 
 function getSexValueCB(sex) {
@@ -125,6 +124,10 @@ function getSexValueCB(sex) {
 }
 
 function validateUpForm (){
+    var name = document.getElementById("name");
+    var surname = document.getElementById("surname");
+    var passport = document.getElementById("passport");
+
     var login = document.getElementById("login");
     var email = document.getElementById("emailUp");
     var password = document.getElementById("passUp");
@@ -132,19 +135,18 @@ function validateUpForm (){
     var sex = document.getElementById("sex");
 
     if (!validEmail(email.value) || !validPassword(password.value) || !validLogin(login.value)
-        || !validPhone(phone.value) || !validSex(getSexValueCB(sex))){
+        || !validPhone(phone.value) || !validSex(getSexValueCB(sex)) || !validName(name.value)
+        || !validName(surname.value) || !validPassport(passport.value)){
         alert ("Данные заполнены неверно!");
         return  false;
     }
     alert ("Данные успешно отправлены на сервер!");
-    sendUserDataRegistration(login.value,email.value,password.value,phone.value,getSexValueCB(sex));
+    sendUserDataRegistration(login.value,email.value,password.value,phone.value,getSexValueCB(sex),name.value,surname.value,passport.value);
 }
 
 function validateInForm (){
     var email = document.getElementById("emailIn");
     var passw = document.getElementById("passIn");
-    console.log(email.value);
-    console.log(passw.value);
 
     if (!validEmail(email.value) || !validPassword(passw.value)){
         alert ("Данные заполнены неверно!");
@@ -153,6 +155,12 @@ function validateInForm (){
     alert ("Данные успешно отправлены на сервер!");
     sendUserDataLogin(email.value,passw.value);
 }
+
+function LogOut() {
+    
+}
+
+
 
 function validSex(sex) {
     return(/(?=^[mwMWмжМЖ]$)/).test(sex);
@@ -172,13 +180,7 @@ function validLogin	(login) { //с ограничением 2-20 символо�
 function validEmail(email) {
     return (/^(?:[-a-z\d\+\*\/\?!{}`~_%&'=^$#]+(?:\.[-a-z\d\+\*\/\?!{}`~_%&'=^$#]+)*)@(?:[-a-z\d_]+\.){1,60}[a-z]{2,6}$/).test(email);
 }
-function validPassword(passw) {//Строчные и прописные латинские буквы, цифры, спецсимволы. Минимум 8 символов):
+function validPassword(passw) {
     return (/(?=^.{8,}$)/).test(passw);
-}
-function validCountry(country) {
-    if (country.length < 3 | country.length > 50) {
-        return false;
-    }
-    return true;
 }
 
