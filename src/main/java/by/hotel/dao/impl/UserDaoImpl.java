@@ -47,7 +47,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
     public List<User> getUsers(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
         UserBuilder userBuilder = new UserBuilder();
         try {
             statement = connection.prepareStatement(GET_ALL_USERS);
@@ -141,16 +141,16 @@ public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
         return user;
     }
 
-    public User authorisation(String login, String password, Connection connection) throws DAOException{
-        User user = new User();
+    public User authorisation(String email, String password, Connection connection) throws DAOException{
+        UserBuilder userBuilder = new UserBuilder();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(Constants.AUTH_USER);
-            statement = fillStatement(statement, login,password);
+            statement = fillStatement(statement, email,password);
             resultSet = statement.executeQuery();
             if(resultSet.next()){
-                return user;
+                return fillUser(resultSet, userBuilder);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -161,8 +161,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
         return null;
     }
 
-    private PreparedStatement fillStatement(PreparedStatement statement, String login, String password) throws SQLException {
-        statement.setString(1, login);
+    private PreparedStatement fillStatement(PreparedStatement statement, String email, String password) throws SQLException {
+        statement.setString(1, email);
         statement.setString(2, password);
         return statement;
     }

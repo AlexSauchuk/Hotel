@@ -12,11 +12,11 @@ import java.sql.Connection;
 
 public class AuthServiceImpl extends AbstractService implements AuthService {
 	private AuthDao authDao = new UserDaoImpl();
-	public User checkUser(String login, String password)  throws ServiceException{
+	public User checkUser(String email, String password)  throws ServiceException{
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			return authDao.authorisation(login,password,connection);
+			return authDao.authorisation(email,password,connection);
 		}catch (DAOException e){
 			throw new ServiceException(e);
 		}finally {

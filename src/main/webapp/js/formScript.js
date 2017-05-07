@@ -104,17 +104,17 @@ function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passpo
     });
 }
 function sendUserDataLogin(email,pass){
-    // $.ajax({
-    //     type: 'POST',
-    //     url: '/servlet?action=LOGIN',
-    //     data:{"email":email,"password":pass},
-    //     success: function(data) {
-    //         currentUser.name = data["name"];
-    //         currentUser.id  = parseInt(data["id"]);
-    //         loadTemplate();
-    //         setNewValueEntryDiv();
-    //     }
-    // });
+     $.ajax({
+         type: 'POST',
+         url: '/servlet?action=AUTHORIZATION',
+         data:{"email":email,"password":pass},
+         success: function(data) {
+             currentUser.name = data["name"];
+             currentUser.id  = parseInt(data["id"]);
+             loadTemplate();
+             setNewValueEntryDiv();
+         }
+     });
 }
 
 function getSexValueCB(sex) {

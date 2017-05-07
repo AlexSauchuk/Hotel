@@ -96,7 +96,7 @@ public class Constants {
     public static final String GET_ALL_ROLES_HEADERS = "SELECT `id`, `name_role` FROM `db_hotel`.`role`";
 
     public static final String GET_LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
-    public static final String AUTH_USER = "SELECT `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `role` FROM `db_hotel`.`user` WHERE `id`=? AND `password`=?";
+    public static final String AUTH_USER = GET_ALL_USERS.concat("WHERE `email`=? AND `password`=?");
 
 
     public static final String GET_LAST_INSERTED_DISCOUNT = "SELECT * FROM `db_hotel`.`discount` WHERE `id`=LAST_INSERT_ID()";
