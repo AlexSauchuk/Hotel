@@ -9,7 +9,7 @@ function loadTemplate() {
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             if (request.status == 200) {
-                $('#content').html(request.responseText);
+                $('#entry').html(request.responseText);
                 setEventListener();
             } else {
                 alert('Network error, code: ' + request.status);
@@ -84,24 +84,26 @@ function updatePersonalInfo() {
     });
 }
 
-function setNewValueEntryDiv() {
+function setNewValueEntryDiv(textDiv,textHref) {
     var entry = document.getElementById("idEntryA");
-    entry.innerHTML = currentUser.name;
-    entry.href = "";    
+    entry.innerHTML = textDiv;
 }
 
 function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passport) {
-    $.ajax({
-        type: 'POST',
-        url: '/servlet?action=REGISTRATION',
-        data:{"login":login,"email":email,"password":pass,"phone":phone,"sex":sex,"name":name,"surname":surname,"passport":passport},
-        success: function(data) {
-            currentUser.name = data["name"];
-            currentUser.id  = parseInt(data["id"]);
-            loadTemplate();
-            setNewValueEntryDiv();
-        }
-    });
+    loadTemplate();
+    setNewValueEntryDiv();
+    // $.ajax({
+    //     type: 'POST',
+    //     url: '/servlet?action=REGISTRATION',
+    //     data:{"id":0,"login":login,"email":email,"password":pass,"mobilePhone":phone,"sex":sex,"name":name,"surname":surname,"passportNumber":passport},
+    //     success: function(data) {
+    //         console.log(data);
+    //         currentUser.name = data["name"];
+    //         currentUser.id  = parseInt(data["id"]);
+    //
+    //
+    //     }
+    // });
 }
 function sendUserDataLogin(email,pass){
     // $.ajax({
@@ -112,7 +114,7 @@ function sendUserDataLogin(email,pass){
     //         currentUser.name = data["name"];
     //         currentUser.id  = parseInt(data["id"]);
     //         loadTemplate();
-    //         setNewValueEntryDiv();
+    //         setNewValueEntryDiv(currentUser.name,"");
     //     }
     // });
 }
@@ -126,12 +128,12 @@ function getSexValueCB(sex) {
 function validateUpForm (){
     var name = document.getElementById("name");
     var surname = document.getElementById("surname");
-    var passport = document.getElementById("passport");
+    var passport = document.getElementById("passportNumber");
 
     var login = document.getElementById("login");
     var email = document.getElementById("emailUp");
     var password = document.getElementById("passUp");
-    var phone = document.getElementById("phone");
+    var phone = document.getElementById("mobilePhone");
     var sex = document.getElementById("sex");
 
     if (!validEmail(email.value) || !validPassword(password.value) || !validLogin(login.value)
@@ -157,7 +159,18 @@ function validateInForm (){
 }
 
 function LogOut() {
-    
+    // $.ajax({
+    //     type: 'POST',
+    //     url: '/servlet?action=LOGOUT',
+    //     data:{"id":currentUser.id,"name":currentUser.name},
+    //     success: function(data) {
+    //         currentUser.name = "";
+    //         currentUser.id  = 0;
+    //
+    //         setNewValueEntryDiv("Вход","#entry");
+    //     }
+    // });
+
 }
 
 
