@@ -103,10 +103,10 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
             if (validatorUser.validate(params)) {
                 return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
                         .name(params.get("name")[0])
-                        .surname(MD5.crypt(params.get("surname")[0]))
+                        .surname(params.get("surname")[0])
                         .login(params.get("login")[0])
                         .email(params.get("email")[0])
-                        .password(params.get("password")[0])
+                        .password((MD5.crypt(params.get("password")[0])))
                         .passportNumber(params.get("passportNumber")[0])
                         .mobilePhone(params.get("mobilePhone")[0])
                         .sex(params.get("sex")[0])

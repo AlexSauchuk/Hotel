@@ -16,7 +16,7 @@ public class RegistrationServiceImpl implements RegistrationService{
     CrudService crudService = new UserServiceImpl();
     @Override
     public User registration(User user) throws ServiceException {
-        if(authService.checkUser(user.getLogin(),user.getPassword()) != null){
+        if(authService.checkUser(user.getEmail(),user.getPassword()) == null){
             List<User> list = crudService.addEntity(user);
             return list.get(list.size()-1);
         }

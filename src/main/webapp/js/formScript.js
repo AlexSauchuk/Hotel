@@ -90,33 +90,30 @@ function setNewValueEntryDiv(textDiv,textHref) {
 }
 
 function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passport) {
-    loadTemplate();
-    setNewValueEntryDiv();
-    // $.ajax({
-    //     type: 'POST',
-    //     url: '/servlet?action=REGISTRATION',
-    //     data:{"id":0,"login":login,"email":email,"password":pass,"mobilePhone":phone,"sex":sex,"name":name,"surname":surname,"passportNumber":passport},
-    //     success: function(data) {
-    //         console.log(data);
-    //         currentUser.name = data["name"];
-    //         currentUser.id  = parseInt(data["id"]);
-    //
-    //
-    //     }
-    // });
+    $.ajax({
+        type: 'POST',
+        url: '/servlet?action=REGISTRATION',
+        data:{"login":login,"email":email,"password":pass,"mobilePhone":phone,"sex":sex,"name":name,"surname":surname,"passportNumber":passport,"id":0,"id_role":1},
+        success: function(data) {
+            currentUser.name = data["name"];
+            currentUser.id  = parseInt(data["id"]);
+            loadTemplate();
+            setNewValueEntryDiv();
+        }
+    });
 }
 function sendUserDataLogin(email,pass){
-    // $.ajax({
-    //     type: 'POST',
-    //     url: '/servlet?action=LOGIN',
-    //     data:{"email":email,"password":pass},
-    //     success: function(data) {
-    //         currentUser.name = data["name"];
-    //         currentUser.id  = parseInt(data["id"]);
-    //         loadTemplate();
-    //         setNewValueEntryDiv(currentUser.name,"");
-    //     }
-    // });
+     $.ajax({
+         type: 'POST',
+         url: '/servlet?action=AUTHORIZATION',
+         data:{"email":email,"password":pass},
+         success: function(data) {
+             currentUser.name = data["name"];
+             currentUser.id  = parseInt(data["id"]);
+             loadTemplate();
+             setNewValueEntryDiv();
+         }
+     });
 }
 
 function getSexValueCB(sex) {
