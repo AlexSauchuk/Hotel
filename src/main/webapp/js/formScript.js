@@ -10,7 +10,7 @@ function loadTemplate() {
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             if (request.status == 200) {
-                $('#content').html(request.responseText);
+                $('#entry').html(request.responseText);
                 setEventListener();
             } else {
                 alert('Network error, code: ' + request.status);
