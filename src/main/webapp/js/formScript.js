@@ -1,6 +1,41 @@
 ﻿
+$personalForm = null;
+
 function setEventListener() {
     ($('#idAcceptUpdatePersonalInfo')[0]).addEventListener("click", updatePersonalInfo);
+    ($('#idLogOutUser')[0]).addEventListener("click", LogOut);
+}
+
+function setPersonalInfo() {
+    var editBody = document.getElementById('mainFormPersonalInfo');
+    if($personalForm==null)
+        $personalForm = editBody;
+    var i = 1;
+    console.log(editBody);
+    $($personalForm).each(function(){
+        $("div",this).each(function(){
+            if((this.className=='col-sm-9' || this.className == 'radio col-sm-9') && i<9) {
+                var sex = this.firstElementChild.getAttribute('value');
+
+                if (this.className == 'radio col-sm-9') {
+                    if (currentUser.sex == sex) {
+                        this.childNodes[3].firstElementChild.checked = false;
+                        this.firstElementChild.firstElementChild.checked = true;
+                    }
+                    else {
+                        this.firstElementChild.firstElementChild.checked = false;
+                        this.childNodes[3].firstElementChild.checked = true;
+                    }
+                }
+                else {
+                    console.log($(this.firstElementChild));
+                    if((this.firstElementChild).childNodes.length==0)
+                        $(this.firstElementChild).val(currentUser[(Object.keys(currentUser))[i]]);
+                }
+                i++;
+            }
+        });
+    });
 }
 
 function loadTemplate() {
@@ -11,6 +46,7 @@ function loadTemplate() {
             if (request.status == 200) {
                 $('#entry').html(request.responseText);
                 setEventListener();
+                setPersonalInfo();
             } else {
                 alert('Network error, code: ' + request.status);
             }
@@ -58,23 +94,7 @@ function getSexValue(sex){
     return sexValue;
 }
 
-function updatePersonalInfo() {
-    var name = document.getElementById("name");
-    var surname = document.getElementById("surname");
-    var mobilePhone = document.getElementById("mobilePhone");
-    var login = document.getElementById("login");
-    var passportNumber = document.getElementById("passportNumber");
-    var sex = document.getElementById("sex");
-    var pass = document.getElementById("pass");
-
-    if(!validName(name.value) || !validName(surname.value) || !validPhone(mobilePhone.value) ||
-        !validLogin(login.value) || !validPassport(passportNumber.value) || !validSex(getSexValue(sex))
-        || !validPassword(pass.value))
-    {
-        alert ("Данные заполнены неверно!");
-        return  false;
-    }
-
+function sendUpdatePersonalInfo() {
     $.ajax({
         type: 'POST',
         url: '/servlet?action=UPDATE' + getUpdateDataUser(),
@@ -84,7 +104,28 @@ function updatePersonalInfo() {
     });
 }
 
-function setNewValueEntryDiv(textDiv,textHref) {
+function updatePersonalInfo() {
+    var name = document.getElementById("name");
+    var surname = document.getElementById("surname");
+    var email = document.getElementById("email");
+    var mobilePhone = document.getElementById("mobilePhone");
+    var login = document.getElementById("login");
+    var passportNumber = document.getElementById("passportNumber");
+    var sex = document.getElementById("sex");
+    var pass = document.getElementById("pass");
+
+    if(!validName(name.value) || !validName(surname.value) || !validPhone(mobilePhone.value) || !validEmail(email.value) ||
+        !validLogin(login.value) || !validPassport(passportNumber.value) || !validSex(getSexValue(sex))
+        || !validPassword(pass.value))
+    {
+        alert ("Данные заполнены неверно!");
+        return  false;
+    }
+
+    sendUpdatePersonalInfo();
+}
+
+function setNewValueEntryDiv(textDiv) {
     var entry = document.getElementById("idEntryA");
     entry.innerHTML = textDiv;
 }
@@ -95,10 +136,11 @@ function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passpo
         url: '/servlet?action=REGISTRATION',
         data:{"login":login,"email":email,"password":pass,"mobilePhone":phone,"sex":sex,"name":name,"surname":surname,"passportNumber":passport,"id":0,"id_role":1},
         success: function(data) {
-            currentUser.name = data["name"];
-            currentUser.id  = parseInt(data["id"]);
-            loadTemplate();
-            setNewValueEntryDiv();
+            if(typeof data =='object') {
+                currentUser = data;
+                loadTemplate();
+                setNewValueEntryDiv(currentUser.name);
+            }
         }
     });
 }
@@ -108,10 +150,12 @@ function sendUserDataLogin(email,pass){
          url: '/servlet?action=AUTHORIZATION',
          data:{"email":email,"password":pass},
          success: function(data) {
-             currentUser.name = data["name"];
-             currentUser.id  = parseInt(data["id"]);
-             loadTemplate();
-             setNewValueEntryDiv();
+             if(typeof data =='object') {
+                 currentUser = data;
+                 loadTemplate();
+
+                 setNewValueEntryDiv(currentUser.name);
+             }
          }
      });
 }
@@ -156,6 +200,7 @@ function validateInForm (){
 }
 
 function LogOut() {
+    console.log('1');
     // $.ajax({
     //     type: 'POST',
     //     url: '/servlet?action=LOGOUT',
@@ -169,8 +214,6 @@ function LogOut() {
     // });
 
 }
-
-
 
 function validSex(sex) {
     return(/(?=^[mwMWмжМЖ]$)/).test(sex);

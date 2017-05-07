@@ -91,16 +91,21 @@ function updateData(obj) {
         $("div",this).each(function(){
             if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
                 var sex = this.firstElementChild.getAttribute('value');
+                console.log(this.firstElementChild);
+                console.log(arrayValues[i]);
 
-                if (this.className == 'radio col-sm-8')
-                    if(arrayValues[i].innerHTML == sex) {
+                if (this.className == 'radio col-sm-8') {
+                    console.log(this.childNodes[3].firstElementChild);
+                    console.log(this.firstElementChild.firstElementChild);
+                    if (arrayValues[i].innerHTML == sex) {
                         this.childNodes[3].firstElementChild.checked = false;
                         this.firstElementChild.firstElementChild.checked = true;
                     }
-                    else{
+                    else {
                         this.firstElementChild.firstElementChild.checked = false;
                         this.childNodes[3].firstElementChild.checked = true;
                     }
+                }
                 else {
                     if((this.firstElementChild).childNodes.length==0)
                         $(this.firstElementChild).val(arrayValues[i].innerHTML);
