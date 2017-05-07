@@ -51,7 +51,7 @@
                             <li><a href="#contentGallery">Галерея</a></li>
                             <li><a href="#contentTestimonials">Отзывы</a></li>
                             <li><a href="#contentBooking">Бронирование</a></li>
-                            <li><a href="#entry" id="idEntryA">Вход</a></li>
+                            <li><a href="#entry" click="" id="idEntryA">Вход</a></li>
                         </ul>
                     </div>
                 </div>
