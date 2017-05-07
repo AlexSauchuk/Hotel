@@ -58,9 +58,7 @@ public class ValidatorUser extends AbstractValidator {
     }
 
     private boolean validatePassword(String password) throws IncorrectPasswordException {
-        Pattern p = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$");
-        Matcher m = p.matcher(password);
-        if (m.matches()){
+        if (password.length() >= 8){
             return true;
         }
         throw new IncorrectPasswordException("Incorrect password!");

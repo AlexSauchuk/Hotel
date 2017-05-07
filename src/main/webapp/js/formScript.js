@@ -1,6 +1,7 @@
 ﻿
 function setEventListener() {
     ($('#idAcceptUpdatePersonalInfo')[0]).addEventListener("click", updatePersonalInfo);
+    ($('#idLogOutUser')[0]).addEventListener("click", LogOut);
 }
 
 function loadTemplate() {
@@ -84,10 +85,9 @@ function updatePersonalInfo() {
     });
 }
 
-function setNewValueEntryDiv() {
+function setNewValueEntryDiv(textDiv) {
     var entry = document.getElementById("idEntryA");
-    entry.innerHTML = currentUser.name;
-    entry.href = "";    
+    entry.innerHTML = textDiv;
 }
 
 function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passport) {
@@ -104,17 +104,18 @@ function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passpo
     });
 }
 function sendUserDataLogin(email,pass){
-     $.ajax({
-         type: 'POST',
-         url: '/servlet?action=AUTHORIZATION',
-         data:{"email":email,"password":pass},
-         success: function(data) {
-             currentUser.name = data["name"];
-             currentUser.id  = parseInt(data["id"]);
-             loadTemplate();
-             setNewValueEntryDiv();
-         }
-     });
+    $.ajax({
+        type: 'POST',
+        url: '/servlet?action=AUTHORIZATION',
+        data:{"email":email,"password":pass},
+        success: function(data) {
+            if(typeof data =='object') {
+                currentUser = data;
+                loadTemplate();
+                setNewValueEntryDiv(currentUser.name);
+            }
+        }
+    });
 }
 
 function getSexValueCB(sex) {
@@ -157,7 +158,16 @@ function validateInForm (){
 }
 
 function LogOut() {
-    
+    $.ajax({
+        type: 'POST',
+        url: '/servlet?action=LOGOUT',
+        success: function(data) {
+            console.log(data);
+            currentUser = null;
+            loadTemplate();
+            setNewValueEntryDiv("Вход","#entry");
+        }
+    });
 }
 
 
