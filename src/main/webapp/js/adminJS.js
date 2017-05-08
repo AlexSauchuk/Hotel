@@ -89,31 +89,14 @@ function updateData(obj) {
     var i = 0;
     $(editBody).each(function(){
         $("div",this).each(function(){
-            if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
-                var sex = this.firstElementChild.getAttribute('value');
-                console.log(this.firstElementChild);
-                console.log(arrayValues[i]);
-
-                if (this.className == 'radio col-sm-8') {
-                    console.log(this.childNodes[3].firstElementChild);
-                    console.log(this.firstElementChild.firstElementChild);
-                    if (arrayValues[i].innerHTML == sex) {
-                        this.childNodes[3].firstElementChild.checked = false;
-                        this.firstElementChild.firstElementChild.checked = true;
-                    }
-                    else {
-                        this.firstElementChild.firstElementChild.checked = false;
-                        this.childNodes[3].firstElementChild.checked = true;
-                    }
-                }
-                else {
-                    if((this.firstElementChild).childNodes.length==0)
-                        $(this.firstElementChild).val(arrayValues[i].innerHTML);
-                }
+            if(this.className=='col-sm-8') {
+                if((this.firstElementChild).childNodes.length==0)
+                    $(this.firstElementChild).val(arrayValues[i].innerHTML);
                 i++;
             }
         });
     });
+
     if(Object.keys(arrayObj).length>0){
         var inputs = obj.getElementsByTagName('input');
         var i = 0;
@@ -141,7 +124,7 @@ function getData(editBody) {
     var result = '';
     $(editBody).each(function(){
         $("div",this).each(function() {
-            if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
+            if(this.className=='col-sm-8') {
                 var key = $(this.firstElementChild).attr('name');
                 var value = $(this.firstElementChild).val();
                 if(key == 'id' && value == ''){
@@ -149,10 +132,6 @@ function getData(editBody) {
                 }else{
                     if($(this.firstElementChild).get(0).tagName == 'SELECT'){
                         value = value.substr(0,value.indexOf(' '))
-                    }
-                    if(this.className == 'radio col-sm-8'){
-                        key = this.id;
-                        value = $("input[type='radio']:checked").val();
                     }
                 }
                 result = result.concat('&',key,'=', value);

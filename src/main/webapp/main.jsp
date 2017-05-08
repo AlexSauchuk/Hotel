@@ -47,10 +47,10 @@
                     <div class="inner">
                         <ul class="nav">
                             <li><a href="#contentMain" class="current">Главная</a></li>
-                            <li><a href="#contentServices">Услуги</a></li>
+                            <li><a href="#contentServices" id="idServicesA">Услуги</a></li>
                             <li><a href="#contentGallery">Галерея</a></li>
                             <li><a href="#contentTestimonials">Отзывы</a></li>
-                            <li><a href="#contentBooking">Бронирование</a></li>
+                            <li><a id="idBookingA">Бронирование</a></li>
                             <li><a href="#entry" click="" id="idEntryA">Вход</a></li>
                         </ul>
                     </div>

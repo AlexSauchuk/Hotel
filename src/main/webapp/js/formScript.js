@@ -14,25 +14,11 @@ function setPersonalInfo() {
     console.log(editBody);
     $($personalForm).each(function(){
         $("div",this).each(function(){
-            if((this.className=='col-sm-9' || this.className == 'radio col-sm-9') && i<9) {
-                var sex = this.firstElementChild.getAttribute('value');
+            if((this.className=='col-sm-9') && i<9) {
+                if((this.firstElementChild).childNodes.length==0)
+                    $(this.firstElementChild).val(currentUser[(Object.keys(currentUser))[i]]);
 
-                if (this.className == 'radio col-sm-9') {
-                    if (currentUser.sex == sex) {
-                        this.childNodes[3].firstElementChild.checked = false;
-                        this.firstElementChild.firstElementChild.checked = true;
-                    }
-                    else {
-                        this.firstElementChild.firstElementChild.checked = false;
-                        this.childNodes[3].firstElementChild.checked = true;
-                    }
-                }
-                else {
-                    console.log($(this.firstElementChild));
-                    if((this.firstElementChild).childNodes.length==0)
-                        $(this.firstElementChild).val(currentUser[(Object.keys(currentUser))[i]]);
-                }
-                i++;
+            i++;
             }
         });
     });
@@ -58,10 +44,10 @@ function loadTemplate() {
 function getUpdateDataUser() {
     var editBodyAdd = $('#mainFormPersonalInfo');
     var result = '';
-    
+    console.log(editBodyAdd);
     $(editBodyAdd).each(function(){
         $("div",this).each(function() {
-            if(this.className=='col-sm-9' || this.className == 'radio col-sm-9') {
+            if(this.className=='col-sm-9') {
                 var key = $(this.firstElementChild).attr('name');
                 var value = $(this.firstElementChild).val();
                 if(key == 'id' && value == ''){
@@ -70,28 +56,12 @@ function getUpdateDataUser() {
                     if($(this.firstElementChild).get(0).tagName == 'SELECT'){
                         value = value.substr(0,value.indexOf(' '))
                     }
-                    if(this.className == 'radio col-sm-9'){
-                        key = this.id;
-                        value = $("input[type='radio']:checked").val();
-                    }
                 }
                 result = result.concat('&',key,'=', value);
             }
         });
     });
     return result;
-}
-
-function getSexValue(sex){
-    var sexValue = "";
-    $(sex).each(function() {
-        $("input",this).each(function(){
-            if(this.checked){
-                sexValue =  this.value;
-            }
-        });
-    });
-    return sexValue;
 }
 
 function sendUpdatePersonalInfo() {
@@ -112,12 +82,10 @@ function updatePersonalInfo() {
     var mobilePhone = document.getElementById("mobilePhone");
     var login = document.getElementById("login");
     var passportNumber = document.getElementById("passportNumber");
-    var sex = document.getElementById("sex");
     var pass = document.getElementById("pass");
 
     if(!validName(name.value) || !validName(surname.value) || !validPhone(mobilePhone.value) || !validEmail(email.value) ||
-        !validLogin(login.value) || !validPassport(passportNumber.value) || !validSex(getSexValue(sex))
-        || !validPassword(pass.value))
+        !validLogin(login.value) || !validPassport(passportNumber.value)|| !validPassword(pass.value))
     {
         alert ("Данные заполнены неверно!");
         return  false;
@@ -131,11 +99,11 @@ function setNewValueEntryDiv(textDiv) {
     entry.innerHTML = textDiv;
 }
 
-function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passport) {
+function sendUserDataRegistration(login,email,pass,phone,name,surname,passport) {
     $.ajax({
         type: 'POST',
         url: '/servlet?action=REGISTRATION',
-        data:{"login":login,"email":email,"password":pass,"mobilePhone":phone,"sex":sex,"name":name,"surname":surname,"passportNumber":passport,"id":0,"id_role":1},
+        data:{"login":login,"email":email,"password":pass,"mobilePhone":phone,"name":name,"surname":surname,"passportNumber":passport,"id":0,"id_role":1},
         success: function(data) {
             if(typeof data =='object') {
                 currentUser = data;
@@ -145,6 +113,7 @@ function sendUserDataRegistration(login,email,pass,phone,sex,name,surname,passpo
         }
     });
 }
+
 function sendUserDataLogin(email,pass){
      $.ajax({
          type: 'POST',
@@ -161,12 +130,6 @@ function sendUserDataLogin(email,pass){
      });
 }
 
-function getSexValueCB(sex) {
-    if(sex.checked)
-        return "M";
-    return "W";
-}
-
 function validateUpForm (){
     var name = document.getElementById("name");
     var surname = document.getElementById("surname");
@@ -176,16 +139,15 @@ function validateUpForm (){
     var email = document.getElementById("emailUp");
     var password = document.getElementById("passUp");
     var phone = document.getElementById("mobilePhone");
-    var sex = document.getElementById("sex");
 
     if (!validEmail(email.value) || !validPassword(password.value) || !validLogin(login.value)
-        || !validPhone(phone.value) || !validSex(getSexValueCB(sex)) || !validName(name.value)
+        || !validPhone(phone.value)  || !validName(name.value)
         || !validName(surname.value) || !validPassport(passport.value)){
         alert ("Данные заполнены неверно!");
         return  false;
     }
     alert ("Данные успешно отправлены на сервер!");
-    sendUserDataRegistration(login.value,email.value,password.value,phone.value,getSexValueCB(sex),name.value,surname.value,passport.value);
+    sendUserDataRegistration(login.value,email.value,password.value,phone.value,name.value,surname.value,passport.value);
 }
 
 function validateInForm (){
@@ -213,12 +175,6 @@ function LogOut() {
     });
 }
 
-
-
-
-function validSex(sex) {
-    return(/(?=^[mwMWмжМЖ]$)/).test(sex);
-}
 function validPassport(passport) {
     return (/(?=[a-zA-Z]{2}[0-9]{7})/).test(passport);
 }
