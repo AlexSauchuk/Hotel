@@ -56,7 +56,7 @@ function loadTemplate() {
 }
 
 function getUpdateDataUser() {
-    var editBodyAdd = $('#mainForm');
+    var editBodyAdd = $('#mainFormPersonalInfo');
     var result = '';
     
     $(editBodyAdd).each(function(){
@@ -97,7 +97,8 @@ function getSexValue(sex){
 function sendUpdatePersonalInfo() {
     $.ajax({
         type: 'POST',
-        url: '/servlet?action=UPDATE' + getUpdateDataUser(),
+        url: '/servlet?action=UPDATE' + getUpdateDataUser()+'&tableName=USER',
+
         success: function(data) {
 
         }
@@ -158,18 +159,6 @@ function sendUserDataLogin(email,pass){
              }
          }
      });
-    $.ajax({
-        type: 'POST',
-        url: '/servlet?action=AUTHORIZATION',
-        data:{"email":email,"password":pass},
-        success: function(data) {
-            if(typeof data =='object') {
-                currentUser = data;
-                loadTemplate();
-                setNewValueEntryDiv(currentUser.name);
-            }
-        }
-    });
 }
 
 function getSexValueCB(sex) {
@@ -223,6 +212,7 @@ function LogOut() {
         }
     });
 }
+
 
 
 

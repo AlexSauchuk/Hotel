@@ -11,7 +11,6 @@ public class User {
     private String login;
     private String passportNumber;
     private String password;
-    private String sex;
     private Role role;
 
     public User(){super();}
@@ -24,7 +23,6 @@ public class User {
         this.login = userBuilder.getLogin();
         this.passportNumber = userBuilder.getPassportNumber();
         this.password = userBuilder.getPassword();
-        this.sex = userBuilder.getSex();
         this.role = userBuilder.getRole();
         this.email = userBuilder.getEmail();
     }
@@ -88,14 +86,6 @@ public class User {
         this.password = password;
     }
 
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -125,7 +115,6 @@ public class User {
         if (!login.equals(user.login)) return false;
         if (!passportNumber.equals(user.passportNumber)) return false;
         if (!password.equals(user.password)) return false;
-        if (!sex.equals(user.sex)) return false;
         return role.equals(user.role);
     }
 
@@ -137,7 +126,6 @@ public class User {
         result = 31 * result + login.hashCode();
         result = 31 * result + passportNumber.hashCode();
         result = 31 * result + password.hashCode();
-        result = 31 * result + sex.hashCode();
         result = 31 * result + role.hashCode();
         return result;
     }
