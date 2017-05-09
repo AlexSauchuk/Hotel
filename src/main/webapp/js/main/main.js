@@ -6,13 +6,18 @@ var currentUser = null;
 
 
 $( document ).ready(function() {
-    /*console.log( "ready!" );
-
-    $.ajax(function(data){
-        sessionData = JSON.parse(data);
-    });
-    sessionData["login"] = "Igor";
-    console.log(sessionData["login"]);*/
+    if(sessionStorage.length!=0) {
+        currentUser = {};
+        for (var fieldUser in sessionStorage) {
+            if (typeof sessionStorage[fieldUser] == 'role')
+                currentUser['role']['id'] = sessionStorage['role'];
+            else
+                currentUser[fieldUser] = sessionStorage[fieldUser];
+        }
+        
+        loadTemplate('/templates/pages/signin/personalInfo.html');
+        setNewValueEntryDiv(currentUser.name);
+    }
 });
 function Hi() {
     console.log("Hi");

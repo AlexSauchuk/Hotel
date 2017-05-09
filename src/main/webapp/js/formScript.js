@@ -10,16 +10,13 @@ function setPersonalInfo() {
     var editBody = document.getElementById('mainFormPersonalInfo');
     if($personalForm==null)
         $personalForm = editBody;
-    var i = 1;
-    console.log(editBody);
-    console.log(currentUser);
+
     $(editBody).each(function(){
         $("div",this).each(function(){
-            if((this.className=='col-sm-9') && i<9) {
+            if((this.className=='col-sm-9')) {
+                console.log($(this.firstElementChild).attr('name'));
                 if((this.firstElementChild).childNodes.length==0)
-                    $(this.firstElementChild).val(currentUser[(Object.keys(currentUser))[i]]);
-            
-            i++;
+                    $(this.firstElementChild).val(currentUser[$(this.firstElementChild).attr('name')]);
             }
         });
     });
@@ -64,6 +61,8 @@ function getUpdateDataUser() {
             }
         });
     });
+    result = result.concat('&','id','=', currentUser.id);
+    result = result.concat('&','role','=', currentUser.role);
     return result;
 }
 
@@ -123,10 +122,19 @@ function sendUserDataLogin(email,pass){
          url: '/servlet?action=AUTHORIZATION',
          data:{"email":email,"password":pass},
          success: function(data) {
-             if(typeof data =='object') {
+             console.log(data);
+             if(typeof data =='object' && data!=null) {
                  currentUser = data;
-                 loadTemplate('/templates/pages/signin/personalInfo.html');
 
+                 if(sessionStorage.length==0) {
+                     for (var fieldUser in currentUser) {
+                         if (typeof currentUser[fieldUser] == 'object')
+                             sessionStorage['role'] = currentUser['role']['id'];
+                         else
+                             sessionStorage[fieldUser] = currentUser[fieldUser];
+                     }
+                 }
+                 loadTemplate('/templates/pages/signin/personalInfo.html');
                  setNewValueEntryDiv(currentUser.name);
              }
          }
