@@ -162,18 +162,16 @@ function validateInForm (){
 }
 
 function LogOut() {
-    console.log('1');
-    // $.ajax({
-    //     type: 'POST',
-    //     url: '/servlet?action=LOGOUT',
-    //     data:{"id":currentUser.id,"name":currentUser.name},
-    //     success: function(data) {
-    //         currentUser.name = "";
-    //         currentUser.id  = 0;
-    //
-    //         setNewValueEntryDiv("Вход","#entry");
-    //     }
-    // });
+    $.ajax({
+        type: 'POST',
+        url: '/servlet?action=LOGOUT',
+        success: function(data) {
+            currentUser = null;
+
+            setNewValueEntryDiv("Вход","#entry");
+
+        }
+    });
 
 }
 

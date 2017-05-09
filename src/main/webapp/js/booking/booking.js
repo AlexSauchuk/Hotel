@@ -2,6 +2,7 @@
  * Created by SK on 08.05.2017.
  */
 $templateReservation = null;
+var flag = false;
 
 function setReservationForm(idRoom) {
     getTemplateReservation(idRoom);
@@ -11,7 +12,7 @@ function getTemplateReservation(id) {
     $.get("/templates/pages/booking/templateReservation.html", "html")
         .done(function(html){
             $templateReservation = html;
-            $('#idContentReservation').append($templateReservation);
+            $('#idContentReservation').html($templateReservation);
             $(document.getElementById('mainFormReservationInfo').firstElementChild).children().last().children().last().val(id);
         })
         .fail(function(){ $templateRoom.html("failed to get:" + src); });
@@ -31,6 +32,11 @@ function getReservationData(editBody) {
                         value = value.substr(0,value.indexOf(' '))
                     }
                 }
+                if(value==''){
+                    alert("Заполните дату!");
+                    flag = false;
+                    return false;
+                }
                 result = result.concat('&',key,'=', value);
             }
         });
@@ -42,15 +48,17 @@ function getReservationData(editBody) {
 
     result = result.concat('&','cost_additional_services','=', '0');
     result = result.concat('&','discount_id','=', '0');
-
+    flag = true;
     return result;
 }
 
 function sendReservation() {
     var editBodyUpdate = $('#mainFormReservationInfo');
+    var data = getReservationData(editBodyUpdate[0]);
+    if(flag)
     $.ajax({
         type: 'POST',
-        url: '/servlet?action=ADD' + getReservationData(editBodyUpdate[0])+'&tableName=RESERVATION',
+        url: '/servlet?action=ADD' + data +'&tableName=RESERVATION',
         success: function () {
         }});
 }
