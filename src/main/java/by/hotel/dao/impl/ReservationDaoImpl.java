@@ -156,7 +156,6 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
                         .passportNumber(resultSet.getString("passport_number"))
                         .name(resultSet.getString("name"))
                         .surname(resultSet.getString("surname"))
-                        .sex(resultSet.getString("sex"))
                         .mobilePhone(resultSet.getString("mobile_phone"))
                         .build())
                 .costAdditionalServices(resultSet.getInt("cost_additional_services"))

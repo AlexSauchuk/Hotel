@@ -41,7 +41,7 @@ function getReservationData(editBody) {
         result = result.concat('&','id_user','=', '0');
 
     result = result.concat('&','cost_additional_services','=', '0');
-    result = result.concat('&','discount_id','=', '0');
+    result = result.concat('&','id_discount','=', '1');
 
     return result;
 }

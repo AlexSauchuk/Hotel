@@ -55,6 +55,7 @@ public class MainFilter implements Filter {
                 request.getRequestDispatcher("tut.by").forward(request, response);
             }
         }*/
+        Map<String, String[]> r = request.getParameterMap();
         chain.doFilter(request, response);
     }
 
