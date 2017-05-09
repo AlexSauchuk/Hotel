@@ -59,7 +59,6 @@
         var $page = $(document.body).find("section#" + pageName);
 
         var src = $page.attr("src");
-
         if( src && $page.find(">:first-child").length == 0) {
             $.get(src, "html") // it has src and is empty - load it
                 .done(function(html){ currentPage = pageName; $page.html(html); show(pageName,param); })

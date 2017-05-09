@@ -28,6 +28,7 @@ public class MainFilter implements Filter {
         rights.put("CREATE_DOCUMENT", 127);
         rights.put("AUTHORIZATION", 8);
         rights.put("REGISTRATION", 8);
+        rights.put("LOGOUT", 8);
     }
 
     private FilterConfig filterConfig = null;
@@ -37,6 +38,7 @@ public class MainFilter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        /*
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession(false);
         Integer requiredRight;
@@ -52,7 +54,8 @@ public class MainFilter implements Filter {
             } else {
                 request.getRequestDispatcher("tut.by").forward(request, response);
             }
-        }
+        }*/
+        chain.doFilter(request, response);
     }
 
     public void destroy() {

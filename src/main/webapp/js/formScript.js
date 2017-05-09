@@ -67,7 +67,8 @@ function getUpdateDataUser() {
 function sendUpdatePersonalInfo() {
     $.ajax({
         type: 'POST',
-        url: '/servlet?action=UPDATE' + getUpdateDataUser(),
+        url: '/servlet?action=UPDATE' + getUpdateDataUser()+'&tableName=USER',
+
         success: function(data) {
 
         }
