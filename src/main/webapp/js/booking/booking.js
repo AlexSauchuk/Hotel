@@ -2,7 +2,7 @@
  * Created by SK on 08.05.2017.
  */
 $templateReservation = null;
-var flag = false;
+var flag = true;
 
 function setReservationForm(idRoom) {
     getTemplateReservation(idRoom);
@@ -20,6 +20,7 @@ function getTemplateReservation(id) {
 
 function getReservationData(editBody) {
     var result = '';
+    flag = true;
     $(editBody).each(function(){
         $("div",this).each(function() {
             if(this.className=='col-sm-9') {
@@ -48,7 +49,6 @@ function getReservationData(editBody) {
 
     result = result.concat('&','cost_additional_services','=', '0');
     result = result.concat('&','discount_id','=', '0');
-    flag = true;
     return result;
 }
 
@@ -65,7 +65,9 @@ function sendReservation() {
 
 function acceptReservationRoom() {
     sendReservation();
-
-    var services = document.getElementById("idServicesA");
-    services.click();
+    if(flag) {
+        console.log("1");
+        var services = document.getElementById("idServicesA");
+        services.click();
+    }
 }

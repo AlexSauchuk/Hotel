@@ -4,6 +4,7 @@
 
 var currentUser = null;
 
+
 $( document ).ready(function() {
     /*console.log( "ready!" );
 

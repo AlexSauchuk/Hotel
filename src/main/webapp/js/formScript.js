@@ -12,7 +12,8 @@ function setPersonalInfo() {
         $personalForm = editBody;
     var i = 1;
     console.log(editBody);
-    $($personalForm).each(function(){
+    console.log(currentUser);
+    $(editBody).each(function(){
         $("div",this).each(function(){
             if((this.className=='col-sm-9') && i<9) {
                 if((this.firstElementChild).childNodes.length==0)
@@ -24,15 +25,17 @@ function setPersonalInfo() {
     });
 }
 
-function loadTemplate() {
+function loadTemplate(url) {
     var request = new XMLHttpRequest();
-    request.open('GET', '/templates/pages/signin/personalInfo.html');
+    request.open('GET', url);
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             if (request.status == 200) {
                 $('#entry').html(request.responseText);
-                setEventListener();
-                setPersonalInfo();
+                if(currentUser!=null) {
+                    setEventListener();
+                    setPersonalInfo();
+                }
             } else {
                 alert('Network error, code: ' + request.status);
             }
@@ -107,7 +110,7 @@ function sendUserDataRegistration(login,email,pass,phone,name,surname,passport) 
         success: function(data) {
             if(typeof data =='object') {
                 currentUser = data;
-                loadTemplate();
+                loadTemplate('/templates/pages/signin/personalInfo.html');
                 setNewValueEntryDiv(currentUser.name);
             }
         }
@@ -122,7 +125,7 @@ function sendUserDataLogin(email,pass){
          success: function(data) {
              if(typeof data =='object') {
                  currentUser = data;
-                 loadTemplate();
+                 loadTemplate('/templates/pages/signin/personalInfo.html');
 
                  setNewValueEntryDiv(currentUser.name);
              }
@@ -170,7 +173,7 @@ function LogOut() {
             currentUser = null;
 
             setNewValueEntryDiv("Вход","#entry");
-
+            loadTemplate('/templates/pages/signin/entry.html');
         }
     });
 

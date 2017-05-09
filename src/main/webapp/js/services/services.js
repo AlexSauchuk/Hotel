@@ -39,9 +39,9 @@ function reservateRoom(e) {
     if (currentUser != null) {
         var idRoom = e.id.substr(6);
         var booking = document.getElementById("idBookingA");
+        setTimeout(setReservationForm, 200,idRoom);
         booking.setAttribute('href', '#contentBooking');
         booking.click();
-        setReservationForm(idRoom);
     }else
         alert("Вы не авторизованы!")
 }
