@@ -64,6 +64,8 @@ function getUpdateDataUser() {
             }
         });
     });
+    result = result.concat('&','id','=', currentUser.id);
+    result = result.concat('&','id_role','=', currentUser['role']['id']);
     return result;
 }
 
@@ -123,7 +125,7 @@ function sendUserDataLogin(email,pass){
          url: '/servlet?action=AUTHORIZATION',
          data:{"email":email,"password":pass},
          success: function(data) {
-             if(typeof data =='object') {
+             if(typeof data =='object' && data!=null) {
                  currentUser = data;
                  loadTemplate('/templates/pages/signin/personalInfo.html');
 

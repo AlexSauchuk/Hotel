@@ -171,11 +171,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
         statement.setString(1, user.getPassportNumber());
         statement.setString(2, user.getName());
         statement.setString(3, user.getSurname());
-        statement.setString(5, user.getMobilePhone());
-        statement.setString(6, user.getPassword());
-        statement.setString(7, user.getLogin());
-        statement.setInt(8, user.getRole().getId());
-        statement.setString(9, user.getEmail());
+        statement.setString(4, user.getMobilePhone());
+        statement.setString(5, user.getPassword());
+        statement.setString(6, user.getLogin());
+        statement.setInt(7, user.getRole().getId());
+        statement.setString(8, user.getEmail());
+        if (user.getId() != 0) {
+            statement.setInt(9, user.getId());
+        }
         return statement;
     }
 
