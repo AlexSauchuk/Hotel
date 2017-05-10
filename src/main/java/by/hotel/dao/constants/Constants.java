@@ -3,12 +3,12 @@ package by.hotel.dao.constants;
 public class Constants {
     public static final String GET_ALL_NAMES_TABLES = "SHOW TABLES FROM `db_hotel`";
 
-    public static final String GET_ALL_USERS = "SELECT `user`.`id`, `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `password`, `role`, `email`,`role`.`id` AS `id_role`,`role`.`name_role`,`role`.`update`,`role`.`delete`,`role`.`insert`,`role`.`create`,`role`.`select`,`role`.`drop`,`role`.`grant` " +
+    public static final String GET_ALL_USERS = "SELECT `user`.`id`, `passport_number`, `name`, `surname`, `mobile_phone`, `login`, `password`, `role`, `email`,`role`.`id` AS `id_role`,`role`.`name_role`,`role`.`update`,`role`.`delete`,`role`.`insert`,`role`.`create`,`role`.`select`,`role`.`drop`,`role`.`grant` " +
             "FROM (`db_hotel`.`user` LEFT OUTER JOIN `db_hotel`.`role` ON `user`.`role` = `role`.`id`)";
-    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `password`, `login`,`role`,`email`) VALUES (?,?,?,?,?,?,?,?,?)";
+    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passport_number`, `name`, `surname`, `mobile_phone`, `password`, `login`,`role`,`email`) VALUES (?,?,?,?,?,?,?,?)";
     public static final String REMOVE_USER = "DELETE FROM `db_hotel`.`user` WHERE `id`=?";
     public static final String GET_USER = GET_ALL_USERS.concat(" WHERE `user`.`id`=?");
-    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`=?, `name`=?, `surname`=?, `sex`=?, `mobile_phone`=?, `password`=?, `login`=?, `role`=?, `email`=? WHERE `id`=?";
+    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passport_number`=?, `name`=?, `surname`=?, `mobile_phone`=?, `password`=?, `login`=?, `role`=?, `email`=? WHERE `id`=?";
     public static final String GET_ALL_USERS_HEADERS = "SELECT `id`, `surname`, `name` FROM `db_hotel`.`user`";
 
     public static final String GET_ALL_ROOMS = "SELECT `room`.`id`,`id_room_type`, `name`,`rooms_count`, `beds_count`, `cost_per_day`, `additional_info`,`bathrooms_count`,`size`, `floor`, `phone`, `path` " +
@@ -96,7 +96,7 @@ public class Constants {
     public static final String GET_ALL_ROLES_HEADERS = "SELECT `id`, `name_role` FROM `db_hotel`.`role`";
 
     public static final String GET_LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
-    public static final String AUTH_USER = "SELECT `passport_number`, `name`, `surname`, `sex`, `mobile_phone`, `login`, `role` FROM `db_hotel`.`user` WHERE `id`=? AND `password`=?";
+    public static final String AUTH_USER = GET_ALL_USERS.concat("WHERE `email`=? AND `password`=?");
 
 
     public static final String GET_LAST_INSERTED_DISCOUNT = "SELECT * FROM `db_hotel`.`discount` WHERE `id`=LAST_INSERT_ID()";

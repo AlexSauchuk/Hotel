@@ -3,7 +3,7 @@
             <h4 class="modal-title">Кабинет</h4>
         </div>
         <div class="modal-body">
-            <div class="form-horizontal" id="mainForm">
+            <div class="form-horizontal" id="mainFormPersonalInfo">
                 <div class="form-group">
                     <label for="name" class="col-sm-3 control-label">Name</label>
                     <div class="col-sm-9">
@@ -14,6 +14,12 @@
                     <label for="surname" class="col-sm-3 control-label">SurName</label>
                     <div class="col-sm-9">
                         <input type="surname" class="form-control" id="surname" name="surname" placeholder="SurName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-sm-3 control-label">E-mail</label>
+                    <div class="col-sm-9">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="E-mail">
                     </div>
                 </div>
                 <div class="form-group">
@@ -35,36 +41,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="passOld" class="col-sm-3 control-label">Password Old</label>
+                    <label for="pass" class="col-sm-3 control-label">Password</label>
                     <div class="col-sm-9">
-                        <input type="passOld" class="form-control" id="passOld" name="passwordOld" placeholder="Password Old">
-                    </div>
-                </div>
-                <div class="form-group">
-                <label for="passNew" class="col-sm-3 control-label">Password New</label>
-                    <div class="col-sm-9">
-                        <input type="passNew" class="form-control" id="passNew" name="passwordNew" placeholder="Password New">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="sex" class="col-sm-3 control-label">Sex</label>
-                    <div class="radio col-sm-9" id="sex">
-                        <label value="М">
-                            <input type="radio" name="sex" value="М">
-                            М
-                        </label>
-                        <label value="Ж">
-                            <input type="radio" name="sex" value="Ж">
-                            Ж
-                        </label>
+                        <input type="password" class="form-control" id="pass" name="password" placeholder="Password">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-8">
-                        <button onclick="" style="width:100%" id="idAcceptUpdatePersonalInfo" class="btn btn-success">Подтвердить</button>
+                        <button onclick="" style="width:100%" id="idAcceptUpdatePersonalInfo" onclick="updatePersonalInfo()" class="btn btn-success">Подтвердить</button>
                     </div>
                     <div class="col-sm-4">
-                        <button onclick="" style="width:100%" class="btn btn-warning">Выход</button>
+                        <button onclick="" style="width:100%" id="idLogOutUser" onclick="LogOut()" class="btn btn-warning">Выход</button>
                     </div>
                 </div>
             </div>

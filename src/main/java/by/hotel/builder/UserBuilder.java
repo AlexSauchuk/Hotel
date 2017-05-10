@@ -12,7 +12,6 @@ public class UserBuilder {
     private String login;
     private String passportNumber;
     private String password;
-    private String sex;
     private Role role;
 
     public UserBuilder id(int id){
@@ -55,11 +54,6 @@ public class UserBuilder {
         return this;
     }
 
-    public UserBuilder sex(String sex){
-        this.sex = sex;
-        return this;
-    }
-
     public UserBuilder role(Role role){
         this.role = role;
         return this;
@@ -93,10 +87,6 @@ public class UserBuilder {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getSex() {
-        return sex;
     }
 
     public Role getRole() {

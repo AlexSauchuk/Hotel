@@ -28,6 +28,7 @@ public class Registration implements Command {
             if (user != null){
                 HttpSession session = req.getSession(true);
                 session.setAttribute("rights",getRights(user));
+                return user;
             }
         } catch (ServiceException e) {
             throw new CommandException(e);

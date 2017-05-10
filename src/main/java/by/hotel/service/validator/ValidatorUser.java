@@ -7,12 +7,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidatorUser extends AbstractValidator {
-    public boolean validate(Map<String, String[]> data) throws IncorrectSexException, IncorrectUserNameException, IncorrectPassportNumberException, IncorrectPasswordException, IncorrectLoginException, IncorrectMobilePhoneException, IncorrectUserSurnameException,IncorrectUserEmailException {
+    public boolean validate(Map<String, String[]> data) throws IncorrectUserNameException, IncorrectPassportNumberException, IncorrectPasswordException, IncorrectLoginException, IncorrectMobilePhoneException, IncorrectUserSurnameException,IncorrectUserEmailException {
 
         if (validatePassportNumber(data.get("passportNumber")[0])
                 & validateUserName(data.get("name")[0])
                 & validateUserSurName(data.get("surname")[0])
-                & validateSex(data.get("sex")[0])
                 & validateMobilePhone(data.get("mobilePhone")[0])
                 & validatePassword(data.get("password")[0])
                 & validateLogin(data.get("login")[0])
@@ -43,13 +42,6 @@ public class ValidatorUser extends AbstractValidator {
         throw new IncorrectUserSurnameException("Incorrect user surname!");
     }
 
-    private boolean validateSex(String sex) throws IncorrectSexException {
-        if (sex.length() == 1) {
-            return true;
-        }
-        throw new IncorrectSexException("Incorrect sex!");
-    }
-
     private boolean validateMobilePhone(String mobilePhone) throws IncorrectMobilePhoneException {
         if (mobilePhone.length() < 15 & mobilePhone.length() >= 7) {
             return true;
@@ -58,7 +50,7 @@ public class ValidatorUser extends AbstractValidator {
     }
 
     private boolean validatePassword(String password) throws IncorrectPasswordException {
-        if (password.length() > 8 & password.length() < 30) {
+        if (password.length() >= 8){
             return true;
         }
         throw new IncorrectPasswordException("Incorrect password!");

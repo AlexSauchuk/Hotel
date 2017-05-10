@@ -30,11 +30,14 @@
 
             $(document.body).removeClass(currentPageName);
             $(".nav a[href='#"+currentPageName+"']")[0].classList.remove('current');
+
+            if(currentPageName=='contentBooking') {
+                var booking = document.getElementById("idBookingA");
+                booking.removeAttribute('href');
+            }
+
             if($currentPage) {
                 $currentPage[0].style.display = "none";
-                if($currentPage.attr('src')) {
-                    $currentPage.empty();
-                }
             }
         }
         $(document.body).addClass(currentPageName = pageName);
@@ -43,11 +46,16 @@
             $(document).title = currentPageName;
             $(".nav a[href='#"+currentPageName+"']")[0].classList.add('current');
         }
+
+
     }
 
 
     function app(pageName,param) {
 
+        if(pageName=='undefined')
+            pageName = currentPageName;
+        
         var $page = $(document.body).find("section#" + pageName);
 
         var src = $page.attr("src");
@@ -67,6 +75,7 @@
     function onhashchange()
     {
         var hash = location.hash || ("#" + $("section[default]").attr('id'));
+
 
         var re = /#([-0-9A-Za-z]+)(\:(.+))?/;
         var match = re.exec(hash);

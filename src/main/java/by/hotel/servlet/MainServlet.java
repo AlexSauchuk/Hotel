@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @WebServlet (urlPatterns = {"/servlet"})
 public class MainServlet extends HttpServlet {
@@ -24,6 +25,7 @@ public class MainServlet extends HttpServlet {
             String page = req.getParameter("page");
             CommandFactoryMapper commandFactoryMapper = CommandFactoryMapper.getInstance();
             Command command = commandFactoryMapper.getCommand(req.getParameter("action"));
+            Map<String, String[]> r = req.getParameterMap();
             result = command.execute(req.getParameterMap(),req);
             if(page != null) {
                 req.setAttribute("items", result);

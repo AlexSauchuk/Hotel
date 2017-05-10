@@ -89,26 +89,14 @@ function updateData(obj) {
     var i = 0;
     $(editBody).each(function(){
         $("div",this).each(function(){
-            if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
-                var sex = this.firstElementChild.getAttribute('value');
-
-                if (this.className == 'radio col-sm-8')
-                    if(arrayValues[i].innerHTML == sex) {
-                        this.childNodes[3].firstElementChild.checked = false;
-                        this.firstElementChild.firstElementChild.checked = true;
-                    }
-                    else{
-                        this.firstElementChild.firstElementChild.checked = false;
-                        this.childNodes[3].firstElementChild.checked = true;
-                    }
-                else {
-                    if((this.firstElementChild).childNodes.length==0)
-                        $(this.firstElementChild).val(arrayValues[i].innerHTML);
-                }
+            if(this.className=='col-sm-8') {
+                if((this.firstElementChild).childNodes.length==0)
+                    $(this.firstElementChild).val(arrayValues[i].innerHTML);
                 i++;
             }
         });
     });
+
     if(Object.keys(arrayObj).length>0){
         var inputs = obj.getElementsByTagName('input');
         var i = 0;
@@ -136,7 +124,7 @@ function getData(editBody) {
     var result = '';
     $(editBody).each(function(){
         $("div",this).each(function() {
-            if(this.className=='col-sm-8' || this.className == 'radio col-sm-8') {
+            if(this.className=='col-sm-8') {
                 var key = $(this.firstElementChild).attr('name');
                 var value = $(this.firstElementChild).val();
                 if(key == 'id' && value == ''){
@@ -144,10 +132,6 @@ function getData(editBody) {
                 }else{
                     if($(this.firstElementChild).get(0).tagName == 'SELECT'){
                         value = value.substr(0,value.indexOf(' '))
-                    }
-                    if(this.className == 'radio col-sm-8'){
-                        key = this.id;
-                        value = $("input[type='radio']:checked").val();
                     }
                 }
                 result = result.concat('&',key,'=', value);
@@ -214,6 +198,7 @@ var mapStringTable = {
 };
 
 function deleteRow(obj) {
+    document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
     $.ajax({
         type: 'DELETE',
         url: '/servlet?tableName=' + NameTable + '&action=REMOVE&' +  formParams(obj.closest('tr').rowIndex),
@@ -325,12 +310,13 @@ function setHtml(){
             '<td style="border: none"><input type="button" style="width: 100%" value="DELETE" onclick="deleteRow(this)"></td>';
         bodyString += strRow.replace(patternRow,additionalString);
 
-        if(j==countRows-1){
-            newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" data-toggle="modal" data-target="#myModalAdd" onclick="addData((this.parentNode).parentNode)"></td>';
-            bodyString += strRow.replace(patternRow,newItem);
-        }
         j++;
     }
+
+    var strRow = '<tr class="add" style="border: none">row</tr>';
+    var patternRow = /row/;
+    newItem+='<td style="border: none"><input type="button" style="width: 100%" value="ADD" data-toggle="modal" data-target="#myModalAdd" onclick="addData((this.parentNode).parentNode)"></td>';
+    bodyString += strRow.replace(patternRow,newItem);
     generateSelectChilds();
     var headers= '<thead><tr>header</tr></thead>';
     var body = '<tbody>body</tbody>';
@@ -365,6 +351,7 @@ function getAllTableElements(nameTable) {
         type: 'GET',
         url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
         success: function(data) {
+            console.log(data);
             futureQueryForID = {};
             loadTemplate();
             arrayObj = {};

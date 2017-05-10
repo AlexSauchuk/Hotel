@@ -1,0 +1,32 @@
+<div class="login-form" id="idReservation" style="color:white">
+    <div class="modal-header">
+        <h4 class="modal-title">Бронирование</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-horizontal" id="mainFormReservationInfo">
+            <div class="form-group">
+                <label for="id" class="col-sm-3 control-label">ID</label>
+                <div class="col-sm-9">
+                    <input type="id" class="form-control" readonly id="id" name="id" placeholder="ID">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dateIn" class="col-sm-3 control-label">Начало</label>
+                <div class="col-sm-9">
+                    <input type="date" class="form-control" id="dateIn" name="date-in" placeholder="Date In">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dateOut" class="col-sm-3 control-label">Конец</label>
+                <div class="col-sm-9">
+                    <input type="date" class="form-control" id="dateOut" name="date-out" placeholder="Date Out">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12" onclick="acceptReservationRoom()">
+                    <button onclick="" style="width:100%" id="idAcceptReservation"  class="btn btn-success">Подтвердить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
