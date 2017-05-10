@@ -58,7 +58,7 @@ function sendReservation() {
     if(flag)
     $.ajax({
         type: 'POST',
-        url: '/servlet?action=ADD' + data +'&tableName=RESERVATION',
+        url: '/servlet?action=ADD' + data +'&tableName=RESERVATION&rights='+generatePermissionsUser(),
         success: function () {
         }});
 }
@@ -66,7 +66,6 @@ function sendReservation() {
 function acceptReservationRoom() {
     sendReservation();
     if(flag) {
-        console.log("1");
         var services = document.getElementById("idServicesA");
         services.click();
     }
