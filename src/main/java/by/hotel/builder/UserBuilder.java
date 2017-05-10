@@ -78,6 +78,7 @@ public class UserBuilder {
     }
 
     public String getEmail() {return email;}
+
     public String getMobilePhone() {
         return mobilePhone;
     }
