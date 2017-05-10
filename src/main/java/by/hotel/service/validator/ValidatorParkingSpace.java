@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class ValidatorParkingSpace extends AbstractValidator {
     public boolean validate(Map<String, String[]> data) throws IncorrectParkingSpaceLevelException, IncorrectParkingSpaceReservationException {
-        if (validateReserved(data.get("reserved")[0]) & validateLevel(data.get("level")[0])) {
+        if (validateReserved(data.get("isReserved")[0]) & validateLevel(data.get("level")[0])) {
             return true;
         }
         return false;

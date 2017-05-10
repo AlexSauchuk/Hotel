@@ -173,7 +173,7 @@ function LogOut() {
         url: '/servlet?action=LOGOUT',
         success: function(data) {
             currentUser = null;
-
+            sessionStorage.clear();
             setNewValueEntryDiv("Вход","#entry");
             loadTemplate('/templates/pages/signin/entry.html');
         }

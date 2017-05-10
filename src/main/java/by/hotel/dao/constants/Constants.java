@@ -25,9 +25,9 @@ public class Constants {
     public static final String UPDATE_ROOM_TYPE = "UPDATE `db_hotel`.`room_type` SET `rooms_count`=?, `beds_count`=?, `cost_per_day`=?, `additional_info`=?, `bathrooms_count`=?, `size`=? WHERE `id`=?";
     public static final String GET_ROOM_TYPE = GET_ALL_ROOM_TYPES.concat(" WHERE `room_type`.`id`=?");
     public static final String GET_ALL_ROOM_TYPES_HEADERS = "SELECT `id`, `rooms_count` FROM `db_hotel`.`room_type`";
-    //  public static final String GET_ROOM_TYPE = "UPDATE `db_hotel`.`user` SET `passport_number`='?', `name`='?', `surname`='?', `sex`='?', `mobile_phone`='?', `password`='?' WHERE `id`='?'";
+    //  public static final String GET_ROOM_TYPE = "UPDATE `db_hotel`.`user` SET `passport_number`='?', `name`='?', `surname`='?', `mobile_phone`='?', `password`='?' WHERE `id`='?'";
 
-    public static final String GET_ALL_RESERVATIONS = "SELECT `reservation`.`id`, `id_user`,`user`.`name`, `surname`, `passport_number`, `sex` ,`mobile_phone`, `date-in`, `date-out`,`cost_additional_services`, `discount_id`,`discount`.`name` AS `discount_name`" +
+    public static final String GET_ALL_RESERVATIONS = "SELECT `reservation`.`id`, `id_user`,`user`.`name`, `surname`, `passport_number` ,`mobile_phone`, `date-in`, `date-out`,`cost_additional_services`, `discount_id`,`discount`.`name` AS `discount_name`" +
             "FROM ((`db_hotel`.`reservation` " +
             "LEFT OUTER JOIN `db_hotel`.`user`" +
             "ON `reservation`.`id_user` = `user`.`id`)" +
@@ -49,7 +49,7 @@ public class Constants {
     public static final String GET_PARKING_SPACE = GET_ALL_PARKING_SPACES.concat(" WHERE `id`=?");
     public static final String GET_ALL_PARKING_SPACES_HEADERS = "SELECT `id`, `level` FROM `db_hotel`.`parking_space`";
 
-    public static final String GET_ALL_RESERVATION_PARKING_SPACES = "SELECT `id_parking_space`,`id_reservation`, `level`, `is_reserved`, `id_user`, `user`.`name`, `surname`, `passport_number`, `sex` ,`mobile_phone`, `date-in`, `date-out`, `cost_additional_services`, `discount_id`,`discount`.`name` AS `discount_name`"  +
+    public static final String GET_ALL_RESERVATION_PARKING_SPACES = "SELECT `id_parking_space`,`id_reservation`, `level`, `is_reserved`, `id_user`, `user`.`name`, `surname`, `passport_number`,`mobile_phone`, `date-in`, `date-out`, `cost_additional_services`, `discount_id`,`discount`.`name` AS `discount_name`"  +
             "FROM ((((`db_hotel`.`reservation_parking_space`" +
             "LEFT OUTER JOIN `db_hotel`.`reservation`" +
             "ON `reservation_parking_space`.`id_reservation` = `reservation`.`id`)" +
@@ -64,7 +64,7 @@ public class Constants {
     public static final String UPDATE_RESERVATION_PARKING_SPACE = "UPDATE `db_hotel`.`reservation_parking_space` SET `id_parking_space`=?, `id_reservation`=? WHERE `id_parking_space`=? AND `id_reservation`=?";
     public static final String GET_RESERVATION_PARKING_SPACE = GET_ALL_RESERVATION_PARKING_SPACES.concat(" WHERE `id_parking_space` = ? AND `id_reservation` = ?");
 
-    public static final String GET_ALL_RESERVATION_ROOMS = "SELECT `id_room`,`id_room_type`,`floor`, `phone`, `rooms_count`, `beds_count`,`cost_per_day`, `additional_info`,`id_reservation`,`id_user`, `user`.`name`, `surname`, `passport_number`,`sex` ,`mobile_phone`, `date-in`, `date-out`, `cost_additional_services`, `discount_id`,`discount`.`name` AS `discount_name`" +
+    public static final String GET_ALL_RESERVATION_ROOMS = "SELECT `id_room`,`id_room_type`,`floor`, `phone`, `rooms_count`, `beds_count`,`cost_per_day`, `additional_info`,`id_reservation`,`id_user`, `user`.`name`, `surname`, `passport_number`,`mobile_phone`, `date-in`, `date-out`, `cost_additional_services`, `discount_id`,`discount`.`name` AS `discount_name`" +
             "FROM (((((`db_hotel`.`reservation_room`" +
             "LEFT OUTER JOIN `db_hotel`.`reservation`" +
             "ON `reservation_room`.`id_reservation` = `reservation`.`id`)" +

@@ -25,14 +25,9 @@ public class Authorization implements Command {
             User user;
             AuthService service = new AuthServiceImpl();
             user = service.checkUser(requestParameters.get("email")[0], MD5.crypt(requestParameters.get("password")[0]));
-            if (user != null){
-                HttpSession session = req.getSession(true);
-                session.setAttribute("rights",getRights(user));
-                return user;
-            }
+            return user;
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return null;
     }
 }

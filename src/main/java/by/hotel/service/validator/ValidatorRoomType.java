@@ -9,12 +9,12 @@ import java.util.Map;
  */
 public class ValidatorRoomType extends AbstractValidator{
     public boolean validate(Map<String, String[]> data) throws IncorrectRoomBathroomsException, IncorrectRoomsCountException, IncorrectRoomBedsException, IncorrectRoomSizeException, IncorrectCostException, IncorrectRoomAdditionalInfoException {
-        if (validateRoomsCountDigit(data.get("roomsCount")[0])
-                & validateBedsCountDigit(data.get("bedsCount")[0])
-                & validateBathroomsCountDigit(data.get("bathroomsCount")[0])
+        if (validateRoomsCountDigit(data.get("rooms_count")[0])
+                & validateBedsCountDigit(data.get("beds_count")[0])
+                & validateBathroomsCountDigit(data.get("bathrooms_count")[0])
                 & validateSizeDigit(data.get("size")[0])
-                & validateAdditionalInfo(data.get("additionalInfo")[0])
-                & validateCostPerDayDigit(data.get("costPerDay")[0])){
+                & validateAdditionalInfo(data.get("additional_info")[0])
+                & validateCostPerDayDigit(data.get("cost_per_day")[0])){
             return true;
         }
         return false;
