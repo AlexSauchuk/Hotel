@@ -27,7 +27,6 @@ public class MainServlet extends HttpServlet {
             String page = req.getParameter("page");
             CommandFactoryMapper commandFactoryMapper = CommandFactoryMapper.getInstance();
             Command command = commandFactoryMapper.getCommand(req.getParameter("action"));
-            Map<String, String[]> r = req.getParameterMap();
             result = command.execute(req.getParameterMap(),req);
             if(page != null) {
                 req.setAttribute("items", result);

@@ -29,7 +29,7 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 stringBuilder.append(resultSet.getInt("id")+" ");
-                stringBuilder.append(resultSet.getString("name_role"));
+                stringBuilder.append(resultSet.getString("nameRole"));
                 headers.add(stringBuilder.toString());
                 stringBuilder.setLength(0);
             }
@@ -51,7 +51,7 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 roles.add(roleBuilder.id(resultSet.getInt("id"))
-                        .nameRole(resultSet.getString("name_role"))
+                        .nameRole(resultSet.getString("nameRole"))
                         .update(resultSet.getByte("update"))
                         .delete(resultSet.getByte("delete"))
                         .insert(resultSet.getByte("insert"))
@@ -135,7 +135,7 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
 
     private Role fillRole(ResultSet resultSet, RoleBuilder roleBuilder) throws SQLException {
         return roleBuilder.id(resultSet.getInt("id"))
-                .nameRole(resultSet.getString("name_role"))
+                .nameRole(resultSet.getString("nameRole"))
                 .update(resultSet.getByte("update"))
                 .delete(resultSet.getByte("delete"))
                 .insert(resultSet.getByte("insert"))

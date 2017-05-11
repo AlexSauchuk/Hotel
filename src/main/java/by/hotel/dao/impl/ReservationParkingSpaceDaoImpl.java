@@ -20,36 +20,13 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
     public List<ReservationParkingSpace> getReservationParkingSpaces(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<ReservationParkingSpace> reservationParkingSpaces = new ArrayList<ReservationParkingSpace>();
-        UserBuilder userBuilder = new UserBuilder();
-        DiscountBuilder discountBuilder = new DiscountBuilder();
-        ReservationBuilder reservationBuilder = new ReservationBuilder();
-        ParkingSpaceBuilder parkingSpaceBuilder = new ParkingSpaceBuilder();
+        List<ReservationParkingSpace> reservationParkingSpaces = new ArrayList<>();
         ReservationParkingSpaceBuilder reservationParkingSpaceBuilder = new ReservationParkingSpaceBuilder();
         try {
             statement = connection.prepareStatement(GET_ALL_RESERVATION_PARKING_SPACES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                reservationParkingSpaces.add(reservationParkingSpaceBuilder
-                                    .reservation(reservationBuilder.id(resultSet.getInt("id_reservation"))
-                                        .dateIn(resultSet.getDate("date-in"))
-                                        .dateOut(resultSet.getDate("date-out"))
-                                        .user(userBuilder.id(resultSet.getInt("id_user"))
-                                                .passportNumber(resultSet.getString("passport_number"))
-                                                .name(resultSet.getString("name"))
-                                                .surname(resultSet.getString("surname"))
-                                                .mobilePhone(resultSet.getString("mobile_phone"))
-                                                .build())
-                                        .costAdditionalServices(resultSet.getInt("cost_additional_services"))
-                                        .discount(discountBuilder.id(resultSet.getInt("discount_id"))
-                                                .name(resultSet.getString("discount_name"))
-                                                .build())
-                                        .build())
-                                    .parkingSpace(parkingSpaceBuilder.id(resultSet.getInt("id_parking_space"))
-                                        .level(resultSet.getInt("level"))
-                                        .reserved(resultSet.getByte("is_reserved"))
-                                        .build())
-                                    .build());
+                reservationParkingSpaces.add(fillReservationParkingSpace(resultSet,reservationParkingSpaceBuilder));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -118,23 +95,23 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
         ReservationBuilder reservationBuilder = new ReservationBuilder();
         ParkingSpaceBuilder parkingSpaceBuilder = new ParkingSpaceBuilder();
         return reservationParkingSpaceBuilder
-                .reservation(reservationBuilder.id(resultSet.getInt("id_reservation"))
-                        .dateIn(resultSet.getDate("date-in"))
-                        .dateOut(resultSet.getDate("date-out"))
-                        .user(userBuilder.id(resultSet.getInt("id_user"))
-                                .passportNumber(resultSet.getString("passport_number"))
+                .reservation(reservationBuilder.id(resultSet.getInt("idReservation"))
+                        .dateIn(resultSet.getDate("dateIn"))
+                        .dateOut(resultSet.getDate("dateOut"))
+                        .user(userBuilder.id(resultSet.getInt("idUser"))
+                                .passportNumber(resultSet.getString("passportNumber"))
                                 .name(resultSet.getString("name"))
                                 .surname(resultSet.getString("surname"))
-                                .mobilePhone(resultSet.getString("mobile_phone"))
+                                .mobilePhone(resultSet.getString("mobilePhone"))
                                 .build())
-                        .costAdditionalServices(resultSet.getInt("cost_additional_services"))
-                        .discount(discountBuilder.id(resultSet.getInt("discount_id"))
-                                .name(resultSet.getString("discount_name"))
+                        .costAdditionalServices(resultSet.getInt("costAdditionalServices"))
+                        .discount(discountBuilder.id(resultSet.getInt("idDiscount"))
+                                .name(resultSet.getString("discountName"))
                                 .build())
                         .build())
-                .parkingSpace(parkingSpaceBuilder.id(resultSet.getInt("id_parking_space"))
+                .parkingSpace(parkingSpaceBuilder.id(resultSet.getInt("idParkingSpace"))
                         .level(resultSet.getInt("level"))
-                        .reserved(resultSet.getByte("is_reserved"))
+                        .reserved(resultSet.getByte("reserved"))
                         .build())
                 .build();
     }
@@ -148,7 +125,7 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
     private String buildMessage(ReservationParkingSpace reservationParkingSpace){
         Map<String,String> idNames = new HashMap<String, String>();
         idNames.put("reservation",Integer.toString(reservationParkingSpace.getReservation().getId()));
-        idNames.put("parking_space",Integer.toString(reservationParkingSpace.getParkingSpace().getId()));
+        idNames.put("parkingSpace",Integer.toString(reservationParkingSpace.getParkingSpace().getId()));
         return ErrorStringBuilder.buildAddErrorString(idNames);
     }
 }

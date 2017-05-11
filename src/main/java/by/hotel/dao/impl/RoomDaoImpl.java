@@ -113,8 +113,8 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 room = roomBuilder.id(resultSet.getInt("id"))
-                        .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
-                                .additionalInfo(resultSet.getString("additional_info"))
+                        .roomType(roomTypeBuilder.id(resultSet.getInt("idRoomType"))
+                                .additionalInfo(resultSet.getString("additionalInfo"))
                                 .build())
                         .floor(resultSet.getInt("floor"))
                         .phone(resultSet.getString("phone"))
@@ -132,12 +132,12 @@ public class RoomDaoImpl extends AbstractDao implements RoomDao {
     private Room fillRoom(ResultSet resultSet, RoomBuilder roomBuilder) throws SQLException {
         RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
         return roomBuilder.id(resultSet.getInt("id"))
-                .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
-                        .roomsCount(resultSet.getInt("rooms_count"))
-                        .bedsCount(resultSet.getInt("beds_count"))
-                        .costPerDay(resultSet.getInt("cost_per_day"))
-                        .additionalInfo(resultSet.getString("additional_info"))
-                        .bathroomsCount(resultSet.getInt("bathrooms_count"))
+                .roomType(roomTypeBuilder.id(resultSet.getInt("idRoomType"))
+                        .roomsCount(resultSet.getInt("roomsCount"))
+                        .bedsCount(resultSet.getInt("bedsCount"))
+                        .costPerDay(resultSet.getInt("costPerDay"))
+                        .additionalInfo(resultSet.getString("additionalInfo"))
+                        .bathroomsCount(resultSet.getInt("bathroomsCount"))
                         .size(resultSet.getInt("size")).build())
                 .floor(resultSet.getInt("floor"))
                 .phone(resultSet.getString("phone"))

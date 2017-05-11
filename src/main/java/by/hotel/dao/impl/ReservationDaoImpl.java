@@ -29,8 +29,8 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 stringBuilder.append(resultSet.getInt("id")+" ");
-                stringBuilder.append(resultSet.getString("date-in")+" ");
-                stringBuilder.append(resultSet.getString("date-out"));
+                stringBuilder.append(resultSet.getString("dateIn")+" ");
+                stringBuilder.append(resultSet.getString("dateOut"));
                 headers.add(stringBuilder.toString());
                 stringBuilder.setLength(0);
             }
@@ -123,10 +123,11 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 reservation = reservationBuilder.id(resultSet.getInt("id"))
-                        .dateIn(resultSet.getDate("date-in"))
-                        .costAdditionalServices(resultSet.getInt("cost_additional_services"))
-                        .user(userBuilder.id(resultSet.getInt("id_user")).build())
-                        .discount(discountBuilder.id(resultSet.getInt("discount_id")).build())
+                        .dateIn(resultSet.getDate("dateIn"))
+                        .dateOut(resultSet.getDate("dateOut"))
+                        .costAdditionalServices(resultSet.getInt("costAdditionalServices"))
+                        .user(userBuilder.id(resultSet.getInt("idUser")).build())
+                        .discount(discountBuilder.id(resultSet.getInt("idDiscount")).build())
                         .build();
             }
         } catch (SQLException | NullPointerException e) {
@@ -150,17 +151,17 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         UserBuilder userBuilder = new UserBuilder();
         DiscountBuilder discountBuilder = new DiscountBuilder();
         return reservationBuilder.id(resultSet.getInt("id"))
-                .dateIn(resultSet.getDate("date-in"))
-                .dateOut(resultSet.getDate("date-out"))
-                .user(userBuilder.id(resultSet.getInt("id_user"))
-                        .passportNumber(resultSet.getString("passport_number"))
+                .dateIn(resultSet.getDate("dateIn"))
+                .dateOut(resultSet.getDate("dateOut"))
+                .user(userBuilder.id(resultSet.getInt("idUser"))
+                        .passportNumber(resultSet.getString("passportNumber"))
                         .name(resultSet.getString("name"))
                         .surname(resultSet.getString("surname"))
-                        .mobilePhone(resultSet.getString("mobile_phone"))
+                        .mobilePhone(resultSet.getString("mobilePhone"))
                         .build())
-                .costAdditionalServices(resultSet.getInt("cost_additional_services"))
-                .discount(discountBuilder.id(resultSet.getInt("discount_id"))
-                        .name(resultSet.getString("discount_name"))
+                .costAdditionalServices(resultSet.getInt("costAdditionalServices"))
+                .discount(discountBuilder.id(resultSet.getInt("idDiscount"))
+                        .name(resultSet.getString("discountName"))
                         .build())
                 .build();
     }

@@ -49,8 +49,6 @@ public class MainFilter implements Filter {
         } else {
             request.getRequestDispatcher("errorPage").forward(request, response);
         }
-        Map<String, String[]> r = request.getParameterMap();
-        //chain.doFilter(request, response);
     }
 
     public void destroy() {

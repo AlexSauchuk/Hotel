@@ -19,45 +19,13 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
     public List<ReservationRoom> getReservationRooms(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<ReservationRoom> reservationRooms = new ArrayList<ReservationRoom>();
-        RoomBuilder roomBuilder = new RoomBuilder();
-        UserBuilder userBuilder = new UserBuilder();
-        RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
-        DiscountBuilder discountBuilder = new DiscountBuilder();
-        ReservationBuilder reservationBuilder = new ReservationBuilder();
+        List<ReservationRoom> reservationRooms = new ArrayList<>();
         ReservationRoomBuilder reservationRoomBuilder = new ReservationRoomBuilder();
         try {
             statement = connection.prepareStatement(GET_ALL_RESERVATION_ROOMS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Reservation reservation = reservationBuilder.id(resultSet.getInt("id_reservation"))
-                                .dateIn(resultSet.getDate("date-in"))
-                                .dateOut(resultSet.getDate("date-out"))
-                                .user(userBuilder.id(resultSet.getInt("id_user"))
-                                        .passportNumber(resultSet.getString("passport_number"))
-                                        .name(resultSet.getString("name"))
-                                        .surname(resultSet.getString("surname"))
-                                        .mobilePhone(resultSet.getString("mobile_phone"))
-                                        .build())
-                                .costAdditionalServices(resultSet.getInt("cost_additional_services"))
-                                .discount(discountBuilder.id(resultSet.getInt("discount_id"))
-                                        .name(resultSet.getString("discount_name"))
-                                        .build())
-                                .build();
-                Room room = roomBuilder.id(resultSet.getInt("id_room"))
-                                .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
-                                        .roomsCount(resultSet.getInt("rooms_count"))
-                                        .bedsCount(resultSet.getInt("beds_count"))
-                                        .costPerDay(resultSet.getInt("cost_per_day"))
-                                        .additionalInfo(resultSet.getString("additional_info"))
-                                        .build())
-                                .floor(resultSet.getInt("floor"))
-                                .phone(resultSet.getString("phone"))
-                                .build();
-
-                reservationRooms.add(reservationRoomBuilder.reservation(reservation)
-                                        .room(room)
-                                        .build());
+                reservationRooms.add(fillReservationRoom(resultSet,reservationRoomBuilder));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -126,26 +94,26 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
         DiscountBuilder discountBuilder = new DiscountBuilder();
         ReservationBuilder reservationBuilder = new ReservationBuilder();
-        Reservation reservation = reservationBuilder.id(resultSet.getInt("id_reservation"))
-                .dateIn(resultSet.getDate("date-in"))
-                .dateOut(resultSet.getDate("date-out"))
-                .user(userBuilder.id(resultSet.getInt("id_user"))
-                        .passportNumber(resultSet.getString("passport_number"))
+        Reservation reservation = reservationBuilder.id(resultSet.getInt("idReservation"))
+                .dateIn(resultSet.getDate("dateIn"))
+                .dateOut(resultSet.getDate("dateOut"))
+                .user(userBuilder.id(resultSet.getInt("idUser"))
+                        .passportNumber(resultSet.getString("passportNumber"))
                         .name(resultSet.getString("name"))
                         .surname(resultSet.getString("surname"))
-                        .mobilePhone(resultSet.getString("mobile_phone"))
+                        .mobilePhone(resultSet.getString("mobilePhone"))
                         .build())
-                .costAdditionalServices(resultSet.getInt("cost_additional_services"))
-                .discount(discountBuilder.id(resultSet.getInt("discount_id"))
-                        .name(resultSet.getString("discount_name"))
+                .costAdditionalServices(resultSet.getInt("costAdditionalServices"))
+                .discount(discountBuilder.id(resultSet.getInt("idDiscount"))
+                        .name(resultSet.getString("discountName"))
                         .build())
                 .build();
-        Room room = roomBuilder.id(resultSet.getInt("id_room"))
-                .roomType(roomTypeBuilder.id(resultSet.getInt("id_room_type"))
-                        .roomsCount(resultSet.getInt("rooms_count"))
-                        .bedsCount(resultSet.getInt("beds_count"))
-                        .costPerDay(resultSet.getInt("cost_per_day"))
-                        .additionalInfo(resultSet.getString("additional_info"))
+        Room room = roomBuilder.id(resultSet.getInt("idRoom"))
+                .roomType(roomTypeBuilder.id(resultSet.getInt("idRoomType"))
+                        .roomsCount(resultSet.getInt("roomsCount"))
+                        .bedsCount(resultSet.getInt("bedsCount"))
+                        .costPerDay(resultSet.getInt("costPerDay"))
+                        .additionalInfo(resultSet.getString("additionalInfo"))
                         .build())
                 .floor(resultSet.getInt("floor"))
                 .phone(resultSet.getString("phone"))
