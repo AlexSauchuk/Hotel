@@ -35,8 +35,15 @@
                     <em>Отель</em>
                     <strong>Настоящая роскошь</strong>
                 </div>
-                <div class="phones">
-                    +375(29)179-07-46
+                <div>
+                    <div class="phones">
+                        +375(29)179-07-46
+                        <br>
+                        <div id="idAdminRef" style="display: none">
+                            <a href="/servlet?page=admin.jsp&action=ADMIN_START">Администратор</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
