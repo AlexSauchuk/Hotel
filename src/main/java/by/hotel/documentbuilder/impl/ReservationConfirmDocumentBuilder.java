@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ReservationConfirmDocumentBuilder extends PdfDocumentBuilder<Reservation> {
     private ReservationConfirmDocumentBuilder(){
-        super("/documents/reservation_confirm_blank.pdf");
+        super("/documents/reservation_confirm_blank.pdf", "Reservation Confirm.pdf");
     }
 
     private static class Holder{
@@ -25,7 +25,7 @@ public class ReservationConfirmDocumentBuilder extends PdfDocumentBuilder<Reserv
         String fullname = getUserFullname(reservation.getUser());
         form.setField("addressee", fullname);
         form.setField("date", reservation.getDateIn().toString());
-        form.setField("appeal", "Уважаемый "+ fullname);
+        form.setField("appeal", "Уважаемый гость "+ fullname);
         form.setField("date-in", reservation.getDateIn().toString());
         form.setField("date-out", reservation.getDateOut().toString());
     }

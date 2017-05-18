@@ -79,7 +79,7 @@ public class Constants {
     public static final String ADD_RESERVATION_ROOM = "INSERT INTO `db_hotel`.`reservation_room` (`id_room`, `id_reservation`) VALUES (?,?)";
     public static final String REMOVE_RESERVATION_ROOM = "DELETE FROM `db_hotel`.`reservation_room` WHERE `id_room`=? AND `id_reservation`=?";
     public static final String UPDATE_RESERVATION_ROOM = "UPDATE `db_hotel`.`reservation_room` SET `id_room`=?, `id_reservation`=? WHERE `id_room`=? AND `id_reservation`=?";
-    public static final String GET_RESERVATION_ROOM = GET_ALL_RESERVATION_ROOMS.concat(" WHERE `id_room` = ? AND `id_reservation` = ?");
+    public static final String GET_RESERVATION_ROOM_BY_USER = GET_ALL_RESERVATION_ROOMS.concat(" WHERE `id_user`");
 
     public static final String GET_ALL_DISCOUNTS = "SELECT `id`, `name` FROM `db_hotel`.`discount`";
     public static final String ADD_DISCOUNT = "INSERT INTO `db_hotel`.`discount` (`name`) VALUES (?)";

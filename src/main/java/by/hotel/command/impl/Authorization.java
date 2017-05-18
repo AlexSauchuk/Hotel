@@ -3,31 +3,23 @@ package by.hotel.command.impl;
 import by.hotel.bean.User;
 import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
-import by.hotel.dao.AuthDao;
-import by.hotel.dao.impl.UserDaoImpl;
 import by.hotel.security.MD5;
 import by.hotel.service.AuthService;
 import by.hotel.service.exception.ServiceException;
 import by.hotel.service.impl.AuthServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-import static by.hotel.command.impl.Registration.getRights;
-
-/**
- * Created by 1 on 26.04.2017.
- */
 public class Authorization implements Command {
-    public Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException {
+    public Object execute(HttpServletRequest req, HttpServletResponse response) throws CommandException {
+        Map<String, String[]> requestParams = req.getParameterMap();
         try {
             User user;
             AuthService service = new AuthServiceImpl();
-            user = service.checkUser(requestParameters.get("email")[0], MD5.crypt(requestParameters.get("password")[0]));
+            user = service.checkUser(requestParams.get("email")[0], MD5.crypt(requestParams.get("password")[0]));
             if (user != null){
-                HttpSession session = req.getSession(true);
-                session.setAttribute("rights",getRights(user));
                 return user;
             }
         } catch (ServiceException e) {

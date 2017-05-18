@@ -1,7 +1,10 @@
 package by.hotel.documentbuilder;
 
+import by.hotel.bean.DocumentObject;
 import by.hotel.service.exception.ServiceException;
 
+import java.io.OutputStream;
+
 public interface DocumentBuilder<T> {
-    void buildDocument(T documentData) throws ServiceException;
+    DocumentObject buildDocument(T documentData, OutputStream outputStream) throws ServiceException;
 }

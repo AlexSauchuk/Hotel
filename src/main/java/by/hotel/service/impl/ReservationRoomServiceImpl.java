@@ -69,6 +69,20 @@ public class ReservationRoomServiceImpl extends AbstractService implements CrudS
         }
     }
 
+    public List<ReservationRoom> getReservationRoomByUser(int idUser) throws ServiceException{
+        List<ReservationRoom> reservationRooms;
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            reservationRooms = reservationRoomDao.getReservationRoomByUser(connection, idUser);
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+        return reservationRooms;
+    }
+
     public ReservationRoom buildEntity(Map<String, String[]> params) throws ServiceException {
         return new ReservationRoomBuilder()
                 .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation")[0])).build())

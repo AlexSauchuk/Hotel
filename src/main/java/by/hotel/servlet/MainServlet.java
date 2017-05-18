@@ -1,5 +1,6 @@
 package by.hotel.servlet;
 
+import by.hotel.bean.DocumentObject;
 import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
 import by.hotel.factory.impl.CommandFactoryMapper;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
+import java.io.OutputStream;
 
 @WebServlet (urlPatterns = {"/servlet"})
 public class MainServlet extends HttpServlet {
@@ -25,12 +26,13 @@ public class MainServlet extends HttpServlet {
             String page = req.getParameter("page");
             CommandFactoryMapper commandFactoryMapper = CommandFactoryMapper.getInstance();
             Command command = commandFactoryMapper.getCommand(req.getParameter("action"));
-            Map<String, String[]> r = req.getParameterMap();
-            result = command.execute(req.getParameterMap(),req);
+            result = command.execute(req, resp);
             if(page != null) {
                 req.setAttribute("items", result);
                 req.getRequestDispatcher(page).forward(req,resp);
-            }else {
+            }else if(req.getParameter("action").equals("CREATE_DOCUMENT")){
+                sendFile(resp, result);
+            }else{
                 formJsonResponse(resp, result);
             }
         } catch (CommandException e) {
@@ -62,6 +64,29 @@ public class MainServlet extends HttpServlet {
             resp.getWriter().write(jsonConverter.toJson(result));
         }catch (IOException e){
             logger.error(e);
+        }
+    }
+
+    private void sendFile(HttpServletResponse response, Object result) throws IOException{
+        DocumentObject documentObject = (DocumentObject)result;
+        response.setHeader("Content-Disposition",String.format("attachment; filename=\"%s\"",documentObject.getDocumentName()));
+        response.setContentType(getServletContext().getMimeType(documentObject.getDocumentName()));
+        OutputStream outputStream = response.getOutputStream();
+        try {
+            byte[] buffer = new byte[20];
+            while(documentObject.getInputStream().read(buffer) != -1){
+                outputStream.write(buffer);
+            }
+        }finally {
+            try {
+                if(documentObject.getInputStream() != null){
+                    documentObject.getInputStream().close();
+                }
+            }catch (IOException e){
+                logger.error(e);
+            }finally {
+                outputStream.close();
+            }
         }
     }
 }
