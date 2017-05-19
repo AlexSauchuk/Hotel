@@ -1,6 +1,4 @@
-/**
- * Created by SK on 08.05.2017.
- */
+
 $templateReservation = null;
 var flag = true;
 

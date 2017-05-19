@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by 1 on 24.04.2017.1
- */
 @WebFilter(filterName = "mainfilter",
         urlPatterns = {"/servlet"},
         initParams = @WebInitParam(name = "env", value = "dev"))

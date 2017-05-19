@@ -16,9 +16,6 @@ import java.util.Map;
 
 import static by.hotel.command.impl.Registration.getRights;
 
-/**
- * Created by 1 on 26.04.2017.
- */
 public class Authorization implements Command {
     public Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException {
         try {

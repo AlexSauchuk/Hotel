@@ -15,9 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
-/**
- * Created by 1 on 26.04.2017.
- */
 public class Registration implements Command {
     public Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException {
         try {

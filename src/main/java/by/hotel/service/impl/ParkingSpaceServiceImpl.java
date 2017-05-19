@@ -89,7 +89,7 @@ public class ParkingSpaceServiceImpl extends AbstractService implements CrudServ
             if (validatorParkingSpace.validate(params)) {
                 return new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id")[0]))
                         .level(Integer.parseInt(params.get("level")[0]))
-                        .reserved(Byte.parseByte(params.get("reserved")[0]))
+                        .reserved(Byte.parseByte(params.get("isReserved")[0]))
                         .build();
             }
         } catch (IncorrectParkingSpaceLevelException | IncorrectParkingSpaceReservationException e) {

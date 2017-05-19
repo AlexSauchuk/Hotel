@@ -104,7 +104,7 @@ function sendUserDataRegistration(login,email,pass,phone,name,surname,passport) 
     $.ajax({
         type: 'POST',
         url: '/servlet?action=REGISTRATION',
-        data:{"rights":4,"login":login,"email":email,"password":pass,"mobilePhone":phone,"name":name,"surname":surname,"passportNumber":passport,"id":0,"id_role":1},
+        data:{"rights":4,"login":login,"email":email,"password":pass,"mobilePhone":phone,"name":name,"surname":surname,"passportNumber":passport,"id":0,"idRole":1},
         success: function(data) {
             if(typeof data =='object') {
                 currentUser = data;

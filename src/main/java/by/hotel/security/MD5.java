@@ -3,9 +3,6 @@ package by.hotel.security;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * Created by 1 on 28.02.2017.
- */
 public class MD5 {
     private static MessageDigest digester;
 

@@ -3,12 +3,12 @@ package by.hotel.dao.constants;
 public class Constants {
     public static final String GET_ALL_NAMES_TABLES = "SHOW TABLES FROM `db_hotel`";
 
-    public static final String GET_ALL_USERS = "SELECT `user`.`id`, `passportNumber`, `name`, `surname`, `mobilePhone`, `login`, `password`, `role`, `email`,`role`.`id` AS `id_role`,`role`.`nameRole`,`role`.`update`,`role`.`delete`,`role`.`insert`,`role`.`create`,`role`.`select`,`role`.`drop`,`role`.`grant` " +
-            "FROM (`db_hotel`.`user` LEFT OUTER JOIN `db_hotel`.`role` ON `user`.`role` = `role`.`id`)";
-    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passportNumber`, `name`, `surname`, `mobilePhone`, `password`, `login`,`role`,`email`) VALUES (?,?,?,?,?,?,?,?)";
+    public static final String GET_ALL_USERS = "SELECT `user`.`id`, `passportNumber`, `name`, `surname`, `mobilePhone`, `login`, `password`, `idRole`, `email`,`role`.`id` AS `idRole`,`role`.`nameRole`,`role`.`update`,`role`.`delete`,`role`.`insert`,`role`.`create`,`role`.`select`,`role`.`drop`,`role`.`grant` " +
+            "FROM (`db_hotel`.`user` LEFT OUTER JOIN `db_hotel`.`role` ON `user`.`idRole` = `role`.`id`)";
+    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passportNumber`, `name`, `surname`, `mobilePhone`, `password`, `login`,`idRole`,`email`) VALUES (?,?,?,?,?,?,?,?)";
     public static final String REMOVE_USER = "DELETE FROM `db_hotel`.`user` WHERE `id`=?";
     public static final String GET_USER = GET_ALL_USERS.concat(" WHERE `user`.`id`=?");
-    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passportNumber`=?, `name`=?, `surname`=?, `mobilePhone`=?, `password`=?, `login`=?, `role`=?, `email`=? WHERE `id`=?";
+    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passportNumber`=?, `name`=?, `surname`=?, `mobilePhone`=?, `password`=?, `login`=?, `idRole`=?, `email`=? WHERE `id`=?";
     public static final String GET_ALL_USERS_HEADERS = "SELECT `id`, `surname`, `name` FROM `db_hotel`.`user`";
 
     public static final String GET_ALL_ROOMS = "SELECT `room`.`id`,`idRoomType`, `name`,`roomsCount`, `bedsCount`, `costPerDay`, `additionalInfo`,`bathroomsCount`,`size`, `floor`, `phone`, `path` " +

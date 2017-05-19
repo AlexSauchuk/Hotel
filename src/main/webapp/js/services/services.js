@@ -1,6 +1,3 @@
-/**
- * Created by SK on 07.05.2017.
- */
 
 $templateRoom = null;
 var roomObject = {};
