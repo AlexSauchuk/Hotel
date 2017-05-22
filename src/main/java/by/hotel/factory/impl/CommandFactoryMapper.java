@@ -20,7 +20,6 @@ public final class CommandFactoryMapper implements CommandFactory {
         commands.put("CREATE_DOCUMENT", new CreateDocument());
         commands.put("AUTHORIZATION", new Authorization());
         commands.put("REGISTRATION", new Registration());
-        commands.put("LOGOUT", new Logout());
     }
 
     private static class Holder{

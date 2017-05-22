@@ -16,6 +16,11 @@
         <%@include file="/bootstrap/bootstrap.min.css"%>
         <%@include file="/css/admin.css"%>
     </style>
+    <script type="text/javascript">
+        function Click() {
+            document.getElementById("idHrefAdmin").click();
+        }
+    </script>
 </head>
     <body>
         <div class="container" style="padding-left: 0px;margin-left: 0px;width: 100%">
@@ -28,6 +33,10 @@
                             </c:forEach>
                         </tbody>
                     </table>
+                    <br>
+                    <button type="button" style="width: 100%" onclick="Click()" class="btn btn-primary">Сайт
+                        <a id="idHrefAdmin" href="main.jsp"></a>
+                    </button>
                 </div>
                 <div class="col-lg-12" style="float: right;width: 85%;">
                     <table class="table table-bordered table-hover" id="tableHotel" style="border-right: none; border-bottom: none">

@@ -90,7 +90,7 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
         try {
             if (validatorRoom.validate(params)) {
                 return new RoomBuilder().id(Integer.parseInt(params.get("id")[0]))
-                        .roomType(new RoomTypeBuilder().id(Integer.parseInt(params.get("id_roomType")[0]))
+                        .roomType(new RoomTypeBuilder().id(Integer.parseInt(params.get("idRoomType")[0]))
                                 .build())
                         .name(params.get("name")[0])
                         .floor(Integer.parseInt(params.get("floor")[0]))

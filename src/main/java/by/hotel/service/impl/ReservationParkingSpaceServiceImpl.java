@@ -71,8 +71,8 @@ public class ReservationParkingSpaceServiceImpl extends AbstractService implemen
 
     public ReservationParkingSpace buildEntity(Map<String, String[]> params) throws ServiceException {
         return new ReservationParkingSpaceBuilder()
-                .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("id_reservation")[0])).build())
-                .parkingSpace(new ParkingSpaceBuilder().id(Integer.parseInt(params.get("id_parkingSpace")[0])).build())
+                .reservation(new ReservationBuilder().id(Integer.parseInt(params.get("idReservation")[0])).build())
+                .parkingSpace(new ParkingSpaceBuilder().id(Integer.parseInt(params.get("idParkingSpace")[0])).build())
                 .build();
     }
 

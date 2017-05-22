@@ -20,15 +20,14 @@ public class MainFilter implements Filter {
 
     static {
         rights.put("ADMIN_START", 127);
-        rights.put("GET_ALL", 8);
+        rights.put("GET_ALL", 4);
         rights.put("ADD", 16);
         rights.put("REMOVE", 32);
         rights.put("UPDATE", 64);
         rights.put("GET_ALL_HEADERS", 127);
         rights.put("CREATE_DOCUMENT", 127);
-        rights.put("AUTHORIZATION", 8);
-        rights.put("REGISTRATION", 8);
-        rights.put("LOGOUT", 8);
+        rights.put("AUTHORIZATION", 4);
+        rights.put("REGISTRATION", 4);
     }
 
     private FilterConfig filterConfig = null;
@@ -38,25 +37,18 @@ public class MainFilter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        /*
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpSession session = req.getSession(false);
+
         Integer requiredRight;
         Integer userRights;
 
         requiredRight = rights.get(request.getParameter("action"));
-        if (session == null) {
+        //userRights = Integer.parseInt(request.getParameter("rights"));
+        userRights = 127;
+        if ((requiredRight & userRights) == requiredRight) {
             chain.doFilter(request, response);
         } else {
-            userRights = Integer.parseInt((String) session.getAttribute("rights"));
-            if ((requiredRight & userRights) == requiredRight) {
-                chain.doFilter(request, response);
-            } else {
-                request.getRequestDispatcher("tut.by").forward(request, response);
-            }
-        }*/
-        Map<String, String[]> r = request.getParameterMap();
-        chain.doFilter(request, response);
+            request.getRequestDispatcher("errorPage").forward(request, response);
+        }
     }
 
     public void destroy() {

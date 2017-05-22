@@ -10,16 +10,12 @@ function setPersonalInfo() {
     var editBody = document.getElementById('mainFormPersonalInfo');
     if($personalForm==null)
         $personalForm = editBody;
-    var i = 1;
-    console.log(editBody);
-    console.log(currentUser);
+
     $(editBody).each(function(){
         $("div",this).each(function(){
-            if((this.className=='col-sm-9') && i<9) {
+            if((this.className=='col-sm-9')) {
                 if((this.firstElementChild).childNodes.length==0)
-                    $(this.firstElementChild).val(currentUser[(Object.keys(currentUser))[i]]);
-
-            i++;
+                    $(this.firstElementChild).val(currentUser[$(this.firstElementChild).attr('name')]);
             }
         });
     });
@@ -65,14 +61,14 @@ function getUpdateDataUser() {
         });
     });
     result = result.concat('&','id','=', currentUser.id);
-    result = result.concat('&','id_role','=', currentUser['role']['id']);
+    result = result.concat('&','role','=', currentUser.role);
     return result;
 }
 
 function sendUpdatePersonalInfo() {
     $.ajax({
         type: 'POST',
-        url: '/servlet?action=UPDATE' + getUpdateDataUser()+'&tableName=USER',
+        url: '/servlet?action=UPDATE' + getUpdateDataUser() + '&rights='+generatePermissionsUser()+'&tableName=USER',
 
         success: function(data) {
 
@@ -108,7 +104,7 @@ function sendUserDataRegistration(login,email,pass,phone,name,surname,passport) 
     $.ajax({
         type: 'POST',
         url: '/servlet?action=REGISTRATION',
-        data:{"login":login,"email":email,"password":pass,"mobilePhone":phone,"name":name,"surname":surname,"passportNumber":passport,"id":0,"id_role":1},
+        data:{"rights":4,"login":login,"email":email,"password":pass,"mobilePhone":phone,"name":name,"surname":surname,"passportNumber":passport,"id":0,"id_role":1},
         success: function(data) {
             if(typeof data =='object') {
                 currentUser = data;
@@ -123,12 +119,23 @@ function sendUserDataLogin(email,pass){
      $.ajax({
          type: 'POST',
          url: '/servlet?action=AUTHORIZATION',
-         data:{"email":email,"password":pass},
+         data:{"email":email,"password":pass,"rights":4},
          success: function(data) {
+             console.log(data);
              if(typeof data =='object' && data!=null) {
                  currentUser = data;
-                 loadTemplate('/templates/pages/signin/personalInfo.html');
 
+                 if(sessionStorage.length==0) {
+                     for (var fieldUser in currentUser) {
+                         if (typeof currentUser[fieldUser] == 'object')
+                             sessionStorage['role'] = JSON.stringify(currentUser['role']);
+                         else
+                             sessionStorage[fieldUser] = currentUser[fieldUser];
+                     }
+
+                 }
+                 document.getElementById('idAdminRef').style.display = 'block';
+                 loadTemplate('/templates/pages/signin/personalInfo.html');
                  setNewValueEntryDiv(currentUser.name);
              }
          }
@@ -168,17 +175,11 @@ function validateInForm (){
 }
 
 function LogOut() {
-    $.ajax({
-        type: 'POST',
-        url: '/servlet?action=LOGOUT',
-        success: function(data) {
-            currentUser = null;
-
-            setNewValueEntryDiv("Вход","#entry");
-            loadTemplate('/templates/pages/signin/entry.html');
-        }
-    });
-
+    currentUser = null;
+    sessionStorage.clear();
+    setNewValueEntryDiv("Вход","#entry");
+    loadTemplate('/templates/pages/signin/entry.html');
+    document.getElementById('idAdminRef').style.display = 'none';
 }
 
 function validPassport(passport) {

@@ -106,11 +106,11 @@ public class ReservationServiceImpl extends AbstractService implements CrudServi
         try {
             if (validatorReservation.validate(params)) {
                 return new ReservationBuilder().id(Integer.parseInt(params.get("id")[0]))
-                        .dateIn(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(params.get("date-in")[0]).getTime()))
-                        .dateOut(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(params.get("date-out")[0]).getTime()))
-                        .costAdditionalServices(Integer.parseInt(params.get("cost_additional_services")[0]))
-                        .user(new UserBuilder().id(Integer.parseInt(params.get("id_user")[0])).build())
-                        .discount(new DiscountBuilder().id(Integer.parseInt(params.get("id_discount")[0])).build())
+                        .dateIn(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(params.get("dateIn")[0]).getTime()))
+                        .dateOut(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(params.get("dateOut")[0]).getTime()))
+                        .costAdditionalServices(Integer.parseInt(params.get("costAdditionalServices")[0]))
+                        .user(new UserBuilder().id(Integer.parseInt(params.get("idUser")[0])).build())
+                        .discount(new DiscountBuilder().id(Integer.parseInt(params.get("idDiscount")[0])).build())
                         .build();
             }
         } catch (ParseException | IncorrectDateException | IncorrectCostException e) {

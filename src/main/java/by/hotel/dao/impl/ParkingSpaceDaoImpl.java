@@ -41,16 +41,13 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
     public List<ParkingSpace> getParkingSpaces(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<ParkingSpace> parkingSpaces = new ArrayList<ParkingSpace>();
+        List<ParkingSpace> parkingSpaces = new ArrayList<>();
         ParkingSpaceBuilder parkingSpaceBuilder = new ParkingSpaceBuilder();
         try {
             statement = connection.prepareStatement(GET_ALL_PARKING_SPACES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                parkingSpaces.add(parkingSpaceBuilder.id(resultSet.getInt("id"))
-                                    .level(resultSet.getInt("level"))
-                                    .reserved(resultSet.getByte("is_reserved"))
-                                    .build());
+                parkingSpaces.add(fillParkingSpace(resultSet,parkingSpaceBuilder));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -132,7 +129,7 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
     private ParkingSpace fillParkingSpace(ResultSet resultSet, ParkingSpaceBuilder parkingSpaceBuilder) throws SQLException {
         return parkingSpaceBuilder.id(resultSet.getInt("id"))
                 .level(resultSet.getInt("level"))
-                .reserved(resultSet.getByte("is_reserved"))
+                .reserved(resultSet.getByte("reserved"))
                 .build();
     }
 

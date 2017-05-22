@@ -28,7 +28,7 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 stringBuilder.append(resultSet.getInt("id")+" rooms count: ");
-                stringBuilder.append(resultSet.getString("rooms_count"));
+                stringBuilder.append(resultSet.getString("roomsCount"));
                 headers.add(stringBuilder.toString());
                 stringBuilder.setLength(0);
             }
@@ -43,20 +43,13 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
     public List<RoomType> getRoomTypes(Connection connection) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<RoomType> roomTypes = new ArrayList<RoomType>();
+        List<RoomType> roomTypes = new ArrayList<>();
         RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
         try {
             statement = connection.prepareStatement(GET_ALL_ROOM_TYPES);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                 roomTypes.add(roomTypeBuilder.id(resultSet.getInt("id"))
-                                .roomsCount(resultSet.getInt("rooms_count"))
-                                .bedsCount(resultSet.getInt("beds_count"))
-                                .costPerDay(resultSet.getInt("cost_per_day"))
-                                .additionalInfo(resultSet.getString("additional_info"))
-                                .bathroomsCount(resultSet.getInt("bathrooms_count"))
-                                .size(resultSet.getInt("size"))
-                                .build());
+                 roomTypes.add(fillRoomType(resultSet,roomTypeBuilder));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -131,11 +124,11 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
 
     private RoomType fillRoomType(ResultSet resultSet, RoomTypeBuilder roomTypeBuilder) throws SQLException {
         return roomTypeBuilder.id(resultSet.getInt("id"))
-                .roomsCount(resultSet.getInt("rooms_count"))
-                .bedsCount(resultSet.getInt("beds_count"))
-                .costPerDay(resultSet.getInt("cost_per_day"))
-                .additionalInfo(resultSet.getString("additional_info"))
-                .bathroomsCount(resultSet.getInt("bathrooms_count"))
+                .roomsCount(resultSet.getInt("roomsCount"))
+                .bedsCount(resultSet.getInt("bedsCount"))
+                .costPerDay(resultSet.getInt("costPerDay"))
+                .additionalInfo(resultSet.getString("additionalInfo"))
+                .bathroomsCount(resultSet.getInt("bathroomsCount"))
                 .size(resultSet.getInt("size"))
                 .build();
     }
