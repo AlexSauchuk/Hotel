@@ -1,8 +1,8 @@
 package by.hotel.factory.impl;
 
 import by.hotel.factory.DocumentBuilderServiceFactory;
-import by.hotel.service.DocumentBuilderService;
-import by.hotel.service.impl.ReservationConfirmDocumentBuilderService;
+import by.hotel.service.documentservice.DocumentBuilderService;
+import by.hotel.service.documentservice.impl.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +13,11 @@ public final class DocumentBuilderMapper implements DocumentBuilderServiceFactor
 
     static {
         builderMap.put("RESERVATION_CONFIRM", new ReservationConfirmDocumentBuilderService());
+        builderMap.put("FINANCIAL_REPORT", new FinancialReportBuilderService());
+        builderMap.put("ROOM_REPORT", new RoomReportBuilderService());
+        builderMap.put("RESERVATION_REPORT", new ReservationReportBuilderService());
+        builderMap.put("ENTITY_CSV_REPORT", new EntityReportCsvBuilderService());
+        builderMap.put("RESERVATION_VOUCHER", new ReservationVoucherBuilderService());
     }
 
     private static class Holder{

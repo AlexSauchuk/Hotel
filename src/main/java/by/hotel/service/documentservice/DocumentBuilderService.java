@@ -1,12 +1,12 @@
-package by.hotel.service;
+package by.hotel.service.documentservice;
 
 import by.hotel.bean.DocumentObject;
 import by.hotel.service.exception.ServiceException;
 
-import java.io.OutputStream;
+import java.util.Map;
 
 public interface DocumentBuilderService {
-    DocumentObject buildDocument(int id, OutputStream outputStream) throws ServiceException;
+    DocumentObject buildDocument(Map<String, String[]> documentInfo) throws ServiceException;
 }
 
 

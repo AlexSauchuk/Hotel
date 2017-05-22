@@ -3,8 +3,6 @@ package by.hotel.command.impl;
 import by.hotel.bean.User;
 import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
-import by.hotel.dao.AuthDao;
-import by.hotel.dao.impl.UserDaoImpl;
 import by.hotel.security.MD5;
 import by.hotel.service.AuthService;
 import by.hotel.service.exception.ServiceException;
@@ -20,7 +18,7 @@ public class Authorization implements Command {
         try {
             User user;
             AuthService service = new AuthServiceImpl();
-            user = service.checkUser(requestParams.get("email")[0], MD5.crypt(requestParameters.get("password")[0]));
+            user = service.checkUser(requestParams.get("email")[0], MD5.crypt(requestParams.get("password")[0]));
             return user;
         } catch (ServiceException e) {
             throw new CommandException(e);

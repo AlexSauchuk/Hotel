@@ -14,17 +14,17 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class ReservationRoomReportExcelBuilder extends ExcelDocumentBuilder<List<ReservationRoom>>{
-    public ReservationRoomReportExcelBuilder() {
+public class ReservationRoomReportBuilder extends ExcelDocumentBuilder<List<ReservationRoom>>{
+    public ReservationRoomReportBuilder() {
         super("Reservation report for user.xls");
     }
 
     private static class Holder{
-        private final static ReservationRoomReportExcelBuilder INSTANCE = new ReservationRoomReportExcelBuilder();
+        private final static ReservationRoomReportBuilder INSTANCE = new ReservationRoomReportBuilder();
     }
 
-    public static ReservationRoomReportExcelBuilder getInstance(){
-        return ReservationRoomReportExcelBuilder.Holder.INSTANCE;
+    public static ReservationRoomReportBuilder getInstance(){
+        return ReservationRoomReportBuilder.Holder.INSTANCE;
     }
 
     @Override
@@ -52,8 +52,7 @@ public class ReservationRoomReportExcelBuilder extends ExcelDocumentBuilder<List
     }
 
     private int addHeader(HSSFSheet sheet, ReservationRoom reservationRoom){
-        createRowWithCells(sheet, "Брони пользователя " + reservationRoom.getReservation().getUser().getSurname()
-                + " " + reservationRoom.getReservation().getUser().getName());
+        createRowWithCells(sheet, "Брони пользователя " + reservationRoom.getReservation().getUser().getUserFullname());
         Row row = createRowWithCells(sheet, null);
         Field[] fields = reservationRoom.getReservation().getClass().getDeclaredFields();
         for (int i=0; i< fields.length; i++){

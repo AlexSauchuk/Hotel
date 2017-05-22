@@ -1,7 +1,20 @@
 package by.hotel.builder;
 
-/**
- * Created by user1 on 21.05.2017.
- */
-public class ReportBuilder {
+import by.hotel.bean.Report;
+
+public class ReportBuilder<T> {
+    private String year;
+
+    public ReportBuilder year(String year){
+        this.year = year;
+        return this;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public Report<T> build(){
+        return new Report<>(this);
+    }
 }

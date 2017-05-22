@@ -35,6 +35,27 @@ public class ReservationRoomDaoImpl extends AbstractDao implements ReservationRo
         return reservationRooms;
     }
 
+    @Override
+    public List<ReservationRoom> getReservationRoomByReservation(Connection connection, int reservationId) throws DAOException {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<ReservationRoom> reservationRooms = new ArrayList<ReservationRoom>();
+        ReservationRoomBuilder reservationRoomBuilder = new ReservationRoomBuilder();
+        try {
+            statement = connection.prepareStatement(GET_RESERVATION_ROOM_BY_RESERVATION);
+            statement.setInt(1, reservationId);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                reservationRooms.add(fillReservationRoom(resultSet, reservationRoomBuilder));
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, resultSet);
+        }
+        return reservationRooms;
+    }
+
     public List<ReservationRoom> getReservationRoomByUser(Connection connection, int userId) throws DAOException{
         PreparedStatement statement = null;
         ResultSet resultSet = null;

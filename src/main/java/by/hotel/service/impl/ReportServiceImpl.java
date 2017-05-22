@@ -1,37 +1,66 @@
 package by.hotel.service.impl;
 
-public class ReportServiceImpl {
-/*	private DaoImpl reportDao = new RoomDaoImpl();
+import by.hotel.bean.Report;
+import by.hotel.dao.ReportDao;
+import by.hotel.dao.exception.DAOException;
+import by.hotel.dao.impl.ReportDaoImpl;
+import by.hotel.service.AbstractService;
+import by.hotel.service.exception.ServiceException;
 
-	public List<Room> getAllEntities() throws ServiceException {
-		try {
-			return reportDao.getRooms();
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+import java.sql.Connection;
 
-	public void addEntity(Room entity) throws ServiceException {
-		try {
-			reportDao.addRoom(entity);
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+public class ReportServiceImpl extends AbstractService{
+	private ReportDao reportDao = new ReportDaoImpl();
 
-	public void removeEntity(Room entity) throws ServiceException {
-		try {
-			reportDao.removeRoom(entity);
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}
+	public Report getFinancialReportInfoByMonth(Report report) throws ServiceException{
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            report = reportDao.getFinancialReportInfoByMonth(report, connection);
+        }catch (DAOException e){
+            new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+        return report;
+    }
 
-	public void updateEntity(Room entity) throws ServiceException {
-		try {
-			reportDao.updateRoom(entity);
-		}catch (DAOException e){
-			throw new ServiceException(e);
-		}
-	}*/
+    public Report getFinancialReportInfoByQuarter(Report report) throws ServiceException{
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            report = reportDao.getFinancialReportInfoByQuarter(report, connection);
+        }catch (DAOException e){
+            new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+        return report;
+    }
+
+    public Report getRoomReportInfoByMonth(Report report) throws ServiceException{
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            report = reportDao.getRoomReportInfoByMonth(report, connection);
+        }catch (DAOException e){
+            new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+        return report;
+    }
+
+    public Report getRoomReportInfoByQuarter(Report report) throws ServiceException{
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            report = reportDao.getRoomReportInfoByQuarter(report, connection);
+        }catch (DAOException e){
+            new ServiceException(e);
+        }finally {
+            closeConnection(connection);
+        }
+        return report;
+    }
 }

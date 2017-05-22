@@ -1,7 +1,6 @@
 package by.hotel.dao.impl;
 
 import by.hotel.bean.ReservationParkingSpace;
-import by.hotel.bean.Role;
 import by.hotel.builder.*;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationParkingSpaceDao;
@@ -111,7 +110,7 @@ public class ReservationParkingSpaceDaoImpl extends AbstractDao implements Reser
                         .build())
                 .parkingSpace(parkingSpaceBuilder.id(resultSet.getInt("idParkingSpace"))
                         .level(resultSet.getInt("level"))
-                        .reserved(resultSet.getByte("reserved"))
+                        .reserved(resultSet.getByte("isReserved"))
                         .build())
                 .build();
     }

@@ -1,7 +1,13 @@
 package by.hotel.bean;
 
-/**
- * Created by user1 on 21.05.2017.
- */
-public class RoomReport {
+public class RoomReport extends FinancialReport{
+    private String roomName;
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
 }

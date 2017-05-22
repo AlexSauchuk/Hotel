@@ -3,12 +3,12 @@ package by.hotel.dao.constants;
 public class Constants {
     public static final String GET_ALL_NAMES_TABLES = "SHOW TABLES FROM `db_hotel`";
 
-    public static final String GET_ALL_USERS = "SELECT `user`.`id`, `passportNumber`, `name`, `surname`, `mobilePhone`, `login`, `password`, `role`, `email`,`role`.`id` AS `id_role`,`role`.`nameRole`,`role`.`update`,`role`.`delete`,`role`.`insert`,`role`.`create`,`role`.`select`,`role`.`drop`,`role`.`grant` " +
-            "FROM (`db_hotel`.`user` LEFT OUTER JOIN `db_hotel`.`role` ON `user`.`role` = `role`.`id`)";
-    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passportNumber`, `name`, `surname`, `mobilePhone`, `password`, `login`,`role`,`email`) VALUES (?,?,?,?,?,?,?,?)";
+    public static final String GET_ALL_USERS = "SELECT `user`.`id`, `passportNumber`, `name`, `surname`, `mobilePhone`, `login`, `password`, `idRole`, `email`,`role`.`nameRole`,`role`.`update`,`role`.`delete`,`role`.`insert`,`role`.`create`,`role`.`select`,`role`.`drop`,`role`.`grant` " +
+            "FROM (`db_hotel`.`user` LEFT OUTER JOIN `db_hotel`.`role` ON `user`.`idRole` = `role`.`id`)";
+    public static final String ADD_USER = "INSERT INTO `db_hotel`.`user` (`passportNumber`, `name`, `surname`, `mobilePhone`, `password`, `login`,`idRole`,`email`) VALUES (?,?,?,?,?,?,?,?)";
     public static final String REMOVE_USER = "DELETE FROM `db_hotel`.`user` WHERE `id`=?";
     public static final String GET_USER = GET_ALL_USERS.concat(" WHERE `user`.`id`=?");
-    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passportNumber`=?, `name`=?, `surname`=?, `mobilePhone`=?, `password`=?, `login`=?, `role`=?, `email`=? WHERE `id`=?";
+    public static final String UPDATE_USER = "UPDATE `db_hotel`.`user` SET `passportNumber`=?, `name`=?, `surname`=?, `mobilePhone`=?, `password`=?, `login`=?, `idRole`=?, `email`=? WHERE `id`=?";
     public static final String GET_ALL_USERS_HEADERS = "SELECT `id`, `surname`, `name` FROM `db_hotel`.`user`";
 
     public static final String GET_ALL_ROOMS = "SELECT `room`.`id`,`idRoomType`, `name`,`roomsCount`, `bedsCount`, `costPerDay`, `additionalInfo`,`bathroomsCount`,`size`, `floor`, `phone`, `path` " +
@@ -27,12 +27,12 @@ public class Constants {
     public static final String GET_ALL_ROOM_TYPES_HEADERS = "SELECT `id`, `roomsCount` FROM `db_hotel`.`room_type`";
     //  public static final String GET_ROOM_TYPE = "UPDATE `db_hotel`.`user` SET `passportNumber`='?', `name`='?', `surname`='?', `mobilePhone`='?', `password`='?' WHERE `id`='?'";
 
-    public static final String GET_ALL_RESERVATIONS = "SELECT `reservation`.`id`, `idUser`,`user`.`name`, `surname`, `passportNumber` ,`mobilePhone`, `dateIn`, `dateOut`,`costAdditionalServices`, `idRoom`,`discount`.`name` AS `discountName`" +
+    public static final String GET_ALL_RESERVATIONS = "SELECT `reservation`.`id`, `idUser`,`user`.`name`, `surname`, `passportNumber` ,`mobilePhone`, `dateIn`, `dateOut`,`costAdditionalServices`,`discount`.`name` AS `discountName`, `idDiscount`" +
             "FROM ((`db_hotel`.`reservation` " +
-            "LEFT OUTER JOIN `db_hotel`.`user`" +
-            "ON `reservation`.`idUser` = `user`.`id`)" +
             "LEFT OUTER JOIN `db_hotel`.`discount`" +
-            "ON `discount`.`id` = `idDiscount`)";
+            "ON `discount`.`id` = `idDiscount`)" +
+            "LEFT OUTER JOIN `db_hotel`.`user`" +
+            "ON `user`.`id` = `idUser`)";
     public static final String ADD_RESERVATION = "INSERT INTO `db_hotel`.`reservation` (`idUser`, `dateIn`, `dateOut`, `costAdditionalServices`, `idRoom`) VALUES (?,?,?,?,?)";
     public static final String REMOVE_RESERVATION = "DELETE FROM `db_hotel`.`reservation` WHERE `id`=?";
     public static final String UPDATE_RESERVATION = "UPDATE `db_hotel`.`reservation` SET `idUser`=?, `dateIn`=?, `dateOut`=?, `costAdditionalServices`=?, `idDiscount`=? WHERE `id`=?";
@@ -42,20 +42,20 @@ public class Constants {
     public static final String GET_ALL_RESERVATIONS_HEADERS = "SELECT `id`, `dateIn`, `dateOut` FROM `db_hotel`.`reservation`";
 
 
-    public static final String GET_ALL_PARKING_SPACES = "SELECT `id`, `level`, `reserved` FROM `db_hotel`.`parking_space`";
-    public static final String ADD_PARKING_SPACE = "INSERT INTO `db_hotel`.`parking_space` (`level`, `reserved`) VALUES (?,?)";
+    public static final String GET_ALL_PARKING_SPACES = "SELECT `id`, `level`, `isReserved` FROM `db_hotel`.`parking_space`";
+    public static final String ADD_PARKING_SPACE = "INSERT INTO `db_hotel`.`parking_space` (`level`, `isReserved`) VALUES (?,?)";
     public static final String REMOVE_PARKING_SPACE = "DELETE FROM `db_hotel`.`parking_space` WHERE `id`=?";
-    public static final String UPDATE_PARKING_SPACE = "UPDATE `db_hotel`.`parking_space` SET `level`=?, `reserved`=? WHERE `id`=?";
+    public static final String UPDATE_PARKING_SPACE = "UPDATE `db_hotel`.`parking_space` SET `level`=?, `isReserved`=? WHERE `id`=?";
     public static final String GET_PARKING_SPACE = GET_ALL_PARKING_SPACES.concat(" WHERE `id`=?");
     public static final String GET_ALL_PARKING_SPACES_HEADERS = "SELECT `id`, `level` FROM `db_hotel`.`parking_space`";
 
-    public static final String GET_ALL_RESERVATION_PARKING_SPACES = "SELECT `idParkingSpace`,`idReservation`, `level`, `reserved`, `idUser`, `user`.`name`, `surname`, `passportNumber`,`mobilePhone`, `dateIn-in`, `dateOut`, `costAdditionalServices`, `idDiscount`,`discount`.`name` AS `discount_name`"  +
+    public static final String GET_ALL_RESERVATION_PARKING_SPACES = "SELECT `idParkingSpace`,`idReservation`, `level`, `isReserved`, `idUser`, `user`.`name`, `surname`, `passportNumber`,`mobilePhone`, `dateIn`, `dateOut`, `costAdditionalServices`, `idDiscount`,`discount`.`name` AS `discount_name`"  +
             "FROM ((((`db_hotel`.`reservation_parking_space`" +
             "LEFT OUTER JOIN `db_hotel`.`reservation`" +
-            "ON `reservationParkingSpace`.`idReservation` = `reservation`.`id`)" +
+            "ON `reservation_parking_space`.`idReservation` = `reservation`.`id`)" +
             "LEFT OUTER JOIN `db_hotel`.`user`" +
             "ON `reservation`.`idUser` = `user`.`id`)" +
-            "LEFT OUTER JOIN `db_hotel`.`parkingSpace`" +
+            "LEFT OUTER JOIN `db_hotel`.`parking_space`" +
             "ON `reservation_parking_space`.`idParkingSpace` = `parking_space`.`id`)" +
             "LEFT OUTER JOIN `db_hotel`.`discount`" +
             "ON `idDiscount` = `discount`.`id`)";
@@ -80,6 +80,8 @@ public class Constants {
     public static final String REMOVE_RESERVATION_ROOM = "DELETE FROM `db_hotel`.`reservation_room` WHERE `idRoom`=? AND `idReservation`=?";
     public static final String UPDATE_RESERVATION_ROOM = "UPDATE `db_hotel`.`reservation_room` SET `idRoom`=?, `idReservation`=? WHERE `idRoom`=? AND `idReservation`=?";
     public static final String GET_RESERVATION_ROOM = GET_ALL_RESERVATION_ROOMS.concat(" WHERE `idRoom` = ? AND `idReservation` = ?");
+    public static final String GET_RESERVATION_ROOM_BY_USER = GET_ALL_RESERVATION_ROOMS.concat(" WHERE `idUser` = ?");
+    public static final String GET_RESERVATION_ROOM_BY_RESERVATION = GET_ALL_RESERVATION_ROOMS.concat(" WHERE `idReservation` = ?");
 
     public static final String GET_ALL_DISCOUNTS = "SELECT `id`, `name` FROM `db_hotel`.`discount`";
     public static final String ADD_DISCOUNT = "INSERT INTO `db_hotel`.`discount` (`name`) VALUES (?)";
@@ -108,4 +110,29 @@ public class Constants {
     public static final String GET_LAST_INSERTED_USER = "SELECT * FROM `db_hotel`.`user` WHERE `id`=LAST_INSERT_ID()";
     public static final String GET_LAST_INSERTED_RESERVATION_PARKING_SPACE = "SELECT * FROM `db_hotel`.`reservation_parking_space` WHERE `id`=LAST_INSERT_ID()";
     public static final String GET_LAST_INSERTED_RESERVATION_ROOM = "SELECT * FROM `db_hotel`.`reservation_room` WHERE `id`=LAST_INSERT_ID()";
+
+    public static final String GET_FINANCIAL_REPORT_BY_MONTH_FOR_YEAR = "SELECT EXTRACT(MONTH FROM `dateIn`) AS `month`, SUM(((UNIX_TIMESTAMP(`dateOut`) - UNIX_TIMESTAMP(`dateIn`)) / (3600 * 24) * `costPerDay`) + `costAdditionalServices`) AS `total` FROM (((`db_hotel`.`reservation_room` \n" +
+            "LEFT OUTER JOIN `db_hotel`.`reservation` ON `reservation_room`.`idReservation` = `reservation`.`id`)\n" +
+            "LEFT OUTER JOIN `db_hotel`.`room` ON `reservation_room`.`idRoom` = `room`.`id`)\n" +
+            "LEFT OUTER JOIN `db_hotel`.`room_type` ON `idRoomType` = `room_type`.`id`) \n" +
+            "WHERE EXTRACT(YEAR FROM `dateIn`) = ?\n" +
+            "GROUP BY `month` WITH ROLLUP";
+    public static final String GET_FINANCIAL_REPORT_BY_QUARTER_FOR_YEAR = "SELECT (EXTRACT(MONTH FROM `dateIn`) DIV 3) + 1 AS `quarter`, SUM(((UNIX_TIMESTAMP(`dateOut`) - UNIX_TIMESTAMP(`dateIn`)) / (3600 * 24) * `costPerDay`) + `costAdditionalServices`) AS `total` FROM (((`db_hotel`.`reservation_room` \n" +
+            "LEFT OUTER JOIN `db_hotel`.`reservation` ON `reservation_room`.`idReservation` = `reservation`.`id`)\n" +
+            "LEFT OUTER JOIN `db_hotel`.`room` ON `reservation_room`.`idRoom` = `room`.`id`)\n" +
+            "LEFT OUTER JOIN `db_hotel`.`room_type` ON `idRoomType` = `room_type`.`id`) \n" +
+            "WHERE EXTRACT(YEAR FROM `dateIn`) = ?\n" +
+            "GROUP BY `quarter` WITH ROLLUP";
+    public static final String GET_ROOM_REPORT_BY_MONTH_FOR_YEAR = "SELECT `room`.`name`, EXTRACT(MONTH FROM `dateIn`) AS `month`, SUM(((UNIX_TIMESTAMP(`dateOut`) - UNIX_TIMESTAMP(`dateIn`)) / (3600 * 24) * `costPerDay`) + `costAdditionalServices`) AS `total` FROM (((`db_hotel`.`reservation_room` \n" +
+            "LEFT OUTER JOIN `db_hotel`.`reservation` ON `reservation_room`.`idReservation` = `reservation`.`id`)\n" +
+            "LEFT OUTER JOIN `db_hotel`.`room` ON `reservation_room`.`idRoom` = `room`.`id`)\n" +
+            "LEFT OUTER JOIN `db_hotel`.`room_type` ON `idRoomType` = `room_type`.`id`) \n" +
+            "WHERE EXTRACT(YEAR FROM `dateIn`) = ?\n" +
+            "GROUP BY `room`.`name`, `month` WITH ROLLUP";
+    public static final String GET_ROOM_REPORT_BY_QUARTER_FOR_YEAR = "SELECT `room`.`name`, (EXTRACT(MONTH FROM `dateIn`) DIV 3) + 1 AS `quarter`, SUM(((UNIX_TIMESTAMP(`dateOut`) - UNIX_TIMESTAMP(`dateIn`)) / (3600 * 24) * `costPerDay`) + `costAdditionalServices`) AS `total` FROM (((`db_hotel`.`reservation_room` \n" +
+            "LEFT OUTER JOIN `db_hotel`.`reservation` ON `reservation_room`.`idReservation` = `reservation`.`id`)\n" +
+            "LEFT OUTER JOIN `db_hotel`.`room` ON `reservation_room`.`idRoom` = `room`.`id`)\n" +
+            "LEFT OUTER JOIN `db_hotel`.`room_type` ON `idRoomType` = `room_type`.`id`) \n" +
+            "WHERE EXTRACT(YEAR FROM `dateIn`) = ?\n" +
+            "GROUP BY `room`.`name`, `quarter` WITH ROLLUP";
 }

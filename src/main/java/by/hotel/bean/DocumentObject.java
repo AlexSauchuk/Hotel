@@ -1,10 +1,10 @@
 package by.hotel.bean;
 
-import java.io.InputStream;
-
 public class DocumentObject {
-    private InputStream inputStream;
+    private String mimeType;
     private String documentName;
+
+    private byte[] documentBytes;
 
     public String getDocumentName() {
         return documentName;
@@ -14,11 +14,19 @@ public class DocumentObject {
         this.documentName = documentName;
     }
 
-    public InputStream getInputStream() {
-        return inputStream;
+    public String getMimeType() {
+        return mimeType;
     }
 
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
+
+    public byte[] getDocumentBytes() {
+        return documentBytes;
+    }
+
+    public void setDocumentBytes(byte[] documentBytes) {
+        this.documentBytes = documentBytes;
     }
 }

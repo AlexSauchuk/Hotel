@@ -103,6 +103,14 @@ public class User {
         this.email = email;
     }
 
+    public String getUserFullname(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(surname);
+        stringBuilder.append(" ");
+        stringBuilder.append(name);
+        return stringBuilder.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -125,10 +133,16 @@ public class User {
         int result = name.hashCode();
         result = 31 * result + surname.hashCode();
         result = 31 * result + mobilePhone.hashCode();
-        result = 31 * result + login.hashCode();
+        if(login != null) {
+            result = 31 * result + login.hashCode();
+        }
         result = 31 * result + passportNumber.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + role.hashCode();
+        if(password != null) {
+            result = 31 * result + password.hashCode();
+        }
+        if(role != null) {
+            result = 31 * result + role.hashCode();
+        }
         return result;
     }
 }

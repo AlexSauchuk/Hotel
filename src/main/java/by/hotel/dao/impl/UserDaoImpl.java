@@ -1,8 +1,6 @@
 package by.hotel.dao.impl;
 
-import by.hotel.bean.Reservation;
 import by.hotel.bean.User;
-import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
