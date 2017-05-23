@@ -1,33 +1,35 @@
 package by.hotel.documentbuilder;
 
+import by.hotel.bean.DocumentObject;
 import by.hotel.service.exception.ServiceException;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
+import com.itextpdf.text.pdf.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public abstract class PdfDocumentBuilder<T> implements DocumentBuilder<T> {
-    private final String FILE_PATH;
+    private final String TEMPLATE_PATH, DOCUMENT_NAME;
+    private final static String MIME_TYPE = "application/pdf";
     private static Logger logger;
 
-    public PdfDocumentBuilder(String filePath){
-        FILE_PATH = filePath;
+    public PdfDocumentBuilder(String templatePath, String documentName){
+        TEMPLATE_PATH = templatePath;
+        DOCUMENT_NAME = documentName;
         logger = LogManager.getLogger(PdfDocumentBuilder.class.getName());
     }
 
-    public final void buildDocument(T documentData) throws ServiceException {
+    public final DocumentObject buildDocument(T documentData) throws ServiceException {
+        DocumentObject documentObject = null;
         PdfReader pdfReader = null;
         PdfStamper pdfStamper = null;
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try{
-            pdfReader = new PdfReader(classLoader.getResourceAsStream(FILE_PATH));
-            pdfStamper = new PdfStamper(pdfReader, new FileOutputStream("E:\\lAB\\6 семестр\\СПП\\Hotel\\temp.pdf"));
+            pdfReader = new PdfReader(classLoader.getResourceAsStream(TEMPLATE_PATH));
+            pdfStamper = new PdfStamper(pdfReader, byteArrayOutputStream);
             pdfStamper.setFormFlattening(true);
             final BaseFont baseFont = BaseFont.createFont("c:\\Windows\\Fonts\\arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             final AcroFields form = pdfStamper.getAcroFields();
@@ -39,6 +41,8 @@ public abstract class PdfDocumentBuilder<T> implements DocumentBuilder<T> {
             try {
                 if(pdfStamper != null){
                     pdfStamper.close();
+                    documentObject = fillDocumentObject(byteArrayOutputStream);
+                    byteArrayOutputStream.close();
                 }
             }catch (DocumentException | IOException e){
                 logger.error(e);
@@ -48,6 +52,15 @@ public abstract class PdfDocumentBuilder<T> implements DocumentBuilder<T> {
                 }
             }
         }
+        return documentObject;
+    }
+
+    private DocumentObject fillDocumentObject(ByteArrayOutputStream byteArrayOutputStream){
+        DocumentObject documentObject = new DocumentObject();
+        documentObject.setDocumentName(DOCUMENT_NAME);
+        documentObject.setMimeType(MIME_TYPE);
+        documentObject.setDocumentBytes(byteArrayOutputStream.toByteArray());
+        return documentObject;
     }
 
     protected abstract void setFields(AcroFields form, T documentData) throws DocumentException, IOException;

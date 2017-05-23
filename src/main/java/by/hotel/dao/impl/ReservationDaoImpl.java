@@ -1,7 +1,6 @@
 package by.hotel.dao.impl;
 
 import by.hotel.bean.Reservation;
-import by.hotel.bean.User;
 import by.hotel.builder.DiscountBuilder;
 import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.UserBuilder;
@@ -9,7 +8,6 @@ import by.hotel.dao.AbstractDao;
 import by.hotel.dao.ReservationDao;
 import by.hotel.dao.constants.Constants;
 import by.hotel.dao.exception.DAOException;
-import by.hotel.service.exception.ServiceException;
 import by.hotel.util.ErrorStringBuilder;
 
 import java.sql.*;

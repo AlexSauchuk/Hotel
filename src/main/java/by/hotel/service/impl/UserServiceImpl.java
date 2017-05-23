@@ -10,7 +10,6 @@ import by.hotel.security.MD5;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.*;
-import by.hotel.service.validator.ValidatorRoom;
 import by.hotel.service.validator.ValidatorUser;
 
 import java.sql.Connection;
@@ -44,12 +43,12 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
         }
     }
 
-    public User getEntity(Integer id) throws ServiceException {
+    public User getEntity(int id) throws ServiceException {
         Connection connection = null;
         User user;
         try {
             connection = getConnection();
-            user = userDao.getUser(id, connection);
+            user = userDao.getUser(connection, id);
         } catch (DAOException e) {
             throw new ServiceException(e);
         } finally {

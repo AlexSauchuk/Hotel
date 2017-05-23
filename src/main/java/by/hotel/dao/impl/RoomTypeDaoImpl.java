@@ -1,8 +1,6 @@
 package by.hotel.dao.impl;
 
-import by.hotel.bean.Room;
 import by.hotel.bean.RoomType;
-import by.hotel.builder.RoomBuilder;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.AbstractDao;
 import by.hotel.dao.RoomTypeDao;
@@ -57,6 +55,26 @@ public class RoomTypeDaoImpl extends AbstractDao implements RoomTypeDao {
             closeStatement(statement, resultSet);
         }
         return roomTypes;
+    }
+
+    public RoomType getRoomType(Connection connection, int idRoomType) throws DAOException {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        RoomType roomType = null;
+        RoomTypeBuilder roomTypeBuilder  = new RoomTypeBuilder();
+        try {
+            statement = connection.prepareStatement(GET_ROOM_TYPE);
+            statement.setInt(1, idRoomType);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                roomType = fillRoomType(resultSet,roomTypeBuilder);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement, resultSet);
+        }
+        return roomType;
     }
 
     public void addRoomType(RoomType roomType,Connection connection) throws DAOException {

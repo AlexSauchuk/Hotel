@@ -1,8 +1,6 @@
 package by.hotel.dao.impl;
 
-import by.hotel.bean.Reservation;
 import by.hotel.bean.User;
-import by.hotel.builder.ReservationBuilder;
 import by.hotel.builder.RoleBuilder;
 import by.hotel.builder.UserBuilder;
 import by.hotel.dao.AbstractDao;
@@ -103,16 +101,18 @@ public class UserDaoImpl extends AbstractDao implements UserDao,AuthDao {
         }
     }
 
-    public User getUser(Integer id,Connection connection) throws DAOException {
+    public User getUser(Connection connection, int idUser) throws DAOException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        User user;
+        User user = null;
         UserBuilder userBuilder = new UserBuilder();
         try {
             statement = connection.prepareStatement(GET_USER);
-            statement.setInt(1, id);
+            statement.setInt(1, idUser);
             resultSet = statement.executeQuery();
-            user = fillUser(resultSet, userBuilder);
+            while (resultSet.next()) {
+                user = fillUser(resultSet, userBuilder);
+            }
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {

@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @WebServlet (urlPatterns = {"/servlet"})
 public class MainServlet extends HttpServlet {
@@ -25,11 +24,11 @@ public class MainServlet extends HttpServlet {
             String page = req.getParameter("page");
             CommandFactoryMapper commandFactoryMapper = CommandFactoryMapper.getInstance();
             Command command = commandFactoryMapper.getCommand(req.getParameter("action"));
-            result = command.execute(req);
+            result = command.execute(req, resp);
             if(page != null) {
                 req.setAttribute("items", result);
                 req.getRequestDispatcher(page).forward(req,resp);
-            }else {
+            }else if(!req.getParameter("action").equals("CREATE_DOCUMENT")){
                 formJsonResponse(resp, result);
             }
         } catch (CommandException e) {

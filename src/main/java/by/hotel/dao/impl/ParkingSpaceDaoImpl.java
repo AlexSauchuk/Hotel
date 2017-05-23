@@ -129,7 +129,7 @@ public class ParkingSpaceDaoImpl extends AbstractDao implements ParkingSpaceDao 
     private ParkingSpace fillParkingSpace(ResultSet resultSet, ParkingSpaceBuilder parkingSpaceBuilder) throws SQLException {
         return parkingSpaceBuilder.id(resultSet.getInt("id"))
                 .level(resultSet.getInt("level"))
-                .reserved(resultSet.getByte("reserved"))
+                .reserved(resultSet.getByte("isReserved"))
                 .build();
     }
 

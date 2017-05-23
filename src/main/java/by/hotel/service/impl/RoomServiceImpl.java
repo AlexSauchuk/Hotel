@@ -4,15 +4,14 @@ import by.hotel.bean.Room;
 import by.hotel.builder.RoomBuilder;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.RoomDao;
-import by.hotel.dao.impl.RoomDaoImpl;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.dao.impl.RoomDaoImpl;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.IncorrectRoomNameException;
 import by.hotel.service.exception.IncorrectRoomPathException;
 import by.hotel.service.exception.IncorrectRoomPhoneNumberException;
 import by.hotel.service.exception.ServiceException;
-import by.hotel.service.validator.ValidatorRole;
 import by.hotel.service.validator.ValidatorRoom;
 
 import java.sql.Connection;
@@ -44,6 +43,20 @@ public class RoomServiceImpl extends AbstractService implements CrudServiceExten
         } finally {
             closeConnection(connection);
         }
+    }
+
+    public Room getEntity(int id) throws ServiceException {
+        Connection connection = null;
+        Room room;
+        try {
+            connection = getConnection();
+            room = roomDao.getRoom(connection, id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        } finally {
+            closeConnection(connection);
+        }
+        return room;
     }
 
     public List<Room> addEntity(Room entity) throws ServiceException {
