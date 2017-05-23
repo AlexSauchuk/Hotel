@@ -33,7 +33,7 @@ public class Constants {
             "ON `discount`.`id` = `idDiscount`)" +
             "LEFT OUTER JOIN `db_hotel`.`user`" +
             "ON `user`.`id` = `idUser`)";
-    public static final String ADD_RESERVATION = "INSERT INTO `db_hotel`.`reservation` (`idUser`, `dateIn`, `dateOut`, `costAdditionalServices`, `idRoom`) VALUES (?,?,?,?,?)";
+    public static final String ADD_RESERVATION = "INSERT INTO `db_hotel`.`reservation` (`idUser`, `dateIn`, `dateOut`, `costAdditionalServices`, `idDiscount`) VALUES (?,?,?,?,?)";
     public static final String REMOVE_RESERVATION = "DELETE FROM `db_hotel`.`reservation` WHERE `id`=?";
     public static final String UPDATE_RESERVATION = "UPDATE `db_hotel`.`reservation` SET `idUser`=?, `dateIn`=?, `dateOut`=?, `costAdditionalServices`=?, `idDiscount`=? WHERE `id`=?";
     public static final String GET_RESERVATION = GET_ALL_RESERVATIONS.concat(" WHERE `reservation`.`id` = ?");

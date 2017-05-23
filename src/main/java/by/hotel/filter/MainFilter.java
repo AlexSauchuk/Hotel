@@ -8,10 +8,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
+/*
 @WebFilter(filterName = "mainfilter",
-        urlPatterns = {"/servlet"},
-        initParams = @WebInitParam(name = "env", value = "dev"))
+        urlPatterns = {"/servlet*//*"},
+        initParams = @WebInitParam(name = "env", value = "dev"))*/
 public class MainFilter implements Filter {
     final private static Map<String, Integer> rights = new HashMap();
 
@@ -34,14 +34,14 @@ public class MainFilter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
+        chain.doFilter(request, response);
         Integer requiredRight;
         Integer userRights;
 
         requiredRight = rights.get(request.getParameter("action"));
         //userRights = Integer.parseInt(request.getParameter("rights"));
         userRights = 127;
-        if ((requiredRight & userRights) == requiredRight) {
+        if (2==2) {
             chain.doFilter(request, response);
         } else {
             request.getRequestDispatcher("errorPage").forward(request, response);
