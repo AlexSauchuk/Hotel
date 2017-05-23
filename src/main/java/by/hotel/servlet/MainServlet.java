@@ -2,8 +2,6 @@ package by.hotel.servlet;
 
 import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
-import by.hotel.command.impl.Authorization;
-import by.hotel.command.impl.Registration;
 import by.hotel.factory.impl.CommandFactoryMapper;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
@@ -38,9 +36,7 @@ public class MainServlet extends HttpServlet {
             logger.error(e);
             String message = e.getMessage();
             formJsonResponse(resp,message.substring(message.lastIndexOf(":")+1));
-        }catch (IOException e){
-            logger.error(e);
-        }catch (ServletException e){
+        }catch (IOException | ServletException e){
             logger.error(e);
         }
     }

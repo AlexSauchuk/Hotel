@@ -23,6 +23,7 @@ public class User {
         this.surname = userBuilder.getSurname();
         this.mobilePhone = userBuilder.getMobilePhone();
         this.login = userBuilder.getLogin();
+        this.email = userBuilder.getEmail();
         this.passportNumber = userBuilder.getPassportNumber();
         this.password = userBuilder.getPassword();
         this.role = userBuilder.getRole();
@@ -115,6 +116,7 @@ public class User {
         if (!surname.equals(user.surname)) return false;
         if (!mobilePhone.equals(user.mobilePhone)) return false;
         if (!login.equals(user.login)) return false;
+        if (!email.equals(user.email)) return false;
         if (!passportNumber.equals(user.passportNumber)) return false;
         if (!password.equals(user.password)) return false;
         return role.equals(user.role);
