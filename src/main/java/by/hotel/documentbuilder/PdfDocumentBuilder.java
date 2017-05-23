@@ -3,14 +3,12 @@ package by.hotel.documentbuilder;
 import by.hotel.bean.DocumentObject;
 import by.hotel.service.exception.ServiceException;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
+import com.itextpdf.text.pdf.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public abstract class PdfDocumentBuilder<T> implements DocumentBuilder<T> {
     private final String TEMPLATE_PATH, DOCUMENT_NAME;

@@ -3,12 +3,11 @@ package by.hotel.service.impl;
 import by.hotel.bean.RoomType;
 import by.hotel.builder.RoomTypeBuilder;
 import by.hotel.dao.RoomTypeDao;
-import by.hotel.dao.impl.RoomTypeDaoImpl;
 import by.hotel.dao.exception.DAOException;
+import by.hotel.dao.impl.RoomTypeDaoImpl;
 import by.hotel.service.AbstractService;
 import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.*;
-import by.hotel.service.validator.ValidatorRoom;
 import by.hotel.service.validator.ValidatorRoomType;
 
 import java.sql.Connection;
@@ -40,6 +39,20 @@ public class RoomTypeServiceImpl extends AbstractService implements CrudServiceE
         } finally {
             closeConnection(connection);
         }
+    }
+
+    public RoomType getEntity(int id) throws ServiceException {
+        Connection connection = null;
+        RoomType roomType;
+        try {
+            connection = getConnection();
+            roomType = roomTypeDao.getRoomType(connection, id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        } finally {
+            closeConnection(connection);
+        }
+        return roomType;
     }
 
     public List<RoomType> addEntity(RoomType entity) throws ServiceException {

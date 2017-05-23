@@ -18,6 +18,9 @@ public final class DocumentBuilderMapper implements DocumentBuilderServiceFactor
         builderMap.put("RESERVATION_REPORT", new ReservationReportBuilderService());
         builderMap.put("ENTITY_CSV_REPORT", new EntityReportCsvBuilderService());
         builderMap.put("RESERVATION_VOUCHER", new ReservationVoucherBuilderService());
+        builderMap.put("ROOM_DOCUMENT", new RoomDocumentBuilderService());
+        builderMap.put("USER_DOCUMENT", new UserDocumentBuilderService());
+        builderMap.put("ROOM_TYPE_DOCUMENT", new RoomTypeDocumentBuilderService());
     }
 
     private static class Holder{

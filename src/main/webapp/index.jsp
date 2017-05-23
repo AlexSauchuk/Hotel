@@ -8,7 +8,10 @@
     <body>
     <a href="/servlet?page=admin.jsp&action=ADMIN_START">Администратор</a></br>
     <a href="/servlet?action=CREATE_DOCUMENT&docname=reservation_voucher&id=4">Электронный ваучер на проживание</a></br>
-    <a href="/servlet?action=CREATE_DOCUMENT&docname=reservation_confirm&id=1">Подтверждение брони</a></br>
+    <a href="/servlet?action=CREATE_DOCUMENT&docname=reservation_confirm&id=4">Подтверждение брони</a></br>
+    <a href="/servlet?action=CREATE_DOCUMENT&docname=room_document&id=2">Информация о номере</a></br>
+    <a href="/servlet?action=CREATE_DOCUMENT&docname=user_document&id=2">Информация о пользователе</a></br>
+    <a href="/servlet?action=CREATE_DOCUMENT&docname=room_type_document&id=4">Информация о типе номера</a></br>
     <a href="/servlet?action=CREATE_DOCUMENT&docname=room_report&type=by_month&year=2017">Отчет по комнатам по месяцам</a></br>
     <a href="/servlet?action=CREATE_DOCUMENT&docname=room_report&type=by_quarter&year=2017">Отчет по комнатам по кварталам</a></br>
     <a href="/servlet?action=CREATE_DOCUMENT&docname=financial_report&type=by_month&year=2017">Годовой отчет по месяцам</a></br>

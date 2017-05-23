@@ -23,7 +23,7 @@ public class Constants {
     public static final String ADD_ROOM_TYPE = "INSERT INTO `db_hotel`.`room_type` (`roomsCount`, `bedsCount`, `costPerDay`, `additionalInfo`, `bathroomsCount`, `size`) VALUES (?,?,?,?,?,?)";
     public static final String REMOVE_ROOM_TYPE = "DELETE FROM `db_hotel`.`room_type` WHERE `id`=?";
     public static final String UPDATE_ROOM_TYPE = "UPDATE `db_hotel`.`room_type` SET `roomsCount`=?, `bedsCount`=?, `costPerDay`=?, `additionalInfo`=?, `bathroomsCount`=?, `size`=? WHERE `id`=?";
-    public static final String GET_ROOM_TYPE = GET_ALL_ROOM_TYPES.concat(" WHERE `roomType`.`id`=?");
+    public static final String GET_ROOM_TYPE = GET_ALL_ROOM_TYPES.concat(" WHERE `room_type`.`id`=?");
     public static final String GET_ALL_ROOM_TYPES_HEADERS = "SELECT `id`, `roomsCount` FROM `db_hotel`.`room_type`";
     //  public static final String GET_ROOM_TYPE = "UPDATE `db_hotel`.`user` SET `passportNumber`='?', `name`='?', `surname`='?', `mobilePhone`='?', `password`='?' WHERE `id`='?'";
 
