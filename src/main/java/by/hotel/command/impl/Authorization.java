@@ -17,11 +17,11 @@ import java.util.Map;
 import static by.hotel.command.impl.Registration.getRights;
 
 public class Authorization implements Command {
-    public Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException {
+    public Object execute(HttpServletRequest req) throws CommandException {
         try {
             User user;
             AuthService service = new AuthServiceImpl();
-            user = service.checkUser(requestParameters.get("email")[0], MD5.crypt(requestParameters.get("password")[0]));
+            user = service.checkUser(req.getParameterMap().get("email")[0], MD5.crypt(req.getParameterMap().get("password")[0]));
             return user;
         } catch (ServiceException e) {
             throw new CommandException(e);

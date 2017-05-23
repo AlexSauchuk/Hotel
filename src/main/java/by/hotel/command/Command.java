@@ -6,5 +6,5 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface Command {
-    Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException;
+    Object execute(HttpServletRequest req) throws CommandException;
 }

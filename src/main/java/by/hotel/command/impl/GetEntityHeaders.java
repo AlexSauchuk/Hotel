@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Map;
 
 public class GetEntityHeaders implements Command{
-    public Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException {
+    public Object execute(HttpServletRequest req) throws CommandException {
         Map<String,List<String>> resultMap = new LinkedHashMap<String, List<String>>();
-        int tablesCount = requestParameters.get("tableName").length;
+        int tablesCount = req.getParameterMap().get("tableName").length;
         try {
             for (int i = 0; i < tablesCount; i++){
-                CrudService service =  CrudServiceMapper.getService(requestParameters.get("tableName")[i]);
-                resultMap.put(requestParameters.get("tableName")[i], ((CrudServiceExtended)service).getAllHeaders());
+                CrudService service =  CrudServiceMapper.getService(req.getParameterMap().get("tableName")[i]);
+                resultMap.put(req.getParameterMap().get("tableName")[i], ((CrudServiceExtended)service).getAllHeaders());
             }
         }catch (ServiceException e){
             throw new CommandException(e);

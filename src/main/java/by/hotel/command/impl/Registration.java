@@ -16,12 +16,12 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 public class Registration implements Command {
-    public Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException {
+    public Object execute(HttpServletRequest req) throws CommandException {
         try {
             User user;
             RegistrationService registrationService = new RegistrationServiceImpl();
             CrudService userService = new UserServiceImpl();
-            user = registrationService.registration((User)userService.buildEntity(requestParameters));
+            user = registrationService.registration((User)userService.buildEntity(req.getParameterMap()));
             if (user != null){
                 HttpSession session = req.getSession(true);
                 session.setAttribute("rights",getRights(user));

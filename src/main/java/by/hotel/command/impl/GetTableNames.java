@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GetTableNames implements Command {
-    public Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException {
+    public Object execute(HttpServletRequest req) throws CommandException {
         List<String> resultList;
         try {
 

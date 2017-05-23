@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public class RemoveEntity implements Command {
-    public Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException {
+    public Object execute(HttpServletRequest req) throws CommandException {
         String result = null;
         try {
-            CrudService service =  CrudServiceMapper.getService(requestParameters.get("tableName")[0]);
-            service.removeEntity(service.buildEntity(requestParameters));
+            CrudService service =  CrudServiceMapper.getService(req.getParameterMap().get("tableName")[0]);
+            service.removeEntity(service.buildEntity(req.getParameterMap()));
         }catch (ServiceException e){
             throw new CommandException(e);
         }

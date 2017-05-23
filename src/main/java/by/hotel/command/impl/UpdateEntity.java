@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public class UpdateEntity implements Command {
-    public Object execute(Map<String, String[]> requestParameters, HttpServletRequest req) throws CommandException {
+    public Object execute(HttpServletRequest req) throws CommandException {
         try {
-            CrudService service =  CrudServiceMapper.getService(requestParameters.get("tableName")[0]);
-            service.updateEntity(service.buildEntity(requestParameters));
+            CrudService service =  CrudServiceMapper.getService(req.getParameterMap().get("tableName")[0]);
+            service.updateEntity(service.buildEntity(req.getParameterMap()));
         }catch (ServiceException e){
             throw new CommandException(e);
         }
