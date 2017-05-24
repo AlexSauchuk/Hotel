@@ -1,39 +1,38 @@
 package by.hotel.command.controller;
 
 import by.hotel.bean.User;
-import by.hotel.command.exception.CommandException;
 import by.hotel.service.CrudService;
 import by.hotel.service.RegistrationService;
 import by.hotel.service.exception.ServiceException;
 import by.hotel.service.impl.RegistrationServiceImpl;
 import by.hotel.service.impl.UserServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
 public class Registration  {
+    private static final Logger logger = LogManager.getLogger(Registration.class.getName());
+
     @ResponseBody
     @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = "application/json")
-    public Object execute(HttpServletRequest req) throws CommandException {
+    public Object execute(HttpServletRequest req){
         Map<String, String[]> requestParams = req.getParameterMap();
+        User user = null;
         try {
-            User user;
             RegistrationService registrationService = new RegistrationServiceImpl();
-            CrudService userService = new UserServiceImpl();
-            user = registrationService.registration((User)userService.buildEntity(requestParams));
-            if (user != null){
-                return user;
-            }
+            CrudService<User> userService = new UserServiceImpl();
+            user = registrationService.registration(userService.buildEntity(requestParams));
         } catch (ServiceException e) {
-            throw new CommandException(e);
+           logger.error(e);
         }
-        return null;
+        return user;
     }
 
     public static String getRights(User user){

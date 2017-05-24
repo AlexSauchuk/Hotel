@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by 1 on 18.04.2017.
  */
 public class ValidatorReservation extends AbstractValidator {
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEE d, yyyy");
 
     public boolean validate(Map<String, String[]> data) throws IncorrectDateException, IncorrectCostException,NumberFormatException {
         if (validateDate(data.get("dateIn")[0]) & validateDate(data.get("dateOut")[0])
