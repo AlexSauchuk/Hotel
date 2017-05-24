@@ -1,4 +1,4 @@
-package by.hotel.command.controller;
+package by.hotel.controller;
 
 import by.hotel.bean.DocumentObject;
 import by.hotel.factory.impl.DocumentBuilderMapper;

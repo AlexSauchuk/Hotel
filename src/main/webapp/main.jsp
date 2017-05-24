@@ -43,6 +43,9 @@
                         <div id="idAdminRef" style="display: none">
                             <a href="/admin_start">Администратор</a>
                         </div>
+                        <div id="idDocsRef" style="display: none">
+                            <a href="#documents">Документы</a>
+                        </div>
                     </div>
 
                 </div>
@@ -73,6 +76,7 @@
         <section id=contentServices class="container" src="/templates/pages/services/contentServices.html"></section>
         <section id=entry class="container" src="/templates/pages/signin/entry.html"></section>
         <section id=contentTestimonials class="container" src="/templates/pages/testimonials/contentTestimonials.html"></section>
+        <section id=documents class="container" src="/templates/pages/documents/documents.html"></section>
     </div>
     <div id="footer" style="width: 976px;margin: auto">
         <ul class="nav nav-pills" style="align:center;">

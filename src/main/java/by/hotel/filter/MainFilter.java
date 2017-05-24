@@ -34,14 +34,13 @@ public class MainFilter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        chain.doFilter(request, response);
         Integer requiredRight;
         Integer userRights;
 
         requiredRight = rights.get(request.getParameter("action"));
-        //userRights = Integer.parseInt(request.getParameter("rights"));
-        userRights = 127;
-        if (2==2) {
+        userRights = Integer.parseInt(request.getParameter("rights"));
+        //userRights = 127;
+        if ((requiredRight & userRights) == requiredRight) {
             chain.doFilter(request, response);
         } else {
             request.getRequestDispatcher("errorPage").forward(request, response);

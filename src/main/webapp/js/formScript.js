@@ -108,6 +108,8 @@ function sendUserDataRegistration(login,email,pass,phone,name,surname,passport) 
         success: function(data) {
             if(typeof data =='object') {
                 currentUser = data;
+                document.getElementById('idAdminRef').style.display = 'block';
+                document.getElementById('idDocsRef').style.display = 'block';
                 loadTemplate('/templates/pages/signin/personalInfo.html');
                 setNewValueEntryDiv(currentUser.name);
             }
@@ -135,6 +137,7 @@ function sendUserDataLogin(email,pass){
 
                  }
                  document.getElementById('idAdminRef').style.display = 'block';
+                 document.getElementById('idDocsRef').style.display = 'block';
                  loadTemplate('/templates/pages/signin/personalInfo.html');
                  setNewValueEntryDiv(currentUser.name);
              }
@@ -180,6 +183,7 @@ function LogOut() {
     setNewValueEntryDiv("Вход","#entry");
     loadTemplate('/templates/pages/signin/entry.html');
     document.getElementById('idAdminRef').style.display = 'none';
+    document.getElementById('idDocsRef').style.display = 'none';
 }
 
 function validPassport(passport) {

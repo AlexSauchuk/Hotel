@@ -99,13 +99,17 @@ public class UserServiceImpl extends AbstractService implements CrudServiceExten
     public User buildEntity(Map<String, String[]> params) throws ServiceException {
         ValidatorUser validatorUser = new ValidatorUser();
         try {
+            String password = params.get("password")[0];
+            if (password.length()!=32){
+                password = MD5.crypt(password);
+            }
             if (validatorUser.validate(params)) {
                 return new UserBuilder().id(Integer.parseInt(params.get("id")[0]))
                         .name(params.get("name")[0])
                         .surname(params.get("surname")[0])
                         .login(params.get("login")[0])
                         .email(params.get("email")[0])
-                        .password((MD5.crypt(params.get("password")[0])))
+                        .password(password)
                         .passportNumber(params.get("passportNumber")[0])
                         .mobilePhone(params.get("mobilePhone")[0])
                         .role(new RoleBuilder().id(Integer.parseInt(params.get("idRole")[0])).build())

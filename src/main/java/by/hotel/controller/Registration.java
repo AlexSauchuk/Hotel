@@ -1,4 +1,4 @@
-package by.hotel.command.controller;
+package by.hotel.controller;
 
 import by.hotel.bean.User;
 import by.hotel.service.CrudService;

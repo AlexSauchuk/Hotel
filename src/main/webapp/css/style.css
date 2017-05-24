@@ -135,3 +135,8 @@ h6 {font-size:1em;color:#e7e7e7}
 #footer .nav li {display:inline}
 #footer .nav li a {padding:0 48px 0 45px;color:#e3dad2}
 #footer .nav li a:hover {padding:0 48px 0 45px;color:black}
+
+.docRef {
+    font-size: 20px;
+    font-weight: bold;
+}

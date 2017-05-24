@@ -1,4 +1,4 @@
-package by.hotel.command.controller;
+package by.hotel.controller;
 
 import by.hotel.service.TablesInfoService;
 import by.hotel.service.exception.ServiceException;

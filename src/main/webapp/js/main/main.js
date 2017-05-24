@@ -10,6 +10,7 @@ function setRoleAttributes(roleObj) {
 $( document ).ready(function() {
     if(sessionStorage.length!=0) {
         document.getElementById('idAdminRef').style.display = 'block';
+        document.getElementById('idDocsRef').style.display = 'block';
         currentUser = {
             'role':{}
         };
@@ -24,6 +25,7 @@ $( document ).ready(function() {
         generatePermissionsUser();
     }else{
         document.getElementById('idAdminRef').style.display = 'none';
+        document.getElementById('idDocsRef').style.display = 'none';
     }
 });
 
