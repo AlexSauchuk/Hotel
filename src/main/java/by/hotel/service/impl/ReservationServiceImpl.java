@@ -9,6 +9,7 @@ import by.hotel.dao.exception.DAOException;
 import by.hotel.dao.impl.ReservationDaoImpl;
 import by.hotel.dao.impl.ReservationRoomDaoImpl;
 import by.hotel.service.AbstractService;
+import by.hotel.service.CrudService;
 import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.IncorrectCostException;
 import by.hotel.service.exception.IncorrectDateException;
@@ -19,6 +20,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +75,7 @@ public class ReservationServiceImpl extends AbstractService implements CrudServi
             reservationDao.addReservation(entity, connection);
             reservationRoom.setReservation(reservationDao.getLastInsertedReservation(connection));
             ReservationRoomDao reservationRoomDao = new ReservationRoomDaoImpl();
+            reservationRoom.setReservation(reservationDao.getLastInsertedReservation(connection));
             reservationRoomDao.addReservationRoom(reservationRoom, connection);
             reservations = reservationDao.getAllReservations(connection);
         } catch (DAOException e) {

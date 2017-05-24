@@ -1,7 +1,9 @@
 package by.hotel.bean;
 
 import by.hotel.builder.DiscountBuilder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Discount {
     private int id;
     private String name;

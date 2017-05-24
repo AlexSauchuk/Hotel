@@ -1,6 +1,9 @@
 package by.hotel.bean;
 
 import by.hotel.builder.RoleBuilder;
+import org.springframework.stereotype.Component;
+
+@Component
 public class Role {
     private int id;
     private String nameRole;

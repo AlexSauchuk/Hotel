@@ -1,6 +1,3 @@
-/**
- * Created by SK on 25.04.2017.
- */
 
 var currentUser = null;
 
@@ -38,6 +35,4 @@ function generatePermissionsUser() {
         if(permission!='id') {
             stringPermissions += objRole[permission];
         }
-
-    alert(parseInt(stringPermissions,2));
 }

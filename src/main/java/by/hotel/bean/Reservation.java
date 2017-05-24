@@ -1,9 +1,10 @@
 package by.hotel.bean;
 
 import by.hotel.builder.ReservationBuilder;
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
-
+@Component
 public class Reservation {
     private int id;
     private Date dateIn;

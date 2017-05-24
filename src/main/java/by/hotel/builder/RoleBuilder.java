@@ -2,9 +2,6 @@ package by.hotel.builder;
 
 import by.hotel.bean.Role;
 
-/**
- * Created by 1 on 17.04.2017.
- */
 public class RoleBuilder {
     private int id;
     private String nameRole;

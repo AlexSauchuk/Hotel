@@ -1,7 +1,9 @@
 package by.hotel.bean;
 
 import by.hotel.builder.ReservationParkingSpaceBuilder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ReservationParkingSpace {
     private Reservation reservation;
     private ParkingSpace parkingSpace;

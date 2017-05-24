@@ -1,7 +1,9 @@
 package by.hotel.bean;
 
 import by.hotel.builder.UserBuilder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class User {
     private int id;
     private String name;

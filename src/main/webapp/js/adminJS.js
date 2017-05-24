@@ -151,7 +151,7 @@ function sendUpdateData() {
 
     $.ajax({
         type: 'POST',
-        url: '/servlet?tableName='+NameTable +'&action=UPDATE' + getData(editBodyUpdate),
+        url: '/update?tableName='+NameTable + getData(editBodyUpdate),
         success: function () {
         }});
 }
@@ -161,7 +161,7 @@ function sendAddData() {
 
     $.ajax({
         type: 'POST',
-        url: '/servlet?tableName='+NameTable +'&action=ADD' + getData(editBodyAdd),
+        url: '/add?tableName='+NameTable + getData(editBodyAdd),
         success: function (result) {
             if(typeof result == 'string'){
                 alert(result);
@@ -200,7 +200,7 @@ var mapStringTable = {
 function deleteRow(obj) {
     $.ajax({
         type: 'DELETE',
-        url: '/servlet?tableName=' + NameTable + '&action=REMOVE&' +  formParams(obj.closest('tr').rowIndex),
+        url: '/remove?tableName=' + NameTable + '&' +  formParams(obj.closest('tr').rowIndex),
         success:function(result){
             if(result==null){
                 document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
@@ -257,7 +257,7 @@ function generateSelectChilds() {
     if(tables != '') {
         $.ajax({
             type: 'GET',
-            url: '/servlet?' + tables + 'action=GET_ALL_HEADERS',
+            url: '/get_headers?' + tables,
             success: function (data) {
                 for (var value in futureQueryForID) {
                     arrayObj[value] = data[mapStringTable[value]];
@@ -348,7 +348,7 @@ function loadTemplate() {
 function getAllTableElements(nameTable) {
     $.ajax({
         type: 'GET',
-        url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
+        url: '/get_all?tableName='+nameTable,
         success: function(data) {
             console.log(data);
             futureQueryForID = {};

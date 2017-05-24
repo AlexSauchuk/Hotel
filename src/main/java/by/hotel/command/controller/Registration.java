@@ -1,4 +1,4 @@
-package by.hotel.command.impl;
+package by.hotel.command.controller;
 
 import by.hotel.bean.User;
 import by.hotel.command.exception.CommandException;
@@ -7,13 +7,20 @@ import by.hotel.service.RegistrationService;
 import by.hotel.service.exception.ServiceException;
 import by.hotel.service.impl.RegistrationServiceImpl;
 import by.hotel.service.impl.UserServiceImpl;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-public class Registration   {
-    public Object execute(HttpServletRequest req, HttpServletResponse response) throws CommandException {
+@Controller
+public class Registration  {
+    @ResponseBody
+    @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = "application/json")
+    public Object execute(HttpServletRequest req) throws CommandException {
         Map<String, String[]> requestParams = req.getParameterMap();
         try {
             User user;

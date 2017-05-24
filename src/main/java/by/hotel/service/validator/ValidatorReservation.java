@@ -16,7 +16,7 @@ public class ValidatorReservation extends AbstractValidator {
 
     public boolean validate(Map<String, String[]> data) throws IncorrectDateException, IncorrectCostException,NumberFormatException {
         if (validateDate(data.get("dateIn")[0]) & validateDate(data.get("dateOut")[0])
-                & validateUnsignedIntDigit(data.get("cost_additional_services")[0])) {
+                & validateUnsignedIntDigit(data.get("costAdditionalServices")[0])) {
             return true;
         }
         return false;
