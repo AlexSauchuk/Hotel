@@ -103,8 +103,10 @@ function updateData(obj) {
         for(var arrayType in arrayObj){
             var j = 0;
             while(j!=arrayObj[arrayType].length) {
-                if ($(inputs[i]).val() == (arrayObj[arrayType])[j].substr(0, 1))
-                    $('select[name=id_' + arrayType + ']').val((arrayObj[arrayType])[j]);
+                console.log(arrayType);
+                var number = (arrayObj[arrayType])[j].substr(0, (arrayObj[arrayType])[j].indexOf(" "));
+                if ($(inputs[i]).val() == number)
+                    $('select[name=id' + arrayType[0].toUpperCase() + arrayType.slice(1) + ']').val((arrayObj[arrayType])[j]);
                 j++;
             }
             i++;
@@ -202,7 +204,7 @@ function deleteRow(obj) {
         type: 'DELETE',
         url: '/remove?tableName=' + NameTable + '&' +  formParams(obj.closest('tr').rowIndex),
         success:function(result){
-            if(result==null){
+            if(result==null || result.length == 0){
                 document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
             }else {
                 alert(result);
@@ -217,7 +219,7 @@ function formParams(rowIndex) {
     for(var i=0; i< columnNames.length; i++){
         var currentObj = Data[rowIndex-1][columnNames[i].textContent];
         if($.isPlainObject(currentObj)){
-            resultParams = resultParams.concat("id_",columnNames[i].textContent,"=",currentObj["id"],"&");
+            resultParams = resultParams.concat("id",columnNames[i].textContent[0].toUpperCase() + columnNames[i].textContent.slice(1),"=",currentObj["id"],"&");
         }else{
             resultParams = resultParams.concat(columnNames[i].textContent,"=",currentObj,"&");
         }
@@ -234,8 +236,8 @@ function generateOption(arrayObj, value, arrayType) {
 
 function generateChilds(arrayObj) {
     for(var arrayType in arrayObj) {
-        var editBodyUpdate = $('#myModalUpdate').find('#id_'+arrayType+'');
-        var editBodyAdd = $('#myModalAdd').find('#id_'+arrayType+'');
+        var editBodyUpdate = $('#myModalUpdate').find('#id' + arrayType[0].toUpperCase() + arrayType.slice(1) +'');
+        var editBodyAdd = $('#myModalAdd').find('#id' + arrayType[0].toUpperCase() + arrayType.slice(1) +'');
         if(editBodyUpdate[0].childElementCount==0)
             for(var value in arrayObj[arrayType]) {
                 editBodyUpdate[0].appendChild(generateOption(arrayObj,value,arrayType));
@@ -350,7 +352,6 @@ function getAllTableElements(nameTable) {
         type: 'GET',
         url: '/get_all?tableName='+nameTable,
         success: function(data) {
-            console.log(data);
             futureQueryForID = {};
             loadTemplate();
             arrayObj = {};
