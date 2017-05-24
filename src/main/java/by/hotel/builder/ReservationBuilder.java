@@ -4,12 +4,12 @@ import by.hotel.bean.Discount;
 import by.hotel.bean.Reservation;
 import by.hotel.bean.User;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class ReservationBuilder {
     private int id;
-    private Date dateIn;
-    private Date dateOut;
+    private String dateIn;
+    private String dateOut;
     private User user;
     private int costAdditionalServices;
     private Discount discount;
@@ -25,12 +25,12 @@ public class ReservationBuilder {
     }
 
     public ReservationBuilder dateIn(Date dateIn){
-        this.dateIn = dateIn;
+        this.dateIn = dateIn.toString();
         return this;
     }
 
     public ReservationBuilder dateOut(Date dateOut){
-        this.dateOut = dateOut;
+        this.dateOut = dateOut.toString();
         return this;
     }
 
@@ -48,11 +48,11 @@ public class ReservationBuilder {
         return id;
     }
 
-    public Date getDateIn() {
+    public String getDateIn() {
         return dateIn;
     }
 
-    public Date getDateOut() {
+    public String getDateOut() {
         return dateOut;
     }
 
