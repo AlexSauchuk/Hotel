@@ -20,13 +20,14 @@ public class AddEntity   {
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public Object execute(HttpServletRequest req){
-        Object result = null;
+        Object result;
         try {
             Map<String, String[]> requestParams = req.getParameterMap();
             CrudService service =  CrudServiceMapper.getService(requestParams.get("tableName")[0]);
             result = service.addEntity(service.buildEntity(requestParams));
         }catch (ServiceException e){
             logger.error(e);
+            result = e.getMessage().substring(e.getMessage().lastIndexOf(":")+1);
         }
         return result;
     }

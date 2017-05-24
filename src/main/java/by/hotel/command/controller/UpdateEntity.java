@@ -20,13 +20,16 @@ public class UpdateEntity  {
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public Object execute(HttpServletRequest req){
+        String result = null;
         Map<String, String[]> requestParams = req.getParameterMap();
         try {
             CrudService service =  CrudServiceMapper.getService(requestParams.get("tableName")[0]);
             service.updateEntity(service.buildEntity(requestParams));
         }catch (ServiceException e){
             logger.error(e);
+            result = e.getMessage().substring(e.getMessage().lastIndexOf(":")+1);
+
         }
-        return null;
+        return result;
     }
 }

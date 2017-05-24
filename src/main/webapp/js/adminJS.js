@@ -103,8 +103,10 @@ function updateData(obj) {
         for(var arrayType in arrayObj){
             var j = 0;
             while(j!=arrayObj[arrayType].length) {
-                if ($(inputs[i]).val() == (arrayObj[arrayType])[j].substr(0, 1))
-                    $('select[name=id_' + arrayType + ']').val((arrayObj[arrayType])[j]);
+                console.log(arrayType);
+                var number = (arrayObj[arrayType])[j].substr(0, (arrayObj[arrayType])[j].indexOf(" "));
+                if ($(inputs[i]).val() == number)
+                    $('select[name=id' + arrayType[0].toUpperCase() + arrayType.slice(1) + ']').val((arrayObj[arrayType])[j]);
                 j++;
             }
             i++;
@@ -202,7 +204,6 @@ function deleteRow(obj) {
         type: 'DELETE',
         url: '/remove?tableName=' + NameTable + '&' +  formParams(obj.closest('tr').rowIndex),
         success:function(result){
-            console.log(result);
             if(result==null || result.length == 0){
                 document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
             }else {
@@ -351,7 +352,6 @@ function getAllTableElements(nameTable) {
         type: 'GET',
         url: '/get_all?tableName='+nameTable,
         success: function(data) {
-            console.log(data);
             futureQueryForID = {};
             loadTemplate();
             arrayObj = {};
