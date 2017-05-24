@@ -3,12 +3,11 @@ package by.hotel.bean;
 import by.hotel.builder.ReservationBuilder;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
 @Component
 public class Reservation {
     private int id;
-    private Date dateIn;
-    private Date dateOut;
+    private String dateIn;
+    private String dateOut;
     private User user;
     private int costAdditionalServices;
     private Discount discount;
@@ -40,19 +39,19 @@ public class Reservation {
         this.id = id;
     }
 
-    public Date getDateIn() {
+    public String getDateIn() {
         return dateIn;
     }
 
-    public void setDateIn(Date dateIn) {
+    public void setDateIn(String dateIn) {
         this.dateIn = dateIn;
     }
 
-    public Date getDateOut() {
+    public String getDateOut() {
         return dateOut;
     }
 
-    public void setDateOut(Date dateOut) {
+    public void setDateOut(String dateOut) {
         this.dateOut = dateOut;
     }
 

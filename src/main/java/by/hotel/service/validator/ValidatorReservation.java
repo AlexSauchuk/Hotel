@@ -8,11 +8,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
-/**
- * Created by 1 on 18.04.2017.
- */
 public class ValidatorReservation extends AbstractValidator {
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEE d, yyyy");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     public boolean validate(Map<String, String[]> data) throws IncorrectDateException, IncorrectCostException,NumberFormatException {
         if (validateDate(data.get("dateIn")[0]) & validateDate(data.get("dateOut")[0])

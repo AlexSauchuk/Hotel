@@ -17,7 +17,7 @@ import java.util.Map;
 public class UpdateEntity  {
     private static final Logger logger = LogManager.getLogger(UpdateEntity.class.getName());
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public Object execute(HttpServletRequest req){
         String result = null;

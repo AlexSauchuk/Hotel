@@ -9,7 +9,6 @@ import by.hotel.dao.exception.DAOException;
 import by.hotel.dao.impl.ReservationDaoImpl;
 import by.hotel.dao.impl.ReservationRoomDaoImpl;
 import by.hotel.service.AbstractService;
-import by.hotel.service.CrudService;
 import by.hotel.service.CrudServiceExtended;
 import by.hotel.service.exception.IncorrectCostException;
 import by.hotel.service.exception.IncorrectDateException;
@@ -20,8 +19,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -121,10 +118,12 @@ public class ReservationServiceImpl extends AbstractService implements CrudServi
                         .user(new UserBuilder().id(Integer.parseInt(params.get("idUser")[0])).build())
                         .discount(new DiscountBuilder().id(Integer.parseInt(params.get("idDiscount")[0])).build())
                         .build();
-                reservationRoom = new ReservationRoomBuilder()
-                        .room(new RoomBuilder().id(Integer.parseInt(params.get("idRoom")[0])).build())
-                        .reservation(reservation)
-                        .build();
+                if(params.containsKey("idRoom")){
+                    reservationRoom = new ReservationRoomBuilder()
+                            .room(new RoomBuilder().id(Integer.parseInt(params.get("idRoom")[0])).build())
+                            .reservation(reservation)
+                            .build();
+                }
                 return reservation;
             }
         } catch (ParseException | IncorrectDateException | IncorrectCostException e) {

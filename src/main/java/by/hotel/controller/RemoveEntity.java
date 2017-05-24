@@ -18,8 +18,8 @@ public class RemoveEntity   {
     private static final Logger logger = LogManager.getLogger(RemoveEntity.class.getName());
 
     @ResponseBody
-    @RequestMapping(value = "/remove", method = RequestMethod.DELETE, produces = "application/json")
-    public Object execute(HttpServletRequest req){
+    @RequestMapping(value = "/remove", method = RequestMethod.DELETE, produces = "text/plain; charset=UTF-8")
+    public String execute(HttpServletRequest req){
         String result = null;
         Map<String, String[]> requestParams = req.getParameterMap();
         try {
