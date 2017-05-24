@@ -40,7 +40,7 @@
                         +375(29)179-07-46
                         <br>
                         <div id="idAdminRef" style="display: none">
-                            <a href="/servlet?page=admin.jsp&action=ADMIN_START">Администратор</a>
+                            <a href="/admin_start">Администратор</a>
                         </div>
                     </div>
 
