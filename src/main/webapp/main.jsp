@@ -13,6 +13,7 @@
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <link rel="stylesheet" href="bootstrap/bootstrap.css">
     <link rel="stylesheet" href="css/styleSignIn.css">
+    <link rel="stylesheet" href="css/sliderStyle.css"/>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/layout.css" rel="stylesheet" type="text/css" />
     <script src="js/maxheight.js" type="text/javascript"></script>
