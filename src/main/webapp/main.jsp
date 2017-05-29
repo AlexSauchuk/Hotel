@@ -13,7 +13,6 @@
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <link rel="stylesheet" href="bootstrap/bootstrap.css">
     <link rel="stylesheet" href="css/styleSignIn.css">
-    <link rel="stylesheet" href="css/sliderStyle.css"/>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/layout.css" rel="stylesheet" type="text/css" />
     <script src="js/maxheight.js" type="text/javascript"></script>
@@ -41,10 +40,7 @@
                         +375(29)179-07-46
                         <br>
                         <div id="idAdminRef" style="display: none">
-                            <a href="/admin_start">Администратор</a>
-                        </div>
-                        <div id="idDocsRef" style="display: none">
-                            <a href="#documents">Документы</a>
+                            <a href="/servlet?page=admin.jsp&action=ADMIN_START">Администратор</a>
                         </div>
                     </div>
 
@@ -76,7 +72,6 @@
         <section id=contentServices class="container" src="/templates/pages/services/contentServices.html"></section>
         <section id=entry class="container" src="/templates/pages/signin/entry.html"></section>
         <section id=contentTestimonials class="container" src="/templates/pages/testimonials/contentTestimonials.html"></section>
-        <section id=documents class="container" src="/templates/pages/documents/documents.html"></section>
     </div>
     <div id="footer" style="width: 976px;margin: auto">
         <ul class="nav nav-pills" style="align:center;">

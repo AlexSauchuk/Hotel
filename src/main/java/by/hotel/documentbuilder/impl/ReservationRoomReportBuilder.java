@@ -24,7 +24,7 @@ public class ReservationRoomReportBuilder extends ExcelDocumentBuilder<List<Rese
     }
 
     public static ReservationRoomReportBuilder getInstance(){
-        return ReservationRoomReportBuilder.Holder.INSTANCE;
+        return Holder.INSTANCE;
     }
 
     @Override

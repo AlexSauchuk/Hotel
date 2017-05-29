@@ -26,7 +26,7 @@ public class RoomReportByMonthBuilder extends ExcelDocumentBuilder<Report> {
     }
 
     public static RoomReportByMonthBuilder getInstance(){
-        return RoomReportByMonthBuilder.Holder.INSTANCE;
+        return Holder.INSTANCE;
     }
 
     @Override

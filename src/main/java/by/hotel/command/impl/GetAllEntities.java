@@ -1,5 +1,6 @@
 package by.hotel.command.impl;
 
+import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
 import by.hotel.service.CrudService;
 import by.hotel.service.CrudServiceMapper;
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-public class GetAllEntities   {
+public class GetAllEntities implements Command {
     public Object execute(HttpServletRequest req, HttpServletResponse response) throws CommandException {
         List<?> resultList;
         Map<String, String[]> requestParams = req.getParameterMap();

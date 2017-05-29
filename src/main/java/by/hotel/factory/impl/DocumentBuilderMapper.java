@@ -28,7 +28,7 @@ public final class DocumentBuilderMapper implements DocumentBuilderServiceFactor
     }
 
     public static DocumentBuilderMapper getInstance(){
-        return DocumentBuilderMapper.Holder.INSTANCE;
+        return Holder.INSTANCE;
     }
 
     public DocumentBuilderService getDocumentBuilderService(String documentName) {

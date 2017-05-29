@@ -8,10 +8,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-/*
+
+/**
+ * Created by 1 on 24.04.2017.1
+ */
 @WebFilter(filterName = "mainfilter",
-        urlPatterns = {"/servlet*//*"},
-        initParams = @WebInitParam(name = "env", value = "dev"))*/
+        urlPatterns = {"/servlet"},
+        initParams = @WebInitParam(name = "env", value = "dev"))
 public class MainFilter implements Filter {
     final private static Map<String, Integer> rights = new HashMap();
 
@@ -34,12 +37,13 @@ public class MainFilter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         Integer requiredRight;
         Integer userRights;
 
         requiredRight = rights.get(request.getParameter("action"));
-        userRights = Integer.parseInt(request.getParameter("rights"));
-        //userRights = 127;
+        //userRights = Integer.parseInt(request.getParameter("rights"));
+        userRights = 127;
         if ((requiredRight & userRights) == requiredRight) {
             chain.doFilter(request, response);
         } else {

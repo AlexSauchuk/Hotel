@@ -103,10 +103,8 @@ function updateData(obj) {
         for(var arrayType in arrayObj){
             var j = 0;
             while(j!=arrayObj[arrayType].length) {
-                console.log(arrayType);
-                var number = (arrayObj[arrayType])[j].substr(0, (arrayObj[arrayType])[j].indexOf(" "));
-                if ($(inputs[i]).val() == number)
-                    $('select[name=id' + arrayType[0].toUpperCase() + arrayType.slice(1) + ']').val((arrayObj[arrayType])[j]);
+                if ($(inputs[i]).val() == (arrayObj[arrayType])[j].substr(0, 1))
+                    $('select[name=id_' + arrayType + ']').val((arrayObj[arrayType])[j]);
                 j++;
             }
             i++;
@@ -153,11 +151,8 @@ function sendUpdateData() {
 
     $.ajax({
         type: 'POST',
-        url: '/update?tableName='+NameTable + getData(editBodyUpdate),
-        success: function (result) {
-            if(result != null && result.length !=0){
-                alert(result);
-            }
+        url: '/servlet?tableName='+NameTable +'&action=UPDATE' + getData(editBodyUpdate),
+        success: function () {
         }});
 }
 
@@ -166,9 +161,8 @@ function sendAddData() {
 
     $.ajax({
         type: 'POST',
-        url: '/add?tableName='+NameTable + getData(editBodyAdd),
+        url: '/servlet?tableName='+NameTable +'&action=ADD' + getData(editBodyAdd),
         success: function (result) {
-            console.log(result);
             if(typeof result == 'string'){
                 alert(result);
             }else {
@@ -206,10 +200,9 @@ var mapStringTable = {
 function deleteRow(obj) {
     $.ajax({
         type: 'DELETE',
-        url: '/remove?tableName=' + NameTable + '&' +  formParams(obj.closest('tr').rowIndex),
+        url: '/servlet?tableName=' + NameTable + '&action=REMOVE&' +  formParams(obj.closest('tr').rowIndex),
         success:function(result){
-            console.log(result);
-            if(result==null || result.length == 0){
+            if(result==null){
                 document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
             }else {
                 alert(result);
@@ -224,7 +217,7 @@ function formParams(rowIndex) {
     for(var i=0; i< columnNames.length; i++){
         var currentObj = Data[rowIndex-1][columnNames[i].textContent];
         if($.isPlainObject(currentObj)){
-            resultParams = resultParams.concat("id",columnNames[i].textContent[0].toUpperCase() + columnNames[i].textContent.slice(1),"=",currentObj["id"],"&");
+            resultParams = resultParams.concat("id_",columnNames[i].textContent,"=",currentObj["id"],"&");
         }else{
             resultParams = resultParams.concat(columnNames[i].textContent,"=",currentObj,"&");
         }
@@ -241,8 +234,8 @@ function generateOption(arrayObj, value, arrayType) {
 
 function generateChilds(arrayObj) {
     for(var arrayType in arrayObj) {
-        var editBodyUpdate = $('#myModalUpdate').find('#id' + arrayType[0].toUpperCase() + arrayType.slice(1) +'');
-        var editBodyAdd = $('#myModalAdd').find('#id' + arrayType[0].toUpperCase() + arrayType.slice(1) +'');
+        var editBodyUpdate = $('#myModalUpdate').find('#id_'+arrayType+'');
+        var editBodyAdd = $('#myModalAdd').find('#id_'+arrayType+'');
         if(editBodyUpdate[0].childElementCount==0)
             for(var value in arrayObj[arrayType]) {
                 editBodyUpdate[0].appendChild(generateOption(arrayObj,value,arrayType));
@@ -264,7 +257,7 @@ function generateSelectChilds() {
     if(tables != '') {
         $.ajax({
             type: 'GET',
-            url: '/get_headers?' + tables,
+            url: '/servlet?' + tables + 'action=GET_ALL_HEADERS',
             success: function (data) {
                 for (var value in futureQueryForID) {
                     arrayObj[value] = data[mapStringTable[value]];
@@ -355,8 +348,9 @@ function loadTemplate() {
 function getAllTableElements(nameTable) {
     $.ajax({
         type: 'GET',
-        url: '/get_all?tableName='+nameTable,
+        url: '/servlet?tableName='+nameTable +'&action=GET_ALL',
         success: function(data) {
+            console.log(data);
             futureQueryForID = {};
             loadTemplate();
             arrayObj = {};

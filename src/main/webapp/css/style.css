@@ -113,8 +113,10 @@ h6 {font-size:1em;color:#e7e7e7}
 #content .img-list li img {float:left;margin:6px 9px 0 0}
 .ic, .ic a {border:0;float:right;background:#fff;color:#f00;width:50%;line-height:10px;font-size:10px;margin:-220% 0 0 0;overflow:hidden;padding:0}
 .extra-img {position:relative;margin:0 -9px 0 -8px}
-.gallery-main {background:url(../images/gallery-wrapper.png);width:607px;height:433px;margin:0 -10px 0 -6px; position: relative}
+.gallery-main {background:url(../images/gallery-wrapper.png) no-repeat left top;width:607px;height:433px;margin:0 -10px 0 -6px;position:relative}
 .gallery-main .inner {padding:12px 0 0 12px}
+.gallery-main .prev {position:absolute;left:11px;top:12px}
+.gallery-main .next {position:absolute;right:11px;top:12px}
 .list1 {font-size:.91em;padding:4px 0 15px 0}
 .list1 dt {font-weight:bold;color:#e3dad2;margin-bottom:12px;padding:0 0 0 4px}
 .list1 dd {border-bottom:1px solid #57473c;padding:0 5px 7px 4px;margin-bottom:4px;line-height:1.45em}
@@ -135,8 +137,3 @@ h6 {font-size:1em;color:#e7e7e7}
 #footer .nav li {display:inline}
 #footer .nav li a {padding:0 48px 0 45px;color:#e3dad2}
 #footer .nav li a:hover {padding:0 48px 0 45px;color:black}
-
-.docRef {
-    font-size: 20px;
-    font-weight: bold;
-}

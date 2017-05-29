@@ -8,6 +8,9 @@ import by.hotel.service.exception.ServiceException;
 
 import java.util.List;
 
+/**
+ * Created by 1 on 26.04.2017.
+ */
 public class RegistrationServiceImpl implements RegistrationService{
     AuthService authService = new AuthServiceImpl();
     CrudService crudService = new UserServiceImpl();

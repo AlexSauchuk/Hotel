@@ -17,7 +17,7 @@ public class UserDocumentBuilder extends PdfDocumentBuilder<User>{
     }
 
     public static UserDocumentBuilder getInstance(){
-        return UserDocumentBuilder.Holder.INSTANCE;
+        return Holder.INSTANCE;
     }
 
     @Override

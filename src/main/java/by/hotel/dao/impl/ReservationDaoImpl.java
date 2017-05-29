@@ -11,8 +11,6 @@ import by.hotel.dao.exception.DAOException;
 import by.hotel.util.ErrorStringBuilder;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +69,7 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
             statement = connection.prepareStatement(ADD_RESERVATION);
             statement = fillStatement(statement, reservation);
             statement.execute();
-        } catch (SQLException | ParseException | NullPointerException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -101,7 +99,7 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
             statement = fillStatement(statement, reservation);
             statement.setInt(6, reservation.getId());
             statement.execute();
-        } catch (SQLException | ParseException e) {
+        } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
             closeStatement(statement, null);
@@ -158,10 +156,10 @@ public class ReservationDaoImpl extends AbstractDao implements ReservationDao {
         return reservation;
     }
 
-    private PreparedStatement fillStatement(PreparedStatement statement, Reservation reservation) throws SQLException, ParseException {
+    private PreparedStatement fillStatement(PreparedStatement statement, Reservation reservation) throws SQLException {
         statement.setInt(1, reservation.getUser().getId());
-        statement.setDate(2, new Date(new SimpleDateFormat("yyyy-MM-dd").parse(reservation.getDateIn()).getTime()));
-        statement.setDate(3, new Date(new SimpleDateFormat("yyyy-MM-dd").parse(reservation.getDateOut()).getTime()));
+        statement.setDate(2, reservation.getDateIn());
+        statement.setDate(3, reservation.getDateOut());
         statement.setInt(4, reservation.getCostAdditionalServices());
         statement.setInt(5,reservation.getDiscount().getId());
         return statement;

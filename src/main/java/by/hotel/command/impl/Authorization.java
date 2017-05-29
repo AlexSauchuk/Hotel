@@ -1,6 +1,7 @@
 package by.hotel.command.impl;
 
 import by.hotel.bean.User;
+import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
 import by.hotel.security.MD5;
 import by.hotel.service.AuthService;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-public class Authorization  {
+public class Authorization implements Command {
     public Object execute(HttpServletRequest req, HttpServletResponse response) throws CommandException {
         Map<String, String[]> requestParams = req.getParameterMap();
         try {

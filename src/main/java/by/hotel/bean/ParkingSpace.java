@@ -1,9 +1,7 @@
 package by.hotel.bean;
 
 import by.hotel.builder.ParkingSpaceBuilder;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ParkingSpace {
     private int id;
     private int level;

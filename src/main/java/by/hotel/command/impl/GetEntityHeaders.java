@@ -1,5 +1,6 @@
 package by.hotel.command.impl;
 
+import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
 import by.hotel.service.CrudService;
 import by.hotel.service.CrudServiceExtended;
@@ -12,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GetEntityHeaders {
+public class GetEntityHeaders implements Command{
     public Object execute(HttpServletRequest req, HttpServletResponse response) throws CommandException {
         Map<String,List<String>> resultMap = new LinkedHashMap<String, List<String>>();
         Map<String, String[]> requestParams = req.getParameterMap();

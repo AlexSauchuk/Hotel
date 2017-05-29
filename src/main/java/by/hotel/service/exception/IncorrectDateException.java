@@ -2,6 +2,9 @@ package by.hotel.service.exception;
 
 import java.text.ParseException;
 
+/**
+ * Created by 1 on 20.04.2017.
+ */
 public class IncorrectDateException extends Exception {
     private static final long serialVersionUID = 1L;
     public IncorrectDateException(){

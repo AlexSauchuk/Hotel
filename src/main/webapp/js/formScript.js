@@ -61,14 +61,14 @@ function getUpdateDataUser() {
         });
     });
     result = result.concat('&','id','=', currentUser.id);
-    result = result.concat('&','idRole','=', currentUser.role.id);
+    result = result.concat('&','role','=', currentUser.role);
     return result;
 }
 
 function sendUpdatePersonalInfo() {
     $.ajax({
         type: 'POST',
-        url: '/update?' + 'tableName=USER' + getUpdateDataUser() + '&rights='+generatePermissionsUser(),
+        url: '/servlet?action=UPDATE' + getUpdateDataUser() + '&rights='+generatePermissionsUser()+'&tableName=USER',
 
         success: function(data) {
 
@@ -103,13 +103,11 @@ function setNewValueEntryDiv(textDiv) {
 function sendUserDataRegistration(login,email,pass,phone,name,surname,passport) {
     $.ajax({
         type: 'POST',
-        url: '/registration',
-        data:{"rights":4,"login":login,"email":email,"password":pass,"mobilePhone":phone,"name":name,"surname":surname,"passportNumber":passport,"id":0,"idRole":1},
+        url: '/servlet?action=REGISTRATION',
+        data:{"rights":4,"login":login,"email":email,"password":pass,"mobilePhone":phone,"name":name,"surname":surname,"passportNumber":passport,"id":0,"id_role":1},
         success: function(data) {
             if(typeof data =='object') {
                 currentUser = data;
-                document.getElementById('idAdminRef').style.display = 'block';
-                document.getElementById('idDocsRef').style.display = 'block';
                 loadTemplate('/templates/pages/signin/personalInfo.html');
                 setNewValueEntryDiv(currentUser.name);
             }
@@ -120,7 +118,7 @@ function sendUserDataRegistration(login,email,pass,phone,name,surname,passport) 
 function sendUserDataLogin(email,pass){
      $.ajax({
          type: 'POST',
-         url: '/authorization',
+         url: '/servlet?action=AUTHORIZATION',
          data:{"email":email,"password":pass,"rights":4},
          success: function(data) {
              console.log(data);
@@ -137,7 +135,6 @@ function sendUserDataLogin(email,pass){
 
                  }
                  document.getElementById('idAdminRef').style.display = 'block';
-                 document.getElementById('idDocsRef').style.display = 'block';
                  loadTemplate('/templates/pages/signin/personalInfo.html');
                  setNewValueEntryDiv(currentUser.name);
              }
@@ -183,7 +180,6 @@ function LogOut() {
     setNewValueEntryDiv("Вход","#entry");
     loadTemplate('/templates/pages/signin/entry.html');
     document.getElementById('idAdminRef').style.display = 'none';
-    document.getElementById('idDocsRef').style.display = 'none';
 }
 
 function validPassport(passport) {

@@ -1,9 +1,7 @@
 package by.hotel.bean;
 
 import by.hotel.builder.RoomBuilder;
-import org.springframework.stereotype.Component;
 
-@Component
 public class Room {
     private int id;
     private int floor;

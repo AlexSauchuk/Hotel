@@ -24,7 +24,7 @@ public class FinancialReportByQuarterBuilder extends ExcelDocumentBuilder<Report
     }
 
     public static FinancialReportByQuarterBuilder getInstance(){
-        return FinancialReportByQuarterBuilder.Holder.INSTANCE;
+        return Holder.INSTANCE;
     }
 
     @Override

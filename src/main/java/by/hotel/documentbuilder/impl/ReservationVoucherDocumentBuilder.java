@@ -6,7 +6,6 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -21,27 +20,27 @@ public class ReservationVoucherDocumentBuilder extends PdfDocumentBuilder<List<R
     }
 
     public static ReservationVoucherDocumentBuilder getInstance(){
-        return ReservationVoucherDocumentBuilder.Holder.INSTANCE;
+        return Holder.INSTANCE;
     }
 
     @Override
     protected void setFields(AcroFields form, List<ReservationRoom> documentData) throws DocumentException{
         try {
-            int daysCount = getDaysCount(documentData.get(0).getReservation().getDateIn(),
-                    documentData.get(0).getReservation().getDateOut());
+            int daysCount = getDaysCount(documentData.get(0).getReservation().getDateIn().getTime(),
+                    documentData.get(0).getReservation().getDateOut().getTime());
             form.setField("reservation_id", Integer.toString(documentData.get(0).getReservation().getId()));
             form.setField("date-in", getTime(documentData.get(0).getReservation().getDateIn()));
             form.setField("date-out", getTime(documentData.get(0).getReservation().getDateOut()));
             form.setField("user_name", documentData.get(0).getReservation().getUser().getUserFullname());
             form.setField("reservation_info", getReservationInfo(documentData, daysCount));
             form.setField("total_cost", getTotalCost(documentData, daysCount));
-        }catch (IOException | ParseException e){
+        }catch (IOException e){
             throw new DocumentException(e);
         }
     }
 
-    private String getTime(String date) throws ParseException{
-        return new SimpleDateFormat("EEEE, dd MMM yyy").format(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(date).getTime()));
+    private String getTime(Date date){
+        return new SimpleDateFormat("EEEE, dd MMM yyy").format(date);
     }
 
     private String getReservationInfo(List<ReservationRoom> documentData, int daysCount){
@@ -52,9 +51,7 @@ public class ReservationVoucherDocumentBuilder extends PdfDocumentBuilder<List<R
         return stringBuilder.toString();
     }
 
-    private int getDaysCount(String dateInStr, String dateOutStr) throws ParseException{
-        long dateInMilsec = new SimpleDateFormat("yyyy-MM-dd").parse(dateInStr).getTime();
-        long dateOutMilsec = new SimpleDateFormat("yyyy-MM-dd").parse(dateOutStr).getTime();
+    private int getDaysCount(long dateInMilsec, long dateOutMilsec){
         return (int) ((dateOutMilsec - dateInMilsec) / (24 * 60 * 60 * 1000));
     }
 

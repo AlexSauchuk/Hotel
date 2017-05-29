@@ -17,7 +17,7 @@ public class RoomDocumentBuilder extends PdfDocumentBuilder<Room>{
     }
 
     public static RoomDocumentBuilder getInstance(){
-        return RoomDocumentBuilder.Holder.INSTANCE;
+        return Holder.INSTANCE;
     }
 
 

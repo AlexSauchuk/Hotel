@@ -1,3 +1,6 @@
+/**
+ * Created by SK on 07.05.2017.
+ */
 
 $templateRoom = null;
 var roomObject = {};
@@ -61,7 +64,7 @@ function generateHtml(roomObj) {
 function getRooms() {
     $.ajax({
         type: 'GET',
-        url: '/get_all?tableName=room&rights=4',
+        url: '/servlet?tableName=room&action=GET_ALL&rights=4',
         success: function(data) {
             generateRooms(data);
         }

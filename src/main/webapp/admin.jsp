@@ -28,7 +28,7 @@
                 <div class="col-lg-3" style="width:15%;">
                     <table class="table table-hover table-bordered">
                         <tbody>
-                            <c:forEach var="item" items="${names}">
+                            <c:forEach var="item" items="${items}">
                                 <tr><td><input type="text" style="width: 100%" disabled="disabled" value="${item}" class="head"/></td></tr>
                             </c:forEach>
                         </tbody>

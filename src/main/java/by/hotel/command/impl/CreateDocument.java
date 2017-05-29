@@ -1,6 +1,7 @@
 package by.hotel.command.impl;
 
 import by.hotel.bean.DocumentObject;
+import by.hotel.command.Command;
 import by.hotel.command.exception.CommandException;
 import by.hotel.factory.impl.DocumentBuilderMapper;
 import by.hotel.service.documentservice.DocumentBuilderService;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-public class CreateDocument   {
+public class CreateDocument implements Command {
     public Object execute(HttpServletRequest req, HttpServletResponse response) throws CommandException {
         Map<String, String[]> requestParams = req.getParameterMap();
         DocumentObject documentObject;
