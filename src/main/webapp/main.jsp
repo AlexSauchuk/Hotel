@@ -32,7 +32,7 @@
         <div class="row-1">
             <div class="wrapper">
                 <div class="logo">
-                    <h1><a href="main.jsp">Бобруйск</a></h1>
+                    <h1><a href="main.jsp">Ми</a></h1>
                     <em>Отель</em>
                     <strong>Настоящая роскошь</strong>
                 </div>

@@ -17,7 +17,7 @@ import java.util.Map;
 public class AddEntity   {
     private static final Logger logger = LogManager.getLogger(AddEntity.class.getName());
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public Object execute(HttpServletRequest req){
         Object result;

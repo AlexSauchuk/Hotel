@@ -208,7 +208,6 @@ function deleteRow(obj) {
         type: 'DELETE',
         url: '/remove?tableName=' + NameTable + '&' +  formParams(obj.closest('tr').rowIndex),
         success:function(result){
-            console.log(result);
             if(result==null || result.length == 0){
                 document.getElementById('tableHotel').deleteRow(obj.closest('tr').rowIndex);
             }else {

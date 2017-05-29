@@ -28,7 +28,6 @@ public class UpdateEntity  {
         }catch (ServiceException e){
             logger.error(e);
             result = e.getMessage().substring(e.getMessage().lastIndexOf(":")+1);
-
         }
         return result;
     }
